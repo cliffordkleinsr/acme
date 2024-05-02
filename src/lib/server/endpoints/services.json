@@ -1,0 +1,78 @@
+[
+    {
+        "id": 1,
+        "serviceName": "corp_rep",
+        "title" : "Corporate reputation",
+        "sub": "Here At Acme, we understand the critical importance of corporate reputation in today's business landscape. Your reputation is more than just a reflection of your company's actions. It's a valuable asset that can influence stakeholder trust, investor confidence, and consumer loyalty.",
+        "services": [
+            {"id": 1, "Name": "Brand Perception", "content": "At Acme we want to understand how clients perceive your brand in terms of reputation, trustworthiness, and overall image."},
+            {"id": 2, "Name": "Service Quality", "content": "At Acme we assess clients' opinions on the quality of service provided, including interactions with staff and responsiveness."},
+            {"id": 3, "Name": "Brand Associations", "content": "Identify the key attributes or characteristics that clients associate with your brand, such as affordability, innovation, sustainability, or convenience."},
+            {"id": 4, "Name": "Corporate Social Responsibility", "content": "Assess clients' perceptions of your brand's commitment to social and environmental responsibility initiatives."},
+            {"id": 5, "Name": "Transparency and Accountability", "content": "Gather feedback on stakeholders' perceptions of the organization's transparency in its operations, decision-making processes, and communication practices."},
+            {"id": 6, "Name": "Overall Corporate Reputation", "content": "Assess stakeholders' perceptions of the organization's overall reputation and standing within the industry."}
+        ],
+        "img": "https://images.unsplash.com/photo-1590650046871-92c887180603?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
+    },
+    {
+        "id": 2,
+        "serviceName": "brand_image",
+        "title" : "Brand image",
+        "sub": "Brand image at Acme encompasses the perceptions, associations, and emotional connections that clients have with a hospitality brand. It includes not just brand recognition but also the whole perception that customers have of the brand",
+        "services": [
+            {"id": 1, "Name": "Brand Personality", "content": "Evaluate clients' perceptions of our brand's personality traits, such as being friendly, professional, innovative, or traditional."},
+            {"id": 2, "Name": "Brand Differentiation", "content": "Assess clients' perceptions of how your brand stands out from competitors in terms of product features, pricing, packaging, or marketing."},
+            {"id": 3, "Name": "Brand Consistency", "content": "Evaluate the consistency of the brand's messaging, visuals, and experiences across various touchpoints, including websites, marketing materials, and physical facilities."},
+            {"id": 4, "Name": "Emotional Connection", "content": "Gauge the emotional connection that stakeholders feel towards the financial services brand, such as feelings of trust, security, or loyalty."},
+            {"id": 5, "Name": "Financial Performance", "content": "Gather feedback on stakeholders' perceptions of the brand's financial strength, stability, and performance compared to competitors."},
+            {"id": 6, "Name": "Brand Loyalty and Advocacy", "content": "Determine the level of loyalty and advocacy among stakeholders towards the brand, as well as factors influencing recommendation and referral behavior."}
+        ],
+        "img": "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 3,
+        "serviceName": "customer_experience",
+        "title" : "Customer experience",
+        "sub": "Under Acme, customer experience encompasses the entirety of interactions and engagements that clients have with a business across all touchpoints and stages of their journey.",
+        "services": [
+            {"id": 1, "Name": "Appointment Scheduling", "content": "Evaluate patients' satisfaction with the ease and convenience of scheduling appointments, including wait times and appointment availability."},
+            {"id": 2, "Name": "Delivery and Fulfillment", "content": "Evaluate clients' satisfaction with the speed, accuracy, and reliability of product delivery or pickup services offered by brands."},
+            {"id": 3, "Name": "Loyalty Programs", "content": "Assess clients' satisfaction with brand loyalty programs, including rewards, discounts, and special offers."},
+            {"id": 4, "Name": "Staff Interaction", "content": "Assess clients' experiences with hospitality staff, including friendliness, responsiveness, knowledgeability, and willingness to assist."},
+            {"id": 5, "Name": "Customer Service", "content": "Measure customers' satisfaction with the quality and responsiveness of customer service provided by representatives, including handling inquiries, resolving issues, and providing assistance."},
+            {"id": 6, "Name": "Provider Interaction", "content": "Measure patients' satisfaction with the quality of interaction and communication with healthcare providers, including listening skills, explanations of medical conditions, and treatment options."}
+        ],
+        "img": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 4,
+        "serviceName": "product_assessment",
+        "title" : "Product assessment",
+        "sub" : "Acme Product Assessment offers a comprehensive service designed to evaluate the market viability, user experience, and overall performance of products through targeted polling and data analysis.",
+        "services": [
+            {"id": 1, "Name": "Product Effectiveness", "content": "Evaluate customers' perceptions of the effectiveness of financial products in meeting their financial needs and goals, such as savings accounts, investment portfolios, or insurance policies."},
+            {"id": 2, "Name": "Ease of Use", "content": "valuate users' satisfaction with the ease of use and convenience of the product, including administration, application, or operation."},
+            {"id": 3, "Name": "Reliability and Durability", "content": "Measure users' perceptions of the reliability and durability of the product, including performance consistency and longevity."},
+            {"id": 4, "Name": "Cost-effectiveness", "content": "Measure users' perceptions of the product's value for money, including cost compared to similar products and perceived benefits."},
+            {"id": 5, "Name": "Post-Purchase Support", "content": "Assess users' satisfaction with the availability and quality of customer support, technical assistance, or educational resources related to the product."},
+            {"id": 6, "Name": "Product Sustainability:", "content": "Assess clients' perceptions of the environmental and social sustainability of products, including packaging materials, sourcing practices, and ethical considerations."}
+        ],
+        "img": "https://images.unsplash.com/photo-1567613747256-9f97205d23d2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 4,
+        "serviceName": "market_reaserch",
+        "title" : "Market research",
+        "sub" : "Pollbase Market Research provides a robust service aimed at uncovering key market trends, consumer behaviors, and competitive landscapes through comprehensive data collection and analysis. ",
+        "services": [
+            {"id": 1, "Name": "Market Segmentation", "content": "Gather demographic and psychographic information about target market segments, including preferences, behaviors, and needs."},
+            {"id": 2, "Name": "Consumer Trends", "content": "Assess clients' awareness and interest in emerging trends and developments in the industry, such as sustainability, health and wellness, or convenience."},
+            {"id": 3, "Name": "Competitive Analysis", "content": "Measure clients' perceptions of competing brands, including strengths, weaknesses, and areas for differentiation."},
+            {"id": 4, "Name": "Pricing Strategy", "content": "Evaluate clients' willingness to pay for products and services, as well as perceptions of pricing relative to competitors."},
+            {"id": 5, "Name": "Product Preferences", "content": " Gather feedback on clients' preferences and priorities when purchasing products, including brand loyalty, product features, and packaging design."},
+            {"id": 6, "Name": "Distribution Channels:", "content": "Assess clients' shopping habits and preferences regarding retail-FMCG distribution channels, including physical stores, e-commerce platforms, and direct sales."}
+        ],
+        "img": "https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+]

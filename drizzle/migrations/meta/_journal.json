@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1713518722622,
+      "tag": "0006_careful_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1713519220683,
+      "tag": "0007_narrow_agent_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1713953672644,
+      "tag": "0008_ambitious_silver_surfer",
+      "breakpoints": true
+    }
+  ]
+}

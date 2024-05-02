@@ -1,0 +1,95 @@
+[
+  {
+    "id": 1,
+    "industryName": "hospitality",
+    "title": "Hospitality & Tourism",
+    "challenge": "Standing out in a crowded marketplace and fostering long-term guest loyalty.",
+    "solution": "We create custom surveys to capture guest experiences across all touchpoints. Analyzing this data helps hospitality businesses",
+    "checks": [
+      {
+        "id": 1,
+        "content": "Strengthen brand image: Identify areas for improvement and develop targeted strategies to enhance guest satisfaction."
+      },
+      {
+        "id": 2,
+        "content": "Increase customer loyalty: Understand guest preferences and expectations to personalize experiences and build stronger relationships."
+      },
+      {
+        "id": 3,
+        "content": "Make data-driven decisions: Develop data-backed marketing campaigns and product offerings that resonate with your target audience."
+      }
+    ],
+    "examples": "Guest satisfaction surveys, post-stay feedback, loyalty program feedback.",
+    "image": "https://images.unsplash.com/photo-1577784424946-e12c7b211249?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": 2,
+    "industryName": "healthcare",
+    "title": "Healthcare",
+    "challenge": "Prioritizing patient experience in a competitive landscape and building trust with patients.",
+    "solution": "We design surveys to gather patient feedback on various aspects of care. Our insights empower healthcare providers to:",
+    "checks": [
+      {
+        "id": 1,
+        "content": "Enhance patient outcomes: Identify areas for improvement in care delivery and patient education."
+      },
+      {
+        "id": 2,
+        "content": "Build stronger patient relationships: Improve communication and foster trust through personalized care experiences."
+      },
+      {
+        "id": 3,
+        "content": "Make community-relevant decisions: Understand local healthcare needs and tailor services to address them effectively."
+      }
+    ],
+    "examples": "Patient satisfaction surveys, post-treatment feedback, community health needs surveys.",
+    "image": "https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": 3,
+    "industryName": "retail_fmcg",
+    "title": "Retail FMCG (Fast Moving Consumer Goods)",
+    "challenge": "Keeping pace with evolving consumer trends and optimizing product offerings in a dynamic retail environment.",
+    "solution": "We utilize custom surveys to gather consumer insights on product preferences, shopping experiences, and brand perception. This data helps:",
+    "checks": [
+      {
+        "id": 1,
+        "content": "Strengthen brand loyalty: Identify loyal customer segments and tailor marketing efforts for improved retention."
+      },
+      {
+        "id": 2,
+        "content": "Optimize product offerings: Understand customer needs and preferences to develop innovative and relevant products."
+      },
+      {
+        "id": 3,
+        "content": "Navigate market dynamics: Gain insights into evolving trends and competitor strategies to stay ahead of the curve."
+      }
+      
+    ],
+    "examples": "Product satisfaction surveys, brand perception surveys, shopping experience feedback.",
+    "image": "https://images.unsplash.com/photo-1601598851547-4302969d0614?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": 4,
+    "industryName": "financial_services",
+    "title": "Financial Services",
+    "challenge": "Building trust and navigating a complex financial services landscape.",
+    "solution": "We create targeted surveys to gather client feedback on financial products, services, and overall experience. This data helps:",
+    "checks": [
+      {
+        "id": 1,
+        "content": "Build trust and a positive brand image: Identify areas for improvement and demonstrate a commitment to client satisfaction."
+      },
+      {
+        "id": 2,
+        "content": "Refine product offerings: Develop financial products and services that cater to evolving client needs and preferences."
+      },
+      {
+        "id": 3,
+        "content": "Make data-driven decisions: Navigate industry complexities and regulations while making data-driven decisions aligned with client interests."
+      }
+    ],
+    "examples": "Client satisfaction surveys, product awareness surveys, post-transaction feedback.",
+    "image": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+]

@@ -1,0 +1,62 @@
+[
+    {
+        "label": "0001-Agriculture"
+    },
+    {
+        "label": "0002-Automotive"
+    },
+    {
+        "label": "0003-Banking"
+    },
+    {
+        "label": "0004-Construction"
+    },
+    {
+        "label": "0005-Education"
+    },
+    {
+        "label": "0006-Energy"
+    },
+    {
+        "label": "0007-Entertainment"
+    },
+    {
+        "label": "0008-Fashion"
+    },
+    {
+        "label": "0009-Finance"
+    },
+    {
+        "label": "0010-Food & Beverage"
+    },
+    {
+        "label": "0011-Healthcare"
+    },
+    {
+        "label": "0012-Hospitality"
+    },
+    {
+        "label": "0013-Information Technology"
+    },
+    {
+        "label": "0014-Manufacturing"
+    },
+    {
+        "label": "0015-Media"
+    },
+    {
+        "label": "0016-Real Estate"
+    },
+    {
+        "label": "0017-Retail"
+    },
+    {
+        "label": "0018-Telecommunications"
+    },
+    {
+        "label": "0019-Transportation"
+    },
+    {
+        "label": "0020-Travel"
+    }
+]

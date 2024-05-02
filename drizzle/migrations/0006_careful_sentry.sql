@@ -1,0 +1,1 @@
+ALTER TABLE "respondent_data" ADD COLUMN "dob" varchar(255) NOT NULL;
