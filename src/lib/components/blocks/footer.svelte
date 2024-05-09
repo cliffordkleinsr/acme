@@ -4,7 +4,7 @@
   const year = new Date().getFullYear()
 </script>
 <Separator />
-<section>
+<section class="backdrop-blur-xl bg-gradient-to-t from-red-200/10 to-orange-200/5 dark:bg-none">
   <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
       <div class="flex justify-center mt-8 space-x-6">
           <a href="##" class="text-gray-400 hover:text-gray-500">

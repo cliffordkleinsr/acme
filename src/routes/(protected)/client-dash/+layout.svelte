@@ -8,7 +8,8 @@
   import { Input } from "$lib/components/ui/input"
   import * as Sheet from "$lib/components/ui/sheet"
   import { Button } from "$lib/components/ui/button"
-
+  import * as Collapsible from "$lib/components/ui/collapsible"
+  
   // Lucide Svelte
   import Menu from "lucide-svelte/icons/menu"
   import Package2 from "lucide-svelte/icons/package-2"
@@ -25,13 +26,18 @@
   import Sun from "lucide-svelte/icons/sun"
   import Moon from "lucide-svelte/icons/moon"
   import SquareArrowRight  from 'lucide-svelte/icons/square-arrow-right'
+  import { Separator } from "$lib/components/ui/separator"
   
 
   import { page } from "$app/stores"
   import { enhance } from "$app/forms";
   import Power from 'lucide-svelte/icons/power'
-	import { CandlestickChart, Coins, Settings, Tag } from "lucide-svelte";
-
+	import Tag  from "lucide-svelte/icons/tag"
+  import CandlestickChart from "lucide-svelte/icons/candlestick-chart"
+  import Coins from "lucide-svelte/icons/coins"
+  import Settings from "lucide-svelte/icons/settings"
+  import AlignStartVertical from 'lucide-svelte/icons/align-start-vertical'
+  import SlidersVertical from 'lucide-svelte/icons/sliders-vertical'
   export let data
  
 </script>
@@ -59,13 +65,31 @@
         <Home class="h-4 w-4" />
         Dashboard
       </a>
-      <a
-        href="/client-dash/surveys"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-      >
-        <Table class="size-4" />
-        Surveys
-      </a>
+      <Collapsible.Root class="space-y-2">
+        <Collapsible.Trigger class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+          <Table class="size-4" />
+          Surveys
+        </Collapsible.Trigger>
+        <Collapsible.Content class="flex flex-col gap-3 ml-10">
+          <Separator />
+          <a
+            href="/client-dash/surveys"
+            class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
+          >
+          <AlignStartVertical class="size-4"/>
+          Generate surveys
+          </a>
+          <Separator />
+          <a
+            href="##"
+            class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+          >
+          <SlidersVertical class="size-4"/>
+          Manage surveys
+          </a>
+          <Separator />
+        </Collapsible.Content>
+      </Collapsible.Root>
       <a
         href="##"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -134,18 +158,31 @@
           <Home class="h-5 w-5" />
           Dashboard
         </a>
-        <a
-          href="##"
-          class="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2  text-muted-foreground hover:text-foreground"
-        >
-          <Table class="size-4" />
-          Surveys
-          <!-- <Badge
-            class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-          >
-            6
-          </Badge> -->
-        </a>
+        <Collapsible.Root class="space-y-2">
+          <Collapsible.Trigger class="flex items-center gap-4 px-1 py-2 text-muted-foreground transition-all hover:text-primary">
+            <Table class="size-5" />
+            Surveys
+          </Collapsible.Trigger>
+          <Collapsible.Content class="flex flex-col gap-3 ml-10">
+            <Separator />
+            <a
+              href="/client-dash/surveys"
+              class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
+            >
+            <AlignStartVertical class="size-4"/>
+            Generate surveys
+            </a>
+            <Separator />
+            <a
+              href="##"
+              class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+            >
+            <SlidersVertical class="size-4"/>
+            Manage surveys
+            </a>
+            <Separator />
+          </Collapsible.Content>
+        </Collapsible.Root>
         <a
           href="##"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"

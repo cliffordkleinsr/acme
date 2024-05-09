@@ -8,3 +8,11 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+drizzle/migrations/0009_sturdy_lord_hawal.sql
+drizzle/migrations/0010_heavy_scarecrow.sql
+drizzle/migrations/0011_public_jackpot.sql
+drizzle/migrations/0012_spooky_doctor_octopus.sql
+drizzle/migrations/meta/0012_snapshot.json
+drizzle/migrations/meta/0011_snapshot.json
+drizzle/migrations/meta/0010_snapshot.json
+drizzle/migrations/meta/0009_snapshot.json

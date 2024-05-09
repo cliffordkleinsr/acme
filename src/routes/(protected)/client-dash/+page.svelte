@@ -30,7 +30,7 @@
     <Pretoast message={msg} type="warning"/>
 </div>
 {/if}
-<div class="flex flex-col p-4 gap-10 w-full mt-2">
+<div class="flex flex-col p-4 gap-10  mt-2">
     <div class="ml-5 pb-2">
         <Breadcrumb.Root>
             <Breadcrumb.List>
@@ -82,7 +82,7 @@
             </Card.Footer>
         </Card.Root>
         <Card.Root
-            class="max-w-sm"
+            class="lg:max-w-sm"
             data-x-chunk-name="dashboard-05-chunk-2"
             data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
         >
@@ -100,8 +100,8 @@
     </div>
 </div>
 
-<Tabs.Root value="all" class="lg:w-full lg:m-5">
-    <Tabs.List class="grid w-[35rem] grid-cols-5">
+<Tabs.Root value="all" class="lg:w-full lg:m-5 mx-auto ">
+    <Tabs.List class="grid w-96 lg:w-[35rem] grid-cols-5">
       <Tabs.Trigger value="all">All</Tabs.Trigger>
       <Tabs.Trigger value="draft">Draft</Tabs.Trigger>
       <Tabs.Trigger value="running">Running</Tabs.Trigger>
@@ -109,7 +109,7 @@
       <Tabs.Trigger value="completed">Completed</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="all">
-        <Card.Root class="lg:mr-9">
+        <Card.Root class="lg:mr-9 w-96 lg:w-full">
             <Card.Header>
             </Card.Header>
             <Card.Content>

@@ -1,5 +1,11 @@
+<script>
+  import * as Card from "$lib/components/ui/card"
+  
+</script>
 <!-- Team -->
     <!-- Title -->
+    <Card.Root>
+    <div class="max-w-[85rem] px-4 py-5 sm:px-6 lg:px-8 lg:py-10 mx-auto place-content-evenly">
     <div class="max-w-2xl text-start mb-10 lg:mb-14 ml-5">
       <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Meet the crew</h2>
       <p class="mt-1 text-gray-600 dark:text-neutral-400">Creative people</p>
@@ -294,21 +300,8 @@
           <!-- End Social Brands -->
         </div>
       </div>
-      <!-- End Col -->
-  
-      <div class="grid sm:flex sm:items-center gap-y-3 gap-x-4">
-        <img class="rounded-lg size-20" src="https://preline.co/assets/img/160x160/img1.jpg" alt="">
-  
-        <div>
-          <h3 class="font-medium text-gray-800 dark:text-neutral-200">
-            We are hiring!
-          </h3>
-          <a class="text-sm text-blue-600 decoration-2 hover:underline dark:text-blue-500" href="##">
-            Check out / Careers
-          </a>
-        </div>
-      </div>
-      <!-- End Col -->
     </div>
+  </div>
+</Card.Root>
     <!-- End Grid -->
   <!-- End Team -->

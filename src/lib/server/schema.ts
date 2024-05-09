@@ -76,12 +76,10 @@ export const sessionsTable = pgTable("user_sessions", {
 
 // Surveys
 export const SurveyTable = pgTable('surveys', {
-    surveyid: uuid('surveyid').defaultRandom().primaryKey(),
-    clientid: text('id').references(() => UsersTable.id).notNull(),
+    surveyid: text('surveyid').primaryKey(),
+    clientid: text('id').notNull(),
     surveyTitle: text('survey_title').notNull(),
-    startDate: text('start_date').notNull(),
-    endDate: text('end_date').notNull(),
-
+    surveyDescription: text('survey_desc').notNull(),
     createdAt: timestamp('created_at', {
         withTimezone: true,
         mode: "date" 
@@ -95,7 +93,7 @@ export const SurveyTable = pgTable('surveys', {
 
 export const SurveyQnsTable = pgTable('survey_questions', {
     questionId: uuid('questionid').defaultRandom().primaryKey(),
-    surveid: uuid("surveyid").references(() => SurveyTable.surveyid).notNull(),
+    surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
     questionT: QuestionType("question_type").default("Single").notNull(),
     question: text("question").notNull(),
     answer: text("answer").notNull(),

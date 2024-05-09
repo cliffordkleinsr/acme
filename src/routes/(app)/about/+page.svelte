@@ -56,7 +56,7 @@
           </ul>
         </Card.Content>
       </Card.Root>
-      <Card.Root class="lg:col-span-2 dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
+      <Card.Root class="col-span-2  dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
         <Card.Header>
         </Card.Header>
         <Card.Content class="text-gray-800 dark:text-neutral-200 text-md  space-y-6 text-sm sm:text-base">
