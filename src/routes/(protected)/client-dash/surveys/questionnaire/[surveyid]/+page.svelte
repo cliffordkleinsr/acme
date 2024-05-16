@@ -28,27 +28,38 @@
     {option: ''}
   ]
 
-
+  // Blank Values
   $: length = values.length
   
-  $: if (length >= 3) {
-    disabled = true
-  } else {
-    disabled = false
+  $: switch (true) {
+    case length >= 3:
+      disabled = true
+      break;
+  
+    default:
+      disabled = false;
+      break;
   }
-
-  $: if (length >= 1) {
-    other = false
-  } else {
-    other = true
+  $: switch (true) {
+    case length >= 1:
+      other = false
+      break;
+  
+    default:
+      other = true
+      break;
   }
   const addOption = () => {
     values = [...values, {option: ''}]
   }
-
   const remOption = () => {
-    values = values.slice(0, values.length-1)
-  }
+      values = values.slice(0, values.length-1)
+    }
+
+  // Existing in DB
+
+  
+  
   if (browser) {
       isDesktop = window.innerWidth >= 768
   }
@@ -109,7 +120,7 @@
                 <form action="?/addSingleQns" method="post" class="grid items-start gap-4 px-4">
                   <div class="grid gap-2">
                     <Label for="question">Question</Label>
-                    <Input type="text" id="question"/>
+                    <Input type="text" name="question"/>
                   </div>
                   <Button type="submit">Save changes</Button>
                 </form>
@@ -196,33 +207,17 @@
     <h1 class="text-md">{id}. {qns.question}</h1>
     {#if qns.question_type === "Optional"}
     <div class="flex gap-3 w-full">
-      {#if qns.option1 != null}
-         <Checkbox />
+      {#each qns.options as option}
+        {#if option.name != null}
+        <Checkbox />
           <Label
             for="option1"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            {qns.option1}
+            {option.name}
           </Label>
-      {/if}
-      {#if qns.option2 != null}
-         <Checkbox />
-          <Label
-            for="option2"
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            {qns.option2}
-          </Label>
-      {/if}
-      {#if qns.option3 != null}
-         <Checkbox />
-          <Label
-            for="option3"
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            {qns.option3}
-          </Label>
-      {/if}
+        {/if}
+      {/each}
     </div>
     {:else}
       <Input type="text" class="w-1/2"></Input>
@@ -248,20 +243,17 @@
             <Input type="text" value={qns.id} class="hidden" name="questionId"/>
             {#if qns.question_type === "Optional"}
               <Label>Options </Label>
-              {#if qns.option1 != null}
-                <Input type="text" value={qns.option1} name="option1"/>
-              {/if}
-              {#if qns.option2 != null}
-                <Input type="text" value={qns.option2} name="option2"/>
-              {/if}
-              {#if qns.option3 != null}
-                <Input type="text" value={qns.option3} name="option3"/>
-              {/if}
-            {/if}
+              {#each qns.options as option, i}
+                {#if option.name != null}
+                <Input type="text" value={option.name} name="option{i}"/>
+                {/if}
+              {/each}
             {#if form?.message}
               <span class="text-red-400">{form.message}</span>
             {/if}
-          <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+            <Button variant="secondary" bind:disabled>Add More</Button>
+            {/if}
+            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
           <Form.Button>Save</Form.Button>
         </div>
         </AlertDialog.Footer>

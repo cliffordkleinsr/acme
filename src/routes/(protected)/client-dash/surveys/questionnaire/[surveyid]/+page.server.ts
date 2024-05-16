@@ -25,9 +25,20 @@ export const load: PageServerLoad = async ({params}) => {
             })
             .from(SurveyQnsTable)
             .where(eq(SurveyQnsTable.surveid, params.surveyid))
+
+    const surveyqns =  questions.map(qns => ({
+        id: qns.id,
+        question: qns.question,
+        question_type: qns.question_type,
+        options: [
+            {name: qns.option1 as string},
+            {name: qns.option2 as string},
+            {name: qns.option3 as string}
+        ]
+    })) 
     return {
         surveydata: data,
-        surveyqns: questions
+        surveyqns
     }
 }
 
