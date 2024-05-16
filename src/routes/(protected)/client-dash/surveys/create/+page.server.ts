@@ -3,6 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { SurveyTable } from '$lib/server/schema';
 import { generateId } from 'lucia';
+import { createNewSurvey } from '$lib/server/db_utils';
 
 export const load = (async () => {
     return {};
@@ -11,10 +12,15 @@ export const load = (async () => {
 
 export const actions: Actions = {
     default: async ({locals, request}) => {
-        const data = Object.fromEntries(await request.formData())
+        type FormData = {
+            surveyTitle: string;
+            surveyDescription: string;
+        }
+        const data = Object.fromEntries(await request.formData()) as FormData
+        
         const { surveyTitle , surveyDescription } = data
         
-        const userid = locals.user?.id
+        const userid: string = locals.user?.id || ''
         // ensure not empty 
         if (surveyTitle === '' && surveyDescription === '') {
             return fail(404, {message: 'Name and content cannot be null'})
@@ -23,18 +29,13 @@ export const actions: Actions = {
         try 
         {   
             const id = generateId(15)
-            await db.insert(SurveyTable).values({
-                surveyid:id,
-                clientid:userid,
+            await createNewSurvey({
+                surveyid: id,
+                clientid: userid,
                 surveyTitle: surveyTitle,
                 surveyDescription: surveyDescription
             })
-            // await db.insert(SurveyTable).values({
-            //     clientid: userid,
-            //     surveyTitle: name,
-            //     surveyDescription: content,
 
-            // })
         } catch (err) 
         {
             console.error(err)

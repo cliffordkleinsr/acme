@@ -1,12 +1,17 @@
-import {eq, sql } from "drizzle-orm"
+import {eq, getTableColumns, sql } from "drizzle-orm"
 import { db } from "./db"
 import { 
+    SurveyQnsTable,
+    SurveyTable,
     UsersTable, clientData,
     emailVerificationCodes,
     respondentData,
     sessionsTable,
     type ClientDataInsertSchema,
     type RespondentInsertSchema,
+    type surveyGenerateSchema,
+    type surveyQnsSchema,
+    type surveySelectSchema,
     type userInsertSchema 
 } from "./schema"
 
@@ -33,9 +38,19 @@ export const insertRespData = async (data: RespondentInsertSchema) => {
     return await db.insert(respondentData).values(data)
 }
 
-export const insertClientpData = async (data: ClientDataInsertSchema) => {
+export const insertClientData = async (data: ClientDataInsertSchema) => {
     return await db.insert(clientData).values(data)
 }
+
+export const createNewSurvey = async (data: surveyGenerateSchema) => {
+    return await db.insert(SurveyTable).values(data)
+}
+
+export const addSurveyQuestions = async (data: surveyQnsSchema) => {
+    await db.insert(SurveyQnsTable).values(data)
+}
+
+
 export const deleteClientUsers = async () => {
      
      await db.delete(sessionsTable)
@@ -44,3 +59,4 @@ export const deleteClientUsers = async () => {
      
     
 }
+

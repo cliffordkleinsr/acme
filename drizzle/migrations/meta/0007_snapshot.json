@@ -1,10 +1,8 @@
 {
-  "id": "8595d127-e178-46df-b12a-738f4c741f06",
-  "prevId": "f43461ce-e9d4-467e-b946-c46944964bfa",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "survey_questions": {
+    "public.survey_questions": {
       "name": "survey_questions",
       "schema": "",
       "columns": {
@@ -52,34 +50,34 @@
         "survey_questions_surveyid_surveys_surveyid_fk": {
           "name": "survey_questions_surveyid_surveys_surveyid_fk",
           "tableFrom": "survey_questions",
-          "tableTo": "surveys",
           "columnsFrom": [
             "surveyid"
           ],
+          "tableTo": "surveys",
           "columnsTo": [
             "surveyid"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "survey_questions_respondent_id_users_id_fk": {
           "name": "survey_questions_respondent_id_users_id_fk",
           "tableFrom": "survey_questions",
-          "tableTo": "users",
           "columnsFrom": [
             "respondent_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "surveys": {
+    "public.surveys": {
       "name": "surveys",
       "schema": "",
       "columns": {
@@ -134,21 +132,21 @@
         "surveys_id_users_id_fk": {
           "name": "surveys_id_users_id_fk",
           "tableFrom": "surveys",
-          "tableTo": "users",
           "columnsFrom": [
             "id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -197,14 +195,14 @@
       "uniqueConstraints": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "email"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "client_data": {
+    "public.client_data": {
       "name": "client_data",
       "schema": "",
       "columns": {
@@ -257,34 +255,34 @@
         "client_data_client_id_users_id_fk": {
           "name": "client_data_client_id_users_id_fk",
           "tableFrom": "client_data",
-          "tableTo": "users",
           "columnsFrom": [
             "client_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "client_data_client_email_users_email_fk": {
           "name": "client_data_client_email_users_email_fk",
           "tableFrom": "client_data",
-          "tableTo": "users",
           "columnsFrom": [
             "client_email"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "email"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "respondent_data": {
+    "public.respondent_data": {
       "name": "respondent_data",
       "schema": "",
       "columns": {
@@ -342,34 +340,34 @@
         "respondent_data_respondent_id_users_id_fk": {
           "name": "respondent_data_respondent_id_users_id_fk",
           "tableFrom": "respondent_data",
-          "tableTo": "users",
           "columnsFrom": [
             "respondent_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "respondent_data_resp_email_users_email_fk": {
           "name": "respondent_data_resp_email_users_email_fk",
           "tableFrom": "respondent_data",
-          "tableTo": "users",
           "columnsFrom": [
             "resp_email"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "email"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user_sessions": {
+    "public.user_sessions": {
       "name": "user_sessions",
       "schema": "",
       "columns": {
@@ -397,15 +395,15 @@
         "user_sessions_user_id_users_id_fk": {
           "name": "user_sessions_user_id_users_id_fk",
           "tableFrom": "user_sessions",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -413,26 +411,30 @@
     }
   },
   "enums": {
-    "QuestionType": {
+    "public.QuestionType": {
       "name": "QuestionType",
-      "values": {
-        "Single": "Single",
-        "Optional": "Optional"
-      }
+      "schema": "public",
+      "values": [
+        "Single",
+        "Optional"
+      ]
     },
-    "UserRole": {
+    "public.UserRole": {
       "name": "UserRole",
-      "values": {
-        "ADMIN": "ADMIN",
-        "CLIENT": "CLIENT",
-        "RESP": "RESP"
-      }
+      "schema": "public",
+      "values": [
+        "ADMIN",
+        "CLIENT",
+        "RESP"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "8595d127-e178-46df-b12a-738f4c741f06",
+  "prevId": "f43461ce-e9d4-467e-b946-c46944964bfa"
 }

@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from "./$types"
 import { message, setError, superValidate } from "sveltekit-superforms"
 import { zod } from "sveltekit-superforms/adapters"
 import { registerCSchema } from "./schema"
-import { checkIfEmailExists, deleteClientUsers, insertClientpData, insertNewUser } from "$lib/server/db_utils"
+import { checkIfEmailExists, deleteClientUsers, insertClientData, insertNewUser } from "$lib/server/db_utils"
 import { generateId } from "lucia"
 import { Argon2id } from "oslo/password"
 import { lucia } from "$lib/server/auth"
@@ -76,7 +76,7 @@ export const actions: Actions = {
                 role:'CLIENT'
             })
 
-            await insertClientpData({
+            await insertClientData({
                 email: email,
                 county: county,
                 sector: sector,

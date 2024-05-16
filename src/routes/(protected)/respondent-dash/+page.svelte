@@ -4,7 +4,9 @@
 	import { Button } from "$lib/components/ui/button";
 	import { sineInOut } from "svelte/easing";
 	import { fade } from "svelte/transition";
-
+	import * as Card from "$lib/components/ui/card"
+	import { Progress } from "$lib/components/ui/progress"
+	import * as Breadcrumb from "$lib/components/ui/breadcrumb"
 	   // custom param message
 	let msg: string
     let visible = true
@@ -20,16 +22,69 @@
     <Pretoast message={msg} type="warning"/>
 </div>
 {/if}
-<div
-	class="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-	data-x-chunk-name="dashboard-02-chunk-1"
-	data-x-chunk-description="An empty state showing no products with a heading, description and a call to action to add a product."
->
-	<div class="flex flex-col items-center gap-1 text-center">
-		<h3 class="text-2xl font-bold tracking-tight">You have no products</h3>
-		<p class="text-sm text-muted-foreground">
-			You can start selling as soon as you add a product.
-		</p>
-		<Button class="mt-4">Add Product</Button>
-	</div>
+<div class="flex flex-col p-4 gap-10  mt-2">
+    <div class="ml-5 pb-2">
+        <Breadcrumb.Root>
+            <Breadcrumb.List>
+              <Breadcrumb.Item>
+                <Breadcrumb.Link href="##">Home</Breadcrumb.Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Separator />
+              <Breadcrumb.Item>
+                <Breadcrumb.Link href="##">Analytics</Breadcrumb.Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Separator />
+              <Breadcrumb.Item>
+                <Breadcrumb.Page>Dashboard</Breadcrumb.Page>
+              </Breadcrumb.Item>
+            </Breadcrumb.List>
+        </Breadcrumb.Root>
+    </div>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
+        <Card.Root
+            class="sm:col-span-1 space-y-5"
+            data-x-chunk-name="dashboard-05-chunk-0"
+            data-x-chunk-description="A card for an orders dashboard with a description and a button to create a new order."
+        >
+            <Card.Header class="pb-3">
+                <Card.Title>My Survey History</Card.Title>
+				<Card.Description>lorem</Card.Description>
+            </Card.Header>
+            <Card.Footer>
+                <Button variant="default" href="/client-dash/surveys/create">View history</Button>
+            </Card.Footer>
+        </Card.Root>
+        <Card.Root
+            class="max-w-lg"
+            data-x-chunk-name="dashboard-05-chunk-1"
+            data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."
+        >
+            <Card.Header class="pb-2 ">
+                <Card.Description>This Week</Card.Description>
+                <Card.Title class="text-4xl">10</Card.Title>
+            </Card.Header>
+            <Card.Content>
+                <div class="text-xs text-muted-foreground">+25% from last week</div>
+            </Card.Content>
+            <Card.Footer>
+                <Progress value={25} aria-label="{25}% increase" />
+            </Card.Footer>
+        </Card.Root>
+        <Card.Root
+            class="lg:max-w-sm"
+            data-x-chunk-name="dashboard-05-chunk-2"
+            data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
+        >
+            <Card.Header class="pb-2">
+                <Card.Description>This Month</Card.Description>
+                <Card.Title class="text-3xl">20</Card.Title>
+            </Card.Header>
+            <Card.Content>
+                <div class="text-xs text-muted-foreground">+10% from last month</div>
+            </Card.Content>
+            <Card.Footer>
+                <Progress value={12} aria-label="12% increase" />
+            </Card.Footer>
+        </Card.Root>            
+    </div>
 </div>

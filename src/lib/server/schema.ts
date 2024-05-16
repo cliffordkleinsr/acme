@@ -5,7 +5,7 @@ import { pgEnum, pgTable, varchar, timestamp, uuid, text, serial, boolean  } fro
 // refs
 export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "RESP"])
 export const QuestionType = pgEnum("QuestionType", ["Single", "Optional"])
-
+export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
 
 
 // Model USERS
@@ -80,6 +80,13 @@ export const SurveyTable = pgTable('surveys', {
     clientid: text('id').notNull(),
     surveyTitle: text('survey_title').notNull(),
     surveyDescription: text('survey_desc').notNull(),
+    status: Status("status").default("Draft").notNull(),
+    from: timestamp('from', {
+        mode:"date"
+    }),
+    to: timestamp('to', {
+        mode:"date"
+    }),
     createdAt: timestamp('created_at', {
         withTimezone: true,
         mode: "date" 
@@ -95,11 +102,17 @@ export const SurveyQnsTable = pgTable('survey_questions', {
     questionId: uuid('questionid').defaultRandom().primaryKey(),
     surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
     questionT: QuestionType("question_type").default("Single").notNull(),
-    question: text("question").notNull(),
-    answer: text("answer").notNull(),
+    question: text("question"),
+    answer: text("answer"),
+    option1: text("option1"),
+    option2: text("option2"),
+    option3: text("option3"),
     respondentId: text("respondent_id").references(() => UsersTable.id)
 })
 
 export type userInsertSchema = typeof UsersTable.$inferInsert
 export type ClientDataInsertSchema = typeof clientData.$inferInsert
 export type RespondentInsertSchema = typeof respondentData.$inferInsert
+export type surveyGenerateSchema = typeof SurveyTable.$inferInsert
+export type surveySelectSchema = typeof SurveyTable.$inferSelect
+export type surveyQnsSchema = typeof SurveyQnsTable.$inferInsert

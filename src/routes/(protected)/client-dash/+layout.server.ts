@@ -13,7 +13,8 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/respondent-dash', url, "Not Authorised"))
     }
     return {
-        AuthedUser: user.fullname,    
+        AuthedUser: user.fullname,
+        url: url.pathname    
     }
 }
 

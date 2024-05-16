@@ -12,32 +12,31 @@
   
   // Lucide Svelte
   import Menu from "lucide-svelte/icons/menu"
-  import Package2 from "lucide-svelte/icons/package-2"
   import Search from "lucide-svelte/icons/search"
   import Home from "lucide-svelte/icons/home"
   import Table from 'lucide-svelte/icons/table'
-  import ShoppingCart from 'lucide-svelte/icons/shopping-cart'
   import Users from "lucide-svelte/icons/users"
   import LineChart from "lucide-svelte/icons/line-chart"
-  import Package from "lucide-svelte/icons/package"
   import CircleUser from "lucide-svelte/icons/circle-user"
   import CreditCard from 'lucide-svelte/icons/credit-card'
   import Bell from "lucide-svelte/icons/bell"
   import Sun from "lucide-svelte/icons/sun"
   import Moon from "lucide-svelte/icons/moon"
+  import RadioTower from 'lucide-svelte/icons/radio-tower';
   import SquareArrowRight  from 'lucide-svelte/icons/square-arrow-right'
   import { Separator } from "$lib/components/ui/separator"
   
 
   import { page } from "$app/stores"
   import { enhance } from "$app/forms";
-  import Power from 'lucide-svelte/icons/power'
 	import Tag  from "lucide-svelte/icons/tag"
   import CandlestickChart from "lucide-svelte/icons/candlestick-chart"
   import Coins from "lucide-svelte/icons/coins"
   import Settings from "lucide-svelte/icons/settings"
   import AlignStartVertical from 'lucide-svelte/icons/align-start-vertical'
   import SlidersVertical from 'lucide-svelte/icons/sliders-vertical'
+	import { fade } from "svelte/transition";
+	import { sineIn, sineInOut, sineOut } from "svelte/easing";
   export let data
  
 </script>
@@ -73,7 +72,7 @@
         <Collapsible.Content class="flex flex-col gap-3 ml-10">
           <Separator />
           <a
-            href="/client-dash/surveys"
+            href="/client-dash/surveys/create"
             class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
           >
           <AlignStartVertical class="size-4"/>
@@ -81,12 +80,20 @@
           </a>
           <Separator />
           <a
-            href="##"
+            href="/client-dash/surveys/questionnaire"
             class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
           >
           <SlidersVertical class="size-4"/>
           Manage surveys
           </a>
+          <Separator />
+          <a
+              href="/client-dash/surveys/live"
+              class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+            >
+            <RadioTower class="size-4"/>
+            Go Live
+            </a>
           <Separator />
         </Collapsible.Content>
       </Collapsible.Root>
@@ -166,19 +173,27 @@
           <Collapsible.Content class="flex flex-col gap-3 ml-10">
             <Separator />
             <a
-              href="/client-dash/surveys"
+              href="/client-dash/surveys/create"
               class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
-            <AlignStartVertical class="size-4"/>
+            <AlignStartVertical class="size-5"/>
             Generate surveys
             </a>
             <Separator />
             <a
-              href="##"
+              href="/client-dash/surveys/questionnaire"
               class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
-            <SlidersVertical class="size-4"/>
+            <SlidersVertical class="size-5"/>
             Manage surveys
+            </a>
+            <Separator />
+            <a
+              href="/client-dash/surveys/live"
+              class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+            >
+            <RadioTower class="size-5"/>
+            Go Live
             </a>
             <Separator />
           </Collapsible.Content>
@@ -187,7 +202,7 @@
           href="##"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
-          <Coins class="size-4"/>
+          <Coins class="size-5"/>
           Account Credits
         </a>
         <a
@@ -268,6 +283,13 @@
     </DropdownMenu.Content>
   </DropdownMenu.Root>
 </header>
-  <slot />
+{#key data.url}
+  <div 
+  in:fade={{delay:300, duration:300, easing:sineIn}}
+  out:fade={{duration:300, easing:sineOut}}
+  >
+    <slot />
+  </div>
+{/key}
 </div>
 </div>
