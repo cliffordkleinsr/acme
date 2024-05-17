@@ -4,6 +4,9 @@
 	import { Separator } from "$lib/components/ui/separator"
 	import { onMount } from "svelte";
 	import { Motion } from "svelte-motion";
+  import * as Card from "$lib/components/ui/card"
+  import * as Carousel from "$lib/components/ui/carousel"
+  import Autoplay from "embla-carousel-autoplay"
   let active = true
 
   onMount(() =>{
@@ -15,7 +18,7 @@
  
 </script>
 <!-- Hero -->
-<div class="relative overflow-hidden h-[650px] place-content-center before:absolute before:top-0 before:start-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+<div class="relative overflow-hidden before:absolute before:top-0 before:start-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
   <div class="relative z-10">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
       <div class="max-w-2xl text-center mx-auto">
@@ -43,6 +46,93 @@
   </div>
 </div>
 <!-- End Hero -->
+<div class="flex justify-center mt-2 lg:pr-32">
+  <Carousel.Root class="max-w-[400px] lg:max-w-[1080px] lg:mb-20 relative"
+  plugins={[
+    Autoplay({
+      delay: 5000,
+    }),
+  ]}
+  >
+    <Carousel.Content>
+        <Carousel.Item >
+          <!-- Browser Device -->
+          <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
+            <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
+              <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
+                <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+                <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+                <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+              </div>
+              <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
+            </div>
+
+            <div class="bg-gray-800 rounded-b-lg">
+              <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/23500wm/image.png" alt="s">
+            </div>
+          </figure>
+          <!-- End Browser Device -->
+      </Carousel.Item>
+      <Carousel.Item >
+        <!-- Browser Device -->
+        <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
+          <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
+            <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
+              <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+              <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+              <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+            </div>
+            <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
+          </div>
+
+          <div class="bg-gray-800 rounded-b-lg">
+            <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/XFmTbDR/image.png" alt="s">
+          </div>
+        </figure>
+        <!-- End Browser Device -->
+    </Carousel.Item>
+    <Carousel.Item >
+      <!-- Browser Device -->
+      <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
+        <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
+          <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
+            <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+            <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+            <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+          </div>
+          <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
+        </div>
+
+        <div class="bg-gray-800 rounded-b-lg">
+          <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/xsxTZMF/image.png" alt="s">
+        </div>
+      </figure>
+      <!-- End Browser Device -->
+  </Carousel.Item>
+  <Carousel.Item >
+    <!-- Browser Device -->
+    <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
+      <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
+        <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
+          <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+          <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+          <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
+        </div>
+        <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
+      </div>
+
+      <div class="bg-gray-800 rounded-b-lg">
+        <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/XbFXyjY/image.png" alt="s">
+      </div>
+    </figure>
+    <!-- End Browser Device -->
+</Carousel.Item>
+  </Carousel.Content>
+  <Carousel.Previous />
+  <Carousel.Next />
+</Carousel.Root>
+  <!-- End Devices -->
+</div>
 <Separator />
 <!-- Features -->
 <div class=" max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
