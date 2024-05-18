@@ -5,8 +5,7 @@
 	import { onMount } from "svelte";
 	import { Motion } from "svelte-motion";
   import * as Card from "$lib/components/ui/card"
-  import * as Carousel from "$lib/components/ui/carousel"
-  import Autoplay from "embla-carousel-autoplay"
+	import Slider from "$lib/components/blocks/slider.svelte";
   let active = true
 
   onMount(() =>{
@@ -18,24 +17,23 @@
  
 </script>
 <!-- Hero -->
-<div class="relative overflow-hidden before:absolute before:top-0 before:start-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+<div class="relative lg:h-[650px] h-[400px] overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1667373509687-4c4574541218?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1667832273606-c4a9e46c7d1a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
   <div class="relative z-10">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
       <div class="max-w-2xl text-center mx-auto">
-        <p class="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-yellow-400 to-orange-500 text-transparent dark:from-blue-400 dark:to-violet-400">
+        <p class="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-lime-600 to-green-800 text-transparent dark:from-pink-500 dark:to-violet-500">
           The shape of tomorrow 
         </p>
 
         <!-- Title -->
         <div class="mt-5 max-w-2xl">
-          <h1 class="block font-semibold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200">
+          <h1 class="block font-semibold text-neutral-50 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200 drop-shadow-xl">
             Where every opinion matters
           </h1>
         </div>
         <!-- End Title -->
-
         <div class="mt-5 max-w-3xl">
-          <p class="text-lg text-gray-600 dark:text-neutral-400">Explore and engage in surveys, voice your thoughts, and play a role in building a future that reflects diverse perspectives and meaningful change.</p>
+          <p class="text-lg text-neutral-50 dark:text-neutral-400 drop-shadow-md">Explore and engage in surveys, voice your thoughts, and play a role in building a future that reflects diverse perspectives and meaningful change.</p>
         </div>
         <div class="flex justify-center gap-5 pt-10">
           <Button class="hover:scale-110 transition ease-in-out duration-300" href='/client/signin'>Gather Insights</Button>
@@ -45,98 +43,12 @@
     </div>
   </div>
 </div>
+<Slider />
 <!-- End Hero -->
-<div class="flex justify-center mt-2 lg:pr-32">
-  <Carousel.Root class="max-w-[400px] lg:max-w-[1080px] lg:mb-20 relative"
-  plugins={[
-    Autoplay({
-      delay: 5000,
-    }),
-  ]}
-  >
-    <Carousel.Content>
-        <Carousel.Item >
-          <!-- Browser Device -->
-          <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
-            <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
-              <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
-                <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-                <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-                <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-              </div>
-              <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
-            </div>
 
-            <div class="bg-gray-800 rounded-b-lg">
-              <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/23500wm/image.png" alt="s">
-            </div>
-          </figure>
-          <!-- End Browser Device -->
-      </Carousel.Item>
-      <Carousel.Item >
-        <!-- Browser Device -->
-        <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
-          <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
-            <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
-              <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-              <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-              <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-            </div>
-            <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
-          </div>
-
-          <div class="bg-gray-800 rounded-b-lg">
-            <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/XFmTbDR/image.png" alt="s">
-          </div>
-        </figure>
-        <!-- End Browser Device -->
-    </Carousel.Item>
-    <Carousel.Item >
-      <!-- Browser Device -->
-      <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
-        <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
-          <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
-            <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-            <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-            <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-          </div>
-          <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
-        </div>
-
-        <div class="bg-gray-800 rounded-b-lg">
-          <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/xsxTZMF/image.png" alt="s">
-        </div>
-      </figure>
-      <!-- End Browser Device -->
-  </Carousel.Item>
-  <Carousel.Item >
-    <!-- Browser Device -->
-    <figure class="ms-auto me-20 relative z-[1] max-w-full w-[50rem] h-auto shadow-[0_2.75rem_3.5rem_-2rem_rgb(45_55_75_/_20%),_0_0_5rem_-2rem_rgb(45_55_75_/_15%)] dark:shadow-[0_2.75rem_3.5rem_-2rem_rgb(0_0_0_/_20%),_0_0_5rem_-2rem_rgb(0_0_0_/_15%)] rounded-b-lg">
-      <div class="relative flex items-center max-w-[50rem] bg-white border-b border-gray-100 rounded-t-lg py-2 px-24 dark:bg-neutral-800 dark:border-neutral-700">
-        <div class="flex space-x-1 absolute top-2/4 start-4 -translate-y-1">
-          <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-          <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-          <span class="size-2 bg-gray-200 rounded-full dark:bg-neutral-700"></span>
-        </div>
-        <div class="flex justify-center items-center size-full bg-gray-200 text-[.25rem] text-gray-800 rounded-sm sm:text-[.5rem] dark:bg-neutral-700 dark:text-neutral-200">www.acme.co</div>
-      </div>
-
-      <div class="bg-gray-800 rounded-b-lg">
-        <img class="max-w-full h-auto rounded-b-lg" src="https://i.ibb.co/XbFXyjY/image.png" alt="s">
-      </div>
-    </figure>
-    <!-- End Browser Device -->
-</Carousel.Item>
-  </Carousel.Content>
-  <Carousel.Previous />
-  <Carousel.Next />
-</Carousel.Root>
-  <!-- End Devices -->
-</div>
-<Separator />
 <!-- Features -->
-<div class=" max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <div class="grid md:grid-cols-2 md:gap-32 gap-12 md:items-center">
+<Card.Root class="max-w-[80rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto lg:mt-72">
+  <div class="grid md:grid-cols-2 md:gap-52 gap-12 md:items-center">
     <div class="mt-5 sm:mt-10 lg:mt-0">
       <div class="space-y-5 md:space-y-7">
         <h2 class="font-bold text-3xl lg:text-4xl text-primary">
@@ -181,7 +93,7 @@
       </div>
     </div>
     {#if !active}
-      <img class="w-[28rem] rounded-lg" src="https://pollbase.tech/assets/img/port.jpg" alt="as" >
+      <img class="w-[24rem] rounded-lg" src="https://pollbase.tech/assets/img/port.jpg" alt="as" >
     {:else}
     <Motion
       animate = {{
@@ -190,14 +102,12 @@
       transition={{ duration: 1.5, repeat:Infinity, ease:"easeInOut" }}
       let:motion>
       <div class="" use:motion>
-        <img class="w-[28rem] rounded-lg" src="https://pollbase.tech/assets/img/port.jpg" alt="as" >
+        <img class="w-[24rem] rounded-lg" src="https://pollbase.tech/assets/img/port.jpg" alt="as" >
       </div>
     </Motion>
    {/if}
   </div>
-</div>
-
-
+</Card.Root>
 <!-- Clients -->
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <!-- Title -->
