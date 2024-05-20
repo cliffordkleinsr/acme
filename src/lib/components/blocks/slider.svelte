@@ -2,8 +2,8 @@
     import * as Carousel from "$lib/components/ui/carousel"
     import Autoplay from "embla-carousel-autoplay"
 </script>
-<div class="lg:flex mt-2 absolute lg:-bottom-16 lg:left-52 xl:-bottom-11 xl:left-80 hidden">
-    <Carousel.Root class="max-w-[340px] lg:max-w-[700px] xl:max-w-[1080px] lg:mb-20"
+<div class="lg:hidden mt-2 absolute xl:flex xl:-bottom-11 xl:left-80 hidden">
+    <Carousel.Root class="max-w-[340px] lg:max-w-[700px] xl:max-w-[1080px] xl:mb-20 lg:mb-0"
     plugins={[
       Autoplay({
         delay: 5000,

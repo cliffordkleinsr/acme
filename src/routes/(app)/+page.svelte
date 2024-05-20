@@ -17,7 +17,7 @@
  
 </script>
 <!-- Hero -->
-<div class="relative lg:h-[650px] h-[400px] overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1646548851235-0321e69f812f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+<div class="lg:relative lg:h-[650px] h-[400px] overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1646548851235-0321e69f812f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
   <div class="relative z-10">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
       <div class="max-w-2xl text-center mx-auto">
