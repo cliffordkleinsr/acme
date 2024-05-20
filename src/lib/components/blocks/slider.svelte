@@ -2,7 +2,7 @@
     import * as Carousel from "$lib/components/ui/carousel"
     import Autoplay from "embla-carousel-autoplay"
 </script>
-<div class="lg:flex mt-2 absolute 2xl:-bottom-11 xl:-bottom-52 lg:left-80 hidden">
+<div class="lg:flex mt-2 absolute 2xl:-bottom-11 xl:-bottom-72 lg:left-80 hidden">
     <Carousel.Root class="max-w-[340px] xl:max-w-[800px] 2xl:max-w-[1080px] lg:mb-20"
     plugins={[
       Autoplay({
