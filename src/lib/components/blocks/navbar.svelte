@@ -19,7 +19,7 @@
         <Package2 class="h-6 w-6"/>
     </a>
     <nav
-        class="hidden font-medium sm:flex sm:flex-row sm:gap-5 lg:gap-9 md:justify-center md:basis-11/12">
+        class="hidden font-medium md:flex md:flex-row md:gap-5 lg:gap-9 md:justify-center md:basis-11/12">
         <a href="/" class="text-foreground transition-colors hover:text-primary">
             Home
         </a>

@@ -36,8 +36,8 @@
           <p class="text-lg text-neutral-50 dark:text-neutral-400 drop-shadow-md">Explore and engage in surveys, voice your thoughts, and play a role in building a future that reflects diverse perspectives and meaningful change.</p>
         </div>
         <div class="flex justify-center gap-5 pt-10">
-          <Button class="hover:scale-110 transition ease-in-out duration-300" href='/client/signin'>Gather Insights</Button>
-          <Button class="hover:scale-110 transition ease-in-out duration-300" variant='secondary' href='/respondent/signin'>Start Earning </Button>
+          <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700" href='/client/signin'>Gather Insights</Button>
+          <Button class="hover:bg-primary hover:text-white transition ease-in-out duration-700" variant='secondary' href='/respondent/signin'>Start Earning </Button>
         </div>
       </div>
     </div>
