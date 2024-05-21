@@ -28,12 +28,12 @@
         <!-- Title -->
         <div class="mt-5 max-w-2xl">
           <h1 class="block font-semibold text-neutral-50 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200 drop-shadow-xl">
-            Where every opinion matters
+            A horizon where every business excels
           </h1>
         </div>
         <!-- End Title -->
         <div class="mt-5 max-w-3xl">
-          <p class="text-lg text-neutral-50 dark:text-neutral-400 drop-shadow-md">Explore and engage in surveys, voice your thoughts, and play a role in building a future that reflects diverse perspectives and meaningful change.</p>
+          <p class="text-lg text-neutral-50 dark:text-neutral-400 drop-shadow-md">Voice your thoughts, and play a role in building a future that reflects diverse perspectives and meaningful change.</p>
         </div>
         <div class="flex justify-center gap-5 pt-10">
           <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700" href='/client/signin'>Gather Insights</Button>

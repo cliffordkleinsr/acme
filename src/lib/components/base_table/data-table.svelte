@@ -189,11 +189,18 @@
                     <Table.Cell {...attrs}>
                         {#if cell.id != ""}
                             {#if cell.id === "status"}
-                            <Badge class="{type != "Live"?"bg-secondary text-muted-foreground dark:text-white":"bg-green-600"}"><Render of={cell.render()} /></Badge>
+                                <Badge 
+                                class="{
+                                    type === "Closed"
+                                        ? "bg-primary text-primary-foreground"
+                                        :type != "Live"
+                                        ?"bg-secondary text-muted-foreground dark:text-white"
+                                        :"bg-green-600"}"><Render of={cell.render()} />
+                                </Badge>
                             {:else}
-                            <Render of={cell.render()} />
+                                <Render of={cell.render()} />
                             {/if}
-                        {:else if type != "Live"}
+                        {:else if type != "Live" && type != "Closed"}
                             <Render of={cell.render()} />
                         {/if}
                     </Table.Cell>

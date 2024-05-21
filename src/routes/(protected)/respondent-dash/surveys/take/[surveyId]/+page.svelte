@@ -1,0 +1,33 @@
+<script lang="ts">
+    import type { PageData } from './$types';
+    import * as Card from "$lib/components/ui/card"
+	import Clock from 'lucide-svelte/icons/clock';
+	import { Button } from '$lib/components/ui/button';
+	import Separator from '$lib/components/ui/separator/separator.svelte';
+    
+    // export let data: PageData;
+</script>
+<div class="flex flex-col max-w-sm mx-auto mt-6">
+    <h1 class="text-sm text-center antialiased"> Share your opinions on things that matter</h1>
+    <Card.Root class="mt-5">
+    <Card.Header class="bg-yellow-300 text-center">
+        <Card.Title class="text-neutral-500 text-xl">Total Survey Questions</Card.Title>
+        <Card.Description>
+            <Button variant="ghost"><Clock class="size-5"/> 1'</Button>
+        </Card.Description>
+    </Card.Header>
+    <Card.Content class="mt-14 text-center">
+        <Button variant="outline" class="rounded-xl" size="lg">Start the survey</Button>
+    </Card.Content>
+    <Card.Footer class="mt-7">
+        <div class="flex flex-col gap-2 text-center">
+            <h1 class="text-xs font-bold font-mono text-neutral-600">Your responses are completely anonymous</h1>
+            <p class="font-mono text-neutral-600 text-xs tracking-tight">
+                By accepting to take this survey, a specific set of user's device data will be collected and potentially combined with answers to the questionnaires,
+                in order for Pollfish to better understand the user and improve targeting of future surveys.
+            </p>  
+        </div>
+    </Card.Footer>
+    </Card.Root>
+    <p class="text-xs text-center pt-72">By taking this survey you agree to the <a href="##" class=" text-blue-400 hover:underline underline-offset-1">Terms & Conditions</a></p>
+</div>

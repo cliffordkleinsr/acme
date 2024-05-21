@@ -204,7 +204,7 @@
     <Card.Description>ID : {qns.id}</Card.Description>
   </Card.Header>
   <Card.Content class="space-y-5">
-    <h1 class="text-md">{id}. {qns.question}</h1>
+    <h1 class="text-md">{id+1}. {qns.question}</h1>
     {#if qns.question_type === "Optional"}
     <div class="flex gap-3 w-full">
       {#each qns.options as option}
@@ -248,10 +248,9 @@
                 <Input type="text" value={option.name} name="option{i}"/>
                 {/if}
               {/each}
-            {#if form?.message}
-              <span class="text-red-400">{form.message}</span>
-            {/if}
-            <Button variant="secondary" bind:disabled>Add More</Button>
+              {#if form?.message}
+                <span class="text-red-400">{form.message}</span>
+              {/if}
             {/if}
             <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
           <Form.Button>Save</Form.Button>

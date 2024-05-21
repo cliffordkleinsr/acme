@@ -37,8 +37,11 @@
   import SlidersVertical from 'lucide-svelte/icons/sliders-vertical'
 	import { fade } from "svelte/transition";
 	import { sineIn, sineInOut, sineOut } from "svelte/easing";
+  import * as Tooltip from "$lib/components/ui/tooltip"
+  
   export let data
- 
+
+  const clearNotifs = () => { data.notif = []}
 </script>
 
 
@@ -50,10 +53,32 @@
       <!-- <Package2 class="h-6 w-6" /> -->
       <span class="">Welcome {data.AuthedUser}</span>
     </a>
-    <Button variant="outline" size="icon" class="ml-auto h-8 w-8">
-      <Bell class="size-4" />
-      <span class="sr-only">Toggle notifications</span>
-    </Button>
+    <div class="flex ml-auto relative">
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild let:builder>
+          <Button builders={[builder]} size="icon" variant="outline" class="size-8">
+          <Bell class="size-4" />
+          <span class="sr-only">Toggle notifications</span>
+          </Button>
+        </Tooltip.Trigger>
+        <Tooltip.Content class="space-y-3 w-72">
+          {#if data.notif.filter((notif) => notif != undefined).length}
+            {#each data.notif.filter((notif) => notif != undefined) as notif, ix}
+              <p class="pl-5 font-mono">{ix+1}. {notif}</p>
+              <Separator/>
+            {/each}
+            <Button variant="secondary" on:click={clearNotifs}>Clear Notifications</Button>
+          {:else}
+          <p class="pl-5 font-mono">No New Messages</p>
+          {/if}
+        </Tooltip.Content>
+      </Tooltip.Root>
+      {#if data.notif.filter((notif) => notif != undefined).length}
+        <Badge class="size-5 justify-center absolute left-5 bottom-4">{data.notif.filter((notif) => notif != undefined).length}</Badge>
+      {/if}
+      
+    </div>
+   
   </div>
   <div class="flex-1">
     <nav class="grid items-start px-2 text-sm font-medium lg:px-4">

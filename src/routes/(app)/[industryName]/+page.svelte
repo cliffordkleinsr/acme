@@ -10,10 +10,10 @@
     <div class="lg:flex gap-32">
       <div class="flex flex-col gap-2 lg:max-w-5xl space-y-5">
           <h2 class="text-2xl font-bold md:text-4xl text-gray-800 dark:text-white mb-1">{data.industry.title}</h2>
-          <p class="text-lg text-gray-800 dark:text-neutral-200"><span class="font-bold">The challenge:</span> {data.industry.challenge}</p>
-          <p class="text-lg text-gray-800 dark:text-neutral-200 lg:max-w-5xl"><span class="font-bold">The solution:</span> {data.industry.solution}</p>
+          <p class="text-md text-gray-800 dark:text-neutral-200"><span class="font-bold">The challenge:</span> {data.industry.challenge}</p>
+          <p class="text-md text-gray-800 dark:text-neutral-200 lg:max-w-5xl"><span class="font-bold">The solution:</span> {data.industry.solution}</p>
           {#each data.industry.checks as check}
-             <ul class="space-y-4 sm:space-y-4 max-w-xl mt-3">
+             <ul class="space-y-4 sm:space-y-4 max-w-4xl mt-3">
                 <li class="flex space-x-3">
                     <span class="mt-0.5 size-5 flex justify-center items-center rounded-full bg-orange-50 text-primary dark:bg-orange-800/30 dark:text-primary">
                       <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -24,12 +24,14 @@
                 </li>
             </ul>
           {/each}
-         
-          <p class="text-lg text-gray-800 dark:text-neutral-200 mt-3"><span class="font-bold">Example:</span> {data.industry.examples}</p>
       </div>
-      <img class="lg:h-[32em] rounded-lg mt-2 dark:shadow-lg dark:shadow-orange-500/50" src={data.industry.image} alt="">
+      <img class="lg:h-[35em] rounded-lg mt-20 dark:shadow-lg dark:shadow-orange-500/50" src={data.industry.image} alt="">
     </div>
-    
+    <Separator class="mt-10" />
+    <h1 class="text-lg font-bold antialiased mt-5">
+      Example:
+    </h1>
+    <p class="text-md text-gray-800 dark:text-neutral-200 mt-3 w-full text-wrap overflow-hidden truncate">{data.industry.examples}</p>
 </div>
 <Separator />
 <Features />

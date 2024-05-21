@@ -4,13 +4,14 @@
     import { Button } from "$lib/components/ui/button"
     import * as Form from "$lib/components/ui/form/index.js"
 	import { enhance } from "$app/forms";
+    import Clock from "$lib/components/blocks/clock.svelte"
 
     export let form
 
 </script>
 <div class="flex flex-col m-16 gap-5">
     <h1 class="text-2xl ml-3">Create a new project</h1>
-    <form method="post" class="grid grid-cols-2 gap-4" use:enhance>
+    <form method="post" class="grid grid-cols-3 gap-4" use:enhance>
         <Card.Root class="col-span-2 max-w-4xl">
             <Card.Header>
                 <Card.Title>Survey Details</Card.Title>
@@ -31,9 +32,11 @@
                 </div>
             </Card.Content>
         </Card.Root>
+        <Clock />
         <Button class="max-w-md" variant="outline" href="/client-dash">Cancel</Button>
         
         <!-- <Button variant="outline" on:click={addData} on:click={() => active=false}>Save</Button> -->
     </form>
     <img class="w-52" src="https://pollbase.tech/assets/img/vector.png" alt="">
 </div>
+

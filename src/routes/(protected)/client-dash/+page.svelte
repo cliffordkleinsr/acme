@@ -11,7 +11,7 @@
     import DataTable from "$lib/components/base_table/data-table.svelte"
     import CandlestickChart from "lucide-svelte/icons/candlestick-chart"
     export let data
-    const { draft_surv, live_surv } = data
+    const {all_surv, draft_surv, live_surv, closed_surv } = data
 
     // custom param message
     let msg: string
@@ -68,14 +68,14 @@
             data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."
         >
             <Card.Header class="pb-2 ">
-                <Card.Description>This Week</Card.Description>
-                <Card.Title class="text-4xl">10</Card.Title>
+                <Card.Description>Total surveys this Week</Card.Description>
+                <Card.Title class="text-4xl">{all_surv.length}</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+25% from last week</div>
+                <div class="text-xs text-muted-foreground">+{all_surv.length/100}% all time</div>
             </Card.Content>
             <Card.Footer>
-                <Progress value={25} aria-label="{25}% increase" />
+                <Progress value={all_surv.length} aria-label="{all_surv.length}% increase" />
             </Card.Footer>
         </Card.Root>
         <Card.Root
@@ -97,20 +97,19 @@
     </div>
 </div>
 
-<Tabs.Root value="all" class="lg:w-full mx-auto">
-    <Tabs.List class="grid w-96 lg:w-[35rem] grid-cols-4 mx-5">
-      <Tabs.Trigger value="all">All</Tabs.Trigger>
+<Tabs.Root value="draft" class="lg:w-full mx-auto">
+    <Tabs.List class="grid w-96 lg:w-[35rem] grid-cols-3 mx-5">
       <Tabs.Trigger value="draft">Draft</Tabs.Trigger>
       <Tabs.Trigger value="running">Running</Tabs.Trigger>
       <Tabs.Trigger value="completed">Completed</Tabs.Trigger>
     </Tabs.List>
-    <Tabs.Content value="all">
-        <DataTable data={draft_surv}  type={"Draft"}/>
-    </Tabs.Content>
     <Tabs.Content value="draft">
         <DataTable data={draft_surv} type ={"Draft"}/>
     </Tabs.Content>
     <Tabs.Content value="running">
         <DataTable data={live_surv} type={"Live"}/>
+    </Tabs.Content>
+    <Tabs.Content value="completed">
+        <DataTable data={closed_surv} type={"Closed"}/>
     </Tabs.Content>
 </Tabs.Root>  

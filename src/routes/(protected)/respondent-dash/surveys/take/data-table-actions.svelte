@@ -22,11 +22,11 @@
     <DropdownMenu.Content>
       <DropdownMenu.Group>
         <DropdownMenu.Label>Actions</DropdownMenu.Label>
-        <DropdownMenu.Item href="/client-dash/surveys/questionnaire/{id}">
+        <DropdownMenu.Item href="/respondent-dash/surveys/take/{id}">
           Take Survey
         </DropdownMenu.Item>
       </DropdownMenu.Group>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item href="/client-dash/surveys/live/{id}">History</DropdownMenu.Item>
+      <DropdownMenu.Item href="/respondent-dash/surveys/history/{id}">History</DropdownMenu.Item>
     </DropdownMenu.Content>
   </DropdownMenu.Root>

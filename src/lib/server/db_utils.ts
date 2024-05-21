@@ -50,6 +50,17 @@ export const addSurveyQuestions = async (data: surveyQnsSchema) => {
     await db.insert(SurveyQnsTable).values(data)
 }
 
+export const checkDate = async (id:string, fromdb: Date) => {
+    let diff = new Date().getTime() - fromdb.getTime()
+    if (diff  > 0) {
+        await db.update(SurveyTable).set({
+            status:"Closed"
+        }).where(eq(SurveyTable.surveyid, id))
+        return {
+            message: `Survey ${id} has been closed`
+        }
+    }
+}
 
 export const deleteClientUsers = async () => {
      
