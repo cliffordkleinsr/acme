@@ -11,8 +11,12 @@
           <Card.Description>Who we are</Card.Description>
         </Card.Header>
         <Card.Content class="text-gray-800 dark:text-neutral-200 space-y-3 text-sm sm:text-base">
-          <p>Acme delivers custom survey solutions designed to meet the specific needs of businesses across diverse industries.</p>
-          <p>We specialize in crafting custom survey solutions meticulously tailored to address the unique challenges and goals of businesses across diverse industries.</p>
+          <p>
+             Acme is the premier platform for comprehensive solutions. We focus in offering solutions tailored to the unique needs of businesses across various sectors. 
+            </p>
+          <p>
+            Firms are able to make well-informed decisions that propel growth and success by concentrating on improving key facets within their organizations.
+          </p>
         </Card.Content>
       </Card.Root>
       <!-- end -->
