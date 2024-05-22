@@ -19,7 +19,7 @@
         <Ellipsis class="h-4 w-4" />
       </Button>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content>
+    <DropdownMenu.Content class="z-10">
       <DropdownMenu.Group>
         <DropdownMenu.Label>Actions</DropdownMenu.Label>
         <DropdownMenu.Item href="/respondent-dash/surveys/take/{id}">

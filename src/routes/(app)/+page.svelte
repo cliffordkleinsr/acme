@@ -1,53 +1,85 @@
 <script lang="ts">
-	import { browser } from "$app/environment";
-  import { Button } from "$lib/components/ui/button";
+	import { browser } from "$app/environment"
+  import { Button } from "$lib/components/ui/button"
 	import { Separator } from "$lib/components/ui/separator"
-	import { onMount } from "svelte";
-	import { Motion } from "svelte-motion";
+	import { onMount } from "svelte"
+	import { Motion } from "svelte-motion"
   import * as Card from "$lib/components/ui/card"
-	import Slider from "$lib/components/blocks/slider.svelte";
+	import Slider from "$lib/components/blocks/slider.svelte"
+  import Typewriter from 'svelte-typewriter'
   let active = true
-
   onMount(() =>{
     const windowSize = window.innerWidth
     if (windowSize < 500) {
       active = false
     }
   })
- 
+ const descriptions = [
+  "drive engagements",
+  "provide an agile solution",
+  "reach targeted demographics"
+ ]
 </script>
 <!-- Hero -->
-<div class="lg:relative lg:h-[650px] h-[400px] overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1646548851235-0321e69f812f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-top before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+<div class="relative lg:h-[785px] h-[600px] overflow-hidden before:absolute bg-[rgba(0,0,0,0.45)] before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
   <div class="relative z-10">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
-      <div class="max-w-2xl text-center mx-auto">
-        <p class="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-orange-300 to-red-500 text-transparent dark:from-pink-500 dark:to-violet-500">
+      <div class="max-w-screen-xl text-start mx-auto lg:py-40">
+        <!-- <p class="text-sm font-medium bg-clip-text bg-gradient-to-l from-orange-300 to-red-500 text-transparent dark:from-pink-500 dark:to-violet-500">
           The shape of tomorrow 
-        </p>
-
+        </p> -->
         <!-- Title -->
-        <div class="mt-5 max-w-2xl">
-          <h1 class="block font-semibold text-neutral-50 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200 drop-shadow-xl">
-            A horizon where every business excels
+        <div class="mt-5 max-w-3xl space-y-1">
+          <span class="text-primary"></span>
+          <h1 class="block font-semibold text-primary text-3xl md:text-4xl lg:text-5xl dark:text-neutral-200 drop-shadow-xl">
+            The shape of tomorrow 
+          </h1>
+          
+          <h1 class="block font-semibold text-neutral-50 text-3xl md:text-4xl lg:text-5xl dark:text-neutral-200 drop-shadow-xl">
+            Ask anything <span class=" font-extralight">|</span> Learn everything
           </h1>
         </div>
         <!-- End Title -->
-        <div class="mt-5 max-w-3xl">
-          <p class="text-lg text-neutral-50 dark:text-neutral-400 drop-shadow-md">Voice your thoughts, and play a role in building a future that reflects diverse perspectives and meaningful change.</p>
-        </div>
-        <div class="flex justify-center gap-5 pt-10">
-          <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700" href='/client/signin'>Gather Insights</Button>
-          <Button class="hover:bg-primary hover:text-white transition ease-in-out duration-700" variant='secondary' href='/respondent/signin'>Start Earning </Button>
+      
+          <div class="flex flex-col gap-1">
+            <div class="flex mt-5 max-w-2xl gap-2">
+              <p class="text-5xl text-white font-extralight"> | </p>
+              <p class="text-md text-neutral-50 dark:text-neutral-400 drop-shadow-md" >
+                <span class="text-primary font-bold text-lg">Acme</span> is a pivotal platform that delivers groundbreaking discoveries that improves corporate and brand reputation, elevating client visibility and giving customers the best experience.
+              </p>
+            </div>
+            <div class="flex mt-5 max-w-2xl">
+              <p class="text-md text-neutral-50 dark:text-neutral-400 drop-shadow-md ml-5">
+                We also give the option to express how you feel about a particular impression from a service or a product while <span class="font-bold text-primary">earning</span> along the way
+              </p>
+              <p class="text-5xl text-white font-extralight mr-12"> | </p> 
+            </div>
+          </div>
+        <div class="flex justify-start gap-5 pt-10">
+          <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700 rounded-xl" href='/client/signin' size="lg">Ask Anything</Button>
+          <Button class="hover:bg-primary hover:text-white transition ease-in-out duration-700 rounded-xl" variant='secondary' href='/respondent/signin' size="lg">Start Earning </Button>
         </div>
       </div>
     </div>
   </div>
 </div>
-<Slider />
 <!-- End Hero -->
+<Slider/>
 
+<div class="mt-1 overflow-hidden mb-1 text-center text-xl">
+  <h1> Acme allows you to</h1>
+  <Typewriter
+  mode="loop"
+  element="h1"
+  >
+  {#each descriptions as desc}
+    <h1 class=" underline underline-offset-2">{desc}</h1>
+  {/each}
+  </Typewriter>
+</div>
+<Separator class="mt-11"/>
 <!-- Features -->
-<Card.Root class="max-w-[80rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto lg:mt-72">
+<div class="max-w-[80rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto lg:mt-10">
   <div class="grid md:grid-cols-2 md:gap-52 gap-12 md:items-center">
     <div class="mt-5 sm:mt-10 lg:mt-0">
       <div class="space-y-5 md:space-y-7">
@@ -55,8 +87,9 @@
           Welcome to Acme
         </h2>
         <p class="text-gray-500 dark:text-neutral-500">
-          Acme is a leading provider of comprehensive market research solutions. We empower businesses to leverage the power of data to:
+          Acme offers comprehensive analysis by refining corporate reputation, brand visibility, and customer journey with our extensive techniques.
         </p>
+        <h1 class="text-xl font-bold text-gray-500">Why Choose Acme</h1>
         <!-- List -->
         <ul class="space-y-4 sm:space-y-4">
           <li class="flex space-x-3">
@@ -65,7 +98,7 @@
             </span>
 
             <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-              <span class="font-bold">Strengthen brand image</span> through a deeper understanding of customer perceptions.
+              <span class="font-bold">Commitment to Excellence</span>: We adhere to the highest standards in all our processes and deliverables, ensuring that you receive the best possible outcomes. 
             </span>
           </li>
 
@@ -75,7 +108,7 @@
             </span>
 
             <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-              <span class="font-bold">Refine product assessments</span> with targeted research that informs development and marketing strategies.
+              <span class="font-bold">Expert Team</span>: With an extensive knowledge base, our team ensures that you achieve satisfaction through comprehensive engagements.
             </span>
           </li>
 
@@ -85,7 +118,7 @@
             </span>
 
             <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-              <span class="font-bold">Drive impactful decision-making</span> across various domains with our actionable insights.
+              <span class="font-bold">Customer-Centric Focus</span>: By understanding your unique needs and challenges, we tailor our solutions to meet your specific goals, ensuring a personalized and effective partnership.
             </span>
           </li>
         </ul>
@@ -107,7 +140,7 @@
     </Motion>
    {/if}
   </div>
-</Card.Root>
+</div>
 <!-- Clients -->
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <!-- Title -->

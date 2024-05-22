@@ -54,7 +54,7 @@
               </span>
 
               <span class="text-sm sm:text-base text-gray-800 dark:text-neutral-200">
-                <span class="font-bold text-gray-800 dark:text-white">Conduct comprehensive market research</span> to inform product development and marketing strategies.
+                <span class="font-bold text-gray-800 dark:text-white">Conduct comprehensive market research</span> to improve product development and marketing strategies.
               </span>
             </li>
           </ul>
