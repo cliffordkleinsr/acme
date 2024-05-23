@@ -5,9 +5,9 @@
 
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-24 mx-auto place-content-evenly">
   <div class="grid md:grid-cols-3 gap-4 mb-10">
-      <Card.Root class="col-span-2 dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
+      <Card.Root class="col-span-2 dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000 bg-primary">
         <Card.Header>
-          <Card.Title class="font-bold lg:text-4xl text-3xl text-primary dark:text-white">About us</Card.Title>
+          <Card.Title class="font-bold lg:text-4xl text-3xl text-white dark:text-white">About us</Card.Title>
           <Card.Description></Card.Description>
         </Card.Header>
         <Card.Content class="text-gray-800 dark:text-neutral-200 space-y-3 text-sm sm:text-base">
