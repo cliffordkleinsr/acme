@@ -7,7 +7,7 @@
 </script>
 
 
-<section class="grid lg:grid-cols-2 py-10 sm:px-6 lg:px-8 lg:py-14 ml-48 gap-16 ">
+<section class="grid lg:grid-cols-2 py-10 sm:px-6 lg:px-8 lg:py-14 lg:ml-36 gap-16 ">
     <div class="py-8 px-4 mx-auto sm:py-8 lg:px-6">
         <div class="max-w-screen-md mb-8 lg:mb-16 gap-2">
             <h2 class="mb-4 text-4xl tracking-tight font-bold text-primary dark:text-white">{data.service.title}</h2>
@@ -22,6 +22,5 @@
             {/each}
         </div>
     </div>
-    
-    <img class="my-24 rounded-xl lg:max-w-[32rem]" src={data.service.img} alt="s">
+    <img class="lg:my-24 rounded-xl lg:max-w-[30rem]" src={data.service.img} alt="s">
 </section>

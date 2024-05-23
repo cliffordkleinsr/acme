@@ -15,7 +15,7 @@
         <div class="mt-5 max-w-3xl space-y-1">
           <span class="text-primary"></span>
           <h1 class="block font-semibold text-primary text-3xl md:text-4xl lg:text-5xl dark:text-neutral-200 drop-shadow-xl">
-            Shape of tomorrow 
+            Intuitive Insights 
           </h1>
           
           <h1 class="block font-semibold text-neutral-50 text-xl md:text-2xl lg:text-3xl dark:text-neutral-200 drop-shadow-xl">
@@ -43,16 +43,16 @@
 <!-- End Hero -->
 <!-- Features -->
 <div class="max-w-[80rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto lg:mt-10">
-  <div class="grid md:grid-cols-2 md:gap-52 gap-12 md:items-center">
+  <div class="grid md:grid-cols-2 md:gap-28 gap-12 md:items-center">
     <div class="mt-5 sm:mt-10 lg:mt-0">
       <div class="space-y-5 md:space-y-7">
         <h2 class="font-bold text-3xl lg:text-4xl text-primary">
-          Welcome to Shape of tomorrow
+          Welcome to Intuitive Insights
         </h2>
         <p class="text-gray-500 dark:text-neutral-500">
-          Shape of tomorrow offers comprehensive analysis by refining corporate reputation, brand visibility, and customer journey with our extensive techniques.
+          Intuitive Insights offers comprehensive analysis by refining corporate reputation, brand visibility, and customer journey with our extensive techniques.
         </p>
-        <h1 class="text-xl font-bold text-gray-500">Why choose Shape of tomorrow ?</h1>
+        <h1 class="text-xl font-bold text-gray-500">Why choose Intuitive Insights ?</h1>
         <!-- List -->
         <ul class="space-y-4 sm:space-y-4">
           <li class="flex space-x-3">
@@ -88,7 +88,7 @@
         <!-- End List -->
       </div>
     </div>
-    <img class="w-[27rem] rounded-lg" src="https://images.unsplash.com/photo-1590098563176-07884b06d7f7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="as" >
+    <img class="w-[25rem] rounded-lg" src="https://images.unsplash.com/photo-1590098563176-07884b06d7f7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="as" >
   </div>
 </div>
 <!-- Clients -->

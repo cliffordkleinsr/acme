@@ -3,7 +3,7 @@
         "id": 1,
         "serviceName": "corp_rep",
         "title" : "Corporate reputation",
-        "sub": "At Shape of tomorrow, we understand the critical importance of corporate reputation in today's business landscape. Your reputation is more than just a reflection of your company's actions. It's a valuable asset that can influence stakeholder trust, investor confidence, and consumer loyalty.",
+        "sub": "At Intuitive insights, we understand the critical importance of corporate reputation in today's business landscape. Your reputation is more than just a reflection of your company's actions. It's a valuable asset that can influence stakeholder trust, investor confidence, and consumer loyalty.",
         "services": [
             {"id": 1, "Name": "Corporate social responsibility", "content": "We provide you with insights that help you in designing and implementing CSR initiatives that demonstrate the company’s commitment to ethical practices, sustainability, and community engagement, thereby enhancing its reputation."},
             {"id": 2, "Name": "Stakeholder engagement", "content": "We help you gather feedback from your stakeholders and this helps you to understand the best way to build and maintain relationships with key stakeholders such as customers, employees, investors, regulators, and the community to foster trust and loyalty."},
@@ -18,7 +18,7 @@
         "id": 2,
         "serviceName": "brand_image",
         "title" : "Brand image",
-        "sub": "Brand image at Shape of tomorrow encompasses the perceptions, associations, and emotional connections that clients have with a brand. It includes not just brand recognition but also the whole perception that customers have of the brand.",
+        "sub": "Brand image at Intuitive insights encompasses the perceptions, associations, and emotional connections that clients have with a brand. It includes not just brand recognition but also the whole perception that customers have of the brand.",
         "services": [
             {"id": 1, "Name": "Brand loyalty", "content": "We help you determine the level of loyalty and advocacy among stakeholders towards the brand, as well as factors influencing recommendation and referral behavior."},
             {"id": 2, "Name": "Brand personality", "content": "We evaluate clients' perceptions of our brand's personality traits, such as being friendly, professional, innovative or traditional."},
@@ -32,7 +32,7 @@
         "id": 3,
         "serviceName": "customer_experience",
         "title" : "Customer experience",
-        "sub": "Under Shape of tomorrow, customer experience encompasses the entirety of interactions and engagements that clients have with a business across all touchpoints and stages of their journey.",
+        "sub": "Under Intuitive insights, customer experience encompasses the entirety of interactions and engagements that clients have with a business across all touchpoints and stages of their journey.",
         "services": [
             {"id": 1, "Name": "Customer journey mapping", "content": "We provide assistance in analyzing and visualizing the end-to-end experience of customers as they interact with a brand, identifying pain points, and opportunities for improvement."},
             {"id": 2, "Name": "Customer satisfaction", "content": "Our team of experts help in collecting feedback from customers to measure their satisfaction levels with products, services, and overall brand experience and this helps the client in making better decisions."},
@@ -47,7 +47,7 @@
         "id": 4,
         "serviceName": "product_assessment",
         "title" : "Product assessment",
-        "sub" : "Shape of tomorrow product assessment offers a comprehensive service designed to evaluate the market viability, user experience, and overall performance of products through targeted polling and data analysis.",
+        "sub" : "Intuitive insights product assessment offers a comprehensive service designed to evaluate the market viability, user experience, and overall performance of products through targeted polling and data analysis.",
         "services": [
             {"id": 1, "Name": "Product testing", "content": "Our priority is to help you in conducting thorough testing of products to evaluate their performance, reliability, safety, and compliance with regulations and standards."},
             {"id": 2, "Name": "Quality assurance and quality control", "content": "We have favorable Implementing processes to ensure that products meet predefined quality standards throughout the manufacturing or development process."},
@@ -62,7 +62,7 @@
         "id": 4,
         "serviceName": "market_reaserch",
         "title" : "Market research",
-        "sub" : "Shape of tomorrow market research provides a robust service aimed at uncovering key market trends, consumer behaviors, and competitive landscapes through comprehensive data collection and analysis. ",
+        "sub" : "Intuitive insights market research provides a robust service aimed at uncovering key market trends, consumer behaviors, and competitive landscapes through comprehensive data collection and analysis. ",
         "services": [
             {"id": 1, "Name": "Market segmentation", "content": "Our experts help in identifying and categorizing the market into distinct groups based on characteristics such as demographics, behavior, needs, or preferences."},
             {"id": 2, "Name": "Consumer behavior analysis", "content": "We assist you in studying the behavior, attitudes, motivations, and decision-making processes of consumers to predict future trends and preferences."},

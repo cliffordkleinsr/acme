@@ -12,7 +12,7 @@
         </Card.Header>
         <Card.Content class="text-gray-800 dark:text-neutral-200 space-y-3 text-sm sm:text-base">
           <p>
-            Shape of tomorrow is the premier platform for comprehensive solutions. We focus in offering solutions tailored to the unique needs of businesses across various sectors. 
+            Intuitive Insight is the premier platform for comprehensive solutions. We focus in offering solutions tailored to the unique needs of businesses across various sectors. 
             </p>
           <p>
             Firms are able to make well-informed decisions that propel growth and success by concentrating on improving key facets within their organizations.
@@ -69,7 +69,7 @@
           </p>
           <p> We assist our clients better understand consumer behavior, market trends, and competitive environments by utilizing data, which ultimately positions them for long-term success in the fast-paced marketplace of today.</p>
           <p>
-            Regardless of the size of your company, big or small, Shape of tomorrow is your strategic partner for utilizing the game-changing power of surveys to spur innovation, create new possibilities, and meet your goals. 
+            Regardless of the size of your company, big or small, Intuitive Insight is your strategic partner for utilizing the game-changing power of surveys to spur innovation, create new possibilities, and meet your goals. 
           </p>
         </Card.Content>
       </Card.Root>
