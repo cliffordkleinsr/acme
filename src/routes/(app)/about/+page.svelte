@@ -7,12 +7,12 @@
   <div class="grid md:grid-cols-3 gap-4 mb-10">
       <Card.Root class="col-span-2 dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
         <Card.Header>
-          <Card.Title class="font-bold lg:text-4xl text-3xl text-gray-800 dark:text-white">About us</Card.Title>
-          <Card.Description>Who we are</Card.Description>
+          <Card.Title class="font-bold lg:text-4xl text-3xl text-primary dark:text-white">About us</Card.Title>
+          <Card.Description></Card.Description>
         </Card.Header>
         <Card.Content class="text-gray-800 dark:text-neutral-200 space-y-3 text-sm sm:text-base">
           <p>
-             Acme is the premier platform for comprehensive solutions. We focus in offering solutions tailored to the unique needs of businesses across various sectors. 
+            Shape of tomorrow is the premier platform for comprehensive solutions. We focus in offering solutions tailored to the unique needs of businesses across various sectors. 
             </p>
           <p>
             Firms are able to make well-informed decisions that propel growth and success by concentrating on improving key facets within their organizations.
@@ -21,12 +21,12 @@
       </Card.Root>
       <!-- end -->
       <Card.Root class="col-span-2 lg:col-span-1">
-        <img class="rounded-lg" src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80" alt="">
+        <img class="rounded-lg" src="https://images.unsplash.com/photo-1664575603992-0f17b771dd91?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MnxnWU16VDN6TFBTNHx8ZW58MHx8fHx8" alt="">
       </Card.Root>
       <!-- End -->
       <Card.Root class="col-span-2 lg:col-span-1 dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
         <Card.Header>
-          <Card.Description class="text-gray-800 dark:text-neutral-200 text-md ">From hospitality and healthcare to retail, FMCG, and financial services, we empower organizations to:</Card.Description>
+          <Card.Description class="text-gray-800 dark:text-neutral-200 text-md ">From hospitality and healthcare to retail, and financial services, we empower organizations to:</Card.Description>
         </Card.Header>
         <Card.Content class="text-gray-500 dark:text-neutral-400">
           <!-- List -->
@@ -63,16 +63,16 @@
       <Card.Root class="col-span-2  dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
         <Card.Header>
         </Card.Header>
-        <Card.Content class="text-gray-800 dark:text-neutral-200 text-md  space-y-6 text-sm sm:text-base">
+        <Card.Content class="text-gray-800 dark:text-neutral-200 text-md space-y-10 text-sm sm:text-base">
           <p>
-            Our team of professionals is committed to offering organizations practical insights so they may confidently handle the complexities of their particular sectors. We assist our clients better understand consumer behavior, market trends, and competitive environments by utilizing data, which ultimately positions them for long-term success in the fast-paced marketplace of today.
+            Our team of professionals is committed to offering organizations practical insights so they may confidently handle the complexities of their particular sectors.
           </p>
+          <p> We assist our clients better understand consumer behavior, market trends, and competitive environments by utilizing data, which ultimately positions them for long-term success in the fast-paced marketplace of today.</p>
           <p>
-            Regardless of the size of your company, big or small, Acme is your strategic partner for utilizing the game-changing power of surveys to spur innovation, create new possibilities, and meet your goals. Come along on an empowering and self-discovery adventure with us as we collaborate to create a better future for your company.  
+            Regardless of the size of your company, big or small, Shape of tomorrow is your strategic partner for utilizing the game-changing power of surveys to spur innovation, create new possibilities, and meet your goals. 
           </p>
-          
         </Card.Content>
       </Card.Root>
   </div>
-  <Team />
+  <!-- <Team /> -->
 </div>

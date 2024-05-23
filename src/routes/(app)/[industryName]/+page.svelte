@@ -9,7 +9,7 @@
 <div class="max-w-[86rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-24 mx-auto place-content-evenly">
     <div class="lg:flex gap-32">
       <div class="flex flex-col gap-2 lg:max-w-5xl space-y-5">
-          <h2 class="text-2xl font-bold md:text-4xl text-gray-800 dark:text-white mb-1">{data.industry.title}</h2>
+          <h2 class="text-2xl font-bold md:text-4xl text-primary dark:text-white mb-1">{data.industry.title}</h2>
           <p class="text-md text-gray-800 dark:text-neutral-200"><span class="font-bold">The challenge:</span> {data.industry.challenge}</p>
           <p class="text-md text-gray-800 dark:text-neutral-200 lg:max-w-5xl"><span class="font-bold">The solution:</span> {data.industry.solution}</p>
           {#each data.industry.checks as check}

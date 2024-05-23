@@ -1,24 +1,7 @@
 <script lang="ts">
-	import { browser } from "$app/environment"
   import { Button } from "$lib/components/ui/button"
 	import { Separator } from "$lib/components/ui/separator"
-	import { onMount } from "svelte"
-	import { Motion } from "svelte-motion"
-  import * as Card from "$lib/components/ui/card"
-	import Slider from "$lib/components/blocks/slider.svelte"
-  import Typewriter from 'svelte-typewriter'
-  let active = true
-  onMount(() =>{
-    const windowSize = window.innerWidth
-    if (windowSize < 500) {
-      active = false
-    }
-  })
- const descriptions = [
-  "drive engagements",
-  "provide an agile solution",
-  "reach targeted demographics"
- ]
+
 </script>
 <!-- Hero -->
 <div class="relative lg:h-[785px] h-[600px] overflow-hidden before:absolute bg-[rgba(0,0,0,0.45)] before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
@@ -32,11 +15,11 @@
         <div class="mt-5 max-w-3xl space-y-1">
           <span class="text-primary"></span>
           <h1 class="block font-semibold text-primary text-3xl md:text-4xl lg:text-5xl dark:text-neutral-200 drop-shadow-xl">
-            The shape of tomorrow 
+            Shape of tomorrow 
           </h1>
           
-          <h1 class="block font-semibold text-neutral-50 text-3xl md:text-4xl lg:text-5xl dark:text-neutral-200 drop-shadow-xl">
-            Ask anything <span class=" font-extralight">|</span> Learn everything
+          <h1 class="block font-semibold text-neutral-50 text-xl md:text-2xl lg:text-3xl dark:text-neutral-200 drop-shadow-xl">
+            Corporate reputation <span class=" font-extralight">|</span> Customer experience
           </h1>
         </div>
         <!-- End Title -->
@@ -45,51 +28,31 @@
             <div class="flex mt-5 max-w-2xl gap-2">
               <p class="text-5xl text-white font-extralight"> | </p>
               <p class="text-md text-neutral-50 dark:text-neutral-400 drop-shadow-md" >
-                <span class="text-primary font-bold text-lg">Acme</span> is a pivotal platform that delivers groundbreaking discoveries that improves corporate and brand reputation, elevating client visibility and giving customers the best experience.
+                We provide strategies and insights to enhance corporate reputation and brand image, elevate brand visibility and give customers the best experience.
               </p>
-            </div>
-            <div class="flex mt-5 max-w-2xl">
-              <p class="text-md text-neutral-50 dark:text-neutral-400 drop-shadow-md ml-5">
-                We also give the option to express how you feel about a particular impression from a service or a product while <span class="font-bold text-primary">earning</span> along the way
-              </p>
-              <p class="text-5xl text-white font-extralight mr-12"> | </p> 
             </div>
           </div>
-        <div class="flex justify-start gap-5 pt-10">
-          <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700 rounded-xl" href='/client/signin' size="lg">Ask Anything</Button>
-          <Button class="hover:bg-primary hover:text-white transition ease-in-out duration-700 rounded-xl" variant='secondary' href='/respondent/signin' size="lg">Start Earning </Button>
+        <div class="flex lg:justify-start justify-center gap-5 pt-10">
+          <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700 rounded-xl" href='/about' size="lg">Gather Insights</Button>
+          <Button class="hover:bg-primary hover:text-white transition ease-in-out duration-700 rounded-xl" variant='secondary' href='/client/signin' size="lg">Client Login </Button>
         </div>
       </div>
     </div>
   </div>
 </div>
 <!-- End Hero -->
-<Slider/>
-
-<div class="mt-1 overflow-hidden mb-1 text-center text-xl">
-  <h1> Acme allows you to</h1>
-  <Typewriter
-  mode="loop"
-  element="h1"
-  >
-  {#each descriptions as desc}
-    <h1 class=" underline underline-offset-2">{desc}</h1>
-  {/each}
-  </Typewriter>
-</div>
-<Separator class="mt-11"/>
 <!-- Features -->
 <div class="max-w-[80rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto lg:mt-10">
   <div class="grid md:grid-cols-2 md:gap-52 gap-12 md:items-center">
     <div class="mt-5 sm:mt-10 lg:mt-0">
       <div class="space-y-5 md:space-y-7">
         <h2 class="font-bold text-3xl lg:text-4xl text-primary">
-          Welcome to Acme
+          Welcome to Shape of tomorrow
         </h2>
         <p class="text-gray-500 dark:text-neutral-500">
-          Acme offers comprehensive analysis by refining corporate reputation, brand visibility, and customer journey with our extensive techniques.
+          Shape of tomorrow offers comprehensive analysis by refining corporate reputation, brand visibility, and customer journey with our extensive techniques.
         </p>
-        <h1 class="text-xl font-bold text-gray-500">Why Choose Acme</h1>
+        <h1 class="text-xl font-bold text-gray-500">Why choose Shape of tomorrow ?</h1>
         <!-- List -->
         <ul class="space-y-4 sm:space-y-4">
           <li class="flex space-x-3">
@@ -98,7 +61,7 @@
             </span>
 
             <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-              <span class="font-bold">Commitment to Excellence</span>: We adhere to the highest standards in all our processes and deliverables, ensuring that you receive the best possible outcomes. 
+              <span class="font-bold">Commitment to Excellence</span>: Quality is our top priority. We adhere to the highest standards in all our processes and deliverables, ensuring that you receive the best possible outcomes elevating your brand image. Our commitment to excellence drives us to continuously improve and excel in all aspects of our work. 
             </span>
           </li>
 
@@ -108,7 +71,7 @@
             </span>
 
             <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-              <span class="font-bold">Expert Team</span>: With an extensive knowledge base, our team ensures that you achieve satisfaction through comprehensive engagements.
+              <span class="font-bold">Expert Team</span>: Our team comprises industry experts with extensive experience and diverse skill sets. They help your organization maintain its corporate reputation and brand image. Their dedication, knowledge, and expertise which are the backbone of your success, ensures that you receive the highest level of service and insights.
             </span>
           </li>
 
@@ -118,27 +81,14 @@
             </span>
 
             <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-              <span class="font-bold">Customer-Centric Focus</span>: By understanding your unique needs and challenges, we tailor our solutions to meet your specific goals, ensuring a personalized and effective partnership.
+              <span class="font-bold">Customer-Centric Focus</span>: We place your clients at the heart of everything we do. By understanding their unique needs and challenges, we tailor our solutions to meet your specific goals, ensuring a personalized and effective partnership for the best customer experience.
             </span>
           </li>
         </ul>
         <!-- End List -->
       </div>
     </div>
-    {#if !active}
-      <img class="w-[24rem] rounded-lg" src="https://pollbase.tech/assets/img/port.jpg" alt="as" >
-    {:else}
-    <Motion
-      animate = {{
-        translateY:[null, 5, 0]
-      }}
-      transition={{ duration: 1.5, repeat:Infinity, ease:"easeInOut" }}
-      let:motion>
-      <div class="" use:motion>
-        <img class="w-[24rem] rounded-lg" src="https://pollbase.tech/assets/img/port.jpg" alt="as" >
-      </div>
-    </Motion>
-   {/if}
+    <img class="w-[27rem] rounded-lg" src="https://images.unsplash.com/photo-1590098563176-07884b06d7f7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="as" >
   </div>
 </div>
 <!-- Clients -->

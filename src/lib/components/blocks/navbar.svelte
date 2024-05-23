@@ -14,7 +14,7 @@
 	import Separator from "../ui/separator/separator.svelte";
 </script>
 
-<header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/95 px-4 md:px-6 backdrop-blur z-50 supports-[backdrop-filter]:bg-background/60">
+<header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/95 px-4 md:px-6 backdrop-blur z-50 supports-[backdrop-filter]:bg-background/60 bg-primary">
     <a href="/" class="hidden lg:block">
         <Package2 class="h-6 w-6"/>
     </a>
@@ -33,7 +33,7 @@
               <DropdownMenu.Group>
                 <DropdownMenu.Item href="/hospitality">Hospitality</DropdownMenu.Item>
                 <DropdownMenu.Item href="/healthcare">Healthcare</DropdownMenu.Item>
-                <DropdownMenu.Item href="/retail_fmcg">Retail FMCG</DropdownMenu.Item>
+                <DropdownMenu.Item href="/retail_fmcg">Retail</DropdownMenu.Item>
                 <DropdownMenu.Item href="/financial_services">Financial services</DropdownMenu.Item>
               </DropdownMenu.Group>
             </DropdownMenu.Content>
@@ -80,7 +80,7 @@
                         </a>
                         <Separator />
                         <a href="/retail_fmcg" class="text-muted-foreground transition-colors hover:text-primary">
-                            Retail FMCG
+                            Retail
                         </a>
                         <Separator />
                         <a href="/financial_services" class="text-muted-foreground transition-colors hover:text-primary">
@@ -115,10 +115,14 @@
                 <a href="/pricing" class="text-muted-foreground transition-colors hover:text-primary">
                     Pricing
                 </a>
+                <a href="/res" class="text-muted-foreground transition-colors hover:text-primary">
+                    Earn
+                </a>
             </nav>
         </Sheet.Content>
     </Sheet.Root>
-    <div class="flex flex-auto justify-end">
+    <div class="flex flex-auto justify-end gap-2">
+       <Button size="sm" variant="ghost" class="lg:flex text-md py-5 text-muted-foreground hidden" href="/respondent/signin">Earn</Button>
         <Button on:click={toggleMode} variant="ghost" size="icon">
             <Sun
                 class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
