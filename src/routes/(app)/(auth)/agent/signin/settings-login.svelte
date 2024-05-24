@@ -46,12 +46,12 @@
         <Breadcrumb.Separator>
         </Breadcrumb.Separator>
         <Breadcrumb.Item>
-        <Breadcrumb.Link href="/respondent/register">Respondent Registration</Breadcrumb.Link>
+        <Breadcrumb.Link href="/agent/register">Agent Registration</Breadcrumb.Link>
         </Breadcrumb.Item>
         <Breadcrumb.Separator>
         </Breadcrumb.Separator>
         <Breadcrumb.Item>
-        <Breadcrumb.Page>Respondent SignIn</Breadcrumb.Page>
+        <Breadcrumb.Page>Agent SignIn</Breadcrumb.Page>
         </Breadcrumb.Item>
     </Breadcrumb.List>
     </Breadcrumb.Root>

@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
-import type { Actions} from './$types';
 import { lucia } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
+import type { Actions } from './$types';
 
 export const actions: Actions = {
     default: async ({locals, cookies}) => {
@@ -14,6 +14,6 @@ export const actions: Actions = {
 			path: ".",
 			...sessionCookie.attributes
 		});
-		redirect(302, "/respondent/signin", {type: "success", message:"Logged Out"}, cookies)
+		redirect(302, "/agent/signin", {type: "success", message:"Logged Out"}, cookies)
     }
 }

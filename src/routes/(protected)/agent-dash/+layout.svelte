@@ -61,7 +61,7 @@
   <div class="flex-1">
     <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
       <a
-        href="/respondent-dash"
+        href="/agent-dash"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/client-dash"?'text-primary bg-muted':''} transition-all hover:text-primary"
       >
         <Home class="h-4 w-4" />
@@ -75,7 +75,7 @@
         <Collapsible.Content class="flex flex-col gap-3 ml-10">
           <Separator />
           <a
-            href="/respondent-dash/surveys/take"
+            href="/agent-dash/surveys/take" 
             class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
           >
           <SquarePen  class="size-4"/>
@@ -140,7 +140,7 @@
           <span class="sr-only">Welcome {data.AuthedUser}</span>
         </a>
         <a
-          href="/respondent-dash"
+          href="/agent-dash"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <Home class="h-5 w-5" />
@@ -154,7 +154,7 @@
           <Collapsible.Content class="flex flex-col gap-3 ml-10">
             <Separator />
             <a
-              href="/respondent-dash/surveys/take"
+              href="/agent-dash/surveys/take"
               class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
             <SquarePen class="size-5"/>
@@ -162,7 +162,7 @@
             </a>
             <Separator />
             <a
-              href="/respondent-dash/surveys/history"
+              href="/agent-dash/surveys/history"
               class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
             <FileClock  class="size-5"/>
@@ -238,7 +238,7 @@
       <DropdownMenu.Item class="gap-3.5"><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5"><Tag class="size-4"/>Support</DropdownMenu.Item>
       <DropdownMenu.Separator />
-      <form action="/respondent/signout" method="post" use:enhance>
+      <form action="/agent/signout" method="post" use:enhance>
         <Form.Button variant="link" size="sm" class="">Logout <SquareArrowRight class=" ml-1 w-4 h-4"/></Form.Button>
      </form>
     </DropdownMenu.Content>

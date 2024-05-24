@@ -1,4 +1,3 @@
-import type { Actions, PageServerLoad } from "./$types"
 import { signinRSchema } from "./schema"
 import { zod } from "sveltekit-superforms/adapters"
 import { message, setError, superValidate } from "sveltekit-superforms";
@@ -10,13 +9,15 @@ import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
 import { redirect } from "sveltekit-flash-message/server";
 import { handleLoginRedirect } from "$lib/helperFunctions/helpers";
+import type { Actions, PageServerLoad } from "./$types";
+
 
 export const load: PageServerLoad = async ({locals: { user}, url}) => {
     if (user) 
     {
         if (user.role === "RESP") {
             // redirect('/respondent-dash',  {type: "error", message:"User Already Logged In"}, cookies)
-            redirect(302, handleLoginRedirect('/respondent-dash', url, "User Already Logged In"))
+            redirect(302, handleLoginRedirect('/agent-dash', url, "User Already Logged In"))
         }
     }
     
@@ -73,6 +74,6 @@ export const actions: Actions = {
         if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
         }
-        redirect(302, '/respondent-dash', {type: "success", message:"Logged In Successfully"}, cookies)
+        redirect(302, '/agent-dash', {type: "success", message:"Logged In Successfully"}, cookies)
     }
 }

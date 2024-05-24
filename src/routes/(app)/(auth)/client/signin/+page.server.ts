@@ -9,7 +9,6 @@ import { Argon2id } from "oslo/password"
 import { lucia } from "$lib/server/auth"
 import { redirect } from "sveltekit-flash-message/server"
 import { handleLoginRedirect } from "$lib/helperFunctions/helpers"
-import { deleteClientUsers } from "$lib/server/db_utils"
 
 
 export const load: PageServerLoad = async ({locals: { user}, url}) => {
@@ -25,7 +24,7 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
 }
 
 export const actions: Actions = {
-    login: async({ request, cookies, url}) =>{
+    default: async({ request, cookies, url}) =>{
         const form = await superValidate(request, zod(signinCSchema))
         // validate
         if (!form.valid) {

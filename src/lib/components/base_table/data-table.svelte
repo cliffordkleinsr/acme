@@ -128,10 +128,10 @@
   const hidableCols = ["created", "status"]
 </script>
 
-<div class="m-5">
-    <div class="flex items-center py-5 mx-auto">
+<div class="lg:w-[98%] m-5 mx-auto">
+    <div class="flex items-center py-4">
         <Input
-          class="lg:max-w-sm max-w-xs"
+          class="max-w-sm"
           placeholder="Filter Surveys..."
           type="text"
           bind:value={$filterValue}
@@ -139,7 +139,7 @@
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild let:builder>
               <Button variant="outline" class="ml-auto" builders={[builder]}>
-                Columns <ChevronDown class="ml-2 size-4" />
+                Columns <ChevronDown class="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>

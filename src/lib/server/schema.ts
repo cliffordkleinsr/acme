@@ -1,4 +1,4 @@
-import { pgEnum, pgTable, varchar, timestamp, uuid, text, serial, boolean  } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, varchar, timestamp, uuid, text, serial, boolean, integer  } from "drizzle-orm/pg-core";
 
 
 
@@ -81,6 +81,7 @@ export const SurveyTable = pgTable('surveys', {
     surveyTitle: text('survey_title').notNull(),
     surveyDescription: text('survey_desc').notNull(),
     status: Status("status").default("Draft").notNull(),
+    target: integer("target"),
     from: timestamp('from', {
         mode:"date"
     }),

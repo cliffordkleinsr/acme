@@ -7,7 +7,7 @@
     import { page } from "$app/stores"
 
     export let data: PageData;
-    const { qns } = data
+    const { qns_1 } = data
 
 </script>
 
@@ -22,7 +22,7 @@
         </Card.Description>
     </Card.Header>
     <Card.Content class="mt-14 text-center">
-        <Button variant="outline" class="rounded-xl" size="lg">Start the survey</Button>
+        <Button variant="outline" class="rounded-xl" size="lg"  href="/agent-dash/surveys/take/{$page.params.surveyId}/{qns_1.id}">Start the survey</Button>
     </Card.Content>
     <Card.Footer class="mt-7">
         <div class="flex flex-col gap-2 text-center">

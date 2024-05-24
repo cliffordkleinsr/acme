@@ -20,7 +20,7 @@
 	});
 </script>
 
-<svg viewBox="-50 -50 100 100" class="size-64">
+<svg viewBox="-50 -50 100 100" class="lg:size-64 size-20">
 	<circle class="fill-white stroke-[#333] stroke-[1]" r="48" />
 
 	<!-- markers -->
@@ -40,7 +40,7 @@
 
 	<!-- second hand -->
 	<g transform="rotate({6 * seconds})">
-		<line class="stroke-1 stroke-[rgb(180,0,0)] " y1="10" y2="-38" />
-		<line class="stroke-[rgb(180,0,0)] stroke-[3]" y1="10" y2="2" />
+		<line class="stroke-1 stroke-primary " y1="10" y2="-38" />
+		<line class="stroke-primary stroke-[3]" y1="10" y2="2" />
 	</g>
 </svg>

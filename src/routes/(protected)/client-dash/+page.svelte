@@ -47,14 +47,10 @@
         </Breadcrumb.Root>
     </div>
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
-        <Card.Root
-            class="sm:col-span-1"
-            data-x-chunk-name="dashboard-05-chunk-0"
-            data-x-chunk-description="A card for an orders dashboard with a description and a button to create a new order."
-        >
-            <Card.Header class="pb-3">
+        <Card.Root>
+            <Card.Header>
                 <Card.Title><CandlestickChart class="size-6 text-primary"/></Card.Title>
-                <Card.Description class="max-w-lg text-balance leading-relaxed">
+                <Card.Description class="text-balance leading-relaxed">
                     Create beautiful and engaging surveys to impress your audience:
                 </Card.Description>
             </Card.Header>
@@ -97,8 +93,8 @@
     </div>
 </div>
 
-<Tabs.Root value="draft" class="lg:w-full mx-auto">
-    <Tabs.List class="grid w-96 lg:w-[35rem] grid-cols-3 mx-5">
+<Tabs.Root value="draft" class="lg:w-full w-96 mx-auto">
+    <Tabs.List class="grid w-80 lg:w-[35rem] grid-cols-3 mx-5">
       <Tabs.Trigger value="draft">Draft</Tabs.Trigger>
       <Tabs.Trigger value="running">Running</Tabs.Trigger>
       <Tabs.Trigger value="completed">Completed</Tabs.Trigger>

@@ -184,7 +184,7 @@
           <span class="sr-only">Welcome {data.AuthedUser}</span>
         </a>
         <a
-          href="##"
+          href="/client-dash"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <Home class="h-5 w-5" />

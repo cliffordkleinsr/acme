@@ -127,7 +127,7 @@
   const hidableCols = ["created"]
 </script>
 
-<div class="m-5">
+<div class="lg:w-[98%] w-96 m-5 mx-auto">
     <div class="flex items-center py-4">
         <Input
           class="max-w-sm"
