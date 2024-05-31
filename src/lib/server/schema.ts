@@ -1,5 +1,6 @@
-import { pgEnum, pgTable, varchar, timestamp, uuid, text, serial, boolean, integer  } from "drizzle-orm/pg-core";
-
+import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer  } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { z } from 'zod';
 
 
 // refs
@@ -88,6 +89,7 @@ export const SurveyTable = pgTable('surveys', {
     to: timestamp('to', {
         mode:"date"
     }),
+    // answeredby: text("answerd_by"),
     createdAt: timestamp('created_at', {
         withTimezone: true,
         mode: "date" 
@@ -104,16 +106,31 @@ export const SurveyQnsTable = pgTable('survey_questions', {
     surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
     questionT: QuestionType("question_type").default("Single").notNull(),
     question: text("question"),
-    answer: text("answer"),
+    // answer: text("answer"),
     option1: text("option1"),
     option2: text("option2"),
     option3: text("option3"),
-    respondentId: text("respondent_id").references(() => UsersTable.id)
+    updatedAt: timestamp('updated_at', {
+        withTimezone: true,
+        mode: "date" 
+    }).defaultNow().notNull()
+    // respondentId: text("respondent_id").references(() => UsersTable.id)
 })
 
+export const AnswersTable = pgTable('answers', {
+    questionId: uuid('questionid').references(()=> SurveyQnsTable.questionId),
+    surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
+    answer: text("answer").notNull(),
+    respondentId: text("respondent_id").references(() => UsersTable.id).notNull(),
+    updatedAt: timestamp('updated_at', {
+        withTimezone: true,
+        mode: "date" 
+    }).defaultNow().notNull()
+})
 export type userInsertSchema = typeof UsersTable.$inferInsert
 export type ClientDataInsertSchema = typeof clientData.$inferInsert
 export type RespondentInsertSchema = typeof respondentData.$inferInsert
 export type surveyGenerateSchema = typeof SurveyTable.$inferInsert
 export type surveySelectSchema = typeof SurveyTable.$inferSelect
 export type surveyQnsSchema = typeof SurveyQnsTable.$inferInsert
+export type resData = typeof respondentData.$inferSelect

@@ -1,16 +1,19 @@
 <script lang="ts">
-    import type { PageData } from './$types';
     import * as Card from "$lib/components/ui/card"
 	import Clock from 'lucide-svelte/icons/clock';
 	import { Button } from '$lib/components/ui/button';
-	import Separator from '$lib/components/ui/separator/separator.svelte';
+    import { Label } from "$lib/components/ui/label"
+    import { Input } from "$lib/components/ui/input"
+    import * as Form from "$lib/components/ui/form"
+    import * as RadioGroup from "$lib/components/ui/radio-group"
+    
     import { page } from "$app/stores"
 
-    export let data: PageData;
-    const { qns_1 } = data
-
+    export let data
+    const { questions } = data
+    console.log(questions)
 </script>
-
+<!-- {#if hidden} -->
 <div class="flex flex-col max-w-sm mx-auto mt-6">
     <h1 class="text-sm text-center antialiased"> Share your opinions on things that matter</h1>
     <Card.Root class="mt-5">
@@ -18,11 +21,11 @@
         <Card.Title class="text-neutral-500 text-xl">Total Survey Questions</Card.Title>
         <Card.Title class="text-neutral-500 text-sm">ID: {$page.params.surveyId}</Card.Title>
         <Card.Description>
-            <Button variant="ghost" class="hover:bg-inherit hover:text-neutral-400" size="icon"><Clock class="size-5"/> {data.qns_cnt}'</Button>
+            <Button variant="ghost" class="hover:bg-inherit hover:text-neutral-400" size="icon"><Clock class="size-5"/> {data.question_cnt}'</Button>
         </Card.Description>
     </Card.Header>
     <Card.Content class="mt-14 text-center">
-        <Button variant="outline" class="rounded-xl" size="lg"  href="/agent-dash/surveys/take/{$page.params.surveyId}/{qns_1.id}">Start the survey</Button>
+        <Button variant="outline" class="rounded-xl" size="lg" href='{$page.url.pathname}/{questions[0].id}'>Start the survey</Button>
     </Card.Content>
     <Card.Footer class="mt-7">
         <div class="flex flex-col gap-2 text-center">
@@ -36,3 +39,27 @@
     </Card.Root>
     <p class="text-xs text-center pt-72">By taking this survey you agree to the <a href="##" class=" text-blue-400 hover:underline underline-offset-1">Terms & Conditions</a></p>
 </div>
+<!-- {:else}
+<form action="" method="post" class="flex flex-col gap-5 m-7 lg:max-w-lg max-w-sm">
+    {#each questions as qns ,ix}
+        {#if qns.question_type === "Single"}
+            <Label for="question">{ix}. {qns.question}</Label>
+            <Input type="text" name={qns.id}/>
+        {:else}
+            <Label for="question">{ix}. {qns.question}</Label>
+            <RadioGroup.Root>
+                {#each  qns.options as opt}
+                    {#if opt != null}
+                        <div class="flex items-center space-x-2">
+                            <RadioGroup.Item value={opt.name}/>
+                            <Label for={opt.name}>{opt.name}</Label>
+                        </div>
+                    {/if}
+                {/each}
+                <RadioGroup.Input name={qns.id}/>
+            </RadioGroup.Root>   
+        {/if}   
+    {/each}
+    <Form.Button>Submit</Form.Button>
+</form>
+{/if} -->

@@ -1,6 +1,7 @@
 import {eq, getTableColumns, sql } from "drizzle-orm"
 import { db } from "./db"
 import { 
+    AnswersTable,
     SurveyQnsTable,
     SurveyTable,
     UsersTable, clientData,
@@ -9,13 +10,28 @@ import {
     sessionsTable,
     type ClientDataInsertSchema,
     type RespondentInsertSchema,
+    type resData,
     type surveyGenerateSchema,
     type surveyQnsSchema,
     type surveySelectSchema,
     type userInsertSchema 
 } from "./schema"
+import type { PgColumn, PgTable } from "drizzle-orm/pg-core"
 
+export const getCountAgents = async (variable: PgColumn, userId:string) => {
+    const queryResult = await db
+    .select({
+        variable,
+        agent_cnt: sql<number>`cast(count(distinct(${respondentData.respondentId})) as int)`,
+    })
+    .from(respondentData)
+    .leftJoin(AnswersTable, eq(respondentData.respondentId, AnswersTable.respondentId))
+    .leftJoin(SurveyTable, eq(AnswersTable.surveid, SurveyTable.surveyid))
+    .where(sql`${SurveyTable.clientid} = ${userId}`)
+    .groupBy(variable)
 
+    return queryResult
+}
 
 export const checkIfEmailExists = async (email:string) => {
     const queryResult = await db

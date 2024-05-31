@@ -2,7 +2,8 @@ import { db } from '$lib/server/db';
 import { SurveyTable } from '$lib/server/schema';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
+import { ZodError, z } from "zod"
 
 export const load: PageServerLoad = async ({params}) => {
     const surveys = await db
@@ -23,10 +24,11 @@ export const actions: Actions = {
     goLive: async ({request, params}) => {
         type SurveyTimes = {
             from: string,
-            to: string
+            to: string,
+            target: string
         }
         const data = Object.fromEntries(await request.formData()) as SurveyTimes
-        const { from, to } = data
+        const { from, to, target } = data
         let starting = new Date(from)
         let ending = new Date(to)
       
@@ -37,6 +39,7 @@ export const actions: Actions = {
                 status: "Live",
                 from: starting,
                 to: ending,
+                target: parseInt(target),
                 updatedAt: new Date()
                 
             })
@@ -44,7 +47,19 @@ export const actions: Actions = {
             
         } catch (err) 
         {
-            console.error(err)
+            if (err instanceof ZodError)
+            {
+                // Handle Zod validation errors
+                const { fieldErrors: errors } = err.flatten()
+
+                return fail(400,{
+                    errors
+                })
+            }
+            else 
+            {
+                console.error(err)
+            }
         }
 
         redirect(303, '/client-dash')

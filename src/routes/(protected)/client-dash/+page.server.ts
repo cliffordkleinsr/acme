@@ -1,9 +1,9 @@
 import { db } from '$lib/server/db';
-import { SurveyTable } from '$lib/server/schema';
-import { eq } from 'drizzle-orm';
+import { AnswersTable, SurveyTable } from '$lib/server/schema';
+import { eq, sql } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({locals}) => {
     const allsurveys =  await db
         .select({
             id: SurveyTable.surveyid,
@@ -42,7 +42,17 @@ export const load: PageServerLoad = async () => {
         .from(SurveyTable)
         .where(eq(SurveyTable.status, "Closed"))
 
+    const total_agents = await db
+    .selectDistinctOn([AnswersTable.respondentId],{
+        agent: AnswersTable.respondentId
+    })
+    .from(AnswersTable)
+    .leftJoin(SurveyTable, 
+        eq(AnswersTable.surveid, SurveyTable.surveyid)
+    )
+    .where(sql`${SurveyTable.clientid} = ${locals.session?.userId}`)
     return {
+            count: total_agents.length,
             all_surv: allsurveys,
             draft_surv: draftsurveys,
             live_surv: livesurveys,

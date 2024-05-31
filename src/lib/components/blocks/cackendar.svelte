@@ -15,7 +15,7 @@
 	  import { enhance } from "$app/forms";
     import * as AlertDialog from "$lib/components/ui/alert-dialog"
 	  import Input from "../ui/input/input.svelte";
-    
+    import * as Select from "$lib/components/ui/select"
     let today = new Date()
     let dd = today.getDate()
     let mm = today.getMonth() + 1
@@ -28,7 +28,8 @@
       start: new CalendarDate(yyyy, mm, dd),
       end: new CalendarDate(yyyy, mm, dd).add({ days: 10 })
     }
-   
+    let target:number=10
+    let selected = {label:'Select Target Agents' , value:10}
     let startValue: DateValue | undefined = undefined;
   </script>
   <div class="flex flex-col lg:flex-row gap-3">
@@ -70,6 +71,21 @@
       </Popover.Content>
     </Popover.Root>
   </div>
+  <Select.Root
+  selected={selected}
+  onSelectedChange={(v) => {
+    v && (target = v.value);
+  }}
+>
+    <Select.Trigger class="w-[180px]">
+      <Select.Value placeholder="Select Target Agents" />
+    </Select.Trigger>
+    <Select.Content>
+      <Select.Item value=10>10 Agents</Select.Item>
+      <Select.Item value=20>20 Agents</Select.Item>
+      <Select.Item value=30>30 Agents</Select.Item>
+    </Select.Content>
+  </Select.Root>
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild let:builder>
       <Button builders={[builder]}><Flame class="size-4"/> Go Live</Button>
@@ -87,6 +103,7 @@
         <form action="?/goLive" method="post" use:enhance>
           <Input value={value?.start} name="from" class="hidden"/>
           <Input value={value?.end} name="to" class="hidden"/>
+          <Input value={target} name="target" class="hidden"/>
           <Button type="submit">Proceed</Button>
         </form>
       </AlertDialog.Footer>

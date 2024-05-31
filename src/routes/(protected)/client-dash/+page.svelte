@@ -11,7 +11,7 @@
     import DataTable from "$lib/components/base_table/data-table.svelte"
     import CandlestickChart from "lucide-svelte/icons/candlestick-chart"
     export let data
-    const {all_surv, draft_surv, live_surv, closed_surv } = data
+    const {all_surv, draft_surv, live_surv, closed_surv, count } = data
 
     // custom param message
     let msg: string
@@ -64,11 +64,11 @@
             data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."
         >
             <Card.Header class="pb-2 ">
-                <Card.Description>Total surveys this Week</Card.Description>
+                <Card.Description>Total surveys</Card.Description>
                 <Card.Title class="text-4xl">{all_surv.length}</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+{all_surv.length/100}% all time</div>
+                <div class="text-xs text-muted-foreground">+{all_surv.length}% all time</div>
             </Card.Content>
             <Card.Footer>
                 <Progress value={all_surv.length} aria-label="{all_surv.length}% increase" />
@@ -80,14 +80,14 @@
             data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
         >
             <Card.Header class="pb-2">
-                <Card.Description>This Month</Card.Description>
-                <Card.Title class="text-3xl">20</Card.Title>
+                <Card.Description>Total agents</Card.Description>
+                <Card.Title class="text-3xl">{count}</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+10% from last month</div>
+                <div class="text-xs text-muted-foreground">+{count/100}% from last month</div>
             </Card.Content>
             <Card.Footer>
-                <Progress value={12} aria-label="12% increase" />
+                <Progress value={count} aria-label="{count/100}% increase" />
             </Card.Footer>
         </Card.Root>            
     </div>

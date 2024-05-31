@@ -107,12 +107,12 @@
       <Breadcrumb.Separator>
       </Breadcrumb.Separator>
       <Breadcrumb.Item>
-      <Breadcrumb.Link href="/respondent/signin">Respondent SignIn</Breadcrumb.Link>
+      <Breadcrumb.Link href="/respondent/signin">Agent SignIn</Breadcrumb.Link>
       </Breadcrumb.Item>
       <Breadcrumb.Separator>
       </Breadcrumb.Separator>
       <Breadcrumb.Item>
-      <Breadcrumb.Page>Respondent Registration</Breadcrumb.Page>
+      <Breadcrumb.Page>Agent Registration</Breadcrumb.Page>
       </Breadcrumb.Item>
   </Breadcrumb.List>
   </Breadcrumb.Root>
@@ -123,7 +123,7 @@
   <Card.Root class="mx-auto max-w-md lg:max-w-2xl lg:mx-auto">
     <Card.Header>
       <Card.Title class="text-xl">Sign Up</Card.Title>
-      <Card.Description>Create a Respondent account to start earning</Card.Description>
+      <Card.Description>Create a Agent account to start earning</Card.Description>
     </Card.Header>
     <Card.Content>
       <div class="grid gap-4">

@@ -6,16 +6,57 @@
 	import { fade } from "svelte/transition";
 	import * as Card from "$lib/components/ui/card"
 	import { Progress } from "$lib/components/ui/progress"
-	import * as Breadcrumb from "$lib/components/ui/breadcrumb"
+	import * as Breadcrumb from "$lib/components/ui/breadcrumb" 
+	import { onMount } from "svelte";
 	   // custom param message
 	let msg: string
     let visible = true
-
+    export let data
+    const { history} = data
+    console.log(history)
     setTimeout(() => {
         visible = false
     }, 2000)
-
+    
+    let dat = []
+    let cat = []
+    for (const {taken, count} of history) {
+        let cate = taken.toLocaleTimeString()
+        dat.push(count)
+        cat.push(cate)
+    }
     $: msg= $page.url.searchParams.get("notification") ?? ""
+    let chartEl: HTMLDivElement
+    let options = {
+            chart: {
+                type: 'area',
+            },
+            colors: ['#F97316'],
+            legend: {
+                position: 'top',
+                show: true
+            },
+            series: [{
+                name: 'count of answers',
+                data: dat
+            }],
+            xaxis: {
+                name: 'date',
+                categories: cat
+            },
+            title: {
+                text: "Count of Answers over Time", 
+            }
+  
+        } 
+    onMount(async () => {
+        // let ApexCharts = await import('apexcharts')
+        const module = await import('apexcharts');
+        const ApexCharts = module.default
+        const chart = new ApexCharts(chartEl, options)
+        chart.render()
+    })  
+    
 </script>
 {#if visible && msg}
 <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>
@@ -48,10 +89,10 @@
         >
             <Card.Header class="pb-3">
                 <Card.Title>My Survey History</Card.Title>
-				<Card.Description>lorem</Card.Description>
+				<Card.Description></Card.Description>
             </Card.Header>
             <Card.Footer>
-                <Button variant="default" href="/client-dash/surveys/create">View history</Button>
+                <Button variant="default" href="/agent-dash/surveys/history">View history</Button>
             </Card.Footer>
         </Card.Root>
         <Card.Root
@@ -88,3 +129,4 @@
         </Card.Root>            
     </div>
 </div>
+<div class=" max-w-2xl" bind:this={chartEl}></div>

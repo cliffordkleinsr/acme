@@ -16,3 +16,17 @@ drizzle/migrations/meta/0012_snapshot.json
 drizzle/migrations/meta/0011_snapshot.json
 drizzle/migrations/meta/0010_snapshot.json
 drizzle/migrations/meta/0009_snapshot.json
+drizzle/migrations/0017_typical_gwen_stacy.sql
+drizzle/migrations/0018_fair_james_howlett.sql
+drizzle/migrations/0019_melodic_masked_marvel.sql
+drizzle/migrations/0020_absent_warpath.sql
+drizzle/migrations/0022_panoramic_kingpin.sql
+drizzle/migrations/0021_bent_exodus.sql
+drizzle/migrations/meta/0017_snapshot.json
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0018_snapshot.json
+drizzle/migrations/meta/0019_snapshot.json
+drizzle/migrations/meta/0021_snapshot.json
+drizzle/migrations/meta/0022_snapshot.json
+drizzle/migrations/meta/0020_snapshot.json
+drizzle/migrations/meta/_journal.json

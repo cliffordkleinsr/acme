@@ -2,29 +2,15 @@
     import * as Card from "$lib/components/ui/card"
 	  import { Separator } from '$lib/components/ui/separator'
     import Cackender from "$lib/components/blocks/cackendar.svelte"
-    import { confetti } from '@neoconfetti/svelte'
 	  import Issue from "$lib/components/blocks/issue.svelte"
-    import { tick } from 'svelte'
-    import { Button } from "$lib/components/ui/button/index.js";
     
 	
       
     export let data
     const { survey_data } = data
-    
-    let isVisible = false
-    const celeBration = async () => {
-        isVisible = false
-        await tick()
-        isVisible = true
-    }
+
 </script>
 <!-- If is premium -->
-{#if isVisible}
-  <div class="flex justify-center">
-    <div use:confetti={{particleCount: 200, force: 0.3 }} />
-  </div>
-{/if}
 <div class="flex flex-col m-4 gap-10">
     <h1 class="text-3xl font-semi-bold text-start font-mono ml-2">
         Going live
@@ -48,7 +34,7 @@
             
           </Card.Content>
           <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
-            <p class="lg:mr-24 text-start">Pick a start and end time for your survey</p>
+            <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>
               <Cackender />
           </Card.Footer>
         </Card.Root>

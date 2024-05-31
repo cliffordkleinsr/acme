@@ -62,7 +62,7 @@
         <Card.Root class="mx-auto max-w-sm lg:max-w-sm lg:mx-auto">
             <Card.Header>
                 <Card.Title class="text-xl">Login</Card.Title>
-                <Card.Description>Login To The Respondent DashBoard</Card.Description>
+                <Card.Description>Login To The Agent DashBoard</Card.Description>
             </Card.Header>
             <Card.Content>
                 <div class="grid gap-2">

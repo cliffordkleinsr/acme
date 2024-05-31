@@ -78,6 +78,48 @@
       "when": 1715774346558,
       "tag": "0016_peaceful_stephen_strange",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1716903792511,
+      "tag": "0017_typical_gwen_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1716903897823,
+      "tag": "0018_fair_james_howlett",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1716903978248,
+      "tag": "0019_melodic_masked_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1716980773619,
+      "tag": "0020_absent_warpath",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1717045070585,
+      "tag": "0021_bent_exodus",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1717046701043,
+      "tag": "0022_panoramic_kingpin",
+      "breakpoints": true
     }
   ]
 }

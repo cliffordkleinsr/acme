@@ -83,7 +83,7 @@
           </a>
           <Separator />
           <a
-            href="/client-dash/surveys/questionnaire"
+            href="/agent-dash/surveys/history"
             class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
           >
           <FileClock  class="size-4"/>

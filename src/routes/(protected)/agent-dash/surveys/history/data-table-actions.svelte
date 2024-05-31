@@ -7,7 +7,7 @@
     export let id: string;
 
   </script>
-  <DropdownMenu.Root>
+  <DropdownMenu.Root >
     <DropdownMenu.Trigger asChild let:builder>
       <Button
         variant="ghost"
@@ -19,11 +19,11 @@
         <Ellipsis class="h-4 w-4" />
       </Button>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content class="z-10">
+    <DropdownMenu.Content>
       <DropdownMenu.Group>
         <DropdownMenu.Label>Actions</DropdownMenu.Label>
-        <DropdownMenu.Item href="/agent-dash/surveys/take/{id}">
-          Take Survey
+        <DropdownMenu.Item href="/agent-dash/surveys/history/{id}">
+          See What you Answered
         </DropdownMenu.Item>
       </DropdownMenu.Group>
       <!-- <DropdownMenu.Separator />

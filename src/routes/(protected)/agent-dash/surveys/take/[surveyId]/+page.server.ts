@@ -1,18 +1,22 @@
 import { db } from '$lib/server/db';
-import { SurveyQnsTable } from '$lib/server/schema';
+import { SurveyQnsTable, questionZodSchema } from '$lib/server/schema';
 import { eq } from 'drizzle-orm';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+import { superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { addSurveyQuestions } from '$lib/server/db_utils';
 
 export const load: PageServerLoad = async ({params}) => {
-    const question_el = await db
+    const surveyqns = await db
     .select({
-        id: SurveyQnsTable.questionId,
+        id: SurveyQnsTable.questionId
     })
     .from(SurveyQnsTable)
     .where(eq(SurveyQnsTable.surveid, params.surveyId))
     
+    
     return {
-        qns_cnt : question_el.length,
-        qns_1: question_el[0]
+        questions: surveyqns,
+        question_cnt: surveyqns.length
     }
 }

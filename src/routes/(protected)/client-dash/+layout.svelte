@@ -130,7 +130,7 @@
         Account Credits
       </a>
       <a
-        href="##"
+        href="/client-dash/audience"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
       >
         <Users class="size-4" />
@@ -231,7 +231,7 @@
           Account Credits
         </a>
         <a
-          href="##"
+          href="/client-dash/audience"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <Users class="h-5 w-5" />
