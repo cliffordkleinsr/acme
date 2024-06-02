@@ -33,11 +33,11 @@
         <Breadcrumb.Root>
             <Breadcrumb.List>
               <Breadcrumb.Item>
-                <Breadcrumb.Link href="##">Home</Breadcrumb.Link>
+                <Breadcrumb.Link href="/client-dash/audience">Audience</Breadcrumb.Link>
               </Breadcrumb.Item>
               <Breadcrumb.Separator />
               <Breadcrumb.Item>
-                <Breadcrumb.Link href="##">Analytics</Breadcrumb.Link>
+                <Breadcrumb.Link href="/client-dash/analytics">Analytics</Breadcrumb.Link>
               </Breadcrumb.Item>
               <Breadcrumb.Separator />
               <Breadcrumb.Item>

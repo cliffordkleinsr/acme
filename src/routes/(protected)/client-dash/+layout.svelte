@@ -137,7 +137,7 @@
         Audience
       </a>
       <a
-        href="##"
+        href="/client-dash/analytics"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
       >
         <LineChart class="size-4" />
@@ -238,7 +238,7 @@
           Audience
         </a>
         <a
-          href="##"
+          href="/client-dash/analytics"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <LineChart class="h-5 w-5" />
@@ -267,7 +267,7 @@
         <Search class="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search products..."
+          placeholder="Go to..."
           class="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
         />
       </div>
