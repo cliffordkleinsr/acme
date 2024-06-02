@@ -8,28 +8,30 @@
 	import { Progress } from "$lib/components/ui/progress"
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb" 
 	import { onMount } from "svelte";
+	import Chart from "$lib/components/blocks/chart.svelte";
 	   // custom param message
 	let msg: string
     let visible = true
     export let data
-    const { history} = data
-    console.log(history)
+
+    const { history} = data 
     setTimeout(() => {
         visible = false
     }, 2000)
-    
-    let dat = []
-    let cat = []
-    for (const {taken, count} of history) {
-        let cate = taken.toLocaleTimeString()
-        dat.push(count)
-        cat.push(cate)
+    function formatter(val:Date) {
+        return "Week of\n" + new Date(val).toLocaleDateString();
     }
+
+
+
     $: msg= $page.url.searchParams.get("notification") ?? ""
-    let chartEl: HTMLDivElement
+
+    const taken = history.map(item => formatter(item.week))
+    const count = history.map(item=> item.count)
     let options = {
             chart: {
-                type: 'area',
+                type: 'bar',
+                height: 150,
             },
             colors: ['#F97316'],
             legend: {
@@ -38,24 +40,28 @@
             },
             series: [{
                 name: 'count of answers',
-                data: dat
+                data: count
             }],
             xaxis: {
                 name: 'date',
-                categories: cat
+                categories: taken,
+                axisTicks: {
+                    show: true
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true
+                }
+            },
+            dataLabels: {
+                enabled: false
             },
             title: {
-                text: "Count of Answers over Time", 
+                text: "Total Answers This week", 
             }
   
         } 
-    onMount(async () => {
-        // let ApexCharts = await import('apexcharts')
-        const module = await import('apexcharts');
-        const ApexCharts = module.default
-        const chart = new ApexCharts(chartEl, options)
-        chart.render()
-    })  
     
 </script>
 {#if visible && msg}
@@ -129,4 +135,4 @@
         </Card.Root>            
     </div>
 </div>
-<div class=" max-w-2xl" bind:this={chartEl}></div>
+<Chart class="max-w-2xl ml-5 mt-5" options={options} />

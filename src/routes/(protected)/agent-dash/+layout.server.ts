@@ -14,14 +14,15 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/client-dash', url, "Not Authorised"))
     }
     const dat = await db
-        .select({
-            taken : AnswersTable.updatedAt,
-            count: sql`COUNT(*)`
-        })
-        .from(AnswersTable)
-        .where(sql`${AnswersTable.respondentId} = ${user.id}`)
-        .groupBy(AnswersTable.updatedAt)
-        .orderBy(AnswersTable.updatedAt);
+    .select({
+      week: sql<Date>`DATE_TRUNC('week', ${AnswersTable.updatedAt})`,
+      count: sql<number>`COUNT(*)`
+    })
+    .from(AnswersTable)
+    .where(sql`${AnswersTable.respondentId} = ${user.id}`)
+    .groupBy(sql`DATE_TRUNC('week', ${AnswersTable.updatedAt})`)
+    .orderBy(sql`DATE_TRUNC('week', ${AnswersTable.updatedAt})`);
+
     return {
         history:dat,
         url: url.pathname, 

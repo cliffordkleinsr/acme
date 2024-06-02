@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	  import { onMount } from 'svelte';
     import type {PageData} from './$types';
 	  import { items } from '$lib/helperFunctions/helpers';
-    import { loop } from 'svelte-typewriter'
-	import Chart from '$lib/components/blocks/chart.svelte';
+	  import Chart from '$lib/components/blocks/chart.svelte';
     export let data: PageData;
     const { by_sec, by_cty, by_age } = data
     let loaded = false

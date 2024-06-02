@@ -1,6 +1,5 @@
 import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer  } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
+
 
 
 // refs
