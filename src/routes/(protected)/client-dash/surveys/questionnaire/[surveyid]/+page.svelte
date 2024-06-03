@@ -14,7 +14,7 @@
 	import { enhance } from '$app/forms';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
   import { Checkbox } from "$lib/components/ui/checkbox"
-  
+  import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
     
   export let data: PageData;
   export let form
@@ -64,7 +64,8 @@
       isDesktop = window.innerWidth >= 768
   }
 </script>
-<div class="grid lg:grid-cols-3 gap-4 m-4">
+<ScrollArea class="h-[700px] m-4">
+<div class="grid lg:grid-cols-3 gap-4">
     {#each surveydata as data}
     <Card.Root>
         <Card.Header>
@@ -282,4 +283,6 @@
     </AlertDialog.Root>
   </Card.Footer>
 </Card.Root>
-{/each}</div>
+{/each}
+</div>
+</ScrollArea>

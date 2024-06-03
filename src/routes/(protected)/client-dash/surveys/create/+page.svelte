@@ -5,10 +5,11 @@
     import * as Form from "$lib/components/ui/form/index.js"
 	import { enhance } from "$app/forms";
     import Clock from "$lib/components/blocks/clock.svelte"
-
+    import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
     export let form
 
 </script>
+<ScrollArea class="h-[700px]">
 <div class="flex flex-col lg:m-16 gap-5 m-4 max-w-screen-lg">
     <h1 class="text-2xl ml-3">Create a new project</h1>
     <form method="post" class="grid lg:grid-cols-3 gap-4" use:enhance>
@@ -39,4 +40,4 @@
     </form>
     <img class="w-52" src="https://pollbase.tech/assets/img/vector.png" alt="">
 </div>
-
+</ScrollArea>

@@ -120,7 +120,7 @@
   //   }
   // }
 </script>
-<ScrollArea class="h-[850px] m-5">
+<ScrollArea class="h-[700px] m-5">
 <div class="flex flex-col gap-4">
     <h1 class="text-2xl font-bold ">
         Audience Demographics
