@@ -124,9 +124,9 @@
         Audience Demographics
     </h1>
     <p class="italic text-sm">These statistics will continue to grow as more people respond to you're surveys</p>
-    <div class="md:flex gap-6 w-full space-x-4 mt-6">
+    <div class="md:flex gap-6 w-full space-x-4">
       <Chart class="md:shadow-md" options={pie_options} />
-      <Chart class="md:w-[62rem] space-y-2 pr-10" options={area_options} />
+      <Chart class="md:w-[62rem] w-80 space-y-2 pr-10" options={area_options} />
     </div>
-    <Chart class="md:max-w-sm shadow-md" options={radial} />
+    <Chart class="md:w-[24rem] shadow-md w-80" options={radial} />
 </div>
