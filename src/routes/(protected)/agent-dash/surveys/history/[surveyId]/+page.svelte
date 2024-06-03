@@ -1,20 +1,22 @@
 <script lang="ts">
     import type { PageData } from './$types';
     import * as Card from "$lib/components/ui/card"
-	import { Separator } from '$lib/components/ui/separator';
-	import { page } from '$app/stores';
-	import { Button } from '$lib/components/ui/button';
+    import { Separator } from '$lib/components/ui/separator';
+    import { page } from '$app/stores';
+    import { Button } from '$lib/components/ui/button';
+    import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
     import Undo2 from 'lucide-svelte/icons/undo-2'
     export let data: PageData;
     const { questions} =data
 </script>
+<ScrollArea class=" h-[700px] w-full m-2">
 <div class="flex flex-col m-4 gap-10">
     <h1 class="text-3xl font-semi-bold text-start font-mono ml-2 gap-1">
         History <br> <span class="text-sm">Survey Id :{$page.params.surveyId}</span>
         <Button class=" float-end" variant="destructive" href="/agent-dash/surveys/history"> <Undo2 class="size-4" /> Back</Button>
     </h1>
     
-    <div class="grid lg:grid-cols-4 gap-3">
+    <div class="grid lg:grid-cols-2 2xl:grid-cols-4 gap-3">
       {#each questions as qns, ix}
         <Card.Root>
           <Card.Header class="space-y-4">
@@ -31,7 +33,7 @@
           </Card.Footer>
         </Card.Root>
         {/each}
-        
     </div>
     <p class="lg:mr-24 text-end text-sm italic">your opinion matters</p>
 </div>
+</ScrollArea>

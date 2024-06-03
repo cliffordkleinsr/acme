@@ -3,6 +3,7 @@
     import type {PageData} from './$types';
 	  import { items } from '$lib/helperFunctions/helpers';
 	  import Chart from '$lib/components/blocks/chart.svelte';
+    import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
     export let data: PageData;
     const { by_sec, by_cty, by_age } = data
     let loaded = false
@@ -119,14 +120,16 @@
   //   }
   // }
 </script>
-<div class="flex flex-col gap-4 m-5">
+<ScrollArea class="h-[850px] m-5">
+<div class="flex flex-col gap-4">
     <h1 class="text-2xl font-bold ">
         Audience Demographics
     </h1>
     <p class="italic text-sm">These statistics will continue to grow as more people respond to you're surveys</p>
     <div class="md:flex gap-6 w-full space-x-4 ">
       <Chart class="md:shadow-md" options={pie_options} />
-      <Chart class="md:w-[62rem] w-80 space-y-2 pr-10" options={area_options} />
+      <Chart class="lg:w-[30rem] 2xl:w-[62rem] w-80 space-y-2 pr-10" options={area_options} />
     </div>
     <Chart class="md:w-96 shadow-md w-80" options={radial} />
-</div>
+  </div>
+</ScrollArea>

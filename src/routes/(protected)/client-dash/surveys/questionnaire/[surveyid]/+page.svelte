@@ -64,9 +64,9 @@
       isDesktop = window.innerWidth >= 768
   }
 </script>
-<div class="lg:flex gap-5 m-4 space-y-3 lg:space-y-0">
+<div class="grid lg:grid-cols-3 gap-4 m-4">
     {#each surveydata as data}
-    <Card.Root class="lg:w-1/3">
+    <Card.Root>
         <Card.Header>
             <Card.Title class="font-mono ">Title : {data.title}</Card.Title>
         </Card.Header>
@@ -78,16 +78,16 @@
         </Card.Footer>
     </Card.Root>         
     {/each}
-    <Card.Root>
+    <Card.Root class="lg:col-span-2 2xl:col-span-1">
         <Card.Header class="space-y-5">
             <Card.Title class="font-mono">Survey Questionaire</Card.Title>
             <Card.Description>Add questions and select the type of answer to be given. The Questions Format will be displayed below.</Card.Description>
         </Card.Header>
-        <Card.Content class="lg:flex gap-6 py-8 space-y-3 lg:space-y-0">
+        <Card.Content class="grid grid-cols-2 gap-3">
             {#if isDesktop}
             <Dialog.Root bind:open>
               <Dialog.Trigger asChild let:builder>
-                <Button variant="outline" builders={[builder]}>Add Question With Single Answer</Button>
+                <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Single Answer</Button>
               </Dialog.Trigger>
               <Dialog.Content class="sm:max-w-[425px]">
                 <Dialog.Header class="space-y-3">
@@ -135,7 +135,7 @@
           {#if isDesktop}
           <Dialog.Root>
             <Dialog.Trigger asChild let:builder>
-              <Button variant="outline" builders={[builder]}>Add Question With Multiple Answers</Button>
+              <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Optional Answers</Button>
             </Dialog.Trigger>
             <Dialog.Content class="sm:max-w-[425px]">
               <Dialog.Header class="space-y-3">

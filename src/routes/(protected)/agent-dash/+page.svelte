@@ -47,10 +47,16 @@
                 categories: taken,
                 axisTicks: {
                     show: true
-                }
+                },
+                // tickAmount:'dataPoints',
+                tickPlacement: 'on',
+                max:20
             },
+            
             plotOptions: {
                 bar: {
+                    borderRadius: 4,
+                    borderRadiusApplication: 'end',
                     horizontal: true
                 }
             },
@@ -62,7 +68,7 @@
             }
   
         } 
-    
+    console.log(history)
 </script>
 {#if visible && msg}
 <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>

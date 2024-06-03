@@ -17,7 +17,7 @@
     </h1>
     <div class="grid lg:grid-cols-3 gap-3">
       {#each survey_data as s}
-        <Card.Root class="lg:w-[800px] lg:col-span-2">
+        <Card.Root class="lg:w-11/12 lg:col-span-2">
           <Card.Header class="space-y-4">
             <Card.Title><span class="font-mono text-xl">Name</span>: {s.title}</Card.Title>
             <Card.Description>ID : {s.id}</Card.Description>
@@ -31,7 +31,6 @@
               </h1>
               <p class="text-lg">{s.desc}</p>
             </div>
-            
           </Card.Content>
           <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
             <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>

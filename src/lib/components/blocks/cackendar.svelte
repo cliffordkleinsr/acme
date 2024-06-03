@@ -29,17 +29,17 @@
       end: new CalendarDate(yyyy, mm, dd).add({ days: 10 })
     }
     let target:number=10
-    let selected = {label:'Select Target Agents' , value:10}
+    let selected = {label:'Select Agents' , value:10}
     let startValue: DateValue | undefined = undefined;
   </script>
-  <div class="flex flex-col lg:flex-row gap-3">
+  <div class=" grid grid-cols-2 gap-3 space-x-2">
   <div class="grid gap-2">
     <Popover.Root openFocus>
       <Popover.Trigger asChild let:builder>
         <Button
           variant="outline"
           class={cn(
-            "w-[300px] justify-start text-left font-normal",
+            "w-[280px] justify-start text-left font-normal",
             !value && "text-muted-foreground"
           )}
           builders={[builder]}
@@ -77,7 +77,7 @@
     v && (target = v.value);
   }}
 >
-    <Select.Trigger class="w-[180px]">
+    <Select.Trigger>
       <Select.Value placeholder="Select Target Agents" />
     </Select.Trigger>
     <Select.Content>

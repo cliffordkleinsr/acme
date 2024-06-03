@@ -6,7 +6,7 @@
     import * as Card from "$lib/components/ui/card"
     
 </script>
-<Card.Root class="w-[400px] place-content-evenly">
+<Card.Root class=" 2xl:w-[450px]">
     <Card.Header class="space-y-2"> 
       <Card.Title>Report an issue</Card.Title>
       <Card.Description>
@@ -15,12 +15,12 @@
     </Card.Header>
     <Card.Content>
       <div class="grid grid-cols-2 gap-5">
-        <div class="flex flex-col gap-2">
+        <div class="grid gap-2">
           <h1 class="font-semibold text-sm">
             Area
           </h1> 
           <Select.Root>
-            <Select.Trigger class="w-[150px]">
+            <Select.Trigger class="lg:w-32 2xl:w-48">
               <Select.Value placeholder="Billing" />
             </Select.Trigger>
             <Select.Content>
@@ -30,12 +30,12 @@
             </Select.Content>
           </Select.Root>
         </div>
-        <div class="flex flex-col gap-2">
+        <div class="grid gap-2">
           <h1 class="font-semibold text-sm">
             Security Level
           </h1>
           <Select.Root>
-            <Select.Trigger class="w-[130px]">
+            <Select.Trigger class="lg:w-32 2xl:w-48">
               <Select.Value placeholder="Severity" />
             </Select.Trigger>
             <Select.Content>
@@ -45,8 +45,8 @@
             </Select.Content>
           </Select.Root>
         </div>
-        <div class="flex flex-col gap-2 w-80">
-          <h1 class=" font-semibold text-sm">
+        <div class="grid gap-2 lg:w-64 2xl:w-96">
+          <h1 class="font-semibold text-sm">
             Subject
           </h1>
           <Input placeholder="I need help with"/>
