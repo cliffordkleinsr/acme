@@ -13,7 +13,7 @@ export const actions: Actions = {
 		cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",
 			...sessionCookie.attributes
-		});
+		})
 		redirect(302, "/agent/signin", {type: "success", message:"Logged Out"}, cookies)
     }
 }

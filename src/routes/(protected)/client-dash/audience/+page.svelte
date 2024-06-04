@@ -120,8 +120,7 @@
   //   }
   // }
 </script>
-<ScrollArea class="h-[700px] m-5">
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-4 m-4">
     <h1 class="text-2xl font-bold ">
         Audience Demographics
     </h1>
@@ -132,4 +131,3 @@
     </div>
     <Chart class="md:w-96 shadow-md w-80" options={radial} />
   </div>
-</ScrollArea>

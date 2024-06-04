@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { SurveyQnsTable, questionZodSchema } from '$lib/server/schema';
+import { SurveyQnsTable } from '$lib/server/schema';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms';

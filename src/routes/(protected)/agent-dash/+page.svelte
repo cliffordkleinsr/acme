@@ -68,7 +68,6 @@
             }
   
         } 
-    console.log(history)
 </script>
 {#if visible && msg}
 <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>

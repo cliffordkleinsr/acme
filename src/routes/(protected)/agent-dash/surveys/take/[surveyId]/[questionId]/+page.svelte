@@ -35,7 +35,7 @@
             <Label for="question">{qns.question}</Label>
             <RadioGroup.Root>
                 {#each  qns.options as opt}
-                    {#if opt != null}
+                    {#if opt.name !== null}
                         <div class="flex items-center space-x-2">
                             <RadioGroup.Item value={opt.name}/>
                             <Label for={opt.name}>{opt.name}</Label>

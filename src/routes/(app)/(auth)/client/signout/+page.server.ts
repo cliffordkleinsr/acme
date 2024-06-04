@@ -2,7 +2,6 @@ import { fail } from '@sveltejs/kit';
 import type { Actions} from './$types';
 import { lucia } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
-
 export const actions: Actions = {
     default: async ({locals, cookies}) => {
         if (!locals.session) {

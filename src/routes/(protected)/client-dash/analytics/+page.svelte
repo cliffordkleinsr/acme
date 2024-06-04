@@ -82,7 +82,7 @@
 
 </script>
 {#if isDesktop}
-  <ScrollArea class=" h-[850px] w-full rounded-md border m-2">
+  <ScrollArea class=" h-[850px] w-full m-2">
   <div class="grid gap-4">
   {#each groupedAnswers as question}
   <Card.Root>

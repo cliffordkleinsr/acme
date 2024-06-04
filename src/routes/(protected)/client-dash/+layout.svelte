@@ -25,7 +25,7 @@
   import RadioTower from 'lucide-svelte/icons/radio-tower';
   import SquareArrowRight  from 'lucide-svelte/icons/square-arrow-right'
   import { Separator } from "$lib/components/ui/separator"
-  
+  import { ScrollArea } from "$lib/components/ui/scroll-area"
 
   import { page } from "$app/stores"
   import { enhance } from "$app/forms";
@@ -38,10 +38,14 @@
 	import { fade } from "svelte/transition";
 	import { sineIn, sineInOut, sineOut } from "svelte/easing";
   import * as Tooltip from "$lib/components/ui/tooltip"
+	import { msg } from "$lib/store.js";
   
   export let data
-
-  const clearNotifs = () => { data.notif = []}
+  const { notif } = data
+  msg.update(messages => [...messages, ...notif as string[]])
+  const clearNotifs = () => { 
+    msg.set([])
+    }
 </script>
 
 
@@ -62,8 +66,8 @@
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Content class="space-y-3 w-72">
-          {#if data.notif.filter((notif) => notif != undefined).length}
-            {#each data.notif.filter((notif) => notif != undefined) as notif, ix}
+          {#if $msg.filter((notif) => notif != undefined).length}
+            {#each $msg.filter((notif) => notif != undefined) as notif, ix}
               <p class="pl-5 font-mono">{ix+1}. {notif}</p>
               <Separator/>
             {/each}
@@ -73,8 +77,8 @@
           {/if}
         </Tooltip.Content>
       </Tooltip.Root>
-      {#if data.notif.filter((notif) => notif != undefined).length}
-        <Badge class="size-5 justify-center absolute left-5 bottom-4">{data.notif.filter((notif) => notif != undefined).length}</Badge>
+      {#if $msg.filter((notif) => notif != undefined).length}
+        <Badge class="size-5 justify-center absolute left-5 bottom-4">{$msg.filter((notif) => notif != undefined).length}</Badge>
       {/if}
       
     </div>
@@ -145,7 +149,7 @@
       </a>
     </nav>
   </div>
-  <div class="mt-auto p-4">
+  <div class="mt-auto m-4">
     <Card.Root
       data-x-chunk-name="dashboard-02-chunk-0"
       data-x-chunk-description="A card with a call to action"

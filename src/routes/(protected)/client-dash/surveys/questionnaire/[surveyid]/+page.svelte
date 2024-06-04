@@ -15,9 +15,8 @@
 	import Separator from '$lib/components/ui/separator/separator.svelte';
   import { Checkbox } from "$lib/components/ui/checkbox"
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
-    
+  import Trash2 from 'lucide-svelte/icons/trash-2'  
   export let data: PageData;
-  export let form
   const { surveydata, surveyqns } = data
 
   let open = false;
@@ -163,7 +162,7 @@
         {:else}
           <Drawer.Root>
             <Drawer.Trigger asChild let:builder>
-              <Button variant="outline" builders={[builder]}>Add Question With Multiple Answers</Button>
+              <Button variant="outline" builders={[builder]}>Add Question With Optional Answers</Button>
             </Drawer.Trigger>
             <Drawer.Content>
               <Drawer.Header class="text-left space-y-3">
@@ -246,12 +245,9 @@
               <Label>Options </Label>
               {#each qns.options as option, i}
                 {#if option.name != null}
-                <Input type="text" value={option.name} name="option{i}"/>
+                  <Input type="text" value={option.name} name="option{i+1}"/> 
                 {/if}
               {/each}
-              {#if form?.message}
-                <span class="text-red-400">{form.message}</span>
-              {/if}
             {/if}
             <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
           <Form.Button>Save</Form.Button>

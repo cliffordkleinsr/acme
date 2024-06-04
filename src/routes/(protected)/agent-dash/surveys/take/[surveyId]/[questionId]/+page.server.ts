@@ -49,7 +49,11 @@ export const actions: Actions = {
             answer: string
         }
         const data = Object.fromEntries(await request.formData()) as Answer
-
+        const tgt = await db
+            .select({target: SurveyTable.target})
+            .from(SurveyTable)
+            .where(eq(SurveyTable.surveyid, params.surveyId))
+        let new_tgt = tgt[0].target! - 1
         const ids = await db
             .select({
                 id:SurveyQnsTable.questionId
@@ -58,19 +62,29 @@ export const actions: Actions = {
             .where(
                 eq(SurveyQnsTable.surveid, params.surveyId)
             )
+            // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, '158b1703-51b2-4bb9-b02d-e57f4a7ae11c'))
         // console.log(ids)
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         try 
         {
             // validate
             const { answer} = questionZodSchema.parse(data)
+            if (current_ix === 0) {
+                await db
+                .update(SurveyTable)
+                .set({
+                    target: new_tgt
+                })
+                .where(eq(SurveyTable.surveyid, params.surveyId))
+            }
+            
             await db
             .insert(AnswersTable)
             .values({
                 questionId: params.questionId,
                 surveid: params.surveyId,
                 answer: answer,
-                respondentId: locals.session?.userId
+                respondentId: locals.session?.userId as string
             })
 
         } catch (err) 

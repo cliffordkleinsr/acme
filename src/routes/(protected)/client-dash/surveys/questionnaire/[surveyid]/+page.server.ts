@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db'
 import { SurveyQnsTable, SurveyTable } from '$lib/server/schema'
-import { eq } from 'drizzle-orm'
+import { eq, asc } from 'drizzle-orm'
 import type { Actions, PageServerLoad } from './$types'
 import { addSurveyQuestions } from '$lib/server/db_utils'
 import { fail } from '@sveltejs/kit'
@@ -25,6 +25,7 @@ export const load: PageServerLoad = async ({params}) => {
             })
             .from(SurveyQnsTable)
             .where(eq(SurveyQnsTable.surveid, params.surveyid))
+            .orderBy(asc(SurveyQnsTable.questionId))
 
     const surveyqns =  questions.map(qns => ({
         id: qns.id,
@@ -65,25 +66,36 @@ export const actions: Actions = {
 
     addMultiQns: async ({ request, params }) => {
         type Entry = {
-            question: string,
-            option_0: string, 
-            option_1: string,
+            question: string
+            option_0: string 
+            option_1: string
             option_2: string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
         const {question, option_0, option_1, option_2} = data
 
-
+        
         try 
         {
-            await addSurveyQuestions({
-                surveid: params.surveyid,
-                question: question,
-                option1: option_0,
-                option2: option_1,
-                option3: option_2,
-                questionT: 'Optional'
-            })
+            if (option_2 === '') {
+                await addSurveyQuestions({
+                    surveid: params.surveyid,
+                    question: question,
+                    option1: option_0,
+                    option2: option_1,
+                    questionT: 'Optional'
+                })
+            } else {
+                await addSurveyQuestions({
+                    surveid: params.surveyid,
+                    question: question,
+                    option1: option_0,
+                    option2: option_1,
+                    option3: option_2,
+                    questionT: 'Optional'
+                })
+            }
+            
         } catch (err) 
         {
             console.error(err)
@@ -109,34 +121,36 @@ export const actions: Actions = {
     },
     editSurvQns: async ({request}) =>{
         type Entry = {
-            questionId: string,
-            question: string,
-            option1: string, 
-            option2: string,
+            questionId: string
+            question: string
+            option1: string 
+            option2: string
             option3: string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
         const{ question, questionId, option1, option2, option3} = data
 
-        // validate
+        // // validate
         if (question.length === 0) {
             return fail(404, {message: 'Question cannot be null'})
         }
         try 
         {
-            await db.update(SurveyQnsTable)
-            .set({
-                question:question,
-                option1: option1,
-                option2: option2,
-                option3: option3,
-
-            })
-            .where(eq(SurveyQnsTable.questionId,  questionId))
+            const updateData = {
+                question,
+                option1: option1 === '' ? null : option1,
+                option2: option2 === '' ? null : option2,
+                option3: option3 === '' ? null : option3,
+              };
+              
+              await db.update(SurveyQnsTable)
+                .set(updateData)
+                .where(eq(SurveyQnsTable.questionId, questionId))
         } catch (err) 
         {
             console.error(err)
         }
         
-    }
+    },
+   
 }
