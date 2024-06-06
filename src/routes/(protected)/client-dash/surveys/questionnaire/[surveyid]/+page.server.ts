@@ -15,26 +15,23 @@ export const load: PageServerLoad = async ({params}) => {
     .where(eq(SurveyTable.surveyid , params.surveyid))
 
     const questions = await db
-            .select({
-                id: SurveyQnsTable.questionId,
-                question: SurveyQnsTable.question,
-                question_type: SurveyQnsTable.questionT,
-                option1: SurveyQnsTable.option1,
-                option2: SurveyQnsTable.option2,
-                option3: SurveyQnsTable.option3
-            })
+            .select()
             .from(SurveyQnsTable)
             .where(eq(SurveyQnsTable.surveid, params.surveyid))
-            .orderBy(asc(SurveyQnsTable.questionId))
+            .orderBy(asc(SurveyQnsTable.updatedAt))
 
     const surveyqns =  questions.map(qns => ({
-        id: qns.id,
+        id: qns.questionId,
         question: qns.question,
-        question_type: qns.question_type,
+        question_type: qns.questionT,
         options: [
             {name: qns.option1 as string},
             {name: qns.option2 as string},
-            {name: qns.option3 as string}
+            {name: qns.option3 as string},
+            {name: qns.option4 as string},
+            {name: qns.option5 as string},
+            {name: qns.option6 as string},
+            {name: qns.option7 as string}
         ]
     })) 
     return {
@@ -70,36 +67,75 @@ export const actions: Actions = {
             option_0: string 
             option_1: string
             option_2: string
+            option_3: string
+            option_4: string
+            option_5: string
+            option_6: string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
-        const {question, option_0, option_1, option_2} = data
+        const {
+             question, option_0, option_1, option_2,
+             option_3, option_4, option_5, option_6,
+            } = data
 
         
         try 
         {
-            if (option_2 === '') {
-                await addSurveyQuestions({
-                    surveid: params.surveyid,
-                    question: question,
-                    option1: option_0,
-                    option2: option_1,
-                    questionT: 'Optional'
-                })
-            } else {
-                await addSurveyQuestions({
-                    surveid: params.surveyid,
-                    question: question,
-                    option1: option_0,
-                    option2: option_1,
-                    option3: option_2,
-                    questionT: 'Optional'
-                })
-            }
+            await addSurveyQuestions({
+                surveid: params.surveyid,
+                question: question,
+                option1: option_0 === '' ? null : option_0,
+                option2: option_1 === '' ? null : option_1,
+                option3: option_2 === '' ? null : option_2,
+                option4: option_3 === '' ? null : option_3,
+                option5: option_4 === '' ? null : option_4,
+                option6: option_5 === '' ? null : option_5,
+                option7: option_6 === '' ? null : option_6,
+                questionT: "Multiple"
+            })
             
         } catch (err) 
         {
             console.error(err)
         }
+    },
+
+    addOptQns: async ({request, params}) => {
+        type Entry = {
+            question: string
+            option_0: string 
+            option_1: string
+            option_2: string
+            option_3: string
+            option_4: string
+            option_5: string
+            option_6: string
+        }
+        const data = Object.fromEntries(await request.formData()) as Entry
+        const {
+            question, option_0, option_1, option_2,
+            option_3, option_4, option_5, option_6,
+           } = data
+
+        try 
+           {
+               await addSurveyQuestions({
+                   surveid: params.surveyid,
+                   question: question,
+                   option1: option_0 === '' ? null : option_0,
+                   option2: option_1 === '' ? null : option_1,
+                   option3: option_2 === '' ? null : option_2,
+                   option4: option_3 === '' ? null : option_3,
+                   option5: option_4 === '' ? null : option_4,
+                   option6: option_5 === '' ? null : option_5,
+                   option7: option_6 === '' ? null : option_6,
+                   questionT: "Optional"
+               })
+               
+           } catch (err) 
+           {
+               console.error(err)
+           }
     },
 
     deleteSurvQns: async ({request}) => {

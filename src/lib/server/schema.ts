@@ -4,7 +4,7 @@ import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer  } fro
 
 // refs
 export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "RESP"])
-export const QuestionType = pgEnum("QuestionType", ["Single", "Optional"])
+export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple"])
 export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
 
 
@@ -109,12 +109,23 @@ export const SurveyQnsTable = pgTable('survey_questions', {
     option1: text("option1"),
     option2: text("option2"),
     option3: text("option3"),
+    option4: text("option4"),
+    option5: text("option5"),
+    option6: text("option6"),
+    option7: text("option7"),
     updatedAt: timestamp('updated_at', {
         withTimezone: true,
         mode: "date" 
     }).defaultNow().notNull()
     // respondentId: text("respondent_id").references(() => UsersTable.id)
 })
+
+// export const optionsTable = pgTable('optionals', {
+//     surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
+//     questionId: uuid('questionid').defaultRandom().primaryKey(),
+//     optionT: QuestionType("option_type").default("Optional").notNull(),
+//     option: text('option')
+// })
 
 export const AnswersTable = pgTable('answers', {
     questionId: uuid('questionid').references(()=> SurveyQnsTable.questionId),

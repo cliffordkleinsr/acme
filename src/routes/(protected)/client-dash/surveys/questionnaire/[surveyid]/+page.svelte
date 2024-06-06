@@ -3,8 +3,6 @@
   import * as Card from "$lib/components/ui/card"
   import { Button } from "$lib/components/ui/button"
 	import Undo2 from 'lucide-svelte/icons/undo-2';
-  import * as Dialog from "$lib/components/ui/dialog"
-  import * as Drawer from "$lib/components/ui/drawer"
   import { Label } from "$lib/components/ui/label"
   import { Input } from "$lib/components/ui/input"
   import * as Form from "$lib/components/ui/form/index.js"
@@ -16,59 +14,21 @@
   import { Checkbox } from "$lib/components/ui/checkbox"
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
   import Trash2 from 'lucide-svelte/icons/trash-2'  
+	import QuestionComponent from '$lib/components/blocks/questionComponent.svelte';
+  import * as RadioGroup from "$lib/components/ui/radio-group"
+  
   export let data: PageData;
   const { surveydata, surveyqns } = data
 
-  let open = false;
-  let disabled = false
-  let other = true
-  let isDesktop = true
-  let values = [
-    {option: ''}
-  ]
-
-  // Blank Values
-  $: length = values.length
-  
-  $: switch (true) {
-    case length >= 3:
-      disabled = true
-      break;
-  
-    default:
-      disabled = false;
-      break;
-  }
-  $: switch (true) {
-    case length >= 1:
-      other = false
-      break;
-  
-    default:
-      other = true
-      break;
-  }
-  const addOption = () => {
-    values = [...values, {option: ''}]
-  }
-  const remOption = () => {
-      values = values.slice(0, values.length-1)
-    }
 
   // Existing in DB
-
-  
-  
-  if (browser) {
-      isDesktop = window.innerWidth >= 768
-  }
 </script>
-<ScrollArea class="h-[700px] m-4">
+<div class="m-4">
 <div class="grid lg:grid-cols-3 gap-4">
     {#each surveydata as data}
-    <Card.Root>
+    <Card.Root class="lg:col-span-2">
         <Card.Header>
-            <Card.Title class="font-mono ">Title : {data.title}</Card.Title>
+            <Card.Title class="">Title : {data.title}</Card.Title>
         </Card.Header>
         <Card.Content>
             <p><span class=" font-semibold ">Description:</span> {data.desc}</p>
@@ -78,150 +38,56 @@
         </Card.Footer>
     </Card.Root>         
     {/each}
+    <img class="w-52" src="https://pollbase.tech/client/assets/graphics/question.png" alt="s">
     <Card.Root class="lg:col-span-2 2xl:col-span-1">
         <Card.Header class="space-y-5">
-            <Card.Title class="font-mono">Survey Questionaire</Card.Title>
+            <Card.Title class="">Survey Questionaire</Card.Title>
             <Card.Description>Add questions and select the type of answer to be given. The Questions Format will be displayed below.</Card.Description>
         </Card.Header>
-        <Card.Content class="grid grid-cols-2 gap-3">
-            {#if isDesktop}
-            <Dialog.Root bind:open>
-              <Dialog.Trigger asChild let:builder>
-                <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Single Answer</Button>
-              </Dialog.Trigger>
-              <Dialog.Content class="sm:max-w-[425px]">
-                <Dialog.Header class="space-y-3">
-                  <Dialog.Title>Single Answer Question</Dialog.Title>
-                  <Dialog.Description>
-                    Enter Question (This question will have a single answer option)
-                  </Dialog.Description>
-                </Dialog.Header>
-                <form action="?/addSingleQns" method="post" class="grid items-start gap-4">
-                  <div class="grid gap-2">
-                    <Label for="question">Question</Label>
-                    <Input type="text" name="question"/>
-                  </div>
-                  <Button type="submit">Save changes</Button>
-                </form>
-              </Dialog.Content>
-            </Dialog.Root>
-          {:else}
-            <Drawer.Root bind:open>
-              <Drawer.Trigger asChild let:builder>
-                <Button variant="outline" builders={[builder]}>Add Question With Single Answer</Button>
-              </Drawer.Trigger>
-              <Drawer.Content>
-                <Drawer.Header class="text-left space-y-3">
-                  <Drawer.Title>Single Answer Question</Drawer.Title>
-                  <Drawer.Description>
-                    Enter Question (This question will have a single answer option)
-                  </Drawer.Description>
-                </Drawer.Header>
-                <form action="?/addSingleQns" method="post" class="grid items-start gap-4 px-4">
-                  <div class="grid gap-2">
-                    <Label for="question">Question</Label>
-                    <Input type="text" name="question"/>
-                  </div>
-                  <Button type="submit">Save changes</Button>
-                </form>
-                <Drawer.Footer class="pt-2">
-                  <Drawer.Close asChild let:builder>
-                    <Button variant="outline" builders={[builder]}>Cancel</Button>
-                  </Drawer.Close>
-                </Drawer.Footer>
-              </Drawer.Content>
-            </Drawer.Root>
-          {/if}
-          {#if isDesktop}
-          <Dialog.Root>
-            <Dialog.Trigger asChild let:builder>
-              <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Optional Answers</Button>
-            </Dialog.Trigger>
-            <Dialog.Content class="sm:max-w-[425px]">
-              <Dialog.Header class="space-y-3">
-                <Dialog.Title>Multiple Answer Question</Dialog.Title>
-                <Dialog.Description>
-                  Enter Question (This question will have multiple answers) There is only a max of 3 options
-                </Dialog.Description>
-              </Dialog.Header>
-              <form action="?/addMultiQns" method="post" class="grid items-start gap-4">
-                <div class="grid gap-2">
-                  <Label for="question">Question</Label>
-                  <Input type="text" name="question"/>
-                  {#each values as v, i}
-                    <Label for="option">Enter Option</Label>
-                    <Input type="text" bind:value={v.option} name="option_{i}"/>
-                  {/each}
-                </div>
-                <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-                <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
-                <Button type="submit">Save changes</Button>
-              </form>
-            </Dialog.Content>
-          </Dialog.Root>
-        {:else}
-          <Drawer.Root>
-            <Drawer.Trigger asChild let:builder>
-              <Button variant="outline" builders={[builder]}>Add Question With Optional Answers</Button>
-            </Drawer.Trigger>
-            <Drawer.Content>
-              <Drawer.Header class="text-left space-y-3">
-                <Drawer.Title>Multiple Answer Question</Drawer.Title>
-                <Drawer.Description>
-                  Enter Question (This question will have multiple answers) There is only a max of 3 options
-                </Drawer.Description>
-              </Drawer.Header>
-              <form action="?/addMultiQns" method="post" class="grid items-start gap-4 px-4">
-                <div class="grid gap-2">
-                  <Label for="question">Question</Label>
-                  <Input type="text" name="question"/>
-                  {#each values as v, i}
-                    <Label for="option">Enter Option</Label>
-                    <Input type="text" bind:value={v.option} name="option_{i}"/>
-                  {/each}
-                </div>
-                <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-                <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
-                <Button type="submit">Save changes</Button>
-              </form>
-              <Drawer.Footer class="pt-2">
-                <Drawer.Close asChild let:builder>
-                  <Button variant="outline" builders={[builder]}>Cancel</Button>
-                </Drawer.Close>
-              </Drawer.Footer>
-            </Drawer.Content>
-          </Drawer.Root>
-        {/if}
+        <Card.Content class="grid lg:grid-cols-2 gap-3">
+         <QuestionComponent />
         </Card.Content>
     </Card.Root>
-    <img class="w-52" src="https://pollbase.tech/client/assets/graphics/question.png" alt="s">
 </div>
-<h1 class="text-center mt-10 text-2xl pr-16 pb-2 underline underline-offset-4 font-mono">Question List</h1>
-<div class="grid lg:grid-cols-2 gap-4 m-4 ">
+<h1 class="text-center mt-10 text-2xl pr-16 pb-6 underline underline-offset-4">Question List</h1>
+<div class="grid lg:grid-cols-2 gap-4 ">
 {#each surveyqns as qns, id}
 <Card.Root class="lg:w-[87%]">
   <Card.Header>
-    <Card.Description>ID : {qns.id}</Card.Description>
+    <Card.Description class="text-xs font-thin">{qns.id}</Card.Description>
   </Card.Header>
   <Card.Content class="space-y-5">
     <h1 class="text-md">{id+1}. {qns.question}</h1>
     {#if qns.question_type === "Optional"}
-    <div class="flex gap-3 w-full">
-      {#each qns.options as option}
-        {#if option.name != null}
-        <Checkbox />
-          <Label
-            for="option1"
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            {option.name}
-          </Label>
-        {/if}
-      {/each}
-    </div>
-    {:else}
-      <Input type="text" class="w-1/2"></Input>
-    {/if}
+          <RadioGroup.Root value="option-one" class="grid grid-cols-4 max-w-md">
+            {#each qns.options as option, id}
+              {#if option.name != null}
+                <div class="flex items-center space-x-2">
+                  <RadioGroup.Item value="{option.name}" disabled/>
+                  <Label for={option.name}>{option.name}</Label>
+                </div>
+                {/if}
+            {/each}
+          </RadioGroup.Root>
+      {:else if qns.question_type === "Multiple"}
+        <div class="grid grid-cols-3 gap-2">
+        {#each qns.options as option, id}
+            {#if option.name != null}
+            <div class="flex gap-2">
+            <Checkbox disabled/>
+              <Label
+                for="option1"
+                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
+              >
+                {option.name}
+              </Label>
+            </div>
+              {/if}
+        {/each}
+      </div>
+      {:else}
+        <Input type="text" class="w-1/2" disabled/>
+      {/if}
   </Card.Content>
   <Card.Footer class="float-end gap-10">
     <AlertDialog.Root>
@@ -241,7 +107,7 @@
             <Label>Question </Label>
             <Input type="text" value={qns.question} name="question"/>
             <Input type="text" value={qns.id} class="hidden" name="questionId"/>
-            {#if qns.question_type === "Optional"}
+            {#if qns.question_type === "Optional" || qns.question_type ===  "Multiple"}
               <Label>Options </Label>
               {#each qns.options as option, i}
                 {#if option.name != null}
@@ -281,4 +147,4 @@
 </Card.Root>
 {/each}
 </div>
-</ScrollArea>
+</div>

@@ -120,6 +120,13 @@
       "when": 1717046701043,
       "tag": "0022_panoramic_kingpin",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1717669445448,
+      "tag": "0023_heavy_zuras",
+      "breakpoints": true
     }
   ]
 }

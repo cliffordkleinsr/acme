@@ -82,8 +82,8 @@
 
 </script>
 {#if isDesktop}
-  <ScrollArea class=" h-[850px] w-full m-2">
-  <div class="grid gap-4">
+  <!-- <ScrollArea class=" h-[850px] w-full "> -->
+  <div class="grid gap-4 m-2 w-full">
   {#each groupedAnswers as question}
   <Card.Root>
     <Card.Header class="space-y-4">
@@ -136,7 +136,7 @@
   </Card.Root>    
   {/each}
   </div>
-  </ScrollArea>
+  <!-- </ScrollArea>   -->
 {:else}
   <div class="grid gap-4">
   {#each groupedAnswers as question}

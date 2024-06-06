@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { AnswersTable, SurveyQnsTable, SurveyTable } from '$lib/server/schema';
-import { eq } from 'drizzle-orm';
+import { eq, asc } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError, z } from "zod";
@@ -24,14 +24,19 @@ export const load: PageServerLoad = async ({params, cookies}) => {
         .where(
             eq(SurveyQnsTable.surveid, params.surveyId)
         )
+        .orderBy(asc(SurveyQnsTable.updatedAt))
     const mapped = surveyqns.map(qns=> ({
         id: qns.questionId,
         question: qns.question,
         question_type: qns.questionT,
         options: [
-            {name: qns.option1 as string},
-            {name: qns.option2 as string},
-            {name: qns.option3 as string}
+            {id: '1', name: qns.option1 as string},
+            {id: '2', name: qns.option2 as string},
+            {id: '3', name: qns.option3 as string},
+            {id: '4', name: qns.option4 as string},
+            {id: '5', name: qns.option5 as string},
+            {id: '6', name: qns.option6 as string},
+            {id: '7', name: qns.option7 as string}
         ]
     }))
     
@@ -45,15 +50,22 @@ export const load: PageServerLoad = async ({params, cookies}) => {
 
 export const actions: Actions = {
     default: async ({request, params, cookies, locals}) => {
-        type Answer = {
-            answer: string
-        }
-        const data = Object.fromEntries(await request.formData()) as Answer
+        // type Answer = {
+        //     answer: string
+        // }
+        const data = await request.formData() //as Answer
+        let group = data.getAll('answer')
+        const formEntries = Array.from(data.entries())
+            .map(([name, value]) => ({ [name]: value }))
+        console.log(formEntries)
+
         const tgt = await db
             .select({target: SurveyTable.target})
             .from(SurveyTable)
             .where(eq(SurveyTable.surveyid, params.surveyId))
+
         let new_tgt = tgt[0].target! - 1
+
         const ids = await db
             .select({
                 id:SurveyQnsTable.questionId
@@ -62,8 +74,6 @@ export const actions: Actions = {
             .where(
                 eq(SurveyQnsTable.surveid, params.surveyId)
             )
-            // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, '158b1703-51b2-4bb9-b02d-e57f4a7ae11c'))
-        // console.log(ids)
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         try 
         {
@@ -100,7 +110,7 @@ export const actions: Actions = {
                 console.error(err)
             }
         }
-        // // Dynamic routing with incremental counter
+        // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
             current_ix++;

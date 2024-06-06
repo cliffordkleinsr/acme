@@ -11,7 +11,7 @@
 
     export let data
     const { questions } = data
-    console.log(questions)
+
 </script>
 <!-- {#if hidden} -->
 <div class="flex flex-col max-w-sm mx-auto mt-6">

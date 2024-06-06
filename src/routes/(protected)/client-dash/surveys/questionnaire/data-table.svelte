@@ -75,7 +75,7 @@
         }),
         table.column({
             accessor: ({ id }) => id,
-            header: "",
+            header: "Actions",
             cell: ({ value }) => {
                 return createRender(DataTableActions, { id: value });
             },
@@ -115,6 +115,9 @@
 </script>
 
 <div class="m-5">
+    <h1 class="text-sm ">
+        Select your predifined action using the <span class="italic font-bold">Actions</span> tab
+   </h1>
     <div class="flex items-center py-4">
         <Input
           class="max-w-sm"
@@ -192,13 +195,13 @@
           variant="outline"
           size="sm"
           on:click={() => ($pageIndex = $pageIndex - 1)}
-          disabled={!$hasPreviousPage}>Previous</Button
+          disabled={!$hasPreviousPage}>{$pageIndex}</Button
         >
         <Button
           variant="outline"
           size="sm"
           disabled={!$hasNextPage}
-          on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
+          on:click={() => ($pageIndex = $pageIndex + 1)}>{$pageIndex + 1}</Button
         >
     </div>
 </div>

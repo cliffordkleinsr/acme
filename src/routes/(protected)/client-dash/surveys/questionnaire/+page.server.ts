@@ -13,8 +13,14 @@ export const load: PageServerLoad = async () => {
     .from(SurveyTable)
     .where(eq(SurveyTable.status, "Draft"))
 
+const all = surveys.map(items => ({
+    id: items.id,
+    title: items.title,
+    created: `${items.created.toLocaleDateString()} ${items.created.toLocaleTimeString()}`
+}))
+
    return {
-        surv: surveys
+        surv: all
    }
 }
 

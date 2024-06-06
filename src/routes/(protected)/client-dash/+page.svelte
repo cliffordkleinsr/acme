@@ -9,7 +9,7 @@
 	import { fade } from "svelte/transition"
     import * as Tabs from "$lib/components/ui/tabs"
     import DataTable from "$lib/components/base_table/data-table.svelte"
-    import CandlestickChart from "lucide-svelte/icons/candlestick-chart"
+    import LineChart from "lucide-svelte/icons/line-chart"
     export let data
     const {all_surv, draft_surv, live_surv, closed_surv, count } = data
 
@@ -49,9 +49,9 @@
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
         <Card.Root>
             <Card.Header>
-                <Card.Title><CandlestickChart class="size-6 text-primary"/></Card.Title>
+                <Card.Title><LineChart class="size-6 text-primary"/></Card.Title>
                 <Card.Description class="text-balance leading-relaxed">
-                    Create beautiful and engaging surveys to impress your audience:
+                    Create  engaging surveys to improve your audience:
                 </Card.Description>
             </Card.Header>
             <Card.Footer>

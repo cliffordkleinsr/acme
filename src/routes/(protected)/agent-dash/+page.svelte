@@ -39,7 +39,7 @@
                 show: true
             },
             series: [{
-                name: 'count of answers',
+                name: 'total answers',
                 data: count
             }],
             xaxis: {
@@ -64,7 +64,7 @@
                 enabled: false
             },
             title: {
-                text: "Total Answers This week", 
+                text: "Total Answers Weekly", 
             }
   
         } 
