@@ -54,10 +54,18 @@ export const actions: Actions = {
         //     answer: string
         // }
         const data = await request.formData() //as Answer
-        let group = data.getAll('answer')
-        const formEntries = Array.from(data.entries())
-            .map(([name, value]) => ({ [name]: value }))
-        console.log(formEntries)
+
+        let map: any[] = []
+        data.forEach(element => {
+            // console.log(element)
+            map = [...map, {answer: element} as {answer: string}]
+            
+        });
+        // console.log(map[0])
+        // let group = data.getAll('answer')
+        // const formEntries = Array.from(data.entries())
+        //     .map(([name, value]) => ({ [name]: value }))
+        // Object.fromEntries(data)
 
         const tgt = await db
             .select({target: SurveyTable.target})
@@ -74,11 +82,12 @@ export const actions: Actions = {
             .where(
                 eq(SurveyQnsTable.surveid, params.surveyId)
             )
+        
+        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, "4e62864f-268d-408f-afb9-b5e996c7fd88"))
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         try 
         {
-            // validate
-            const { answer} = questionZodSchema.parse(data)
+            
             if (current_ix === 0) {
                 await db
                 .update(SurveyTable)
@@ -87,15 +96,19 @@ export const actions: Actions = {
                 })
                 .where(eq(SurveyTable.surveyid, params.surveyId))
             }
-            
-            await db
-            .insert(AnswersTable)
-            .values({
+            // validate
+            for (const element of map) {
+                const { answer } = questionZodSchema.parse(element);
+
+                await db.insert(AnswersTable).values({
                 questionId: params.questionId,
                 surveid: params.surveyId,
                 answer: answer,
                 respondentId: locals.session?.userId as string
-            })
+                });
+            }
+            
+            
 
         } catch (err) 
         {

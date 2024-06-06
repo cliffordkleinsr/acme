@@ -5,6 +5,9 @@
     import { page } from '$app/stores';
     import { Button } from '$lib/components/ui/button';
     import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
+    import { Checkbox } from "$lib/components/ui/checkbox"
+    import { Label } from "$lib/components/ui/label"
+    
     import Undo2 from 'lucide-svelte/icons/undo-2'
     export let data: PageData;
     const { questions} =data
@@ -25,9 +28,25 @@
             <Separator />
           </Card.Header>
           <Card.Content class="lg:flex gap-7 mr-9">
+            {#if qns.question_type === "Multiple"}
+              <div class="grid grid-cols-3 gap-2">
+                {#each qns.answer as ans}
+                  <div class="flex gap-2">
+                    <Checkbox disabled checked class="border-green-500 data-[state=checked]:bg-green-500"/>
+                    <Label
+                      for="option1"
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
+                    >
+                      {ans}
+                    </Label>
+                  </div>
+                {/each}
+              </div>
+            {:else}
               <h1 class="text-lg font-semibold font-mono">
                 Your answer : <span class="text-green-500">{qns.answer}</span>
               </h1>
+            {/if}
           </Card.Content>
           <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
           </Card.Footer>

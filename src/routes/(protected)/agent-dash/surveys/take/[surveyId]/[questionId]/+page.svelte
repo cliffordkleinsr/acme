@@ -34,7 +34,7 @@
 </script>
 
 <Progress value={perc} />
-<h1>Checkboxes: {items.join(', ')}</h1>
+<!-- <h1>Checkboxes: {items.join(', ')}</h1> -->
 <form action="" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
     {#if qns.question_type === "Single"}
             <Label for="answer">{qns.question}</Label>
