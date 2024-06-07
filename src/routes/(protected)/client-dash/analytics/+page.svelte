@@ -149,8 +149,8 @@
       <Table.Root>
         <Table.Header>
           <Table.Row>
-            <Table.Head class="w-[70px]">#</Table.Head>
-            <Table.Head class="lg:w-[800px]">Answers</Table.Head>
+            <Table.Head class="">#</Table.Head>
+            <Table.Head class="">Answers</Table.Head>
             <Table.Head></Table.Head>
             <Table.Head class="text-right">Percentage</Table.Head>
             <Table.Head class="text-right">Count</Table.Head> 
@@ -158,11 +158,11 @@
         </Table.Header>
         <Table.Body>
           {#each question.results as res, ix}
-          <Table.Row class="space-y-2">
+          <Table.Row class="space-y-2 lg:mx-px mx-auto">
             <Table.Cell class="font-normal">A{ix+1}</Table.Cell>
             <Table.Cell class=" font-normal line-clamp-3">{res.answer}</Table.Cell>
             <Table.Cell class="font-normal">
-              <Progress value={res.percentage} class="lg:w-[80%] w-full h-2"/>
+              <Progress value={res.percentage} class="lg:w-[80%] w-5 h-2"/>
             </Table.Cell>
             <Table.Cell class="font-normal text-right">{Math.round(res.percentage)}%</Table.Cell>
             <Table.Cell class="font-normal text-right ">{res.count}</Table.Cell>
