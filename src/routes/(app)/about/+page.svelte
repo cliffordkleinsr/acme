@@ -1,5 +1,4 @@
 <script>
-  import Team from "$lib/components/blocks/team.svelte";
   import * as Card from "$lib/components/ui/card";
 </script>
 

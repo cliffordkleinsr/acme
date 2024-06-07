@@ -80,7 +80,7 @@
                 >
                 {opt.name}
                 </Label>
-                <input type="checkbox" bind:group={items} name="answer" value={opt.name} />
+                <input type="checkbox" bind:group={items} name="answer" value={opt.name} hidden/>
             </div>
             {/if}
         {/each}
