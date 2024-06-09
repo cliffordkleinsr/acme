@@ -13,6 +13,16 @@
     import { Button } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+    import 'intro.js/minified/introjs.min.css'
+    import introJs from 'intro.js'
+	import { onMount } from 'svelte';
+
+    onMount(() => {
+        introJs().setOptions({
+            "dontShowAgain":true,
+            "dontShowAgainCookie":"introjs-dontShowAgain1"
+    }).start();
+    })
     type Survey = {
         id: string;
         title: string;
@@ -115,9 +125,9 @@
 </script>
 
 <div class="m-5">
-    <h1 class="text-sm ">
+    <!-- <h1 class="text-sm ">
         Select your predifined action using the <span class="italic font-bold">Actions</span> tab
-   </h1>
+   </h1> -->
     <div class="flex items-center py-4">
         <Input
           class="max-w-sm"
@@ -125,6 +135,7 @@
           type="text"
           bind:value={$filterValue}
         />
+       
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild let:builder>
               <Button variant="outline" class="ml-auto" builders={[builder]}>
@@ -142,7 +153,7 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border">
+    <div class="rounded-md border" data-intro='Here are all the surveys youve generated'>
         <Table.Root {...$tableAttrs}>
         <Table.Header>
             {#each $headerRows as headerRow}
@@ -155,7 +166,11 @@
                             <Button variant="ghost" on:click={props.sort.toggle}>
                                 <Render of={cell.render()} />
                                 <ArrowUpDown class={"ml-2 h-4 w-4"} />
-                            </Button>
+                            </Button>  
+                        {:else if cell.id !== "id" && cell.id !== "created" && cell.id !== "title"} 
+                            <div data-intro='Below you will find the actions available to modify your survey'>
+                                <Render of={cell.render()} />
+                            </div>
                         {:else}
                             <Render of={cell.render()} />
                         {/if}
@@ -176,7 +191,13 @@
                 {#each row.cells as cell (cell.id)}
                     <Subscribe attrs={cell.attrs()} let:attrs>
                     <Table.Cell {...attrs}>
-                        <Render of={cell.render()} />
+                        {#if cell.id !== "id" && cell.id !== "created" && cell.id !== "title"}
+                            <div data-intro='Click on the elipse to create questions or delete the survey entirely'>
+                                <Render of={cell.render()} />
+                            </div>
+                        {:else}
+                            <Render of={cell.render()} />
+                        {/if}  
                     </Table.Cell>
                     </Subscribe>
                 {/each}

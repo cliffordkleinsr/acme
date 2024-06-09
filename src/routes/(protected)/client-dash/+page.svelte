@@ -10,6 +10,10 @@
     import * as Tabs from "$lib/components/ui/tabs"
     import DataTable from "$lib/components/base_table/data-table.svelte"
     import LineChart from "lucide-svelte/icons/line-chart"
+    import 'intro.js/minified/introjs.min.css'
+    import introJs from 'intro.js'
+	import { onMount } from "svelte";
+
     export let data
     const {all_surv, draft_surv, live_surv, closed_surv, count } = data
 
@@ -17,6 +21,10 @@
     let msg: string
     let visible = true
     
+    onMount(()=>{
+        introJs().setOption("dontShowAgain", true).start();
+    })
+
     setTimeout(() => {
         visible = false 
     }, 2000)
@@ -28,7 +36,7 @@
     <Pretoast message={msg} type="warning"/>
 </div>
 {/if}
-<div class="flex flex-col m-4 gap-10 mt-2">
+<div class="flex flex-col m-4 gap-10 mt-2" data-title="Welcome {data.AuthedUser}" data-intro='This is your dashboard'>
     <div class="ml-5 mb-2">
         <Breadcrumb.Root>
             <Breadcrumb.List>
@@ -47,7 +55,7 @@
         </Breadcrumb.Root>
     </div>
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
-        <Card.Root>
+        <Card.Root data-intro='Here you can create new surveys'>
             <Card.Header>
                 <Card.Title><LineChart class="size-6 text-primary"/></Card.Title>
                 <Card.Description class="text-balance leading-relaxed">
@@ -59,6 +67,7 @@
             </Card.Footer>
         </Card.Root>
         <Card.Root
+            data-intro='Here you can see your total surveys'
             class="max-w-lg"
             data-x-chunk-name="dashboard-05-chunk-1"
             data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."
@@ -75,6 +84,7 @@
             </Card.Footer>
         </Card.Root>
         <Card.Root
+            data-intro='These are the total people who have taken a survey that youve created'
             class="lg:max-w-sm"
             data-x-chunk-name="dashboard-05-chunk-2"
             data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
@@ -95,9 +105,9 @@
 
 <Tabs.Root value="draft" class="lg:w-full w-96 mx-auto">
     <Tabs.List class="grid w-80 lg:w-[35rem] grid-cols-3 mx-5">
-      <Tabs.Trigger value="draft">Draft</Tabs.Trigger>
-      <Tabs.Trigger value="running">Running</Tabs.Trigger>
-      <Tabs.Trigger value="completed">Completed</Tabs.Trigger>
+      <Tabs.Trigger value="draft" data-intro='This tab shows draft surveys.'>Draft</Tabs.Trigger>
+      <Tabs.Trigger value="running" data-intro='This tab shows surveys that are live.'>Running</Tabs.Trigger>
+      <Tabs.Trigger value="completed" data-intro='This tab shows surveys that have been completed.'>Completed</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="draft">
         <DataTable data={draft_surv} type ={"Draft"}/>

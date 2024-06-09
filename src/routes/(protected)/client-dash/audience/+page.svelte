@@ -1,12 +1,11 @@
 <script lang="ts">
-	  import { onMount } from 'svelte';
     import type {PageData} from './$types';
-	  import { items } from '$lib/helperFunctions/helpers';
 	  import Chart from '$lib/components/blocks/chart.svelte';
-    import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
+
+
     export let data: PageData;
     const { by_sec, by_cty, by_age } = data
-    let loaded = false
+
     function calculateAge(birthday:Date) { // birthday is a date
         var ageDifMs = Date.now() - birthday.getTime();
         var ageDate = new Date(ageDifMs); // miliseconds from epoch
@@ -79,7 +78,8 @@
             text: "By sector"
         },
         xaxis: {
-          categories: sect_lbl
+          categories: sect_lbl,
+          
         }
     }
 
@@ -104,30 +104,15 @@
           }
         }]
         };
-  //   let chart: ApexCharts
-  //   const rendition = (el:HTMLDivElement, opts:any) => {
-  //       onMount(async()=> {
-  //           const module = await import('apexcharts')
-  //           const ApexCharts = module.default
-  //           chart = new ApexCharts(el, opts)
-  //           chart.render()
-  //       })
-  //   }
-  //   $: {
-  //   // Whenever `opts` changes, update the chart options
-  //   if (chart) {
-  //     chart.updateOptions(opts);
-  //   }
-  // }
 </script>
 <div class="flex flex-col gap-4 m-4">
-    <h1 class="text-2xl font-bold ">
+    <h1 class="text-2xl font-bold">
         Audience Demographics
     </h1>
-    <p class="italic text-sm">These statistics will continue to grow as more people respond to you're surveys</p>
+    <p class="italic text-sm w-72 lg:w-full">These statistics will continue to grow as more people respond to you're surveys</p>
     <div class="md:flex gap-6 w-full space-x-4 ">
       <Chart class="md:shadow-md" options={pie_options} />
-      <Chart class="lg:w-[30rem] 2xl:w-[62rem] w-80 space-y-2 pr-10" options={area_options} />
+      <Chart class="space-y-2 w-80 lg:w-full" options={area_options} />
     </div>
-    <Chart class="md:w-96 shadow-md w-80" options={radial} />
-  </div>
+    <Chart class="shadow-md w-80 lg:w-96" options={radial} />
+</div>
