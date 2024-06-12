@@ -12,6 +12,7 @@
 	import CheckCheck from 'lucide-svelte/icons/check-check';
 	import { invalidateAll } from '$app/navigation';
 	import { Checkbox } from '$lib/components/ui/checkbox';
+    import { Textarea } from "$lib/components/ui/textarea"
     
     
     export let data: PageData;
@@ -35,42 +36,53 @@
 
 <Progress value={perc} />
 <!-- <h1>Checkboxes: {items.join(', ')}</h1> -->
-<form action="" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
     {#if qns.question_type === "Single"}
+        <form action="?/defaultAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
             <Label for="answer">{qns.question}</Label>
+            <Textarea name="answer" />
             
-            <Input type="text" name="answer"/>
+            <!-- <Input type="text" name="answer"/> -->
             {#if form?.errors?.answer}
                 <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
             {/if}
             <Badge class="max-w-44 bg-green-300 text-white" variant="outline">PLEASE WRITE IN THE BOX</Badge>
+            <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
+        </form>
     {:else if qns.question_type === "Optional"}
-        <Label for="question">{qns.question}</Label>
-        <RadioGroup.Root>
-            {#each qns.options as opt}
-                {#if opt.name !== null}
-                    <div class="flex items-center space-x-2">
-                        <RadioGroup.Item value={opt.name}/>
-                        <Label for={opt.name}>{opt.name}</Label>
-                    </div>
+        <form action="?/defaultAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
+            <Label for="question">{qns.question}</Label>
+            <RadioGroup.Root>
+                {#each qns.options as opt, i}
+                {@const id = qns.optionid[i]}
+                    {#if opt !== null}
+                        <div class="flex items-center space-x-2">
+                            <RadioGroup.Item value={opt}/>
+                            <Label for={opt}>{opt}</Label>
+                            <!-- <Input value={id} name="optionId" class="hidden"/> -->
+                        </div>
+                    {/if}
+                {/each}
+                <RadioGroup.Input name="answer"/>
+                
+                {#if form?.errors?.answer}
+                    <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
                 {/if}
-            {/each}
-            <RadioGroup.Input name="answer"/>
-            {#if form?.errors?.answer}
-                <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
-            {/if}
-        </RadioGroup.Root>
+            </RadioGroup.Root>
+            <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
+        </form>
     {:else}
-    <Label for="question">{qns.question}</Label> 
-        {#each qns.options as opt}
-            {#if opt.name !== null}
+    <form action="?/addOptAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
+        <Label for="question">{qns.question}</Label> 
+        {#each qns.options as opt, i}
+            {@const id = qns.optionid[i]}
+            {#if opt !== null}
             <div class="flex gap-2">
                 <Checkbox
                 onCheckedChange={(v) => {
                     if (v) {
-                      addItem(opt.name);
+                      addItem(opt);
                     } else {
-                      removeItem(opt.name);
+                      removeItem(opt);
                     }
                   }}
                 />
@@ -78,12 +90,13 @@
                 for="option1"
                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
                 >
-                {opt.name}
+                {opt}
                 </Label>
-                <input type="checkbox" bind:group={items} name="answer" value={opt.name} hidden/>
+                <input type="checkbox" bind:group={items} name="answer" value={opt} hidden/>
+                <Input value={id} name="optionId" class="hidden"/>
             </div>
             {/if}
         {/each}
+        <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
+    </form>
     {/if}   
-    <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
-</form>

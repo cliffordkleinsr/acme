@@ -14,8 +14,8 @@
 </script>
 <ScrollArea class=" h-[700px] w-full m-2">
 <div class="flex flex-col m-4 gap-10">
-    <h1 class="text-3xl font-semi-bold text-start font-mono ml-2 gap-1">
-        History <br> <span class="text-sm">Survey Id :{$page.params.surveyId}</span>
+    <h1 class="text-3xl font-semi-bold text-start  ml-2 gap-1">
+        History <br> <span class="text-sm">Survey Id : <span class="text-xs">{$page.params.surveyId}</span></span>
         <Button class=" float-end" variant="destructive" href="/agent-dash/surveys/history"> <Undo2 class="size-4" /> Back</Button>
     </h1>
     
@@ -23,8 +23,8 @@
       {#each questions as qns, ix}
         <Card.Root>
           <Card.Header class="space-y-4">
-            <Card.Title><span class="font-mono text-xl">{ix+1} </span>: {qns.question}</Card.Title>
-            <Card.Description>ID : {qns.id}</Card.Description>
+            <Card.Title><span class=" text-xl">{ix+1} </span>: {(qns.question).toUpperCase()}</Card.Title>
+            <Card.Description class="text-[9px] font-light">ID : {qns.id}</Card.Description>
             <Separator />
           </Card.Header>
           <Card.Content class="lg:flex gap-7 mr-9">
@@ -43,7 +43,7 @@
                 {/each}
               </div>
             {:else}
-              <h1 class="text-lg font-semibold font-mono">
+              <h1 class="text-lg font-semibold ">
                 Your answer : <span class="text-green-500">{qns.answer}</span>
               </h1>
             {/if}

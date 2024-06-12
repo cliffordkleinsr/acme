@@ -8,11 +8,13 @@ import {
     emailVerificationCodes,
     respondentData,
     sessionsTable,
+    surveyqnsTableV2,
     type ClientDataInsertSchema,
     type RespondentInsertSchema,
     type resData,
     type surveyGenerateSchema,
     type surveyQnsSchema,
+    type surveyQnsSchemaV2,
     type surveySelectSchema,
     type userInsertSchema 
 } from "./schema"
@@ -65,7 +67,9 @@ export const createNewSurvey = async (data: surveyGenerateSchema) => {
 export const addSurveyQuestions = async (data: surveyQnsSchema) => {
     await db.insert(SurveyQnsTable).values(data)
 }
-
+export const addSurveyQuestionsv2 = async (data: surveyQnsSchemaV2) => {
+    await db.insert(surveyqnsTableV2).values(data)
+}
 export const checkDate = async (id:string, fromdb: Date) => {
     let diff = new Date().getTime() - fromdb.getTime()
     if (diff  > 0) {

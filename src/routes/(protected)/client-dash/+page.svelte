@@ -22,7 +22,10 @@
     let visible = true
     
     onMount(()=>{
-        introJs().setOption("dontShowAgain", true).start();
+        setTimeout(()=> {
+            introJs().setOption("dontShowAgain", true).start();
+        }, 1500)
+        
     })
 
     setTimeout(() => {

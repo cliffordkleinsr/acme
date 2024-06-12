@@ -127,6 +127,90 @@
       "when": 1717669445448,
       "tag": "0023_heavy_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1718026707444,
+      "tag": "0024_cool_mandroid",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "6",
+      "when": 1718027011374,
+      "tag": "0025_bitter_wasp",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "6",
+      "when": 1718027070549,
+      "tag": "0026_romantic_crystal",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "6",
+      "when": 1718027560507,
+      "tag": "0027_kind_bloodstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "6",
+      "when": 1718028041851,
+      "tag": "0028_gifted_vision",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "6",
+      "when": 1718086692663,
+      "tag": "0029_same_christian_walker",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "6",
+      "when": 1718094926142,
+      "tag": "0030_lean_peter_quill",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "6",
+      "when": 1718095220354,
+      "tag": "0031_sparkling_manta",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "6",
+      "when": 1718095290067,
+      "tag": "0032_tired_the_fallen",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "6",
+      "when": 1718096100968,
+      "tag": "0033_sad_lady_deathstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "6",
+      "when": 1718185167148,
+      "tag": "0034_rare_zarda",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "6",
+      "when": 1718185217204,
+      "tag": "0035_magical_terror",
+      "breakpoints": true
     }
   ]
 }

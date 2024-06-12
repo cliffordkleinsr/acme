@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { SurveyQnsTable } from '$lib/server/schema';
+import { SurveyQnsTable, surveyqnsTableV2 } from '$lib/server/schema';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms';
@@ -9,10 +9,10 @@ import { addSurveyQuestions } from '$lib/server/db_utils';
 export const load: PageServerLoad = async ({params}) => {
     const surveyqns = await db
     .select({
-        id: SurveyQnsTable.questionId
+        id: surveyqnsTableV2.questionId
     })
-    .from(SurveyQnsTable)
-    .where(eq(SurveyQnsTable.surveid, params.surveyId))
+    .from(surveyqnsTableV2)
+    .where(eq(surveyqnsTableV2.surveid, params.surveyId))
     
     
     return {

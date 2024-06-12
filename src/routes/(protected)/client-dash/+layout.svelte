@@ -300,7 +300,7 @@
     <DropdownMenu.Content align="end">
       <DropdownMenu.Label>My Account</DropdownMenu.Label>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item class="gap-3.5"><Settings class="size-4"/>Settings</DropdownMenu.Item>
+      <DropdownMenu.Item class="gap-3.5" href="/client-settings"><Settings class="size-4"/>Settings</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5"> <CandlestickChart class="size-4"/> Pricing Plans</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5"><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5"><Tag class="size-4"/>Support</DropdownMenu.Item>
@@ -313,7 +313,7 @@
 </header>
 {#key data.url}
   <div 
-  in:fade={{delay:300, duration:300, easing:sineIn}}
+  in:fade={{delay:500, duration:300, easing:sineIn}}
   out:fade={{duration:300, easing:sineOut}}
   >
   <slot />

@@ -140,4 +140,9 @@
         </Card.Root>            
     </div>
 </div>
-<Chart class="max-w-2xl ml-5 mt-5" options={options} />
+{#if count.length > 0}
+    <Chart class="max-w-2xl ml-5 mt-5" options={options} />
+{:else}
+<p class="m-5 italic text-sm">take a survey to see your stats grow</p>
+{/if}
+

@@ -23,7 +23,7 @@
   $: length = values.length
   
   $: switch (true) {
-    case length >= 6:
+    case length >= 7:
       disabled = true
       break;
   
@@ -114,7 +114,7 @@
         <Input type="text" name="question"/>
         {#each values as v, i}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option_{i}"/>
+          <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
       <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>

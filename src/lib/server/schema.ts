@@ -1,10 +1,10 @@
-import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer  } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer, primaryKey, unique  } from "drizzle-orm/pg-core";
 
 
 
 // refs
 export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "RESP"])
-export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple"])
+export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Ranking"])
 export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
 
 
@@ -102,7 +102,7 @@ export const SurveyTable = pgTable('surveys', {
 
 export const SurveyQnsTable = pgTable('survey_questions', {
     questionId: uuid('questionid').defaultRandom().primaryKey(),
-    surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
+    surveid: text("surveyid").references(() => SurveyTable.surveyid),
     questionT: QuestionType("question_type").default("Single").notNull(),
     question: text("question"),
     // answer: text("answer"),
@@ -117,19 +117,32 @@ export const SurveyQnsTable = pgTable('survey_questions', {
         withTimezone: true,
         mode: "date" 
     }).defaultNow().notNull()
-    // respondentId: text("respondent_id").references(() => UsersTable.id)
 })
 
-// export const optionsTable = pgTable('optionals', {
-//     surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
-//     questionId: uuid('questionid').defaultRandom().primaryKey(),
-//     optionT: QuestionType("option_type").default("Optional").notNull(),
-//     option: text('option')
-// })
+
+export const surveyqnsTableV2 = pgTable('survey_qns_optimum', {
+    questionId: uuid('questionid').defaultRandom().primaryKey(),
+    surveid: text("surveyid").references(() => SurveyTable.surveyid),
+    questionT: text("question_type").default("Single").notNull(),
+    question: text("question").notNull(),
+    updatedAt: timestamp('updated_at', {
+        withTimezone: true,
+        mode: "date"
+    }).defaultNow().notNull()
+});
+
+export const QuestionOptions = pgTable('question_options', {
+    optionId: uuid('optionid').defaultRandom().primaryKey().notNull(),
+    questionId: uuid('questionid')
+        .references(() => surveyqnsTableV2.questionId)
+        .notNull(),
+    option: text('option').notNull(),
+});
 
 export const AnswersTable = pgTable('answers', {
-    questionId: uuid('questionid').references(()=> SurveyQnsTable.questionId),
+    questionId: uuid('questionid').references(()=> surveyqnsTableV2.questionId).notNull(),
     surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
+    optionId: uuid('option_id').references(()=> QuestionOptions.optionId),
     answer: text("answer").notNull(),
     respondentId: text("respondent_id").references(() => UsersTable.id).notNull(),
     updatedAt: timestamp('updated_at', {
@@ -143,4 +156,5 @@ export type RespondentInsertSchema = typeof respondentData.$inferInsert
 export type surveyGenerateSchema = typeof SurveyTable.$inferInsert
 export type surveySelectSchema = typeof SurveyTable.$inferSelect
 export type surveyQnsSchema = typeof SurveyQnsTable.$inferInsert
+export type surveyQnsSchemaV2 = typeof surveyqnsTableV2.$inferInsert
 export type resData = typeof respondentData.$inferSelect

@@ -81,6 +81,7 @@
   const groupedAnswers = Object.values(questionMap)
 
 </script>
+{#if answers.length > 0}
 {#if isDesktop}
   <!-- <ScrollArea class=" h-[850px] w-full "> -->
   <div class="grid gap-4 m-2 w-full">
@@ -191,4 +192,8 @@
   </Card.Root>    
   {/each}
   </div>
+{/if}
+
+{:else}
+<p class="m-5 italic text-sm">These statistics will grow as more people answer your surveys</p>
 {/if}

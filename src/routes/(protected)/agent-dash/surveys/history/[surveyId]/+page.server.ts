@@ -1,23 +1,23 @@
 import { db } from '$lib/server/db';
-import { AnswersTable, SurveyQnsTable, SurveyTable } from '$lib/server/schema';
+import { AnswersTable, surveyqnsTableV2 } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({params}) => {
     const questions = await db
-    .selectDistinctOn([SurveyQnsTable.questionId],{
-        id: SurveyQnsTable.questionId,
-        question: SurveyQnsTable.question,
-        surv_id: SurveyQnsTable.surveid,
-        question_type: SurveyQnsTable.questionT,
+    .selectDistinctOn([surveyqnsTableV2.questionId],{
+        id: surveyqnsTableV2.questionId,
+        question: surveyqnsTableV2.question,
+        surv_id: surveyqnsTableV2.surveid,
+        question_type: surveyqnsTableV2.questionT,
         answer: sql<string[]>`ARRAY_AGG(${AnswersTable.answer}) AS answers`
     })
-    .from(SurveyQnsTable)
+    .from(surveyqnsTableV2)
     .leftJoin(AnswersTable, 
-        eq(SurveyQnsTable.questionId, AnswersTable.questionId)
+        eq(surveyqnsTableV2.questionId, AnswersTable.questionId)
     )
-    .where(eq(SurveyQnsTable.surveid, params.surveyId))
-    .groupBy(SurveyQnsTable.questionId, SurveyQnsTable.question, SurveyQnsTable.surveid);
+    .where(eq(surveyqnsTableV2.surveid, params.surveyId))
+    .groupBy(surveyqnsTableV2.questionId, surveyqnsTableV2.question, surveyqnsTableV2.surveid);
     // questions.forEach(element => {
     //     console.log(element)
         

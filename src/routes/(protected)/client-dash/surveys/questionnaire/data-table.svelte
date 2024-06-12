@@ -16,12 +16,15 @@
     import 'intro.js/minified/introjs.min.css'
     import introJs from 'intro.js'
 	import { onMount } from 'svelte';
-
+    
     onMount(() => {
-        introJs().setOptions({
-            "dontShowAgain":true,
-            "dontShowAgainCookie":"introjs-dontShowAgain1"
-    }).start();
+        setTimeout(()=>{
+            introJs().setOptions({
+                    "dontShowAgain":true,
+                    "dontShowAgainCookie":"introjs-dontShowAgain1"
+            }).start();
+        }, 1500)
+      
     })
     type Survey = {
         id: string;
@@ -153,7 +156,7 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border" data-intro='Here are all the surveys youve generated'>
+    <div class="rounded-md border" data-intro='Here are all the surveys you"ve generated'>
         <Table.Root {...$tableAttrs}>
         <Table.Header>
             {#each $headerRows as headerRow}

@@ -61,10 +61,10 @@
     {#if qns.question_type === "Optional"}
           <RadioGroup.Root value="option-one" class="grid grid-cols-4 max-w-md">
             {#each qns.options as option, id}
-              {#if option.name != null}
+              {#if option != null}
                 <div class="flex items-center space-x-2">
-                  <RadioGroup.Item value="{option.name}" disabled/>
-                  <Label for={option.name}>{option.name}</Label>
+                  <RadioGroup.Item value="{option}" disabled/>
+                  <Label for={option}>{option}</Label>
                 </div>
                 {/if}
             {/each}
@@ -72,14 +72,14 @@
       {:else if qns.question_type === "Multiple"}
         <div class="grid grid-cols-3 gap-2">
         {#each qns.options as option, id}
-            {#if option.name != null}
+            {#if option != null}
             <div class="flex gap-2">
             <Checkbox disabled/>
               <Label
                 for="option1"
                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
               >
-                {option.name}
+                {option}
               </Label>
             </div>
               {/if}
@@ -110,8 +110,16 @@
             {#if qns.question_type === "Optional" || qns.question_type ===  "Multiple"}
               <Label>Options </Label>
               {#each qns.options as option, i}
-                {#if option.name != null}
-                  <Input type="text" value={option.name} name="option{i+1}"/> 
+              {@const id = qns.optionid[i]}
+                {#if option != null}
+                  <div class="flex gap-4">
+                  <Input type="text" value={option} name="option"/>
+                  <Input type="text" value={id} name="optionId" class="hidden"/>
+                <form action="?/deleteOpt" method="post">
+                  <Input type="text" value={id} name="optionId" class="hidden"/>
+                  <Button size="icon" variant="secondary" type="submit"><Trash2 class="size-4 text-destructive"/></Button>
+                </form>
+              </div>
                 {/if}
               {/each}
             {/if}
