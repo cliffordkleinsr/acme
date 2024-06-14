@@ -14,28 +14,25 @@
   import { Checkbox } from "$lib/components/ui/checkbox"
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
   import Trash2 from 'lucide-svelte/icons/trash-2'  
-	import QuestionComponent from '$lib/components/blocks/questionComponent.svelte';
+	import QuestionComponent from '$lib/components/blocks/questionnareComponents/questionComponent.svelte';
   import * as RadioGroup from "$lib/components/ui/radio-group"
   import CheckCheck from 'lucide-svelte/icons/check-check'
   import Target from 'lucide-svelte/icons/target'
   import FolderOpen from "lucide-svelte/icons/folder-open";
-	import StarComponent from '$lib/components/blocks/rating/StarComponent.svelte';
+	import StarComponent from '$lib/components/blocks/questionnareComponents/rating/StarComponent.svelte';
   import Star from 'lucide-svelte/icons/star'
   import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
-  import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
-	import { Textarea } from "$lib/components/ui/textarea"
-  
-  
+	import LikertComponent from '$lib/components/blocks/questionnareComponents/likertcomponent/LikertComponent.svelte';
+
+  let arr = [1,2,3,4]
+  let disabl = [false,false,false,false] 
+  const setRank = (index: number, rank: number)=> {
+    
+  }
   export let data: PageData;
   const { surveydata, surveyqns } = data
-  let likert_options:{option:string}[] = [
-    {option: "Very Satisfied"},
-    {option: "Satisfied"},
-    {option: "Neutral"},
-    {option: "Dissatisfied"},
-    {option: "Very Dissatisfied"},
-  ]
 
+  
   // Existing in DB
 </script>
 <div class="m-4">
@@ -130,20 +127,22 @@
       {:else if qns.question_type === "Rating"}
         <StarComponent/>
       {:else if qns.question_type === "Likert"}
-        <RadioGroup.Root value="option-one" class="grid grid-cols-2 max-w-lg">
-          {#each likert_options as value, id}
-              <div class="flex items-center space-x-2">
-                <RadioGroup.Item value="{value.option}" disabled/>
-                <Label for={value.option}>{value.option}</Label>
-              </div>
-          {/each}
+        <RadioGroup.Root value="option-one" class="grid grid-cols-2 space-y-1">
+          <LikertComponent likert_key={qns.likert_key} />
         </RadioGroup.Root>
       {:else if qns.question_type === "Ranking"}
-        {#each qns.options as option, id}
-        <p>{id}.{option}</p>
+      <div class="grid gap-2">
+        {#each qns.options as option, id} 
+           <p>{option}</p>
+           <div class="grid grid-cols-5 gap-2 max-w-lg">
+            {#each [1, 2, 3, 4] as rank}
+              <Button class="sixe-6 focus:bg-primary" size="icon" variant="secondary" >{rank}</Button>
+            {/each}
+            </div>
         {/each}
+      </div>
       {:else}
-        <Textarea class="w-1/2" disabled/>
+        <Input class="w-1/2" disabled/>
       {/if}
   </Card.Content>
   <Card.Footer class="float-end gap-10">

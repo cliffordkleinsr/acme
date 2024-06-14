@@ -10,6 +10,8 @@
     import FolderOpen from "lucide-svelte/icons/folder-open";
     import Star from 'lucide-svelte/icons/star'
     import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
+    import * as Select from "$lib/components/ui/select"
+    
     import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
 
     let isDesktop = true
@@ -23,6 +25,20 @@
     if (browser) {
       isDesktop = window.innerWidth >= 768
     }
+    let target:string ='agreement'
+    let likert_key = [
+      {label: "Agreement", value: 'agreement'},
+      {label: 'Frequency', value: 'frequency'},
+      {label: 'Appropriateness', value: 'appropriateness'},
+      {label: 'Satisfaction', value: 'satisfaction'},
+      {label: 'Reflective of me', value: 'reflective'},
+      {label: 'Level of difficulty', value: 'lod'},
+      {label: 'Priority', value: 'priority'},
+      {label: 'Quality', value: 'quality'},
+      {label: 'Importance', value: 'importance'}
+    ]
+
+    let selected_lks = {label:'Select target likert scale' , value:'agreement'}
 
     let values = [
       {option: ''}
@@ -321,6 +337,22 @@
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
+        <Select.Root
+            selected={selected_lks}
+            onSelectedChange={(v) => {
+              v && (target = v.value);
+            }}
+        >
+          <Select.Trigger>
+            <Select.Value placeholder="Select Target Agents" />
+          </Select.Trigger>
+          <Select.Content>
+            {#each likert_key as lks}
+            <Select.Item value={lks.value}>{lks.label}</Select.Item>
+            {/each}
+          </Select.Content>
+      </Select.Root>
+        <Input value={target} name="target" class="hidden"/>
       </div>
       <Button type="submit">Save changes</Button>
     </form>
@@ -342,6 +374,23 @@
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
+
+        <Select.Root
+            selected={selected_lks}
+            onSelectedChange={(v) => {
+              v && (target = v.value);
+            }}
+        >
+            <Select.Trigger>
+              <Select.Value placeholder="Select Target Agents" />
+            </Select.Trigger>
+            <Select.Content>
+              {#each likert_key as lks}
+              <Select.Item value={lks.value}>{lks.label}</Select.Item>
+              {/each}
+            </Select.Content>
+        </Select.Root>
+        <Input value={target} name="target" class="hidden"/>
       </div>
       <Button type="submit">Save changes</Button>
     </form>
@@ -365,7 +414,7 @@
         Enter Question (This question will have a rank of 1 to 5)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addRankQns" method="post" class="grid items-start gap-4">
+    <form action="?/addRnkQns" method="post" class="grid items-start gap-4">
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>

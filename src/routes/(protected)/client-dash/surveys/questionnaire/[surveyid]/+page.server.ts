@@ -20,6 +20,7 @@ export const load: PageServerLoad = async ({params}) => {
                 id: surveyqnsTableV2.questionId,
                 question: surveyqnsTableV2.question,
                 question_type: surveyqnsTableV2.questionT,
+                likert_key: surveyqnsTableV2.likertKey,
                 optionid: sql<string[]>`ARRAY_AGG(${QuestionOptions.optionId}) AS optionid`,
                 options: sql<string[]>`ARRAY_AGG(${QuestionOptions.option}) AS options`
             })
@@ -290,9 +291,11 @@ export const actions: Actions = {
     addLikQns: async({request, params}) => {
         type Entry = {
             question: string
+            target:  string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
-        const { question } = data
+        // console.log(data)
+        const { question , target} = data
 
         try 
         {
@@ -300,6 +303,7 @@ export const actions: Actions = {
                 surveid: params.surveyid,
                 questionT: "Likert",
                 question: question,
+                likertKey: target
             })
             // await addSurveyQuestions({
             //     surveid: params.surveyid,
