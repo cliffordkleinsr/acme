@@ -263,7 +263,103 @@ export const actions: Actions = {
         //        console.error(err)
         //    }
     },
+    addStarQns: async ({request, params}) => {
+        type Entry = {
+            question: string
+        }
+        const data = Object.fromEntries(await request.formData()) as Entry
+        const { question } = data
 
+        try 
+        {
+            await addSurveyQuestionsv2({
+                surveid: params.surveyid,
+                questionT: "Rating",
+                question: question,
+            })
+            // await addSurveyQuestions({
+            //     surveid: params.surveyid,
+            //     question: question
+            // })
+
+        } catch (err) 
+        {
+            console.error(err)
+        }
+    },
+    addLikQns: async({request, params}) => {
+        type Entry = {
+            question: string
+        }
+        const data = Object.fromEntries(await request.formData()) as Entry
+        const { question } = data
+
+        try 
+        {
+            await addSurveyQuestionsv2({
+                surveid: params.surveyid,
+                questionT: "Likert",
+                question: question,
+            })
+            // await addSurveyQuestions({
+            //     surveid: params.surveyid,
+            //     question: question
+            // })
+
+        } catch (err) 
+        {
+            console.error(err)
+        }
+    },
+    addRnkQns: async({request, params}) => {
+        const data = await request.formData()
+        const qns = data.get("question")
+        const quid =  crypto.randomUUID()
+        // console.log(data)
+        let map: any[] = []
+
+        data.forEach((value, name) => {
+            if (name !== "question"){
+                map = [...map, { option: value} as {option: string}]
+            }
+        })
+
+        try {
+            // Validate and insert the question once
+
+            await db.insert(surveyqnsTableV2).values({
+                questionId: quid,
+                surveid: params.surveyid,
+                questionT: "Ranking",
+                question: qns as string
+            })
+
+            // Insert each unique option for the question
+            // const uniqueOptions = [...new Set(map.map(item => item.option))];
+            for (const insert of map) {
+                // Validate the option
+                const { option } = multiZodSchema.parse(insert);
+
+                // Insert the option
+                await db.insert(QuestionOptions).values({
+                    questionId: quid,
+                    option: option
+                })
+            }
+            
+        } catch (err) {
+             
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
+    },
     deleteSurvQns: async ({request}) => {
         type EntryId = {
             questionId: string

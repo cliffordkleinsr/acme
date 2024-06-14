@@ -211,6 +211,13 @@
       "when": 1718185217204,
       "tag": "0035_magical_terror",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "6",
+      "when": 1718268833611,
+      "tag": "0036_cheerful_dreadnoughts",
+      "breakpoints": true
     }
   ]
 }

@@ -4,7 +4,7 @@ import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer, prima
 
 // refs
 export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "RESP"])
-export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Ranking"])
+export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Rating", "Likert", "Ranking"])
 export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
 
 
@@ -143,6 +143,7 @@ export const AnswersTable = pgTable('answers', {
     questionId: uuid('questionid').references(()=> surveyqnsTableV2.questionId).notNull(),
     surveid: text("surveyid").references(() => SurveyTable.surveyid).notNull(),
     optionId: uuid('option_id').references(()=> QuestionOptions.optionId),
+    rankId: text("rankid"),
     answer: text("answer").notNull(),
     respondentId: text("respondent_id").references(() => UsersTable.id).notNull(),
     updatedAt: timestamp('updated_at', {

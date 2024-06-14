@@ -1,27 +1,41 @@
 <script lang="ts">
-	import { browser } from "$app/environment";
+	  import { browser } from "$app/environment";
     import * as Dialog from "$lib/components/ui/dialog"
     import * as Drawer from "$lib/components/ui/drawer"
     import { Button } from "$lib/components/ui/button"
     import { Label } from "$lib/components/ui/label"
     import { Input } from "$lib/components/ui/input"
-    import { ScrollArea } from "$lib/components/ui/scroll-area"
-    
+    import CheckCheck from 'lucide-svelte/icons/check-check'
+    import Target from 'lucide-svelte/icons/target'
+    import FolderOpen from "lucide-svelte/icons/folder-open";
+    import Star from 'lucide-svelte/icons/star'
+    import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
+    import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
+
     let isDesktop = true
     let open = false;
     let disabled = false
     let other = true
+
+    let disabled_rank = false
+    let other_rank = true
+    
     if (browser) {
       isDesktop = window.innerWidth >= 768
     }
 
     let values = [
-    {option: ''}
-  ]
+      {option: ''}
+    ]
+    let rankers = [
+      {opts: ''}
+    ]
 
   // Blank Values
   $: length = values.length
-  
+  $: length_rank = rankers.length
+
+  // for Multiplechoice
   $: switch (true) {
     case length >= 7:
       disabled = true
@@ -40,22 +54,49 @@
       other = true
       break;
   }
+
+  // for ranker
+  $: switch (true) {
+    case length_rank >= 5:
+      disabled_rank = true
+      break;
+  
+    default:
+      disabled_rank = false;
+      break;
+  }
+  $: switch (true) {
+    case length >= 1:
+      other_rank = false
+      break;
+  
+    default:
+      other_rank = true
+      break;
+  }
   const addOption = () => {
     values = [...values, {option: ''}]
   }
   const remOption = () => {
       values = values.slice(0, values.length-1)
-    }
+  }
+
+  const addOption2 = () => {
+    rankers = [...rankers, {opts: ''}]
+  }
+  const remOption2 = () => {
+    rankers = rankers.slice(0, rankers.length-1)
+  }
 </script>
 
 {#if isDesktop}
   <Dialog.Root bind:open>
     <Dialog.Trigger asChild let:builder>
-        <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Single Answer</Button>
+        <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><FolderOpen class="size-4"/> Add open ended question</Button>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header class="space-y-3">
-        <Dialog.Title>Single Answer Question</Dialog.Title>
+        <Dialog.Title>Open ended Question</Dialog.Title>
         <Dialog.Description>
             Enter Question (This question will have a single answer option)
         </Dialog.Description>
@@ -72,11 +113,11 @@
 {:else}
   <Drawer.Root bind:open>
     <Drawer.Trigger asChild let:builder>
-      <Button variant="outline" builders={[builder]}>Add Question With Single Answer</Button>
+      <Button variant="outline" builders={[builder]} class="flex gap-2"><FolderOpen class="size-4"/> Add open ended question</Button>
     </Drawer.Trigger>
     <Drawer.Content>
       <Drawer.Header class="text-left space-y-3">
-        <Drawer.Title>Single Answer Question</Drawer.Title>
+        <Drawer.Title>Open ended Question</Drawer.Title>
         <Drawer.Description>
           Enter Question (This question will have a single answer option)
         </Drawer.Description>
@@ -99,13 +140,13 @@
 {#if isDesktop}
   <Dialog.Root>
   <Dialog.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Multiple Answers</Button>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><CheckCheck class="size-4" />Add multiple selection question</Button>
   </Dialog.Trigger>
   <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header class="space-y-3">
-      <Dialog.Title>Multiple Answer Question</Dialog.Title>
+      <Dialog.Title>Multiple Selection Question</Dialog.Title>
       <Dialog.Description>
-        Enter Question (This question will have multiple answers)
+        Enter Question (This question can have multiple answers which can be ticked)
       </Dialog.Description>
     </Dialog.Header>
     <form action="?/addMultiQns" method="post" class="grid items-start gap-4">
@@ -126,16 +167,76 @@
 {:else}
   <Drawer.Root>
   <Drawer.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]}>Add Question With Multiple Answers</Button>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"><CheckCheck class="size-4" /> Add checkbox question</Button>
   </Drawer.Trigger>
   <Drawer.Content>
     <Drawer.Header class="text-left space-y-3">
-      <Drawer.Title>Multiple Answer Question</Drawer.Title>
+      <Drawer.Title>Checkbox Question</Drawer.Title>
       <Drawer.Description>
-        Enter Question (This question will have multiple answers)
+        Enter Question (This question can have multiple answers which can be ticked)
       </Drawer.Description>
     </Drawer.Header>
     <form action="?/addMultiQns" method="post" class="grid items-start gap-4 px-4">
+      <div class="grid gap-2">
+        <Label for="question">Question</Label>
+        <Input type="text" name="question"/>
+        {#each values as v, i}
+          <Label for="option">Enter Option</Label>
+          <Input type="text" bind:value={v.option} name="option_{i}"/>
+        {/each}
+      </div>
+      <Button variant="secondary" on:click={addOption}>Add Option</Button>
+      <Button variant="secondary" on:click={remOption}>Remove Option</Button>
+      <Button type="submit">Save changes</Button>
+    </form>
+    <Drawer.Footer class="pt-2">
+      <Drawer.Close asChild let:builder>
+        <Button variant="outline" builders={[builder]}>Cancel</Button>
+      </Drawer.Close>
+    </Drawer.Footer>
+  </Drawer.Content>
+  </Drawer.Root>
+{/if}
+{#if isDesktop}
+  <Dialog.Root>
+  <Dialog.Trigger asChild let:builder>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <Target class="size-4"/> Add multiple choice question</Button>
+  </Dialog.Trigger>
+  <Dialog.Content class="sm:max-w-[425px]">
+    <Dialog.Header class="space-y-3">
+      <Dialog.Title>Multiple Choice Question</Dialog.Title>
+      <Dialog.Description>
+        Enter Question (This question will have one optional answer with multiple selections)
+      </Dialog.Description>
+    </Dialog.Header>
+    <form action="?/addOptQns" method="post" class="grid items-start gap-4">
+      <div class="grid gap-2">
+        <Label for="question">Question</Label>
+        <Input type="text" name="question"/>
+        {#each values as v, i}
+          <Label for="option">Enter Option</Label>
+          <Input type="text" bind:value={v.option} name="option_{i}"/>
+        {/each}
+      </div>
+      <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
+      <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
+      <Button type="submit">Save changes</Button>
+    </form>
+  </Dialog.Content>
+  </Dialog.Root>
+{:else}
+  <Drawer.Root>
+  <Drawer.Trigger asChild let:builder>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"> <Target class="size-4"/> Add multiple choice question</Button>
+  </Drawer.Trigger>
+  <Drawer.Content>
+    <Drawer.Header class="text-left space-y-3">
+      <Drawer.Title>Multiple Choice Question</Drawer.Title>
+      <Drawer.Description>
+        Enter Question (This question will have one optional answer with multiple selections)
+      </Drawer.Description>
+    </Drawer.Header>
+    <form action="?/addOptQns" method="post" class="grid items-start gap-4 px-4">
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
@@ -159,26 +260,20 @@
 {#if isDesktop}
   <Dialog.Root>
   <Dialog.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="text-xs">Add Question With Optional Answers</Button>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2 text-center"><Star class="size-4"/> Add a rating question</Button>
   </Dialog.Trigger>
   <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header class="space-y-3">
-      <Dialog.Title>Multiple Answer Question</Dialog.Title>
+      <Dialog.Title>Rating Question</Dialog.Title>
       <Dialog.Description>
-        Enter Question (This question will have one optional answer with multiple selections)
+        Enter Question (This question will have 5 stars to choose from)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addOptQns" method="post" class="grid items-start gap-4">
+    <form action="?/addStarQns" method="post" class="grid items-start gap-4">
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-        {#each values as v, i}
-          <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option_{i}"/>
-        {/each}
       </div>
-      <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-      <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
   </Dialog.Content>
@@ -186,26 +281,128 @@
 {:else}
   <Drawer.Root>
   <Drawer.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]}>Add Question With Optional Answers</Button>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"> <Star class="size-4"/> Add rating question</Button>
   </Drawer.Trigger>
   <Drawer.Content>
     <Drawer.Header class="text-left space-y-3">
-      <Drawer.Title>Optional Answer Question</Drawer.Title>
+      <Drawer.Title>Rating Question</Drawer.Title>
       <Drawer.Description>
-        Enter Question (This question will have one optional answer with multiple selections)
+        Enter Question (This question will have 5 stars to choose from)
       </Drawer.Description>
     </Drawer.Header>
-    <form action="?/addOptQns" method="post" class="grid items-start gap-4 px-4">
+    <form action="?/addStarQns" method="post" class="grid items-start gap-4 px-4">
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-        {#each values as v, i}
+      </div>
+      <Button type="submit">Save changes</Button>
+    </form>
+    <Drawer.Footer class="pt-2">
+      <Drawer.Close asChild let:builder>
+        <Button variant="outline" builders={[builder]}>Cancel</Button>
+      </Drawer.Close>
+    </Drawer.Footer>
+  </Drawer.Content>
+  </Drawer.Root>
+{/if}
+{#if isDesktop}
+  <Dialog.Root>
+  <Dialog.Trigger asChild let:builder>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <SlidersHorizontal class="size-4"/> Add a likert question</Button>
+  </Dialog.Trigger>
+  <Dialog.Content class="sm:max-w-[425px]">
+    <Dialog.Header class="space-y-3">
+      <Dialog.Title>Likert Question</Dialog.Title>
+      <Dialog.Description>
+        Enter Question (This question will have one optinionative selection)
+      </Dialog.Description>
+    </Dialog.Header>
+    <form action="?/addLikQns" method="post" class="grid items-start gap-4">
+      <div class="grid gap-2">
+        <Label for="question">Question</Label>
+        <Input type="text" name="question"/>
+      </div>
+      <Button type="submit">Save changes</Button>
+    </form>
+  </Dialog.Content>
+  </Dialog.Root>
+{:else}
+  <Drawer.Root>
+  <Drawer.Trigger asChild let:builder>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"> <SlidersHorizontal class="size-4"/> Add a likert question</Button>
+  </Drawer.Trigger>
+  <Drawer.Content>
+    <Drawer.Header class="text-left space-y-3">
+      <Drawer.Title>Likert Question</Drawer.Title>
+      <Drawer.Description>
+        Enter Question (This question will have one optinionative selection)
+      </Drawer.Description>
+    </Drawer.Header>
+    <form action="?/addLikQns" method="post" class="grid items-start gap-4 px-4">
+      <div class="grid gap-2">
+        <Label for="question">Question</Label>
+        <Input type="text" name="question"/>
+      </div>
+      <Button type="submit">Save changes</Button>
+    </form>
+    <Drawer.Footer class="pt-2">
+      <Drawer.Close asChild let:builder>
+        <Button variant="outline" builders={[builder]}>Cancel</Button>
+      </Drawer.Close>
+    </Drawer.Footer>
+  </Drawer.Content>
+  </Drawer.Root>
+{/if}
+{#if isDesktop}
+  <Dialog.Root>
+  <Dialog.Trigger asChild let:builder>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <BarChart4  class="size-4"/> Add a ranking question</Button>
+  </Dialog.Trigger>
+  <Dialog.Content class="sm:max-w-[425px]">
+    <Dialog.Header class="space-y-3">
+      <Dialog.Title>Ranking Question</Dialog.Title>
+      <Dialog.Description>
+        Enter Question (This question will have a rank of 1 to 5)
+      </Dialog.Description>
+    </Dialog.Header>
+    <form action="?/addRankQns" method="post" class="grid items-start gap-4">
+      <div class="grid gap-2">
+        <Label for="question">Question</Label>
+        <Input type="text" name="question"/>
+        {#each rankers as v, i}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option_{i}"/>
+          <Input type="text" bind:value={v.opts} name="option_{i}"/>
         {/each}
       </div>
-      <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-      <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
+      <Button variant="secondary" on:click={addOption2} bind:disabled={disabled_rank}>Add Option</Button>
+      <Button variant="secondary" on:click={remOption2} bind:disabled={other_rank}>Remove Option</Button>
+      <Button type="submit">Save changes</Button>
+    </form>
+  </Dialog.Content>
+  </Dialog.Root>
+{:else}
+  <Drawer.Root>
+  <Drawer.Trigger asChild let:builder>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"> <BarChart4 class="size-4"/> Add a ranking question</Button>
+  </Drawer.Trigger>
+  <Drawer.Content>
+    <Drawer.Header class="text-left space-y-3">
+      <Drawer.Title>Ranking Question</Drawer.Title>
+      <Drawer.Description>
+        Enter Question (This question will have a rank of 1 to 5)
+      </Drawer.Description>
+    </Drawer.Header>
+    <form action="?/addRnkQns" method="post" class="grid items-start gap-4 px-4">
+      <div class="grid gap-2">
+        <Label for="question">Question</Label>
+        <Input type="text" name="question"/>
+        {#each rankers as v, i}
+          <Label for="option">Enter Option</Label>
+          <Input type="text" bind:value={v.opts} name="option_{i}"/>
+        {/each}
+      </div>
+      <Button variant="secondary" on:click={addOption2} bind:disabled={disabled_rank}>Add Option</Button>
+      <Button variant="secondary" on:click={remOption2} bind:disabled={other_rank}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
     <Drawer.Footer class="pt-2">

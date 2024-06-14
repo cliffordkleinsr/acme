@@ -16,10 +16,25 @@
   import Trash2 from 'lucide-svelte/icons/trash-2'  
 	import QuestionComponent from '$lib/components/blocks/questionComponent.svelte';
   import * as RadioGroup from "$lib/components/ui/radio-group"
+  import CheckCheck from 'lucide-svelte/icons/check-check'
+  import Target from 'lucide-svelte/icons/target'
+  import FolderOpen from "lucide-svelte/icons/folder-open";
+	import StarComponent from '$lib/components/blocks/rating/StarComponent.svelte';
+  import Star from 'lucide-svelte/icons/star'
+  import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
+  import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
+	import { Textarea } from "$lib/components/ui/textarea"
+  
   
   export let data: PageData;
   const { surveydata, surveyqns } = data
-
+  let likert_options:{option:string}[] = [
+    {option: "Very Satisfied"},
+    {option: "Satisfied"},
+    {option: "Neutral"},
+    {option: "Dissatisfied"},
+    {option: "Very Dissatisfied"},
+  ]
 
   // Existing in DB
 </script>
@@ -49,15 +64,42 @@
         </Card.Content>
     </Card.Root>
 </div>
-<h1 class="text-center mt-10 text-2xl pr-16 pb-6 underline underline-offset-4">Question List</h1>
+<h1 class="text-center mt-10 text-xl font-medium pr-16 pb-6">Question List</h1>
 <div class="grid lg:grid-cols-2 gap-4 ">
 {#each surveyqns as qns, id}
 <Card.Root class="lg:w-[87%]">
   <Card.Header>
-    <Card.Description class="text-xs font-thin">{qns.id}</Card.Description>
+    <Card.Description class="text-xs font-thin">
+      {#if qns.question_type === "Optional"}
+      <div class="flex gap-2">
+        <p class=" font-semibold">{id+1}.</p>
+        <Target class="size-4"/>
+      </div>
+      {:else if qns.question_type === "Multiple"}
+      <div class="flex gap-2">
+        <p class=" font-semibold">{id+1}.</p>
+        <CheckCheck class="size-4" />
+      </div>
+      {:else if qns.question_type === "Rating"}
+      <div class="flex gap-2">
+        <p class=" font-semibold">{id+1}.</p>
+        <Star class="size-4" />
+      </div>
+      {:else if qns.question_type === "Likert"}
+      <div class="flex gap-2">
+        <p class=" font-semibold">{id+1}.</p>
+        <SlidersHorizontal class="size-4" />
+      </div>
+      {:else}
+      <div class="flex gap-2">
+        <p class=" font-semibold">{id+1}.</p>
+        <FolderOpen class="size-4"/>
+      </div>
+      {/if}
+    </Card.Description>
   </Card.Header>
   <Card.Content class="space-y-5">
-    <h1 class="text-md">{id+1}. {qns.question}</h1>
+    <h1 class="text-md">{qns.question}</h1>
     {#if qns.question_type === "Optional"}
           <RadioGroup.Root value="option-one" class="grid grid-cols-4 max-w-md">
             {#each qns.options as option, id}
@@ -70,7 +112,7 @@
             {/each}
           </RadioGroup.Root>
       {:else if qns.question_type === "Multiple"}
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid grid-cols-2 2xl:grid-cols-3 gap-2">
         {#each qns.options as option, id}
             {#if option != null}
             <div class="flex gap-2">
@@ -85,8 +127,23 @@
               {/if}
         {/each}
       </div>
+      {:else if qns.question_type === "Rating"}
+        <StarComponent/>
+      {:else if qns.question_type === "Likert"}
+        <RadioGroup.Root value="option-one" class="grid grid-cols-2 max-w-lg">
+          {#each likert_options as value, id}
+              <div class="flex items-center space-x-2">
+                <RadioGroup.Item value="{value.option}" disabled/>
+                <Label for={value.option}>{value.option}</Label>
+              </div>
+          {/each}
+        </RadioGroup.Root>
+      {:else if qns.question_type === "Ranking"}
+        {#each qns.options as option, id}
+        <p>{id}.{option}</p>
+        {/each}
       {:else}
-        <Input type="text" class="w-1/2" disabled/>
+        <Textarea class="w-1/2" disabled/>
       {/if}
   </Card.Content>
   <Card.Footer class="float-end gap-10">
@@ -155,4 +212,5 @@
 </Card.Root>
 {/each}
 </div>
+
 </div>

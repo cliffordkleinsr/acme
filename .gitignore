@@ -58,3 +58,8 @@ drizzle/migrations/meta/0032_snapshot.json
 drizzle/migrations/meta/0033_snapshot.json
 drizzle/migrations/meta/0034_snapshot.json
 drizzle/migrations/meta/0035_snapshot.json
+drizzle/migrations/0036_cheerful_dreadnoughts.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0036_snapshot.json
+drizzle/migrations/meta/_journal.json
+src/lib/components/blocks/asa

@@ -112,7 +112,7 @@
             data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."
         >
             <Card.Header class="pb-2 ">
-                <Card.Description>This Week</Card.Description>
+                <Card.Description>Total Surveys This Week</Card.Description>
                 <Card.Title class="text-4xl">10</Card.Title>
             </Card.Header>
             <Card.Content>
@@ -128,7 +128,7 @@
             data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
         >
             <Card.Header class="pb-2">
-                <Card.Description>This Month</Card.Description>
+                <Card.Description>Total Surveys This Month</Card.Description>
                 <Card.Title class="text-3xl">20</Card.Title>
             </Card.Header>
             <Card.Content>

@@ -9,21 +9,21 @@
     import { Label } from "$lib/components/ui/label"
     
     import Undo2 from 'lucide-svelte/icons/undo-2'
+	import { capitalizeFirstLetter } from '$lib/helperFunctions/helpers';
     export let data: PageData;
     const { questions} =data
 </script>
-<ScrollArea class=" h-[700px] w-full m-2">
+
 <div class="flex flex-col m-4 gap-10">
     <h1 class="text-3xl font-semi-bold text-start  ml-2 gap-1">
         History <br> <span class="text-sm">Survey Id : <span class="text-xs">{$page.params.surveyId}</span></span>
         <Button class=" float-end" variant="destructive" href="/agent-dash/surveys/history"> <Undo2 class="size-4" /> Back</Button>
     </h1>
-    
     <div class="grid lg:grid-cols-2 2xl:grid-cols-4 gap-3">
       {#each questions as qns, ix}
         <Card.Root>
           <Card.Header class="space-y-4">
-            <Card.Title><span class=" text-xl">{ix+1} </span>: {(qns.question).toUpperCase()}</Card.Title>
+            <Card.Title><span class=" text-xl">{ix+1} </span>: {capitalizeFirstLetter(qns.question)}</Card.Title>
             <Card.Description class="text-[9px] font-light">ID : {qns.id}</Card.Description>
             <Separator />
           </Card.Header>
@@ -55,4 +55,3 @@
     </div>
     <p class="lg:mr-24 text-end text-sm italic">your opinion matters</p>
 </div>
-</ScrollArea>
