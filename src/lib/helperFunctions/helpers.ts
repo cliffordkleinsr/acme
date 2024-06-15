@@ -137,5 +137,7 @@ likert_options.set('Importance', [
   {option: "Slightly unimportant"},
   {option: "Unimportant"},
   {option: "Very unimportant"},
-]);
+])
+
+
 export {items, df, open, likert_options, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter}

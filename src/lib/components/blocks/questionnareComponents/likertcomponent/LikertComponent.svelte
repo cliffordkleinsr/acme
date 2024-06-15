@@ -27,7 +27,7 @@
     {#each likert_data as opt, id}
         <div class="flex items-center space-x-2">
             <RadioGroup.Item value="{opt.option}" disabled/>
-            <Label for={opt.option}>{opt.option}</Label>
+            <Label for={opt.option} class="text-muted-foreground">{opt.option}</Label>
         </div>
     {/each}
 {:else}

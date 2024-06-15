@@ -82,6 +82,8 @@ export const SurveyTable = pgTable('surveys', {
     surveyDescription: text('survey_desc').notNull(),
     status: Status("status").default("Draft").notNull(),
     target: integer("target"),
+    target_age: text("target_age"),
+    target_gender: text("target_gender"),
     from: timestamp('from', {
         mode:"date"
     }),

@@ -24,15 +24,34 @@
   import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
 	import LikertComponent from '$lib/components/blocks/questionnareComponents/likertcomponent/LikertComponent.svelte';
 
-  let arr = [1,2,3,4]
-  let disabl = [false,false,false,false] 
-  const setRank = (index: number, rank: number)=> {
+  // let arr = [1,2,3,4]
+  // let disabl = [false,false,false,false] 
+  // const setRank = (index: number, rank: number)=> {
     
-  }
+  // }
+  
   export let data: PageData;
   const { surveydata, surveyqns } = data
 
-  
+  // let rankings:any = []
+  // for (const { options } of surveyqns) {
+  //   rankings = options.map(()=>0)
+  // }
+  // function setRank(index:number, rank:number) {
+  //   if (rankings[index] === rank) {
+  //     // If the same rank is clicked again, unset it
+  //     rankings[index] = 0;
+  //   } else {
+  //     // Clear the rank from any other option
+  //     rankings = rankings.map((r:number) => (r === rank ? 0 : r));
+  //     // Set the new rank for the selected option
+  //     rankings[index] = rank;
+  //   }
+  //   rankings = [...rankings];
+  // }
+  // function isRankDisabled(rank:number) {
+  //   return rankings.includes(rank);
+  // }
   // Existing in DB
 </script>
 <div class="m-4">
@@ -95,15 +114,15 @@
       {/if}
     </Card.Description>
   </Card.Header>
-  <Card.Content class="space-y-5">
+  <Card.Content class="space-y-3">
     <h1 class="text-md">{qns.question}</h1>
     {#if qns.question_type === "Optional"}
-          <RadioGroup.Root value="option-one" class="grid grid-cols-4 max-w-md">
+          <RadioGroup.Root value="option-one" class="grid grid-cols-3 max-w-md">
             {#each qns.options as option, id}
               {#if option != null}
                 <div class="flex items-center space-x-2">
                   <RadioGroup.Item value="{option}" disabled/>
-                  <Label for={option}>{option}</Label>
+                  <Label for={option} class="text-muted-foreground">{option}</Label>
                 </div>
                 {/if}
             {/each}
@@ -131,12 +150,36 @@
           <LikertComponent likert_key={qns.likert_key} />
         </RadioGroup.Root>
       {:else if qns.question_type === "Ranking"}
-      <div class="grid gap-2">
+      <div class="grid gap-1">
         {#each qns.options as option, id} 
-           <p>{option}</p>
-           <div class="grid grid-cols-5 gap-2 max-w-lg">
-            {#each [1, 2, 3, 4] as rank}
-              <Button class="sixe-6 focus:bg-primary" size="icon" variant="secondary" >{rank}</Button>
+           <p class="text-muted-foreground">{option}</p> 
+           <div class="grid grid-cols-5 gap-1 max-w-lg">
+            {#each [1, 2, 3, 4, 5] as rank}
+            <div class="flex flex-col gap-2">
+              <Button
+                variant="secondary"
+                size="icon"
+                disabled
+              >
+                {rank}
+              </Button>
+              {#if rank === 1}
+              <p class="text-muted-foreground text-xs ml-2">High</p>
+              {:else if rank === 5}
+              <p class="text-muted-foreground text-xs ml-2">Low</p>
+              {/if}
+              
+              <!-- <Button
+               
+                variant="secondary"
+                size="icon"
+                class="{rankings[id] === rank?'bg-primary': 'bg-muted'}"
+                on:click={() => setRank(id, rank)}
+                disabled={rankings[id] !== rank && isRankDisabled(rank)}
+              >
+              {rank}
+            </Button> -->
+            </div>
             {/each}
             </div>
         {/each}
@@ -211,5 +254,4 @@
 </Card.Root>
 {/each}
 </div>
-
 </div>

@@ -23,12 +23,15 @@ export const load: PageServerLoad = async ({params}) => {
 export const actions: Actions = {
     goLive: async ({request, params}) => {
         type SurveyTimes = {
-            from: string,
-            to: string,
+            from: string
+            to: string
             target: string
+            target_age_group: string
+            target_gender: string
         }
         const data = Object.fromEntries(await request.formData()) as SurveyTimes
-        const { from, to, target } = data
+        console.log(data)
+        const { from, to, target, target_age_group, target_gender } = data
         let starting = new Date(from)
         let ending = new Date(to)
       
@@ -40,6 +43,8 @@ export const actions: Actions = {
                 from: starting,
                 to: ending,
                 target: parseInt(target),
+                target_age: target_age_group,
+                target_gender:target_gender,
                 updatedAt: new Date()
                 
             })

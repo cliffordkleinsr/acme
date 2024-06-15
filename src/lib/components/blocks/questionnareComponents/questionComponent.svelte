@@ -108,7 +108,7 @@
 {#if isDesktop}
   <Dialog.Root bind:open>
     <Dialog.Trigger asChild let:builder>
-        <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><FolderOpen class="size-4"/> Add open ended question</Button>
+        <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><FolderOpen class="size-4"/> Add an open ended question</Button>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header class="space-y-3">
@@ -129,7 +129,7 @@
 {:else}
   <Drawer.Root bind:open>
     <Drawer.Trigger asChild let:builder>
-      <Button variant="outline" builders={[builder]} class="flex gap-2"><FolderOpen class="size-4"/> Add open ended question</Button>
+      <Button variant="outline" builders={[builder]} class="flex gap-2"><FolderOpen class="size-4"/> Add an open ended question</Button>
     </Drawer.Trigger>
     <Drawer.Content>
       <Drawer.Header class="text-left space-y-3">
@@ -156,7 +156,7 @@
 {#if isDesktop}
   <Dialog.Root>
   <Dialog.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><CheckCheck class="size-4" />Add multiple selection question</Button>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-1"><CheckCheck class="size-4" />Add multiple selection question</Button>
   </Dialog.Trigger>
   <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header class="space-y-3">
@@ -183,11 +183,11 @@
 {:else}
   <Drawer.Root>
   <Drawer.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="flex gap-2"><CheckCheck class="size-4" /> Add checkbox question</Button>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"><CheckCheck class="size-4" /> Add a multiple selection question</Button>
   </Drawer.Trigger>
   <Drawer.Content>
     <Drawer.Header class="text-left space-y-3">
-      <Drawer.Title>Checkbox Question</Drawer.Title>
+      <Drawer.Title>Multiple Selection Question</Drawer.Title>
       <Drawer.Description>
         Enter Question (This question can have multiple answers which can be ticked)
       </Drawer.Description>
@@ -216,11 +216,11 @@
 {#if isDesktop}
   <Dialog.Root>
   <Dialog.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <Target class="size-4"/> Add multiple choice question</Button>
+    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <Target class="size-4"/> Add a single selection question</Button>
   </Dialog.Trigger>
   <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header class="space-y-3">
-      <Dialog.Title>Multiple Choice Question</Dialog.Title>
+      <Dialog.Title>Single Selection Question</Dialog.Title>
       <Dialog.Description>
         Enter Question (This question will have one optional answer with multiple selections)
       </Dialog.Description>
@@ -243,11 +243,11 @@
 {:else}
   <Drawer.Root>
   <Drawer.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="flex gap-2"> <Target class="size-4"/> Add multiple choice question</Button>
+    <Button variant="outline" builders={[builder]} class="flex gap-2"> <Target class="size-4"/> Add a single selection question</Button>
   </Drawer.Trigger>
   <Drawer.Content>
     <Drawer.Header class="text-left space-y-3">
-      <Drawer.Title>Multiple Choice Question</Drawer.Title>
+      <Drawer.Title>Single Selection Question</Drawer.Title>
       <Drawer.Description>
         Enter Question (This question will have one optional answer with multiple selections)
       </Drawer.Description>

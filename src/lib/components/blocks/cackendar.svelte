@@ -29,10 +29,30 @@
       end: new CalendarDate(yyyy, mm, dd).add({ days: 10 })
     }
     let target:number=10
-    let selected = {label:'Select Agents' , value:10}
+    let selected_agents = {label:'Select Agents' , value:10}
+
+    let age_group = [
+      {label: "20 - 30", value: '20-30'},
+      {label: "30 - 50", value: '30-50'},
+      {label: "50 - 70", value: '50-70'},
+
+    ]
+    let target_age_group:string='20-30'
+    let selected_age_group = {label:'Select Age Group' , value:'20-30'}
+
+    let gender = [
+      {label: "male", value: 'male'},
+      {label: "female", value: 'female'},
+      {label: "Attack Helicopter", value: 'helicopter'},
+
+    ]
+    let target_gender:string='male'
+    let selected_gender = {label:'Select Prefered Gender Demographic', value:'male'}
     let startValue: DateValue | undefined = undefined;
+
+
   </script>
-  <div class=" grid grid-cols-2 gap-3 space-x-2">
+  <div class=" grid lg:grid-cols-3 gap-3 space-x-2">
   <div class="grid gap-2">
     <Popover.Root openFocus>
       <Popover.Trigger asChild let:builder>
@@ -72,7 +92,7 @@
     </Popover.Root>
   </div>
   <Select.Root
-  selected={selected}
+  selected={selected_agents}
   onSelectedChange={(v) => {
     v && (target = v.value);
   }}
@@ -86,6 +106,37 @@
       <Select.Item value=30>30 Agents</Select.Item>
     </Select.Content>
   </Select.Root>
+  <Select.Root
+    selected={selected_age_group}
+    onSelectedChange={(v) => {
+      v && (target_age_group = v.value);
+    }}
+  >
+      <Select.Trigger>
+        <Select.Value placeholder="Select Target Agents" />
+      </Select.Trigger>
+      <Select.Content>
+        {#each age_group as grp}
+        <Select.Item value={grp.value}>{grp.label}</Select.Item>
+        {/each}
+      </Select.Content>
+  </Select.Root>
+  <Select.Root
+    selected={selected_gender}
+    onSelectedChange={(v) => {
+      v && (target_gender = v.value);
+    }}
+  >
+      <Select.Trigger>
+        <Select.Value placeholder="Select Target Agents" />
+      </Select.Trigger>
+      <Select.Content>
+        {#each gender as grp}
+        <Select.Item value={grp.value}>{grp.label}</Select.Item>
+        {/each}
+      </Select.Content>
+  </Select.Root>
+  <div class=""></div>
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild let:builder>
       <Button builders={[builder]}><Flame class="size-4"/> Go Live</Button>
@@ -104,6 +155,8 @@
           <Input value={value?.start} name="from" class="hidden"/>
           <Input value={value?.end} name="to" class="hidden"/>
           <Input value={target} name="target" class="hidden"/>
+          <Input value={target_age_group} name="target_age_group" class="hidden"/>
+          <Input value={target_gender} name="target_gender" class="hidden"/>
           <Button type="submit">Proceed</Button>
         </form>
       </AlertDialog.Footer>

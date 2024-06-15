@@ -44,6 +44,7 @@ export const load: PageServerLoad = async ({params}) => {
     //         {name: qns.option7 as string}
     //     ]
     // })) 
+
     return {
         surveydata: data,
         surveyqns: questions
