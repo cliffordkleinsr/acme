@@ -4,7 +4,7 @@
     import * as RadioGroup from "$lib/components/ui/radio-group"
 
     export let likert_key
-
+    export let disabled =true
     type Likert = { option: string };
 
     const likert_categories: { [key: string]: Likert[] } = {
@@ -26,7 +26,7 @@
 {#if likert_data}
     {#each likert_data as opt, id}
         <div class="flex items-center space-x-2">
-            <RadioGroup.Item value="{opt.option}" disabled/>
+            <RadioGroup.Item value="{opt.option}" {disabled}/>
             <Label for={opt.option} class="text-muted-foreground">{opt.option}</Label>
         </div>
     {/each}

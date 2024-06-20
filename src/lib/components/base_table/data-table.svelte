@@ -161,7 +161,7 @@
             <Subscribe rowAttrs={headerRow.attrs()}>
                 <Table.Row>
                 {#each headerRow.cells as cell (cell.id)}
-                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
+                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
                     <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
                         {#if cell.id === "title"}
                             <Button variant="ghost" on:click={props.sort.toggle}>

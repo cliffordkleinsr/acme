@@ -47,6 +47,11 @@ function capitalizeFirstLetter(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function calculateAge(birthday: string) { // birthday is a date
+  var ageDifMs = Date.now() - new Date(birthday).getTime();
+  var ageDate = new Date(ageDifMs); // miliseconds from epoch
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
 let likert_options = new Map();
 
 likert_options.set('Agreement', [
@@ -140,4 +145,4 @@ likert_options.set('Importance', [
 ])
 
 
-export {items, df, open, likert_options, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter}
+export {items, df, open, likert_options, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}

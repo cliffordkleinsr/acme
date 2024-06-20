@@ -13,6 +13,20 @@
     import { Button } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+    import 'intro.js/minified/introjs.min.css'
+    import introJs from 'intro.js'
+	import { onMount } from 'svelte';
+    
+    onMount(() => {
+        setTimeout(()=>{
+            introJs().setOptions({
+                    "dontShowAgain":true,
+                    "dontShowAgainCookie":"introjs-dontShowAgain5"
+            }).start();
+        }, 1500)
+      
+    })
+
     interface History {
         id: string;
         title: string;
@@ -152,7 +166,7 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border">
+    <div class="rounded-md border" data-intro="Click on the three dots to see what you answered">
         <Table.Root {...$tableAttrs}>
         <Table.Header>
             {#each $headerRows as headerRow}

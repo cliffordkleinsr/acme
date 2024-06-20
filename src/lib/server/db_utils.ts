@@ -87,7 +87,33 @@ export const deleteClientUsers = async () => {
      await db.delete(sessionsTable)
      await db.delete(clientData)
      await db.delete(UsersTable)
-     
-    
+       
 }
+
+export const setTarget = async (id: string): Promise<void> => {
+    try {
+        const curr_tgt = await db
+            .select({
+                target: SurveyTable.target
+            })
+            .from(SurveyTable)
+            .where(eq(SurveyTable.surveyid, id))
+
+        const currTarget = curr_tgt[0].target!
+        if (currTarget === undefined) {
+            throw new Error('Target not found')
+        }
+
+        const new_tgt = currTarget - 1
+
+        await db
+            .update(SurveyTable)
+            .set({
+                target: new_tgt
+            })
+            .where(eq(SurveyTable.surveyid, id))
+    } catch (error) {
+        console.error('Error updating target:', error)
+    }
+};
 

@@ -69,3 +69,6 @@ drizzle/migrations/meta/0037_snapshot.json
 drizzle/migrations/0038_special_marrow.sql
 drizzle/migrations/meta/_journal.json
 drizzle/migrations/meta/0038_snapshot.json
+drizzle/migrations/0039_exotic_silk_fever.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0039_snapshot.json

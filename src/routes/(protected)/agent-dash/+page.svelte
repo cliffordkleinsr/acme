@@ -79,11 +79,11 @@
         <Breadcrumb.Root>
             <Breadcrumb.List>
               <Breadcrumb.Item>
-                <Breadcrumb.Link href="##">Home</Breadcrumb.Link>
+                <Breadcrumb.Link href="/agent-dash/surveys/take">Questions</Breadcrumb.Link>
               </Breadcrumb.Item>
               <Breadcrumb.Separator />
               <Breadcrumb.Item>
-                <Breadcrumb.Link href="##">Analytics</Breadcrumb.Link>
+                <Breadcrumb.Link href="/agent-dash/surveys/history">History</Breadcrumb.Link>
               </Breadcrumb.Item>
               <Breadcrumb.Separator />
               <Breadcrumb.Item>
@@ -113,7 +113,7 @@
         >
             <Card.Header class="pb-2 ">
                 <Card.Description>Total Surveys This Week</Card.Description>
-                <Card.Title class="text-4xl">10</Card.Title>
+                <Card.Title class="text-4xl">2</Card.Title>
             </Card.Header>
             <Card.Content>
                 <div class="text-xs text-muted-foreground">+25% from last week</div>
@@ -129,7 +129,7 @@
         >
             <Card.Header class="pb-2">
                 <Card.Description>Total Surveys This Month</Card.Description>
-                <Card.Title class="text-3xl">20</Card.Title>
+                <Card.Title class="text-3xl">5</Card.Title>
             </Card.Header>
             <Card.Content>
                 <div class="text-xs text-muted-foreground">+10% from last month</div>

@@ -38,7 +38,7 @@
   } from "@internationalized/date"
 	
   // Local Variables
-  import {incomes, employments, educations, sectors} from '$lib/json/index'
+  import {incomes, employments, educations, sectors, gender} from '$lib/json/index'
   import{ items, df, closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
   
   // KitLoad<MiddleWare>
@@ -71,7 +71,12 @@
 
   // Reactive Props for select inputs
   $: value = $formData.dateofbirth ? parseDate($formData.dateofbirth) : undefined
-
+  $: selectedGender= $formData.gender
+    ? {
+        label: $formData.gender,
+        value: $formData.gender
+      }
+    : undefined
   $: selectedEmployment = $formData.employment
     ? {
         label: $formData.employment,
@@ -107,7 +112,7 @@
       <Breadcrumb.Separator>
       </Breadcrumb.Separator>
       <Breadcrumb.Item>
-      <Breadcrumb.Link href="/respondent/signin">Agent SignIn</Breadcrumb.Link>
+      <Breadcrumb.Link href="/agent/signin">Agent SignIn</Breadcrumb.Link>
       </Breadcrumb.Item>
       <Breadcrumb.Separator>
       </Breadcrumb.Separator>
@@ -155,6 +160,30 @@
                 <Form.Control let:attrs>
                   <Form.Label>Phone Number</Form.Label>
                   <Input {...attrs} bind:value={$formData.phoneno} />
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+            </div>
+            <div class="grid gap-2">
+              <Form.Field {form} name="gender" class="flex flex-col">
+                <Form.Control let:attrs>
+                  <Form.Label>Gender</Form.Label>
+                  <Select.Root
+                    selected ={selectedGender}
+                    onSelectedChange={(v) => {
+                      v && ($formData.gender = v.value)
+                    }}
+                  >
+                    <Select.Trigger {...attrs}>
+                      <Select.Value placeholder="Select your Gender" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      {#each gender as gen}
+                        <Select.Item value={gen.label} label={gen.label}></Select.Item>
+                      {/each}
+                    </Select.Content>
+                  </Select.Root>
+                  <input hidden bind:value={$formData.gender} name={attrs.name} />
                 </Form.Control>
                 <Form.FieldErrors />
               </Form.Field>

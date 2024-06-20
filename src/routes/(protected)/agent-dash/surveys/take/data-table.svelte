@@ -13,6 +13,19 @@
     import { Button } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+    import 'intro.js/minified/introjs.min.css'
+    import introJs from 'intro.js'
+	import { onMount } from 'svelte';
+    
+    onMount(() => {
+        setTimeout(()=>{
+            introJs().setOptions({
+                    "dontShowAgain":true,
+                    "dontShowAgainCookie":"introjs-dontShowAgain4"
+            }).start();
+        }, 1500)
+      
+    })
     interface Survey {
         id: string;
         title: string;
@@ -88,7 +101,7 @@
         }),
         table.column({
             accessor: ({ id }) => id,
-            header: "",
+            header: "Actions",
             cell: ({ value }) => {
                 return createRender(DataTableActions, { id: value });
             },
@@ -152,7 +165,7 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border">
+    <div class="rounded-md border" data-intro='here you will find a list of all the surveys you can take'>
         <Table.Root {...$tableAttrs}>
         <Table.Header>
             {#each $headerRows as headerRow}
@@ -166,6 +179,10 @@
                                 <Render of={cell.render()} />
                                 <ArrowUpDown class={"ml-2 h-4 w-4"} />
                             </Button>
+                        {:else if cell.id !== "id" && cell.id !== "from" && cell.id !== "to" && cell.id !== "title"} 
+                        <div data-intro='Below you will see three dots if there is any survey available'>
+                            <Render of={cell.render()} />
+                        </div>
                         {:else}
                             <Render of={cell.render()} />
                         {/if}

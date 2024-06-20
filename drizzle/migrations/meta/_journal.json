@@ -232,6 +232,13 @@
       "when": 1718449566109,
       "tag": "0038_special_marrow",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "6",
+      "when": 1718709683815,
+      "tag": "0039_exotic_silk_fever",
+      "breakpoints": true
     }
   ]
 }

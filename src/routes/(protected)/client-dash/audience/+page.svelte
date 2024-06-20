@@ -112,7 +112,7 @@
     <p class="italic text-sm">These statistics will continue to grow as more people respond to you're surveys</p>
     <div class="md:flex gap-6 w-full space-x-4 ">
       <Chart class="md:shadow-md" options={pie_options} />
-      <Chart class="space-y-2 w-2/4 2xl:w-full" options={area_options} />
+      <Chart class="space-y-2 w-5/6 2xl:w-1/2" options={area_options} />
     </div>
     <Chart class="shadow-md w-80 lg:w-96 " options={radial} />
 </div>

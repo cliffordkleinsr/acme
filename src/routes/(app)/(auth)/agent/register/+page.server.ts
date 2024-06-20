@@ -7,7 +7,7 @@ import { checkIfEmailExists, insertNewUser, insertRespData } from "$lib/server/d
 import { generateId } from "lucia"
 import { Argon2id } from "oslo/password"
 import { lucia } from "$lib/server/auth";
-import { handleLoginRedirect } from "$lib/helperFunctions/helpers"
+import { calculateAge, handleLoginRedirect } from "$lib/helperFunctions/helpers"
 import type { Actions, PageServerLoad } from "./$types"
 
 
@@ -47,6 +47,7 @@ export const actions: Actions = {
             sector,
             phoneno,
             dateofbirth,
+            gender,
         } = form.data
 
         // check if the email is already registered
@@ -60,13 +61,15 @@ export const actions: Actions = {
         {
             const userid = generateId(15)
             const hashPassword =  await new Argon2id().hash(password)
-
+            let age = calculateAge(dateofbirth)
             await insertNewUser({
                 id: userid,
                 fullname: fullname,
                 email: email,
                 password:hashPassword,
                 isEmailVerified: true, //set to false if you use email verification
+                age: age,
+                gender: gender
             })
 
             await insertRespData({
@@ -82,13 +85,13 @@ export const actions: Actions = {
             })
 
             // create a session in the database
-            // const session = await lucia.createSession(userid, {})
-            // const sessionCookie = lucia.createSessionCookie(session.id)
+            const session = await lucia.createSession(userid, {})
+            const sessionCookie = lucia.createSessionCookie(session.id)
 
-            // cookies.set(sessionCookie.name, sessionCookie.value,{
-            //     path: ".",
-            //     ...sessionCookie.attributes
-            // })
+            cookies.set(sessionCookie.name, sessionCookie.value,{
+                path: ".",
+                ...sessionCookie.attributes
+            })
            
 
         } catch (err) 

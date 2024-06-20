@@ -4,7 +4,7 @@ import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer, prima
 
 // refs
 export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "RESP"])
-export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Rating", "Likert"])
+export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Ranking", "Rating", "Likert"])
 export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
 
 
@@ -16,7 +16,8 @@ export const UsersTable = pgTable('users', {
     isEmailVerified: boolean("is_email_verified").notNull().default(false),
     password: text("password").notNull(),
     role: UserRole("userole").default("RESP").notNull(),
-
+    age: integer("age"),
+    gender: text("gender"),
     createdAt: timestamp('created_at', {
         withTimezone: true,
         mode: "date" 

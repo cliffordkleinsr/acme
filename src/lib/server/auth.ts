@@ -24,7 +24,9 @@ export const lucia = new Lucia(
             fullname: attributes.fullname,
             email: attributes.email,
             role: attributes.role,
-            isEmailVerified: attributes.isEmailVerified
+            isEmailVerified: attributes.isEmailVerified,
+            gender: attributes.gender,
+            age: attributes.age,
         }
     }
 })
@@ -36,7 +38,9 @@ declare module "lucia" {
             fullname:string,
             email:string,
             role:string,
-            isEmailVerified:boolean
+            isEmailVerified:boolean,
+            gender: string,
+            age: number
         }
     }
 }

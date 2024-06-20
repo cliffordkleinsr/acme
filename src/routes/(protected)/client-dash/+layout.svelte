@@ -49,7 +49,7 @@
 
 
 <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-<div class=" sticky top-0 h-svh overflow-y-auto hidden border-r bg-muted/40 md:block">
+<div class="sticky top-0 h-svh overflow-y-auto hidden border-r bg-muted/40 md:block">
 <div class="flex h-full max-h-screen flex-col gap-2">
   <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
     <a href="/client-dash" class="flex items-center gap-2 font-semibold">
@@ -311,13 +311,13 @@
     </DropdownMenu.Content>
   </DropdownMenu.Root>
 </header>
-{#key data.url}
+<!-- {#key data.url}
   <div 
   in:fade={{delay:500, duration:300, easing:sineIn}}
   out:fade={{duration:300, easing:sineOut}}
-  >
+  > -->
   <slot />
-  </div>
-{/key}
+  <!-- </div>
+{/key} -->
 </div>
 </div>

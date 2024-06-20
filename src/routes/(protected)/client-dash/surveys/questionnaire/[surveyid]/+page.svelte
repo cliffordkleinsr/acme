@@ -14,7 +14,7 @@
   import { Checkbox } from "$lib/components/ui/checkbox"
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
   import Trash2 from 'lucide-svelte/icons/trash-2'  
-	import QuestionComponent from '$lib/components/blocks/questionnareComponents/questionComponent.svelte';
+	import QuestionComponent from '$lib/components/blocks/questionnareComponents/base/questionComponent.svelte';
   import * as RadioGroup from "$lib/components/ui/radio-group"
   import CheckCheck from 'lucide-svelte/icons/check-check'
   import Target from 'lucide-svelte/icons/target'
@@ -81,9 +81,9 @@
     </Card.Root>
 </div>
 <h1 class="text-center mt-10 text-xl font-medium pr-16 pb-6">Question List</h1>
-<div class="grid lg:grid-cols-2 gap-4 ">
+<div class="grid gap-3">
 {#each surveyqns as qns, id}
-<Card.Root class="lg:w-[87%]">
+<Card.Root class="lg:w-full auto-rows-auto">
   <Card.Header>
     <Card.Description class="text-xs font-thin">
       {#if qns.question_type === "Optional"}
@@ -117,7 +117,7 @@
   <Card.Content class="space-y-3">
     <h1 class="text-md">{qns.question}</h1>
     {#if qns.question_type === "Optional"}
-          <RadioGroup.Root value="option-one" class="grid grid-cols-3 max-w-md">
+          <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3">
             {#each qns.options as option, id}
               {#if option != null}
                 <div class="flex items-center space-x-2">
@@ -146,8 +146,8 @@
       {:else if qns.question_type === "Rating"}
         <StarComponent/>
       {:else if qns.question_type === "Likert"}
-        <RadioGroup.Root value="option-one" class="grid grid-cols-2 space-y-1">
-          <LikertComponent likert_key={qns.likert_key} />
+        <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3 space-y-1">
+          <LikertComponent  likert_key={qns.likert_key} />
         </RadioGroup.Root>
       {:else if qns.question_type === "Ranking"}
       <div class="grid gap-1">
@@ -185,7 +185,7 @@
         {/each}
       </div>
       {:else}
-        <Input class="w-1/2" disabled/>
+        <Input class="w-1/2 max-h-full" disabled/>
       {/if}
   </Card.Content>
   <Card.Footer class="float-end gap-10">

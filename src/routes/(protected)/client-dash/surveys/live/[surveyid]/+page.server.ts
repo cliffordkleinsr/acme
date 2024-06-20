@@ -30,7 +30,7 @@ export const actions: Actions = {
             target_gender: string
         }
         const data = Object.fromEntries(await request.formData()) as SurveyTimes
-        console.log(data)
+        // console.log(data)
         const { from, to, target, target_age_group, target_gender } = data
         let starting = new Date(from)
         let ending = new Date(to)
