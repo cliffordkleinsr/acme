@@ -12,23 +12,6 @@
 
 
 <div class="flex flex-col p-4 gap-10 w-full mt-5">
-    <div class="ml-5 pb-2">
-        <Breadcrumb.Root>
-            <Breadcrumb.List>
-              <Breadcrumb.Item>
-                <Breadcrumb.Link href="##">Home</Breadcrumb.Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Separator />
-              <Breadcrumb.Item>
-                <Breadcrumb.Link href="##">Components</Breadcrumb.Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Separator />
-              <Breadcrumb.Item>
-                <Breadcrumb.Page>Breadcrumb</Breadcrumb.Page>
-              </Breadcrumb.Item>
-            </Breadcrumb.List>
-        </Breadcrumb.Root>
-    </div>
       
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card.Root
