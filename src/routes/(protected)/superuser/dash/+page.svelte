@@ -8,6 +8,48 @@
     import { Badge } from "$lib/components/ui/badge"
     import * as Avatar from "$lib/components/ui/avatar"
     import * as Breadcrumb from "$lib/components/ui/breadcrumb"
+	import { Time } from "@internationalized/date";
+
+    export let data
+    const { recent_users } = data
+
+    const retInitials = (name: string): string => {
+        const fullName = name.split(' ');
+        if (fullName.length < 2) {
+            // If there's only one word, return its first letter
+            return name.charAt(0).toUpperCase();
+        }
+        const first = fullName.shift();
+        const last = fullName.pop();
+        if (first && last) {
+            const initials = first.charAt(0) + last.charAt(0);
+            return initials.toUpperCase();
+        }
+        // Fallback in case of unexpected input
+        return '';
+    }
+    
+    function timeAgo(timeString: string): string {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        const givenTime = new Date();
+        givenTime.setHours(hours, minutes, 0, 0);
+        
+        const now = new Date();
+        const diffInMinutes = Math.floor((now.getTime() - givenTime.getTime()) / (1000 * 60));
+
+        if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
+        if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} hours ago`;
+        return 'More than a day ago';
+    }
+    const fem_images = [
+        'https://i.postimg.cc/43mhXrWn/01.png',
+        'https://i.postimg.cc/yYyRjhJ6/03.png',
+        'https://i.postimg.cc/VL8MXZkH/05.png'
+    ]
+    const ml_images = [
+        'https://i.postimg.cc/DwCXk2dt/02.png',
+        'https://i.postimg.cc/2SjZKqvQ/04.png',
+    ]
 </script>
 
 
@@ -188,65 +230,42 @@
             data-x-chunk-description="A card showing a list of recent sales with customer names and email addresses."
         >
             <Card.Header>
-                <Card.Title>Recent Sales</Card.Title>
+                <Card.Title>Active Users</Card.Title>
             </Card.Header>
-            <Card.Content
-                 class="grid gap-8">
-                <div class="flex items-center gap-4">
-                    <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                        <Avatar.Image src="https://i.postimg.cc/43mhXrWn/01.png" alt="Avatar" />
-                        <Avatar.Fallback>OM</Avatar.Fallback>
-                    </Avatar.Root>
-                    <div class="grid gap-1">
-                        <p class="text-sm font-medium leading-none">Olivia Martin</p>
-                        <p class="text-sm text-muted-foreground">olivia.martin@email.com</p>
-                    </div>
-                    <div class="ml-auto font-medium">+$1,999.00</div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                        <Avatar.Image src="https://i.postimg.cc/DwCXk2dt/02.png" alt="Avatar" />
-                        <Avatar.Fallback>JL</Avatar.Fallback>
-                    </Avatar.Root>
-                    <div class="grid gap-1">
-                        <p class="text-sm font-medium leading-none">Jackson Lee</p>
-                        <p class="text-sm text-muted-foreground">jackson.lee@email.com</p>
-                    </div>
-                    <div class="ml-auto font-medium">+$39.00</div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                        <Avatar.Image src="https://i.postimg.cc/yYyRjhJ6/03.png" alt="Avatar" />
-                        <Avatar.Fallback>IN</Avatar.Fallback>
-                    </Avatar.Root>
-                    <div class="grid gap-1">
-                        <p class="text-sm font-medium leading-none">Isabella Nguyen</p>
-                        <p class="text-sm text-muted-foreground">isabella.nguyen@email.com</p>
-                    </div>
-                    <div class="ml-auto font-medium">+$299.00</div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                        <Avatar.Image src="https://i.postimg.cc/2SjZKqvQ/04.png" alt="Avatar" />
-                        <Avatar.Fallback>WK</Avatar.Fallback>
-                    </Avatar.Root>
-                    <div class="grid gap-1">
-                        <p class="text-sm font-medium leading-none">William Kim</p>
-                        <p class="text-sm text-muted-foreground">will@email.com</p>
-                    </div>
-                    <div class="ml-auto font-medium">+$99.00</div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                        <Avatar.Image src="https://i.postimg.cc/VL8MXZkH/05.png" alt="Avatar" />
-                        <Avatar.Fallback>SD</Avatar.Fallback>
-                    </Avatar.Root>
-                    <div class="grid gap-1">
-                        <p class="text-sm font-medium leading-none">Sofia Davis</p>
-                        <p class="text-sm text-muted-foreground">sofia.davis@email.com</p>
-                    </div>
-                    <div class="ml-auto font-medium">+$39.00</div>
-                </div>
+            <Card.Content class="grid gap-8">
+                    {#each recent_users as usr}
+                    <div class="flex items-center gap-4">
+                            {#if usr?.gender === 'male'}
+                                {@const item = ml_images[Math.floor(Math.random()*ml_images.length)]}
+                                <Avatar.Root class="hidden h-9 w-9 sm:flex">
+                                    <Avatar.Image src="{item}" alt="Avatar" />
+                                    <Avatar.Fallback>{retInitials(usr?.name)}</Avatar.Fallback>
+                                </Avatar.Root>
+                                <span class="relative right-14 bottom-3 flex h-3 w-3 z-10">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                            {:else}
+                                {@const item = fem_images[Math.floor(Math.random()*fem_images.length)]}
+                                
+                                <Avatar.Root class="hidden h-9 w-9 sm:flex">
+                                    <Avatar.Image src="{item}" alt="Avatar" />
+                                    {#if usr?.name !== undefined}
+                                        <Avatar.Fallback>{retInitials(usr?.name)}</Avatar.Fallback>
+                                    {/if}
+                                </Avatar.Root>
+                                <span class="relative right-14 bottom-3 flex h-3 w-3 z-10">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                            {/if}
+                            <div class="grid gap-1">
+                                <p class="text-sm font-medium leading-none">{usr?.name}</p>
+                                <p class="text-sm text-muted-foreground">{usr?.email}</p>
+                            </div>
+                            <div class="ml-auto font-medium text-sm">Active {timeAgo(usr.at)}</div>
+                        </div>
+                    {/each}
             </Card.Content>
         </Card.Root>
     </div>

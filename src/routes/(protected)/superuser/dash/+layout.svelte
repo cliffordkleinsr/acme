@@ -21,7 +21,8 @@
   import { Label } from "$lib/components/ui/label/index.js";
   import * as Sheet from "$lib/components/ui/sheet/index.js";
   import * as Tooltip from "$lib/components/ui/tooltip/index.js";
-	import CheckCheck from "lucide-svelte/icons/check-check";
+	import SquareArrowRight from 'lucide-svelte/icons/square-arrow-right'
+	import { enhance } from "$app/forms";
     // export let data: LayoutData;
 </script>
 <div class="flex min-h-screen w-full flex-col bg-muted/40">
@@ -223,7 +224,9 @@
             <DropdownMenu.Item>Settings</DropdownMenu.Item>
             <DropdownMenu.Item>Support</DropdownMenu.Item>
             <DropdownMenu.Separator />
-            <DropdownMenu.Item>Logout</DropdownMenu.Item>
+            <form action="" method="post" use:enhance>
+              <Button variant="link" type="submit">Logout <SquareArrowRight class=" ml-1 w-4 h-4"/></Button>
+            </form>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </header>
