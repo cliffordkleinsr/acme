@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { UsersTable, sessionsTable } from '$lib/server/schema';
+import { SurveyTable, UsersTable, clientData, sessionsTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
 import { fail } from 'sveltekit-superforms';
 import { lucia } from '$lib/server/auth';
@@ -9,22 +9,39 @@ import { gender } from '$lib/json';
 import type { Time } from '@internationalized/date';
 
 export const load: PageServerLoad = async () => {
-    const recent_users = await db
-    .select({
-        name: UsersTable.fullname,
-        email: UsersTable.email,
-        role: UsersTable.role,
-        gender: UsersTable.gender,
-        at : sql<string>`((${sessionsTable.expiresAt}- interval '1 hour')::timestamp at time zone 'UTC+3')::time`
-    })
-    .from(UsersTable)
-    .innerJoin(sessionsTable, eq(UsersTable.id, sessionsTable.userId))
-    .where(sql`${sessionsTable.expiresAt}::timestamp >= date_trunc('week',  now()) and ${UsersTable.role} != 'ADMIN'`)
+    // for now the pricing model doesen't exist so wil just have arbitrary values
+    const client_subs = await db
+        .select({
+            name:UsersTable.fullname,
+            email: UsersTable.email,
+        })
+        .from(UsersTable)
+        .where(sql`${UsersTable.role} = 'CLIENT'`)
 
+    const count_tot = await db
+    .select({
+        toime: sql<boolean>`${SurveyTable.createdAt} >= date_trunc('week', now())`
+    })
+    .from(SurveyTable)
+
+    const recent_users = await db
+        .select({
+            name: UsersTable.fullname,
+            email: UsersTable.email,
+            role: UsersTable.role,
+            gender: UsersTable.gender,
+            at : sql<string>`((${sessionsTable.expiresAt}- interval '1 hour')::timestamp at time zone 'UTC+3')::time`
+        })
+        .from(UsersTable)
+        .innerJoin(sessionsTable, eq(UsersTable.id, sessionsTable.userId))
+        .where(sql`${sessionsTable.expiresAt}::timestamp >= date_trunc('week',  now()) and ${UsersTable.role} != 'ADMIN'`)
     return {
-        recent_users
+        recent_users,
+        client_subs,
+        count_survs : count_tot.length,
+        week: count_tot
     }
-    // console.log(recent_users)
+    
 };
 
 export const actions: Actions = {

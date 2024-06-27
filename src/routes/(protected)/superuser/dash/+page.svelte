@@ -9,47 +9,14 @@
     import * as Avatar from "$lib/components/ui/avatar"
     import * as Breadcrumb from "$lib/components/ui/breadcrumb"
 	import { Time } from "@internationalized/date";
+	import LiveusersComponent from "$lib/components/blocks/adminComponents/liveusersComponent.svelte";
+	import ClientOrders from "$lib/components/blocks/adminComponents/clientOrders.svelte";
 
     export let data
-    const { recent_users } = data
-
-    const retInitials = (name: string): string => {
-        const fullName = name.split(' ');
-        if (fullName.length < 2) {
-            // If there's only one word, return its first letter
-            return name.charAt(0).toUpperCase();
-        }
-        const first = fullName.shift();
-        const last = fullName.pop();
-        if (first && last) {
-            const initials = first.charAt(0) + last.charAt(0);
-            return initials.toUpperCase();
-        }
-        // Fallback in case of unexpected input
-        return '';
-    }
+    const { recent_users, client_subs, count_survs, week } = data
+    const arbitrary_vals = [ 60, 200, 500, 2000, 5000]
     
-    function timeAgo(timeString: string): string {
-        const [hours, minutes] = timeString.split(':').map(Number);
-        const givenTime = new Date();
-        givenTime.setHours(hours, minutes, 0, 0);
-        
-        const now = new Date();
-        const diffInMinutes = Math.floor((now.getTime() - givenTime.getTime()) / (1000 * 60));
-
-        if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
-        if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} hours ago`;
-        return 'More than a day ago';
-    }
-    const fem_images = [
-        'https://i.postimg.cc/43mhXrWn/01.png',
-        'https://i.postimg.cc/yYyRjhJ6/03.png',
-        'https://i.postimg.cc/VL8MXZkH/05.png'
-    ]
-    const ml_images = [
-        'https://i.postimg.cc/DwCXk2dt/02.png',
-        'https://i.postimg.cc/2SjZKqvQ/04.png',
-    ]
+   const tot_week =  week.filter(el => el.toime !== false)
 </script>
 
 
@@ -57,28 +24,28 @@
       
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card.Root
+            class="space-y-3"
              data-x-chunk-name="dashboard-05-chunk-0"
              data-x-chunk-description="A card for an orders dashboard with a description and a button to create a new order.">
             <Card.Header class="pb-3">
-                <Card.Title>Your Orders</Card.Title>
+                <Card.Title>Pending Requests</Card.Title>
                 <Card.Description class="max-w-lg text-balance leading-relaxed">
-                    Introducing Our Dynamic Orders Dashboard for Seamless Management and
-                    Insightful Analysis.
+                    This is a list of requests to authorise client payments
                 </Card.Description>
             </Card.Header>
             <Card.Footer>
-                <Button>Create New Order</Button>
+                <Button>View Pending Requests</Button>
             </Card.Footer>
         </Card.Root>
         <Card.Root
              data-x-chunk-name="dashboard-05-chunk-1"
              data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar.">
             <Card.Header class="pb-2">
-                <Card.Description>This Week</Card.Description>
+                <Card.Description>Total Payments Sent Out</Card.Description>
                 <Card.Title class="text-4xl">$1329</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+25% from last week</div>
+                <div class="text-xs text-muted-foreground">+25% out of $5000</div>
             </Card.Content>
             <Card.Footer>
                 <Progress value={25} aria-label="{25}% increase" />
@@ -88,14 +55,14 @@
              data-x-chunk-name="dashboard-05-chunk-2"
              data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar.">
             <Card.Header class="pb-2">
-                <Card.Description>This Month</Card.Description>
+                <Card.Description>Total Revenue this month</Card.Description>
                 <Card.Title class="text-3xl">$5,329</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+10% from last month</div>
+                <div class="text-xs text-muted-foreground">+10% out of $10000</div>
             </Card.Content>
             <Card.Footer>
-                <Progress value={12} aria-label="12% increase" />
+                <Progress value={50} aria-label="50% increase" />
             </Card.Footer>
         </Card.Root>
         <Card.Root
@@ -105,12 +72,12 @@
             <Card.Header
                 class="flex flex-row items-center justify-between space-y-0 pb-2"
             >
-                <Card.Title class="text-sm font-medium">Active Now</Card.Title>
+                <Card.Title class="text-sm font-medium">Total Surveys</Card.Title>
                 <Activity class="h-4 w-4 text-muted-foreground" />
             </Card.Header>
             <Card.Content>
-                <div class="text-2xl font-bold">+573</div>
-                <p class="text-xs text-muted-foreground">+201 since last hour</p>
+                <div class="text-2xl font-bold">+{count_survs}</div>
+                <p class="text-xs text-muted-foreground">+{tot_week.length } since last week</p>
             </Card.Content>
         </Card.Root>
     </div>
@@ -121,8 +88,8 @@
              data-x-chunk-description="A card showing a table of recent transactions with a link to view all transactions.">
             <Card.Header class="flex flex-row items-center">
                 <div class="grid gap-2">
-                    <Card.Title>Transactions</Card.Title>
-                    <Card.Description>Recent transactions from your store.</Card.Description>
+                    <Card.Title>Subscriptions</Card.Title>
+                    <Card.Description>Recent subscriptions from your clients.</Card.Description>
                 </div>
                 <Button href="##" size="sm" class="ml-auto gap-1">
                     View All
@@ -130,99 +97,7 @@
                 </Button>
             </Card.Header>
             <Card.Content>
-                <Table.Root>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.Head>Customer</Table.Head>
-                            <Table.Head class="xl:table.-column hidden">Type</Table.Head>
-                            <Table.Head class="xl:table.-column hidden">Status</Table.Head>
-                            <Table.Head class="xl:table.-column hidden">Date</Table.Head>
-                            <Table.Head class="text-right">Amount</Table.Head>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>
-                                <div class="font-medium">Liam Johnson</div>
-                                <div class="hidden text-sm text-muted-foreground md:inline">
-                                    liam@example.com
-                                </div>
-                            </Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">Sale</Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">
-                                <Badge class="text-xs" variant="outline">Approved</Badge>
-                            </Table.Cell>
-                            <Table.Cell class="md:table.-cell xl:table.-column hidden lg:hidden">
-                                2023-06-23
-                            </Table.Cell>
-                            <Table.Cell class="text-right">$250.00</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <div class="font-medium">Olivia Smith</div>
-                                <div class="hidden text-sm text-muted-foreground md:inline">
-                                    olivia@example.com
-                                </div>
-                            </Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">Refund</Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">
-                                <Badge class="text-xs" variant="outline">Declined</Badge>
-                            </Table.Cell>
-                            <Table.Cell class="md:table.-cell xl:table.-column hidden lg:hidden">
-                                2023-06-24
-                            </Table.Cell>
-                            <Table.Cell class="text-right">$150.00</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <div class="font-medium">Noah Williams</div>
-                                <div class="hidden text-sm text-muted-foreground md:inline">
-                                    noah@example.com
-                                </div>
-                            </Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">Subscription</Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">
-                                <Badge class="text-xs" variant="outline">Approved</Badge>
-                            </Table.Cell>
-                            <Table.Cell class="md:table.-cell xl:table.-column hidden lg:hidden">
-                                2023-06-25
-                            </Table.Cell>
-                            <Table.Cell class="text-right">$350.00</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <div class="font-medium">Emma Brown</div>
-                                <div class="hidden text-sm text-muted-foreground md:inline">
-                                    emma@example.com
-                                </div>
-                            </Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">Sale</Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">
-                                <Badge class="text-xs" variant="outline">Approved</Badge>
-                            </Table.Cell>
-                            <Table.Cell class="md:table.-cell xl:table.-column hidden lg:hidden">
-                                2023-06-26
-                            </Table.Cell>
-                            <Table.Cell class="text-right">$450.00</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <div class="font-medium">Liam Johnson</div>
-                                <div class="hidden text-sm text-muted-foreground md:inline">
-                                    liam@example.com
-                                </div>
-                            </Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">Sale</Table.Cell>
-                            <Table.Cell class="xl:table.-column hidden">
-                                <Badge class="text-xs" variant="outline">Approved</Badge>
-                            </Table.Cell>
-                            <Table.Cell class="md:table.-cell xl:table.-column hidden lg:hidden">
-                                2023-06-27
-                            </Table.Cell>
-                            <Table.Cell class="text-right">$550.00</Table.Cell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table.Root>
+             <ClientOrders subscriptions={client_subs}/>
             </Card.Content>
         </Card.Root>     
         <Card.Root
@@ -233,39 +108,7 @@
                 <Card.Title>Active Users</Card.Title>
             </Card.Header>
             <Card.Content class="grid gap-8">
-                    {#each recent_users as usr}
-                    <div class="flex items-center gap-4">
-                            {#if usr?.gender === 'male'}
-                                {@const item = ml_images[Math.floor(Math.random()*ml_images.length)]}
-                                <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                                    <Avatar.Image src="{item}" alt="Avatar" />
-                                    <Avatar.Fallback>{retInitials(usr?.name)}</Avatar.Fallback>
-                                </Avatar.Root>
-                                <span class="relative right-14 bottom-3 flex h-3 w-3 z-10">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                </span>
-                            {:else}
-                                {@const item = fem_images[Math.floor(Math.random()*fem_images.length)]}
-                                
-                                <Avatar.Root class="hidden h-9 w-9 sm:flex">
-                                    <Avatar.Image src="{item}" alt="Avatar" />
-                                    {#if usr?.name !== undefined}
-                                        <Avatar.Fallback>{retInitials(usr?.name)}</Avatar.Fallback>
-                                    {/if}
-                                </Avatar.Root>
-                                <span class="relative right-14 bottom-3 flex h-3 w-3 z-10">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                </span>
-                            {/if}
-                            <div class="grid gap-1">
-                                <p class="text-sm font-medium leading-none">{usr?.name}</p>
-                                <p class="text-sm text-muted-foreground">{usr?.email}</p>
-                            </div>
-                            <div class="ml-auto font-medium text-sm">Active {timeAgo(usr.at)}</div>
-                        </div>
-                    {/each}
+                  <LiveusersComponent users={recent_users} />  
             </Card.Content>
         </Card.Root>
     </div>
