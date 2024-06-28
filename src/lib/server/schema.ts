@@ -103,24 +103,24 @@ export const SurveyTable = pgTable('surveys', {
     }).defaultNow().notNull()
 })
 
-export const SurveyQnsTable = pgTable('survey_questions', {
-    questionId: uuid('questionid').defaultRandom().primaryKey(),
-    surveid: text("surveyid").references(() => SurveyTable.surveyid),
-    questionT: QuestionType("question_type").default("Single").notNull(),
-    question: text("question"),
-    // answer: text("answer"),
-    option1: text("option1"),
-    option2: text("option2"),
-    option3: text("option3"),
-    option4: text("option4"),
-    option5: text("option5"),
-    option6: text("option6"),
-    option7: text("option7"),
-    updatedAt: timestamp('updated_at', {
-        withTimezone: true,
-        mode: "date" 
-    }).defaultNow().notNull()
-})
+// export const SurveyQnsTable = pgTable('survey_questions', {
+//     questionId: uuid('questionid').defaultRandom().primaryKey(),
+//     surveid: text("surveyid").references(() => SurveyTable.surveyid),
+//     questionT: QuestionType("question_type").default("Single").notNull(),
+//     question: text("question"),
+//     // answer: text("answer"),
+//     option1: text("option1"),
+//     option2: text("option2"),
+//     option3: text("option3"),
+//     option4: text("option4"),
+//     option5: text("option5"),
+//     option6: text("option6"),
+//     option7: text("option7"),
+//     updatedAt: timestamp('updated_at', {
+//         withTimezone: true,
+//         mode: "date" 
+//     }).defaultNow().notNull()
+// })
 
 
 export const surveyqnsTableV2 = pgTable('survey_qns_optimum', {
@@ -160,6 +160,6 @@ export type ClientDataInsertSchema = typeof clientData.$inferInsert
 export type RespondentInsertSchema = typeof respondentData.$inferInsert
 export type surveyGenerateSchema = typeof SurveyTable.$inferInsert
 export type surveySelectSchema = typeof SurveyTable.$inferSelect
-export type surveyQnsSchema = typeof SurveyQnsTable.$inferInsert
+// export type surveyQnsSchema = typeof SurveyQnsTable.$inferInsert
 export type surveyQnsSchemaV2 = typeof surveyqnsTableV2.$inferInsert
 export type resData = typeof respondentData.$inferSelect

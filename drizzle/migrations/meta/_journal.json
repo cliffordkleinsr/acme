@@ -239,6 +239,13 @@
       "when": 1718709683815,
       "tag": "0039_exotic_silk_fever",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "6",
+      "when": 1719570453682,
+      "tag": "0040_old_blindfold",
+      "breakpoints": true
     }
   ]
 }

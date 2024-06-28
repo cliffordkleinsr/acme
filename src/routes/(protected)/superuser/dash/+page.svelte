@@ -2,20 +2,34 @@
 	import { Button } from "$lib/components/ui/button"
 	import * as Card from "$lib/components/ui/card"
     import { Progress } from "$lib/components/ui/progress"
-	import { ArrowUpRight } from "lucide-svelte"
+	import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
     import Activity from "lucide-svelte/icons/activity"
-    import * as Table from "$lib/components/ui/table"
-    import { Badge } from "$lib/components/ui/badge"
-    import * as Avatar from "$lib/components/ui/avatar"
-    import * as Breadcrumb from "$lib/components/ui/breadcrumb"
-	import { Time } from "@internationalized/date";
+    import RotateCw from "lucide-svelte/icons/rotate-cw"
 	import LiveusersComponent from "$lib/components/blocks/adminComponents/liveusersComponent.svelte";
 	import ClientOrders from "$lib/components/blocks/adminComponents/clientOrders.svelte";
+	import { page } from "$app/stores";
+	import { invalidateAll } from "$app/navigation";
+	import { browser } from "$app/environment";
+	import { onMount } from "svelte";
+	import { applyAction, enhance } from "$app/forms";
 
     export let data
+    let clicked = false
     const { recent_users, client_subs, count_survs, week } = data
-    const arbitrary_vals = [ 60, 200, 500, 2000, 5000]
+
     
+
+    const refresh = () => {
+        clicked = true
+        setTimeout(async () => {
+            clicked = false
+            if(browser) {
+                window.location.reload()
+            }
+
+        }, 1500)
+    }
+
    const tot_week =  week.filter(el => el.toime !== false)
 </script>
 
@@ -34,7 +48,7 @@
                 </Card.Description>
             </Card.Header>
             <Card.Footer>
-                <Button>View Pending Requests</Button>
+                <Button href='/superuser/dash/pending'>View Pending Requests</Button>
             </Card.Footer>
         </Card.Root>
         <Card.Root
@@ -105,7 +119,19 @@
             data-x-chunk-description="A card showing a list of recent sales with customer names and email addresses."
         >
             <Card.Header>
-                <Card.Title>Active Users</Card.Title>
+                <Card.Title class="place-content-evenly">
+                    Active Users
+                    <Button 
+                        size="icon" 
+                        variant="secondary" 
+                        class="float-end" 
+                        on:click={refresh} 
+                        disabled={clicked}
+                    >
+                        <RotateCw class="size-4 {clicked ? 'animate-spin' : ''}" />
+                    </Button>
+                </Card.Title>
+                
             </Card.Header>
             <Card.Content class="grid gap-8">
                   <LiveusersComponent users={recent_users} />  

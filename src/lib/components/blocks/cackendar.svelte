@@ -24,7 +24,7 @@
       dateStyle: "medium"
     });
     
-    let value: DateRange | undefined = {
+    export let value: DateRange | undefined = {
       start: new CalendarDate(yyyy, mm, dd),
       end: new CalendarDate(yyyy, mm, dd).add({ days: 10 })
     }
@@ -50,7 +50,7 @@
     let selected_gender = {label:'Select Prefered Gender Demographic', value:'male'}
     let startValue: DateValue | undefined = undefined;
 
-
+    export let default_txt = 'Go Live'
   </script>
   <div class=" grid lg:grid-cols-3 gap-3 space-x-2">
   <div class="grid gap-2">
@@ -139,7 +139,7 @@
   <div class=""></div>
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild let:builder>
-      <Button builders={[builder]}><Flame class="size-4"/> Go Live</Button>
+      <Button builders={[builder]}><Flame class="size-4"/>{default_txt}</Button>
     </AlertDialog.Trigger>
     <AlertDialog.Content>
       <AlertDialog.Header>

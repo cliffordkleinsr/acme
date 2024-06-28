@@ -1,7 +1,7 @@
 <script lang="ts">
     // import type { LayoutData } from './$types'
   import UserCheck  from "lucide-svelte/icons/user-check";
-  import Home from "lucide-svelte/icons/home";
+  import Home from "lucide-svelte/icons/house";
   import LineChart from "lucide-svelte/icons/line-chart";
   import Package from "lucide-svelte/icons/package";
   import Package2 from "lucide-svelte/icons/package-2";
@@ -38,7 +38,7 @@
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
             <a
-              href="##"
+              href="/superuser/dash"
               class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
@@ -52,7 +52,7 @@
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
             <a
-              href="##"
+              href="/superuser/dash/management"
               class="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
@@ -144,7 +144,7 @@
                 <span class="sr-only">Acme Inc</span>
               </a>
               <a
-                href="##"
+                href="/superuser/dash"
                 class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <Home class="h-5 w-5" />

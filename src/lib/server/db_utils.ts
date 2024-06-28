@@ -2,7 +2,7 @@ import {eq, getTableColumns, sql } from "drizzle-orm"
 import { db } from "./db"
 import { 
     AnswersTable,
-    SurveyQnsTable,
+    // SurveyQnsTable,
     SurveyTable,
     UsersTable, clientData,
     emailVerificationCodes,
@@ -13,7 +13,7 @@ import {
     type RespondentInsertSchema,
     type resData,
     type surveyGenerateSchema,
-    type surveyQnsSchema,
+    // type surveyQnsSchema,
     type surveyQnsSchemaV2,
     type surveySelectSchema,
     type userInsertSchema 
@@ -64,9 +64,9 @@ export const createNewSurvey = async (data: surveyGenerateSchema) => {
     return await db.insert(SurveyTable).values(data)
 }
 
-export const addSurveyQuestions = async (data: surveyQnsSchema) => {
-    await db.insert(SurveyQnsTable).values(data)
-}
+// export const addSurveyQuestions = async (data: surveyQnsSchema) => {
+//     await db.insert(SurveyQnsTable).values(data)
+// }
 export const addSurveyQuestionsv2 = async (data: surveyQnsSchemaV2) => {
     await db.insert(surveyqnsTableV2).values(data)
 }

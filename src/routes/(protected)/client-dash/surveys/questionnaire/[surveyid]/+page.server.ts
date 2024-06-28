@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db'
-import { QuestionOptions, SurveyQnsTable, SurveyTable, surveyqnsTableV2 } from '$lib/server/schema'
+import { QuestionOptions, SurveyTable, surveyqnsTableV2 } from '$lib/server/schema'
 import { eq, asc, sql } from 'drizzle-orm'
 import type { Actions, PageServerLoad } from './$types'
-import { addSurveyQuestions, addSurveyQuestionsv2 } from '$lib/server/db_utils'
+import { addSurveyQuestionsv2 } from '$lib/server/db_utils'
 import { fail } from '@sveltejs/kit'
 import { ZodError, z } from 'zod'
 

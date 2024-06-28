@@ -6,13 +6,8 @@
   import { Label } from "$lib/components/ui/label"
   import { Input } from "$lib/components/ui/input"
   import * as Form from "$lib/components/ui/form/index.js"
-  import * as Popover from "$lib/components/ui/popover"
   import * as AlertDialog from "$lib/components/ui/alert-dialog"
-	import { browser } from '$app/environment';
-	import { enhance } from '$app/forms';
-	import Separator from '$lib/components/ui/separator/separator.svelte';
   import { Checkbox } from "$lib/components/ui/checkbox"
-  import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
   import Trash2 from 'lucide-svelte/icons/trash-2'  
 	import QuestionComponent from '$lib/components/blocks/questionnareComponents/base/questionComponent.svelte';
   import * as RadioGroup from "$lib/components/ui/radio-group"

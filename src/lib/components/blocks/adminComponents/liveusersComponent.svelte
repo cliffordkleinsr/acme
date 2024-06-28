@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as Avatar from "$lib/components/ui/avatar"
+	import Separator from "$lib/components/ui/separator/separator.svelte";
 
     type Usr =  {
         name: string;
@@ -85,5 +86,6 @@
         </div>
         <div class="ml-auto font-medium text-sm">Active {timeAgo(usr.at)}</div>
     </div>
+    <Separator />
 {/each}
 {/if}
