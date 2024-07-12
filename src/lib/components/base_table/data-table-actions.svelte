@@ -5,7 +5,7 @@
 	  import { Input } from "$lib/components/ui/input";
     import * as Form from "$lib/components/ui/form/index.js"
     export let id: string;
-
+    export let payment_stat:boolean
   </script>
   <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
@@ -26,7 +26,9 @@
           Manage Question
         </DropdownMenu.Item>
       </DropdownMenu.Group>
-      <DropdownMenu.Separator />
-      <DropdownMenu.Item href="/client-dash/surveys/live/{id}">Go Live</DropdownMenu.Item>
+      {#if payment_stat}
+        <DropdownMenu.Separator />
+        <DropdownMenu.Item href="/client-dash/surveys/live/{id}">Go Live</DropdownMenu.Item>
+      {/if}
     </DropdownMenu.Content>
   </DropdownMenu.Root>

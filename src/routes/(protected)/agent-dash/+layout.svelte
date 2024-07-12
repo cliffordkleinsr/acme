@@ -14,7 +14,7 @@
   import Menu from "lucide-svelte/icons/menu"
   import Package2 from "lucide-svelte/icons/package-2"
   import Search from "lucide-svelte/icons/search"
-  import Home from "lucide-svelte/icons/home"
+  import Home from "lucide-svelte/icons/house"
   import Table from 'lucide-svelte/icons/table'
   import ShoppingCart from 'lucide-svelte/icons/shopping-cart'
   import Users from "lucide-svelte/icons/users"

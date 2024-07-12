@@ -1,13 +1,13 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card"
 	  import { Separator } from '$lib/components/ui/separator'
-    import Cackender from "$lib/components/blocks/cackendar.svelte"
-	  import Issue from "$lib/components/blocks/issue.svelte"
+    import Cackender from "$lib/components/blocks/liveComponent/cackendar.svelte"
+	  import Issue from "$lib/components/blocks/liveComponent/issue.svelte"
     
 	
       
     export let data
-    const { survey_data } = data
+    const { Role, survey_data } = data
 
 </script>
 <!-- If is premium -->
@@ -32,9 +32,9 @@
               <p class="text-lg">{s.desc}</p>
             </div>
           </Card.Content>
+          <p class="text-start ml-6 mb-1">Pick a start and end time for your survey</p>
           <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
-            <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>
-              <Cackender />
+              <Cackender user={Role} />
           </Card.Footer>
         </Card.Root>
         {/each}

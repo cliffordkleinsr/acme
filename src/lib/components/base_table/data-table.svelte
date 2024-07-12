@@ -17,11 +17,11 @@
     type Survey = {
         id: string;
         title: string;
-        created: string;
+        created: Date;
         status: string
     }
     export let data:Survey[]
-    export let type
+    export let payment_stat:boolean
 
     const table = createTable(readable(data), {
         page: addPagination(),
@@ -91,7 +91,7 @@
             accessor: ({ id }) => id,
             header: "",
             cell: ({ value }) => {
-                return createRender(DataTableActions, { id: value });
+                return createRender(DataTableActions, { id: value , payment_stat:payment_stat});
             },
             plugins: {
                 sort: {
@@ -192,16 +192,17 @@
                             {#if cell.id === "status"}
                                 <Badge 
                                 class="{
-                                    type === "Closed"
+                                    cell.render() === "Closed"
                                         ? "bg-primary text-primary-foreground"
-                                        :type != "Live"
+                                        :cell.render() != "Live"
                                         ?"bg-secondary text-muted-foreground dark:text-white"
-                                        :"bg-green-600"}"><Render of={cell.render()} />
+                                        :"bg-green-600"}">
+                                        <Render of={cell.render()} />
                                 </Badge>
                             {:else}
                                 <Render of={cell.render()} />
                             {/if}
-                        {:else if type != "Live" && type != "Closed"}
+                        {:else if cell.render() != "Live" && cell.render() != "Closed"}
                             <Render of={cell.render()} />
                         {/if}
                     </Table.Cell>

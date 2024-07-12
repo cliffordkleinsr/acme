@@ -18,11 +18,11 @@
     import StarComponent from '$lib/components/blocks/questionnareComponents/rating/StarComponent.svelte';
     import Trash2 from 'lucide-svelte/icons/trash-2' 
 	  import Separator from '$lib/components/ui/separator/separator.svelte';
-    import Cackender from "$lib/components/blocks/cackendar.svelte"
+    import Cackender from "$lib/components/blocks/liveComponent/cackendar.svelte"
 	  import { CalendarDate, parseDate } from '@internationalized/date';
 
     export let data: PageData;
-    const { surv_data, surveyqns } = data
+    const { surv_data, surveyqns, role } = data
     const  [smm, sdd, syyyy] = Array.from(new Date(surv_data.from).toLocaleDateString().split('/'), Number)
     const  [emm, edd, eyyyy] = Array.from(new Date(surv_data.to).toLocaleDateString().split('/'), Number)
     
@@ -55,7 +55,7 @@
             </Card.Content>
             <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
                 <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>
-                <Cackender value={dates} default_txt={'Set as Live'}/>
+                <Cackender user={role} value={dates} default_txt={'Set as Live'}/>
             </Card.Footer>
             </Card.Root>
         </div>

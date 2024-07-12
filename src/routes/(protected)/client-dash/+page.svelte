@@ -15,7 +15,7 @@
 	import { onMount } from "svelte";
 
     export let data
-    const {all_surv, draft_surv, live_surv, closed_surv, count } = data
+    const {all_surv, draft_surv, live_surv, closed_surv, count, payment } = data
 
     // custom param message
     let msg: string
@@ -113,12 +113,12 @@
       <Tabs.Trigger value="completed" data-intro='This tab shows surveys that have been completed.'>Completed</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="draft">
-        <DataTable data={draft_surv} type ={"Draft"}/>
+        <DataTable data={draft_surv} payment_stat={payment.status}/>
     </Tabs.Content>
     <Tabs.Content value="running">
-        <DataTable data={live_surv} type={"Live"}/>
+        <DataTable data={live_surv} payment_stat={payment.status}/>
     </Tabs.Content>
     <Tabs.Content value="completed">
-        <DataTable data={closed_surv} type={"Closed"}/>
+        <DataTable data={closed_surv} payment_stat={payment.status}/>
     </Tabs.Content>
 </Tabs.Root>  

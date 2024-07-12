@@ -23,6 +23,17 @@ const df = new DateFormatter("en-US", {
     dateStyle: "long"
 })
 
+const getInitials = (name:any) => {
+  let initials = name.split(' ');
+  
+  if(initials.length > 1) {
+    initials = initials.shift().charAt(0) + initials.pop().charAt(0);
+  } else {
+    initials = name.substring(0, 2);
+  }
+  
+  return initials.toUpperCase();
+}
 //commandbox trigger
 // We want to refocus the trigger button when the user selects
 // an item from the list so users can continue navigating the
@@ -145,4 +156,26 @@ likert_options.set('Importance', [
 ])
 
 
-export {items, df, open, likert_options, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}
+const checkout = async (clientPack:Object) => {
+  const data = await fetch("/create-payment-intent", {
+    method: 'POST',
+    headers: {
+      "Content-Type" : "application/json"
+
+    },
+    body: JSON.stringify({
+      items:clientPack
+    })
+  })
+  .then((data) => data.json())
+  window.location.replace(data.url)
+}
+
+export type CartItems = {
+  subtitles:string,
+  prices:string,
+  offers:string, 
+  comments:string,
+  features:string[]
+}[]
+export {items, df, open, likert_options,  checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}

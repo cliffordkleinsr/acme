@@ -1,4 +1,5 @@
 <script lang="ts">
+    // Store
     // SHADCN UI
     import * as Card from "$lib/components/ui/card/index.js"
     import * as Form from "$lib/components/ui/form/index.js"
@@ -31,6 +32,8 @@
     // Local Variables
     import{ closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
     import { sectors} from '$lib/json/index'
+	import PaymentMethods from '$lib/components/blocks/pricingComponent/payment_methods.svelte';
+
 
     // KitLoad<MiddleWare>
     export let data:SuperValidated<Infer<RegisterCSchema>>
@@ -61,6 +64,7 @@
       }
     : undefined;
 
+
 </script>
 <div class="flex flex-1 justify-center mt-10 mb-5">
   <Breadcrumb.Root>
@@ -81,10 +85,10 @@
   </Breadcrumb.List>
   </Breadcrumb.Root>
 </div>
-<div class="w-full h-full mt-20 mb-20">
-    <!-- <SuperDebug data={$formData}/> -->
-    <form method="post" use:enhance>
-    <Card.Root class="mx-auto max-w-md lg:max-w-2xl lg:mx-auto">
+
+  <!-- <SuperDebug data={$formData}/> -->
+  <form method="post" class="m-2" use:enhance>
+    <Card.Root class="mx-auto max-w-lg">
       <Card.Header>
         <Card.Title class="text-xl">Sign Up</Card.Title>
         <Card.Description>Create a Client account to  begin gathering insights</Card.Description>
@@ -247,6 +251,4 @@
         </div>
       </Card.Content>
     </Card.Root>
-    </form>
-  </div>
-  
+  </form>

@@ -1,26 +1,26 @@
 import { db } from '$lib/server/db'
 import { SurveyTable } from '$lib/server/schema'
-import { eq } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import type { Actions, PageServerLoad } from './$types'
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({locals}) => {
    const surveys =  await db
     .select({
         id: SurveyTable.surveyid,
         title: SurveyTable.surveyTitle,
-        created: SurveyTable.createdAt
+        created: sql<Date>`${SurveyTable.createdAt}::timestamp::date`
     })
     .from(SurveyTable)
-    .where(eq(SurveyTable.status, "Draft"))
+    .where(sql`${locals.user?.id} = ${SurveyTable.clientid} and ${SurveyTable.status} = 'Draft'`)
 
-const all = surveys.map(items => ({
-    id: items.id,
-    title: items.title,
-    created: `${items.created.toLocaleDateString()} ${items.created.toLocaleTimeString()}`
-}))
+// const all = surveys.map(items => ({
+//     id: items.id,
+//     title: items.title,
+//     created: `${items.created.toLocaleDateString()} ${items.created.toLocaleTimeString()}`
+// }))
 
    return {
-        surv: all
+        surv: surveys
    }
 }
 

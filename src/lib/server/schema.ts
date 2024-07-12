@@ -34,8 +34,10 @@ export const respondentData = pgTable('respondent_data',{
     income: text("income").notNull(),
     employment: text("employment").notNull(),
     education: text("education").notNull(),
-    sector: text("sector").notNull()
-
+    sector: text("sector").notNull(),
+    // additional
+    total_pts_earned: integer('total_pts_earned').notNull().default(0),
+    total_pts_paid: integer('total_pts_paid').notNull().default(0)
 })
 
 export const clientData = pgTable('client_data',{
@@ -45,12 +47,31 @@ export const clientData = pgTable('client_data',{
     phone: text("phone").notNull(),
     county: text("county").notNull(),
     sector: text("sector").notNull(),
-
+    //additional
+    packageid: text("packageid"),
+    payment_status: boolean('payment_status').notNull().default(false), 
+    processed_at: timestamp('processed_at', {
+        withTimezone: true,
+        mode: "date" 
+    }),
+    // 
     createdAt: timestamp('created_at', {
         withTimezone: true,
         mode: "date" 
     }).defaultNow().notNull()
 })
+
+export const clientPackages = pgTable('client_packages', {
+    packageid: text("packageid").primaryKey(),
+    packageDesc: text("package_description").notNull(),
+    package_price: text('package_price').notNull(),
+    max_questions: integer('max_qns').notNull().default(1),
+    max_surv: integer('max_surveys').notNull().default(1),
+    max_agents: integer('max_agents').notNull().default(0),
+    demographics: boolean("demographics").notNull().default(false),
+    ages: boolean("ages").notNull().default(false)
+})
+
 
 export const emailVerificationCodes = pgTable("email_verification_codes",{
     id: serial('id').primaryKey(),
@@ -82,6 +103,7 @@ export const SurveyTable = pgTable('surveys', {
     surveyTitle: text('survey_title').notNull(),
     surveyDescription: text('survey_desc').notNull(),
     status: Status("status").default("Draft").notNull(),
+    survey_points: integer("survey_points"),
     target: integer("target"),
     target_age: text("target_age"),
     target_gender: text("target_gender"),
@@ -103,6 +125,12 @@ export const SurveyTable = pgTable('surveys', {
     }).defaultNow().notNull()
 })
 
+export const agentSurveysTable = pgTable('agent_surv_table', {
+    respondentid: text('respondent_id').references(() => UsersTable.id),
+    surveyid: text('surveyid').references(() => SurveyTable.surveyid),
+    survey_completed: boolean('survey_completed').notNull().default(false),
+    points: integer('points_earned').notNull()
+})
 // export const SurveyQnsTable = pgTable('survey_questions', {
 //     questionId: uuid('questionid').defaultRandom().primaryKey(),
 //     surveid: text("surveyid").references(() => SurveyTable.surveyid),

@@ -14,8 +14,10 @@
     import Flame from "lucide-svelte/icons/flame";
 	  import { enhance } from "$app/forms";
     import * as AlertDialog from "$lib/components/ui/alert-dialog"
-	  import Input from "../ui/input/input.svelte";
+	  import Input from "../../ui/input/input.svelte";
     import * as Select from "$lib/components/ui/select"
+
+    export let user
     let today = new Date()
     let dd = today.getDate()
     let mm = today.getMonth() + 1
@@ -52,6 +54,7 @@
 
     export let default_txt = 'Go Live'
   </script>
+
   <div class=" grid lg:grid-cols-3 gap-3 space-x-2">
   <div class="grid gap-2">
     <Popover.Root openFocus>
@@ -91,6 +94,7 @@
       </Popover.Content>
     </Popover.Root>
   </div>
+  {#if user === 'ADMIN'}
   <Select.Root
   selected={selected_agents}
   onSelectedChange={(v) => {
@@ -137,6 +141,7 @@
       </Select.Content>
   </Select.Root>
   <div class=""></div>
+  {/if}
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild let:builder>
       <Button builders={[builder]}><Flame class="size-4"/>{default_txt}</Button>

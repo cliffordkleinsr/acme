@@ -13,7 +13,7 @@
   // Lucide Svelte
   import Menu from "lucide-svelte/icons/menu"
   import Search from "lucide-svelte/icons/search"
-  import Home from "lucide-svelte/icons/home"
+  import Home from "lucide-svelte/icons/house"
   import Table from 'lucide-svelte/icons/table'
   import Users from "lucide-svelte/icons/users"
   import LineChart from "lucide-svelte/icons/line-chart"
@@ -40,7 +40,7 @@
 	import { msg } from "$lib/store.js";
   
   export let data
-  const { notif } = data
+  const { notif, payment } = data
   msg.update(messages => [...messages, ...notif as string[]])
   const clearNotifs = () => { 
     msg.set([])
@@ -54,7 +54,7 @@
   <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
     <a href="/client-dash" class="flex items-center gap-2 font-semibold">
       <!-- <Package2 class="h-6 w-6" /> -->
-      <span class="">Welcome {data.AuthedUser}</span>
+      <span class="">Welcome {data.AuthedUser} </span>
     </a>
     <div class="flex ml-auto relative">
       <Tooltip.Root>
@@ -115,23 +115,26 @@
           Manage surveys
           </a>
           <Separator />
-          <a
-              href="/client-dash/surveys/live"
-              class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
-            >
-            <RadioTower class="size-4"/>
-            Go Live
+          {#if payment.status}
+            <a
+                href="/client-dash/surveys/live"
+                class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+              >
+              <RadioTower class="size-4"/>
+              Go Live
             </a>
-          <Separator />
+            <Separator />
+          {/if}
         </Collapsible.Content>
       </Collapsible.Root>
       <a
-        href="##"
+        href="/client-dash/plans"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
       >
       <Coins class="size-4"/>
-        Account Credits
+        View Plan
       </a>
+      {#if payment.status}
       <a
         href="/client-dash/audience"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -146,23 +149,26 @@
         <LineChart class="size-4" />
         Analytics
       </a>
+      {/if}
     </nav>
   </div>
   <div class="mt-auto m-4">
-    <Card.Root
-      data-x-chunk-name="dashboard-02-chunk-0"
-      data-x-chunk-description="A card with a call to action"
-    >
-      <Card.Header class="p-2 pt-0 md:p-4">
-        <Card.Title>Upgrade to Pro</Card.Title>
-        <Card.Description>
-          Unlock all features and get unlimited access to our support team.
-        </Card.Description>
-      </Card.Header>
-      <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
-        <Button size="sm" class="w-full">Upgrade</Button>
-      </Card.Content>
-    </Card.Root>
+    {#if payment.status === false}
+      <Card.Root
+        data-x-chunk-name="dashboard-02-chunk-0"
+        data-x-chunk-description="A card with a call to action"
+      >
+        <Card.Header class="p-2 pt-0 md:p-4">
+          <Card.Title>Upgrade to Pro</Card.Title>
+          <Card.Description>
+            Unlock all features and get unlimited access to our support team.
+          </Card.Description>
+        </Card.Header>
+        <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
+          <Button size="sm" class="w-full" href='/client-dash/upgrade'>Upgrade</Button>
+        </Card.Content>
+      </Card.Root>
+    {/if}
   </div>
 </div>
 </div>
@@ -216,39 +222,44 @@
             Manage surveys
             </a>
             <Separator />
-            <a
-              href="/client-dash/surveys/live"
-              class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
-            >
-            <RadioTower class="size-5"/>
-            Go Live
-            </a>
-            <Separator />
+            {#if payment.status}
+              <a
+                href="/client-dash/surveys/live"
+                class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+              >
+              <RadioTower class="size-5"/>
+              Go Live
+              </a>
+              <Separator />
+            {/if}
           </Collapsible.Content>
         </Collapsible.Root>
         <a
-          href="##"
+          href="/client-dash/plans"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <Coins class="size-5"/>
-          Account Credits
+          View Plan
         </a>
-        <a
-          href="/client-dash/audience"
-          class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-        >
-          <Users class="h-5 w-5" />
-          Audience
-        </a>
-        <a
-          href="/client-dash/analytics"
-          class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-        >
-          <LineChart class="h-5 w-5" />
-          Analytics
-        </a>
+        {#if payment.status}
+          <a
+            href="/client-dash/audience"
+            class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+          >
+            <Users class="h-5 w-5" />
+            Audience
+          </a>
+          <a
+            href="/client-dash/analytics"
+            class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+          >
+            <LineChart class="h-5 w-5" />
+            Analytics
+          </a>
+        {/if}
       </nav>
       <div class="mt-auto">
+        {#if payment.status}
         <Card.Root>
           <Card.Header>
             <Card.Title>Upgrade to Pro</Card.Title>
@@ -258,9 +269,10 @@
             </Card.Description>
           </Card.Header>
           <Card.Content>
-            <Button size="sm" class="w-full">Upgrade</Button>
+            <Button size="sm" class="w-full" href='/client-dash/upgrade'>Upgrade</Button>
           </Card.Content>
         </Card.Root>
+        {/if}
       </div>
     </Sheet.Content>
   </Sheet.Root>

@@ -9,4 +9,8 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/superuser', url, "Not Authorised"))
         // console.log(fromUrl)
     }
+
+    return {
+        role: user.role
+    }
 };

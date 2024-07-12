@@ -36,5 +36,5 @@
         
         <!-- <Button variant="outline" on:click={addData} on:click={() => active=false}>Save</Button> -->
     </form>
-    <img class="w-52" src="https://pollbase.tech/assets/img/vector.png" alt="">
+    <img class="w-52" src="https://i.postimg.cc/zXc27ndm/vector.png" alt="">
 </div>

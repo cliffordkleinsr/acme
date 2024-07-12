@@ -64,7 +64,7 @@
         </Card.Footer>
     </Card.Root>         
     {/each}
-    <img class="w-52" src="https://pollbase.tech/client/assets/graphics/question.png" alt="s">
+    <img class="w-52" src="https://i.postimg.cc/QCtG9jMc/image.png" alt="s">
     <Card.Root class="lg:col-span-2 2xl:col-span-1">
         <Card.Header class="space-y-5">
             <Card.Title class="">Survey Questionaire</Card.Title>

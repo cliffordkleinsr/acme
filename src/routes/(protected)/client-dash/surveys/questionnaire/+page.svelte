@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DataTable from './data-table.svelte';
+	import DataTable from './(tableau)/data-table.svelte';
 
     export let data
     const { surv } = data
