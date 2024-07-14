@@ -49,6 +49,7 @@ export const clientData = pgTable('client_data',{
     sector: text("sector").notNull(),
     //additional
     packageid: text("packageid"),
+    typeid: text("package_type_id"),
     payment_status: boolean('payment_status').notNull().default(false), 
     processed_at: timestamp('processed_at', {
         withTimezone: true,
@@ -65,6 +66,8 @@ export const clientPackages = pgTable('client_packages', {
     packageid: text("packageid").primaryKey(),
     packageDesc: text("package_description").notNull(),
     package_price: text('package_price').notNull(),
+    priceIdMn: text("price_id_monthly"),
+    priceIdYr: text("price_id_annual"),
     max_questions: integer('max_qns').notNull().default(1),
     max_surv: integer('max_surveys').notNull().default(1),
     max_agents: integer('max_agents').notNull().default(0),

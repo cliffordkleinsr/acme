@@ -2,7 +2,7 @@ import { message, setError, superValidate } from "sveltekit-superforms"
 import { signinCSchema } from "./schema"
 import { zod } from "sveltekit-superforms/adapters"
 import type { Actions, PageServerLoad } from "./$types"
-import { UsersTable } from "$lib/server/schema"
+import { clientData, UsersTable } from "$lib/server/schema"
 import { db } from "$lib/server/db"
 import { eq } from "drizzle-orm"
 import { Argon2id } from "oslo/password"
@@ -26,6 +26,12 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
 export const actions: Actions = {
     default: async({ request, cookies, url}) =>{
         const form = await superValidate(request, zod(signinCSchema))
+        // await db.update(clientData)
+        // .set({
+        //     packageid: null,
+        //     payment_status: false,
+        //     processed_at: null
+        // })
         // validate
         if (!form.valid) {
             return message(form, {

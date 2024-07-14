@@ -5,5 +5,6 @@ export let msg = writable<string[]>([])
 
 export const clientPackage = persisted('client_package', {
     plan: 'None',
-    price: '0'
+    price: '0',
+    priceId:'None'
 })

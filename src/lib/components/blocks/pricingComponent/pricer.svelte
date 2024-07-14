@@ -21,6 +21,8 @@
                 subtitles: 'Basic',
                 prices: '60',
                 offers: '54',
+                priceMn: 'price_1Pc0QJRpYHoLk6LSKgdeI7Nn',
+                priceYr: 'price_1Pc0QJRpYHoLk6LS1gEg7Hi4',
                 comments: 'Entry-level option to attract small businesses or clients with modest needs',
                 features: [
                     'Up to 2 surveys per month',
@@ -33,6 +35,8 @@
                 subtitles: 'Standard Business',
                 prices: '200',
                 offers: '180',
+                priceMn:'',
+                priceYr: '',
                 comments: 'Entry-level option to attract small businesses or clients with modest needs',
                 features: [
                     'Up to 4 surveys per month.',
@@ -47,6 +51,8 @@
                 subtitles: 'Premium Business',
                 prices: '2000',
                 offers: '1800',
+                priceMn:'',
+                priceYr: '',
                 comments: 'Entry-level option to attract small businesses or clients with modest needs',
                 features: [
                     'Up to 6 surveys per month.',
@@ -61,6 +67,8 @@
                 subtitles: 'Enterprise',
                 prices: 'Custom',
                 offers: 'Custom',
+                priceMn:'',
+                priceYr: '',
                 comments: 'Entry-level option to attract small businesses or clients with modest needs',
                 features: [
                     'Unlimited users',
@@ -69,18 +77,6 @@
                 ]
             },
         ]
-
-    // comparator table
-    // export let tableItems: {
-
-    // }
-    // export let subtitles:[]
-    // export let prices:[]
-    // export let offers:[]
-    // export let comments:[]
-    // export let features:[]
-
-
 
 </script>
 <!-- Pricing -->
@@ -143,9 +139,26 @@
                 <Button variant="outline" class="w-full">Contact Support</Button>  
             {:else}
                 {#if applyLogic}
-                    <Button variant="outline" class="w-full" on:click={()=> clientPackage.set({plan : item.subtitles, price : checked !== true? item.prices: String(parseInt(item.offers)*12)})} {href}>{Message}</Button>
+                    <Button variant="outline" 
+                        class="w-full" 
+                        on:click={()=> 
+                            clientPackage.set({
+                                plan : item.subtitles,
+                                price : checked !== true? item.prices: String(parseInt(item.offers)*12),
+                                priceId: checked !== true? item.priceMn: item.priceYr
+                            })
+                        } 
+                        {href}
+                    >
+                        {Message}
+                    </Button>
                 {:else}
-                    <Button variant="outline" class="w-full" {href}>{Message}</Button>
+                    <Button variant="outline"
+                        class="w-full" 
+                        {href}
+                    >
+                        {Message}
+                    </Button>
                 {/if}
             {/if}
             

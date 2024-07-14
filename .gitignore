@@ -84,3 +84,9 @@ drizzle/migrations/0044_smooth_avengers.sql
 drizzle/migrations/0041_classy_firebrand.sql
 drizzle/migrations/0043_familiar_arachne.sql
 drizzle/migrations/0042_cultured_dust.sql
+drizzle/migrations/0046_old_logan.sql
+drizzle/migrations/0047_loose_miracleman.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0046_snapshot.json
+drizzle/migrations/meta/0047_snapshot.json
+drizzle/migrations/meta/_journal.json

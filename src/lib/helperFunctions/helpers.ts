@@ -174,7 +174,9 @@ const checkout = async (clientPack:Object) => {
 export type CartItems = {
   subtitles:string,
   prices:string,
-  offers:string, 
+  offers:string,
+  priceMn: string,
+  priceYr: string, 
   comments:string,
   features:string[]
 }[]
