@@ -12,24 +12,47 @@
     import Trash2 from "lucide-svelte/icons/trash-2";
     import { Input } from "$lib/components/ui/input"
 	import { enhance } from "$app/forms";
-    // export let data
+	import { page } from "$app/stores";
+	import Pretoast from "$lib/components/blocks/pretoast.svelte";
+	import { fade } from "svelte/transition";
+	import { sineInOut } from "svelte/easing";
+    export let data
 
+	const { features:{plan}} = data
+	let date = new Date();
+
+     // custom param message
+    let msg: string
+    let visible = true
+
+    setTimeout(() => {
+        visible = false 
+    }, 2000)
+
+    $: msg = $page.url.searchParams.get("notification") ?? ""
+    // add a day
+    let newDate = new Date(date.setMonth(date.getMonth() + 1))
     const pricerProps = {
-        Message: 'Select Plan',
+        Message: 'Upgrade',
         href: '',
         table: false,
         applyLogic:true,
+		selected_plan : plan
     };
 </script>
-
+{#if visible && msg}
+<div transition:fade={{delay:200, duration:300, easing:sineInOut}}>
+    <Pretoast message={msg} type="info"/>
+</div>
+{/if}
 <Popover.Root>
   <Popover.Trigger asChild let:builder>
     <Button builders={[builder]} class="absolute top-20 right-8 text-muted-foreground" variant='ghost' size='icon'><ShoppingBag /></Button>
   </Popover.Trigger>
   <Popover.Content>
     <form action="?/subscribe" method="post" class="space-y-3">
-        <p class="text-sm">Selected: {$clientPackage.plan}</p>
-        <Input type="text" name="plan" value={$clientPackage.plan} class="hidden"/>
+        <p>Starting {newDate.toDateString()} you will be charged ${$clientPackage.price} for the {$clientPackage.plan} package</p>
+            <Input type="text" name="plan" value={$clientPackage.plan} class="hidden"/>
         <Separator />
         <p class="text-sm">Total: ${$clientPackage.price}</p>
         <Input type="text" name="priceId" value={$clientPackage.priceId} class="hidden"/>

@@ -27,7 +27,9 @@
                     {#if form?.message}
                         <Label class="text-red-600">{form.message}</Label>
                     {/if}
-                    <Form.Button class="max-w-sm">Submit</Form.Button>
+                    {#if true}
+                        <Form.Button class="max-w-sm">Submit</Form.Button>
+                    {/if}
                 </div>
             </Card.Content>
         </Card.Root>

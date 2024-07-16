@@ -1,6 +1,6 @@
 import { Stripe } from 'stripe';
 import { stripe } from './stripe';
-
+import { BASE } from '$env/static/private'
 const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | undefined> => {
     try 
     {
@@ -13,7 +13,7 @@ const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | und
                 }
             ],
             mode: "subscription",
-            return_url: 'http://localhost:5173/client-dash/subscriptions/subscribed?session_id={CHECKOUT_SESSION_ID}',
+            return_url: `${BASE}/client-dash/subscriptions/subscribed?session_id={CHECKOUT_SESSION_ID}`,
         })
         return sess
 

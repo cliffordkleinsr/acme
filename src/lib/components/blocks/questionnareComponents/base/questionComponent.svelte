@@ -11,7 +11,6 @@
     import Star from 'lucide-svelte/icons/star'
     import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
     import * as Select from "$lib/components/ui/select"
-    
     import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
 
     let isDesktop = true
@@ -105,9 +104,10 @@
   }
 </script>
 
+
 {#if isDesktop}
-  <Dialog.Root bind:open>
-    <Dialog.Trigger asChild let:builder>
+  <Dialog.Root bind:open >
+    <Dialog.Trigger asChild let:builder data-intro="">
         <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><FolderOpen class="size-4"/> Add an open ended question</Button>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
@@ -462,3 +462,4 @@
   </Drawer.Content>
   </Drawer.Root>
 {/if}
+

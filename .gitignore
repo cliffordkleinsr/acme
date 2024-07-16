@@ -90,3 +90,14 @@ drizzle/migrations/meta/_journal.json
 drizzle/migrations/meta/0046_snapshot.json
 drizzle/migrations/meta/0047_snapshot.json
 drizzle/migrations/meta/_journal.json
+drizzle/migrations/0048_wakeful_wonder_man.sql
+drizzle/migrations/0049_blushing_luminals.sql
+drizzle/migrations/0051_regular_blue_blade.sql
+drizzle/migrations/0052_ordinary_mandrill.sql
+drizzle/migrations/0050_eager_junta.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0049_snapshot.json
+drizzle/migrations/meta/0048_snapshot.json
+drizzle/migrations/meta/0051_snapshot.json
+drizzle/migrations/meta/0052_snapshot.json
+drizzle/migrations/meta/0050_snapshot.json

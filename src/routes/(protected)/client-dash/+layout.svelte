@@ -313,8 +313,8 @@
       <DropdownMenu.Label>My Account</DropdownMenu.Label>
       <DropdownMenu.Separator />
       <DropdownMenu.Item class="gap-3.5" href="/client-settings"><Settings class="size-4"/>Settings</DropdownMenu.Item>
-      <DropdownMenu.Item class="gap-3.5"> <CandlestickChart class="size-4"/> Pricing Plans</DropdownMenu.Item>
-      <DropdownMenu.Item class="gap-3.5"><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
+      <DropdownMenu.Item class="gap-3.5" href='/client-dash/subscriptions/myplan'> <CandlestickChart class="size-4"/> Pricing Plans</DropdownMenu.Item>
+      <DropdownMenu.Item class="gap-3.5" href='/client-dash/plans'><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5"><Tag class="size-4"/>Support</DropdownMenu.Item>
       <DropdownMenu.Separator />
       <form action="/client/signout" method="post" use:enhance>

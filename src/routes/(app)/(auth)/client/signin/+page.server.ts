@@ -28,6 +28,7 @@ export const actions: Actions = {
         const form = await superValidate(request, zod(signinCSchema))
         // await db.update(clientData)
         // .set({
+        //     typeid: null,
         //     packageid: null,
         //     payment_status: false,
         //     processed_at: null

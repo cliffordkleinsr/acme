@@ -110,6 +110,7 @@
       <Select.Item value=30>30 Agents</Select.Item>
     </Select.Content>
   </Select.Root>
+  {/if}
   <Select.Root
     selected={selected_age_group}
     onSelectedChange={(v) => {
@@ -125,6 +126,9 @@
         {/each}
       </Select.Content>
   </Select.Root>
+  <!-- {#if gender_active}
+    
+  {/if} -->
   <Select.Root
     selected={selected_gender}
     onSelectedChange={(v) => {
@@ -140,6 +144,7 @@
         {/each}
       </Select.Content>
   </Select.Root>
+  {#if user === 'ADMIN'}
   <div class=""></div>
   {/if}
   <AlertDialog.Root>

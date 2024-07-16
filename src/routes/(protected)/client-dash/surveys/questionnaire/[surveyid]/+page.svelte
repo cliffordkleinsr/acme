@@ -18,7 +18,18 @@
   import Star from 'lucide-svelte/icons/star'
   import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
 	import LikertComponent from '$lib/components/blocks/questionnareComponents/likertcomponent/LikertComponent.svelte';
+  import { onMount } from "svelte";
+    import 'intro.js/minified/introjs.min.css'
+    import introJs from "intro.js";
 
+    onMount(() => {
+      setTimeout(() => {
+        introJs().setOptions({
+          "dontShowAgain": true,
+          "dontShowAgainCookie": "introjs-dontShowAgain3"
+        }).start()
+      }, 1500)
+    })
   // let arr = [1,2,3,4]
   // let disabl = [false,false,false,false] 
   // const setRank = (index: number, rank: number)=> {
@@ -26,7 +37,7 @@
   // }
   
   export let data: PageData;
-  const { surveydata, surveyqns } = data
+  const { surveydata, surveyqns, features:{maxqns} } = data
 
   // let rankings:any = []
   // for (const { options } of surveyqns) {
@@ -65,13 +76,19 @@
     </Card.Root>         
     {/each}
     <img class="w-52" src="https://i.postimg.cc/QCtG9jMc/image.png" alt="s">
-    <Card.Root class="lg:col-span-2 2xl:col-span-1">
+    <Card.Root class="lg:col-span-2 2xl:col-span-1" data-intro=" This section allows you to generate questions">
         <Card.Header class="space-y-5">
             <Card.Title class="">Survey Questionaire</Card.Title>
             <Card.Description>Add questions and select the type of answer to be given. The Questions Format will be displayed below.</Card.Description>
         </Card.Header>
         <Card.Content class="grid lg:grid-cols-2 gap-3">
-         <QuestionComponent />
+          {#if surveyqns.length === maxqns}
+            <div class="bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert">
+              <span class="font-bold">Warning</span> alert! You have exceeded the maximum available questions for your plan
+            </div>
+          {:else}
+            <QuestionComponent />
+         {/if}
         </Card.Content>
     </Card.Root>
 </div>

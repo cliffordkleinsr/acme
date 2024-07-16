@@ -3,7 +3,7 @@ import type { LayoutServerLoad } from './$types';
 import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
 import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { clientData, SurveyTable } from '$lib/server/schema';
+import { clientData, clientPackages, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
 import { checkDate } from '$lib/server/db_utils';
 
@@ -38,9 +38,21 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         })
         .from(clientData)
         .where(sql`${clientData.clientId} = ${user.id}`)
-    
+
+    const [feats] = await db
+    .select({
+        gender_active: clientPackages.demographics,
+        ages: clientPackages.ages,
+        maxqns: clientPackages.max_questions,
+        maxagents: clientPackages.max_agents,
+        maxsurv: clientPackages.max_surv,
+        plan: clientPackages.package_price_mn,
+    })
+    .from(clientData)
+    .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
     return {
         payment,
+        features:feats,
         AuthedUser: user.fullname,
         Role: user.role,
         email: user.email,

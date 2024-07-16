@@ -4,9 +4,21 @@ import type { Actions, PageServerLoad } from './$types';
 import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 import { subscribe } from '$lib/server/stripe/services';
+import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
+import { clientData } from '$lib/server/schema';
+import { db } from '$lib/server/db';
+import { eq } from 'drizzle-orm';
 
-export const load: PageServerLoad = async ({request}) => {
-
+export const load: PageServerLoad = async ({request, locals, url}) => {
+    const [paid] = await db.select({
+        payment_status: clientData.payment_status
+    })
+    .from(clientData)
+    .where(eq(clientData.clientId, locals.user?.id!))
+    
+    if (paid.payment_status) {
+        redirect(303, handleLoginRedirect('/client-dash/subscriptions/myplan', url, "You are currently subscribed to a plan"))
+    }
 };
 
 export const actions: Actions = {

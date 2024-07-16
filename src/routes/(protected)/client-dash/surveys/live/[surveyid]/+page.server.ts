@@ -4,6 +4,8 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError, z } from "zod"
+import { gender } from '$lib/json';
+
 
 export const load: PageServerLoad = async ({params}) => {
     const surveys = await db
@@ -14,6 +16,7 @@ export const load: PageServerLoad = async ({params}) => {
     })
     .from(SurveyTable)
     .where(eq(SurveyTable.surveyid, params.surveyid))
+
 
     return {
         survey_data: surveys

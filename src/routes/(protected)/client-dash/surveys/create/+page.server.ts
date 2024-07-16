@@ -1,13 +1,24 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { SurveyTable } from '$lib/server/schema';
+import { clientData, SurveyTable } from '$lib/server/schema';
 import { generateId } from 'lucia';
 import { createNewSurvey } from '$lib/server/db_utils';
+import { eq, sql } from 'drizzle-orm';
 
-export const load = (async () => {
-    return {};
-}) satisfies PageServerLoad;
+export const load: PageServerLoad = async () => {
+    const surveys = await db
+    .select({
+        id: SurveyTable.surveyid
+    })
+    .from(SurveyTable)
+    .leftJoin(clientData, eq(SurveyTable.clientid, clientData.clientId))
+    .where(sql`${SurveyTable.createdAt} BETWEEN ${clientData.processed_at} - INTERVAL '1 week' AND ${clientData.expires_at}`)
+
+    return {
+        surveys
+    }
+};
 
 
 export const actions: Actions = {

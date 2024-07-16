@@ -15,8 +15,9 @@
 	import { onMount } from "svelte";
 
     export let data
-    const {all_surv, draft_surv, live_surv, closed_surv, count, payment } = data
 
+    const {all_surv, draft_surv, live_surv, closed_surv, count, payment } = data
+   
     // custom param message
     let msg: string
     let visible = true
@@ -32,7 +33,7 @@
         visible = false 
     }, 2000)
 
-    $: msg= $page.url.searchParams.get("notification") ?? ""
+    $: msg = $page.url.searchParams.get("notification") ?? ""
 </script>
 {#if visible && msg}
 <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>

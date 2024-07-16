@@ -3,6 +3,6 @@
     import type { PageData } from './$types';
     
     export let data: PageData;
-    const { all_surveys } = data
+    const { draft_surveys, payment } = data
 </script>
-<DataTable data={all_surveys} type={"Draft"} />
+<DataTable data={draft_surveys} payment_stat={payment.status}/>

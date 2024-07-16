@@ -55,6 +55,10 @@ export const clientData = pgTable('client_data',{
         withTimezone: true,
         mode: "date" 
     }),
+    expires_at: timestamp('expires_at', {
+        withTimezone: true,
+        mode: "date" 
+    }),
     // 
     createdAt: timestamp('created_at', {
         withTimezone: true,
@@ -65,7 +69,8 @@ export const clientData = pgTable('client_data',{
 export const clientPackages = pgTable('client_packages', {
     packageid: text("packageid").primaryKey(),
     packageDesc: text("package_description").notNull(),
-    package_price: text('package_price').notNull(),
+    package_price_mn: text('package_price_mn').notNull(),
+    package_price_yr: text('package_price_yr').notNull().default('648'),
     priceIdMn: text("price_id_monthly"),
     priceIdYr: text("price_id_annual"),
     max_questions: integer('max_qns').notNull().default(1),

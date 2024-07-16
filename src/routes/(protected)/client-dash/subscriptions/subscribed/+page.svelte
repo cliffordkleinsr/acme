@@ -2,6 +2,10 @@
 	import { Button } from "$lib/components/ui/button";
     import { confetti } from '@neoconfetti/svelte'
 	import { onMount, tick } from "svelte";
+
+	onMount(() => {
+		localStorage.removeItem('client_package')
+	})
 </script>
 <div class="flex justify-center" >
 	<div use:confetti={{  particleCount: 200, duration: 3000, stageWidth:1800, stageHeight: 950 }}></div>

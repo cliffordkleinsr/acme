@@ -27,13 +27,16 @@ export const load: PageServerLoad = async ({url, locals}) => {
     const productid = prod_Id.items.data[0].plan.product
     const typeid =  prod_Id.items.data[0].plan.id
     const at = prod_Id.created* 1000
-    const user = await db
+    const expires = prod_Id.current_period_end *1000
+
+    await db
     .update(clientData)
     .set({
         packageid:productid as string,
         typeid: typeid as string,
         payment_status:true,
-        processed_at: new Date(at)
+        processed_at: new Date(at),
+        expires_at: new Date(expires)
     })
     .where(eq(clientData.clientId, locals.user?.id!))
 

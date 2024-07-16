@@ -18,7 +18,7 @@
         id: string;
         title: string;
         created: Date;
-        status: string
+        status: string,
     }
     export let data:Survey[]
     export let payment_stat:boolean

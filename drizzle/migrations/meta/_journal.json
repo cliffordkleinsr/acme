@@ -295,6 +295,41 @@
       "when": 1720945913659,
       "tag": "0047_loose_miracleman",
       "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "6",
+      "when": 1721022851283,
+      "tag": "0048_wakeful_wonder_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "6",
+      "when": 1721027647585,
+      "tag": "0049_blushing_luminals",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "6",
+      "when": 1721110883212,
+      "tag": "0050_eager_junta",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "6",
+      "when": 1721111167998,
+      "tag": "0051_regular_blue_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "6",
+      "when": 1721112762337,
+      "tag": "0052_ordinary_mandrill",
+      "breakpoints": true
     }
   ]
 }

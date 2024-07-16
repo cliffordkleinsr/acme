@@ -15,6 +15,7 @@
     export let applyLogic:boolean = false
     export let href:string='/client/register'
     export let Message:string='Sign Up'
+    export let selected_plan:string | null = ''
     // pricing cards
     export let cardItems: CartItems=  [
             {
@@ -23,7 +24,7 @@
                 offers: '54',
                 priceMn: 'price_1Pc0QJRpYHoLk6LSKgdeI7Nn',
                 priceYr: 'price_1Pc0QJRpYHoLk6LS1gEg7Hi4',
-                comments: 'Entry-level option to attract small businesses or clients with modest needs',
+                comments: 'All the basics for an entry level business',
                 features: [
                     'Up to 2 surveys per month',
                     'Up to 5 questions per survey.',
@@ -35,9 +36,9 @@
                 subtitles: 'Standard Business',
                 prices: '200',
                 offers: '180',
-                priceMn:'',
-                priceYr: '',
-                comments: 'Entry-level option to attract small businesses or clients with modest needs',
+                priceMn:'price_1PcikKRpYHoLk6LSwn6RloI0',
+                priceYr: 'price_1PcikKRpYHoLk6LSiWl3cO16',
+                comments: 'Everything you need for a growing business',
                 features: [
                     'Up to 4 surveys per month.',
                     'Up to 15 questions per survey.',
@@ -51,9 +52,9 @@
                 subtitles: 'Premium Business',
                 prices: '2000',
                 offers: '1800',
-                priceMn:'',
-                priceYr: '',
-                comments: 'Entry-level option to attract small businesses or clients with modest needs',
+                priceMn:'price_1PcioZRpYHoLk6LShwTOi7Zc',
+                priceYr: 'price_1PcioZRpYHoLk6LSAOiDsuSs',
+                comments: 'Advanced features for scaling your business',
                 features: [
                     'Up to 6 surveys per month.',
                     'Up to 30 questions per survey.',
@@ -67,9 +68,9 @@
                 subtitles: 'Enterprise',
                 prices: 'Custom',
                 offers: 'Custom',
-                priceMn:'',
-                priceYr: '',
-                comments: 'Entry-level option to attract small businesses or clients with modest needs',
+                priceMn:'N/A',
+                priceYr: 'N/A',
+                comments: 'Enterprise level needs',
                 features: [
                     'Unlimited users',
                     'Unlimited Plan features',
@@ -115,7 +116,9 @@
             {#if item.subtitles === 'Standard Business'}
                 <Button class="w-32 h-6 mx-auto" disabled>MOST POPULAR</Button>
             {/if}
+
             <Card.Title class="font-bold text-center pb-5">{item.subtitles}</Card.Title>
+
             {#if checked}
                 <Card.Title class="text-5xl font-bold text-center pb-2">${item.offers}</Card.Title>
             {:else}
@@ -136,10 +139,14 @@
         </Card.Content>
         <Card.Footer>
             {#if item.subtitles === 'Enterprise'}
-                <Button variant="outline" class="w-full">Contact Support</Button>  
+                <Button variant="outline" class="w-full" >Contact Support</Button>  
             {:else}
                 {#if applyLogic}
-                    <Button variant="outline" 
+                    <Button 
+                        variant="outline"
+                        disabled={
+                            selected_plan === item.prices
+                        } 
                         class="w-full" 
                         on:click={()=> 
                             clientPackage.set({
@@ -148,12 +155,13 @@
                                 priceId: checked !== true? item.priceMn: item.priceYr
                             })
                         } 
-                        {href}
                     >
-                        {Message}
+                        {selected_plan === item.prices? "Current Plan": Message}
+                        
                     </Button>
                 {:else}
-                    <Button variant="outline"
+                    <Button 
+                        variant="outline"
                         class="w-full" 
                         {href}
                     >
@@ -161,7 +169,6 @@
                     </Button>
                 {/if}
             {/if}
-            
         </Card.Footer>
     </Card.Root>
     {/each}
