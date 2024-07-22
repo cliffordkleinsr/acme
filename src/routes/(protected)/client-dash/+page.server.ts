@@ -19,8 +19,8 @@ export const load: PageServerLoad = async ({locals}) => {
   ]);
 
   const total_agents = await db
-    .selectDistinctOn([AnswersTable.respondentId], {
-      agent: AnswersTable.respondentId,
+    .selectDistinctOn([AnswersTable.agentId], {
+      agent: AnswersTable.agentId,
     })
     .from(AnswersTable)
     .leftJoin(SurveyTable, eq(AnswersTable.surveid, SurveyTable.surveyid))

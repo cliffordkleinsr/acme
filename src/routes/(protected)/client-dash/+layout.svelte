@@ -37,14 +37,29 @@
 	import { fade } from "svelte/transition";
 	import { sineIn, sineInOut, sineOut } from "svelte/easing";
   import * as Tooltip from "$lib/components/ui/tooltip"
-	import { msg } from "$lib/store.js";
+	// import { msg } from "$lib/store.js";
+  import {notifications} from '$lib/store.js'
+	import { message } from "sveltekit-superforms";
+
   
   export let data
   const { notif, payment } = data
-  msg.update(messages => [...messages, ...notif as string[]])
+
+  if ($notifications.messages.length > 0) {
+    notifications.update(msg => ({
+      messages: [...msg.messages, ...notif as string[]]
+    }))
+  }
+  else {
+    notifications.set({messages:notif as string[]})
+  }
   const clearNotifs = () => { 
-    msg.set([])
-    }
+    notifications.set({messages:[] as string[]})
+  }
+  // msg.update(messages => [...messages, ...notif as string[]])
+  // const clearNotifs = () => { 
+  //   msg.set([])
+  //   }
 </script>
 
 
@@ -65,8 +80,8 @@
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Content class="space-y-3 w-72">
-          {#if $msg.filter((notif) => notif != undefined).length}
-            {#each $msg.filter((notif) => notif != undefined) as notif, ix}
+          {#if $notifications.messages.filter((notif) => notif != undefined).length}
+            {#each $notifications.messages.filter((notif) => notif != undefined) as notif, ix}
               <p class="pl-5 font-mono">{ix+1}. {notif}</p>
               <Separator/>
             {/each}
@@ -76,10 +91,9 @@
           {/if}
         </Tooltip.Content>
       </Tooltip.Root>
-      {#if $msg.filter((notif) => notif != undefined).length}
-        <Badge class="size-5 justify-center absolute left-5 bottom-4">{$msg.filter((notif) => notif != undefined).length}</Badge>
-      {/if}
-      
+      {#if $notifications.messages.filter((notif) => notif != undefined).length}
+        <Badge class="size-5 justify-center absolute left-5 bottom-4">{$notifications.messages.filter((notif) => notif != undefined).length}</Badge>
+      {/if}     
     </div>
    
   </div>

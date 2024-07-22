@@ -6,12 +6,10 @@
     import { Input } from "$lib/components/ui/input"
     import * as Form from "$lib/components/ui/form"
     import * as RadioGroup from "$lib/components/ui/radio-group"
-    
     import { page } from "$app/stores"
 
     export let data
-    const { questions } = data
-
+    const { uri, current_ix } = data
 </script>
 <!-- {#if hidden} -->
 <div class="flex flex-col max-w-sm mx-auto mt-6">
@@ -25,7 +23,14 @@
         </Card.Description>
     </Card.Header>
     <Card.Content class="mt-14 text-center">
-        <Button variant="outline" class="rounded-xl" size="lg" href='{$page.url.pathname}/{questions[0].id}'>Start the survey</Button>
+        <Button 
+            variant="outline" 
+            class="rounded-xl" 
+            size="lg"
+            href='{uri}'
+        >
+            {current_ix > 0? 'Continue where you left off': 'Start the survey'}
+        </Button>
     </Card.Content>
     <Card.Footer class="mt-7">
         <div class="flex flex-col gap-2 text-center">

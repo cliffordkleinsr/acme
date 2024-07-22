@@ -17,20 +17,26 @@
 	  import Input from "../../ui/input/input.svelte";
     import * as Select from "$lib/components/ui/select"
 
-    export let user
+
     let today = new Date()
     let dd = today.getDate()
     let mm = today.getMonth() + 1
     let yyyy = today.getFullYear()
-    const df = new DateFormatter("en-US", {
-      dateStyle: "medium"
-    });
-    
+
+
+    export let user
+    export let gen_act: boolean
+    export let age_act: boolean
+    export let target:number=10
     export let value: DateRange | undefined = {
       start: new CalendarDate(yyyy, mm, dd),
       end: new CalendarDate(yyyy, mm, dd).add({ days: 10 })
     }
-    let target:number=10
+
+    const df = new DateFormatter("en-US", {
+      dateStyle: "medium"
+    });
+
     let selected_agents = {label:'Select Agents' , value:10}
 
     let age_group = [
@@ -88,7 +94,8 @@
           bind:value
           bind:startValue
           initialFocus
-          numberOfMonths={2}
+          numberOfMonths={1}
+          maxValue={startValue?.add({weeks: 3})}
           placeholder={value?.start}
         />
       </Popover.Content>
@@ -111,41 +118,42 @@
     </Select.Content>
   </Select.Root>
   {/if}
-  <Select.Root
-    selected={selected_age_group}
-    onSelectedChange={(v) => {
-      v && (target_age_group = v.value);
-    }}
-  >
-      <Select.Trigger>
-        <Select.Value placeholder="Select Target Agents" />
-      </Select.Trigger>
-      <Select.Content>
-        {#each age_group as grp}
-        <Select.Item value={grp.value}>{grp.label}</Select.Item>
-        {/each}
-      </Select.Content>
-  </Select.Root>
-  <!-- {#if gender_active}
-    
-  {/if} -->
-  <Select.Root
-    selected={selected_gender}
-    onSelectedChange={(v) => {
-      v && (target_gender = v.value);
-    }}
-  >
-      <Select.Trigger>
-        <Select.Value placeholder="Select Target Agents" />
-      </Select.Trigger>
-      <Select.Content>
-        {#each gender as grp}
-        <Select.Item value={grp.value}>{grp.label}</Select.Item>
-        {/each}
-      </Select.Content>
-  </Select.Root>
+  {#if age_act}
+    <Select.Root
+      selected={selected_age_group}
+      onSelectedChange={(v) => {
+        v && (target_age_group = v.value);
+      }}
+    >
+        <Select.Trigger>
+          <Select.Value placeholder="Select Target Agents" />
+        </Select.Trigger>
+        <Select.Content>
+          {#each age_group as grp}
+          <Select.Item value={grp.value}>{grp.label}</Select.Item>
+          {/each}
+        </Select.Content>
+      </Select.Root> 
+  {/if}
+  {#if gen_act}
+    <Select.Root
+      selected={selected_gender}
+      onSelectedChange={(v) => {
+        v && (target_gender = v.value);
+      }}
+    >
+        <Select.Trigger>
+          <Select.Value placeholder="Select Target Agents" />
+        </Select.Trigger>
+        <Select.Content>
+          {#each gender as grp}
+          <Select.Item value={grp.value}>{grp.label}</Select.Item>
+          {/each}
+        </Select.Content>
+    </Select.Root>
+  {/if}
   {#if user === 'ADMIN'}
-  <div class=""></div>
+    <div class=""></div>
   {/if}
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild let:builder>

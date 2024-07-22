@@ -29,8 +29,8 @@
     interface Survey {
         id: string;
         title: string;
-        from?: string ;
-        to?: string;
+        from: Date ;
+        to: Date;
     }
     export let data:Survey[]
  
@@ -165,52 +165,52 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border" data-intro='here you will find a list of all the surveys you can take'>
+    <div class="rounded-md border" data-intro='Here you will find a list of all the surveys available to you'>
         <Table.Root {...$tableAttrs}>
-        <Table.Header>
-            {#each $headerRows as headerRow}
-            <Subscribe rowAttrs={headerRow.attrs()}>
-                <Table.Row>
-                {#each headerRow.cells as cell (cell.id)}
-                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
-                    <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
-                        {#if cell.id === "title"}
-                            <Button variant="ghost" on:click={props.sort.toggle}>
+            <Table.Header>
+                {#each $headerRows as headerRow}
+                <Subscribe rowAttrs={headerRow.attrs()}>
+                    <Table.Row>
+                    {#each headerRow.cells as cell (cell.id)}
+                        <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
+                        <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
+                            {#if cell.id === "title"}
+                                <Button variant="ghost" on:click={props.sort.toggle}>
+                                    <Render of={cell.render()} />
+                                    <ArrowUpDown class={"ml-2 h-4 w-4"} />
+                                </Button>
+                            {:else if cell.id !== "id" && cell.id !== "from" && cell.id !== "to" && cell.id !== "title"} 
+                            <div data-intro='If a survey is available there will be a list of actions you can perform using the "⋯" icon'>
                                 <Render of={cell.render()} />
-                                <ArrowUpDown class={"ml-2 h-4 w-4"} />
-                            </Button>
-                        {:else if cell.id !== "id" && cell.id !== "from" && cell.id !== "to" && cell.id !== "title"} 
-                        <div data-intro='Below you will see three dots if there is any survey available'>
-                            <Render of={cell.render()} />
-                        </div>
-                        {:else}
-                            <Render of={cell.render()} />
-                        {/if}
-                    </Table.Head>
-                    </Subscribe>
+                            </div>
+                            {:else}
+                                <Render of={cell.render()} />
+                            {/if}
+                        </Table.Head>
+                        </Subscribe>
+                    {/each}
+                    </Table.Row>
+                </Subscribe>
                 {/each}
-                </Table.Row>
-            </Subscribe>
-            {/each}
-        </Table.Header>
-        <Table.Body {...$tableBodyAttrs}>
-            {#each $pageRows as row (row.id)}
-            <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-                <Table.Row 
-                    {...rowAttrs}
-                    data-state={$selectedDataIds[row.id] && "selected"}
-                >
-                {#each row.cells as cell (cell.id)}
-                    <Subscribe attrs={cell.attrs()} let:attrs>
-                    <Table.Cell {...attrs}>
-                        <Render of={cell.render()} />
-                    </Table.Cell>
-                    </Subscribe>
+            </Table.Header>
+            <Table.Body {...$tableBodyAttrs}>
+                {#each $pageRows as row (row.id)}
+                <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+                    <Table.Row 
+                        {...rowAttrs}
+                        data-state={$selectedDataIds[row.id] && "selected"}
+                    >
+                    {#each row.cells as cell (cell.id)}
+                        <Subscribe attrs={cell.attrs()} let:attrs>
+                        <Table.Cell {...attrs}>
+                            <Render of={cell.render()} />
+                        </Table.Cell>
+                        </Subscribe>
+                    {/each}
+                    </Table.Row>
+                </Subscribe>
                 {/each}
-                </Table.Row>
-            </Subscribe>
-            {/each}
-        </Table.Body>
+            </Table.Body>
         </Table.Root>
     </div>
     <div class="flex items-center justify-end space-x-4 py-4">

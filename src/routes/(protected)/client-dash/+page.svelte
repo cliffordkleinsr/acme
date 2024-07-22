@@ -106,7 +106,6 @@
         </Card.Root>            
     </div>
 </div>
-
 <Tabs.Root value="draft" class="lg:w-full w-96 mx-auto">
     <Tabs.List class="grid w-80 lg:w-[35rem] grid-cols-3 mx-5">
       <Tabs.Trigger value="draft" data-intro='This tab shows draft surveys.'>Draft</Tabs.Trigger>

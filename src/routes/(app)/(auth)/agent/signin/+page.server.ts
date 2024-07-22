@@ -15,7 +15,7 @@ import type { Actions, PageServerLoad } from "./$types";
 export const load: PageServerLoad = async ({locals: { user}, url}) => {
     if (user) 
     {
-        if (user.role === "RESP") {
+        if (user.role === "AGENT") {
             // redirect('/respondent-dash',  {type: "error", message:"User Already Logged In"}, cookies)
             redirect(302, handleLoginRedirect('/agent-dash', url, "User Already Logged In"))
         }

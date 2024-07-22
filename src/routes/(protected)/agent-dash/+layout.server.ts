@@ -10,16 +10,14 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/agent/signin', url))
         // redirect('/respondent/signin', {type: "error", message:"You Must Be logged In to view this page"}, cookies)
     }
-    if (user.role === "CLIENT") {
-        redirect(302, handleLoginRedirect('/client-dash', url, "Not Authorised"))
-    }
+
     const dat = await db
     .select({
       week: sql<Date>`DATE_TRUNC('week', ${AnswersTable.updatedAt})`,
       count: sql<number>`COUNT(*)`
     })
     .from(AnswersTable)
-    .where(sql`${AnswersTable.respondentId} = ${user.id}`)
+    .where(sql`${AnswersTable.agentId} = ${user.id}`)
     .groupBy(sql`DATE_TRUNC('week', ${AnswersTable.updatedAt})`)
     .orderBy(sql`DATE_TRUNC('week', ${AnswersTable.updatedAt})`);
 

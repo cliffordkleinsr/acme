@@ -1,12 +1,13 @@
-import {eq, getTableColumns, sql } from "drizzle-orm"
+import {asc, eq, getTableColumns, sql } from "drizzle-orm"
 import { db } from "./db"
 import { 
     AnswersTable,
     // SurveyQnsTable,
     SurveyTable,
     UsersTable, clientData,
+    clientPackages,
     emailVerificationCodes,
-    respondentData,
+    agentData,
     sessionsTable,
     surveyqnsTableV2,
     type ClientDataInsertSchema,
@@ -16,18 +17,22 @@ import {
     // type surveyQnsSchema,
     type surveyQnsSchemaV2,
     type surveySelectSchema,
-    type userInsertSchema 
+    type userInsertSchema, 
+    QuestionOptions,
+    type progresType,
+    progressTable
 } from "./schema"
 import type { PgColumn, PgTable } from "drizzle-orm/pg-core"
+import { clientPackage } from "$lib/store"
 
 export const getCountAgents = async (variable: PgColumn, userId:string) => {
     const queryResult = await db
     .select({
         variable,
-        agent_cnt: sql<number>`cast(count(distinct(${respondentData.respondentId})) as int)`,
+        agent_cnt: sql<number>`cast(count(distinct(${agentData.agentid})) as int)`,
     })
-    .from(respondentData)
-    .leftJoin(AnswersTable, eq(respondentData.respondentId, AnswersTable.respondentId))
+    .from(agentData)
+    .leftJoin(AnswersTable, eq(agentData.agentid, AnswersTable.agentId))
     .leftJoin(SurveyTable, eq(AnswersTable.surveid, SurveyTable.surveyid))
     .where(sql`${SurveyTable.clientid} = ${userId}`)
     .groupBy(variable)
@@ -48,18 +53,19 @@ export const checkIfEmailExists = async (email:string) => {
     return queryResult.length > 0
 }
 
+// Insertion for any User
 export const insertNewUser = async (user: userInsertSchema) => {
     return await db.insert(UsersTable).values(user)
 }
-
+// Insertion for Agent Users
 export const insertRespData = async (data: RespondentInsertSchema) => {
-    return await db.insert(respondentData).values(data)
+    return await db.insert(agentData).values(data)
 }
-
+// Insertion for Client Users
 export const insertClientData = async (data: ClientDataInsertSchema) => {
     return await db.insert(clientData).values(data)
 }
-
+// Insertion for New Survey
 export const createNewSurvey = async (data: surveyGenerateSchema) => {
     return await db.insert(SurveyTable).values(data)
 }
@@ -82,13 +88,59 @@ export const checkDate = async (id:string, fromdb: Date) => {
     }
 }
 
-export const deleteClientUsers = async () => {
-     
-     await db.delete(sessionsTable)
-     await db.delete(clientData)
-     await db.delete(UsersTable)
-       
+export const packageExpiry = async (id: string) => {
+    const [expiry_date] = await db
+        .select({
+            expiry : clientData.expires_at,
+            package: clientPackages.packageDesc
+        })
+        .from(clientData)
+        .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
+        .where(eq(clientData.clientId, id))
+    if (expiry_date.expiry) {
+        let diff = new Date().getTime() - expiry_date.expiry?.getTime()
+        if (diff  > 0) {
+            await db
+            .update(clientData)
+            .set({
+                packageid: null,
+                typeid: null,
+                payment_status:false,
+                expires_at:null
+            })
+            .where(eq(clientData.clientId, id))
+            return {
+                message: `Your subscription for the ${expiry_date.package} plan has expired. Renew your plan`
+            }
+        }
+        
+    }
+    
 }
+
+/** 
+ * When answering qns we want to
+ * 1). get the list of all the questions we are answering
+ * reduce the target when we are answering the last question
+ * */
+export const getsurveyQuestions = async (questionId:string) => {
+    return await db
+            .select({
+                id: surveyqnsTableV2.questionId,
+                question: surveyqnsTableV2.question,
+                question_type: surveyqnsTableV2.questionT,
+                likert_key: surveyqnsTableV2.likertKey,
+                optionid: sql<string[]>`ARRAY_AGG(${QuestionOptions.optionId})`,
+                options: sql<string[]>`ARRAY_AGG(${QuestionOptions.option})`
+            })
+            .from(surveyqnsTableV2)
+            .leftJoin(QuestionOptions, eq(surveyqnsTableV2.questionId, QuestionOptions.questionId))
+            .where(eq(surveyqnsTableV2.questionId, questionId))
+            .groupBy(surveyqnsTableV2.questionId, surveyqnsTableV2.question)
+            .orderBy(asc(surveyqnsTableV2.updatedAt))
+}
+
+
 
 export const setTarget = async (id: string): Promise<void> => {
     try {

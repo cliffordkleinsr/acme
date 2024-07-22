@@ -12,18 +12,20 @@
 	import LikertComponent from '$lib/components/blocks/questionnareComponents/likertcomponent/LikertComponent.svelte';
 	import StarComponent from '$lib/components/blocks/questionnareComponents/rating/StarComponent.svelte';
 	import Ranker from '$lib/components/blocks/questionnareComponents/rankingComponent/Ranker.svelte';
-    
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
     
     export let data: PageData;
     export let form
 
     const { questions, question_cnt, count } = data
 
-    // let show_msg = false
+    // Percentages
     let cnt = count + 1
     const qns = questions
     const perc = Math.round((cnt / question_cnt) * 100)
     
+    // checkbox Items
     let items:any[] = []
     function addItem(id: string) {
         items = [...items, id];
@@ -32,15 +34,6 @@
     function removeItem(id: string) {
         items = items.filter((i) => i !== id);
     }
-    // beforeNavigate(({cancel, from, to})=>{
-    //     if(browser && !confirm('Leave without saving ?')) {
-    //         show_msg = true
-    //         setTimeout(()=>{
-    //             show_msg = false
-    //         }, 3500)
-    //         cancel();
-    //     }
-    // })
 </script>
 
 <Progress value={perc} />
@@ -110,26 +103,25 @@
         {#each qns.options as opt, i}
             {@const id = qns.optionid[i]}
             {#if opt !== null}
-            <div class="flex gap-2">
-                <Checkbox
-                onCheckedChange={(v) => {
-                    if (v) {
-                        addItem(opt);
-                    } else {
-                        removeItem(opt);
-                    }
-                    }}
-                />
-                <Label
-                for="option1"
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
-                >
-                {opt}
-                </Label>
-                <Input value={id}  name="optionId" class="hidden"/>
-                <input type="checkbox" bind:group={items} name="answer" value={opt} hidden/>
-                
-            </div>
+                <div class="flex gap-2">
+                    <Checkbox
+                        onCheckedChange={(v) => {
+                            if (v) {
+                                addItem(opt);
+                            } else {
+                                removeItem(opt);
+                            }
+                        }}
+                    />
+                    <Label
+                        for="option1"
+                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
+                    >
+                        {opt}
+                    </Label>
+                    <Input value={id}  name="optionId" class="hidden"/>
+                    <input type="checkbox" bind:group={items} name="answer" value={opt} hidden/>
+                </div>
             {/if}
         {/each}
         {#if form?.errors?.answer}

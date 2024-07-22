@@ -32,7 +32,7 @@
 	<Card.Header class="flex flex-row items-start bg-muted/50">
 		<div class="grid gap-0.5">
 			<Card.Title class="group flex items-center gap-2 text-lg">
-				Package {client_pack.desc} 
+				Order ID <span class="text-sm">{client_pack.packageid} </span>
 				<Button
 					size="icon"
 					variant="outline"
@@ -42,7 +42,7 @@
 					<span class="sr-only">Copy Order ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description>Subscribed at: {date} </Card.Description>
+			<Card.Description>Subscribed on: {date} </Card.Description>
 		</div>
 		<div class="ml-auto flex items-center gap-1" id="non-printable">
 			<Button size="sm" variant="outline" class="h-8 gap-1">
@@ -83,7 +83,7 @@
 			<ul class="grid gap-3">
 				<li class="flex items-center justify-between">
 					<span class="text-muted-foreground">
-						package id: {client_pack.packageid} 
+						package type: {client_pack.desc} 
 					</span>
 					<span>${Math.round(parseInt(price) - vat)}</span>
 				</li>

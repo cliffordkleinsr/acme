@@ -3,16 +3,27 @@ import { tick } from "svelte"
 import type { Cookies } from "@sveltejs/kit"
 // import { PENDING_VERIFICATION_COOKIE, type pendingVerificationType } from "$lib/server/email"
 
-
-let open:boolean
-// Years from 1940 JSON
-type Item = {
-    value: number
-    label: string
+// ALL TYPES FOR THIS FILE
+type Years = {
+  value: number
+  label: string
 }
-const items:Item[] = []
-const currentYear:number = new Date().getFullYear()
 
+// clientPackages
+export type CartItems = {
+  subtitles:string,
+  prices:string,
+  offers:string,
+  priceMn: string,
+  priceYr: string, 
+  comments:string,
+  features:string[]
+}[]
+
+
+// Years from 1940 JSON
+const items:Years[] = [] 
+const currentYear:number = new Date().getFullYear()
 for (let i = 0; i <= currentYear - 1940; i++) {
     const year = currentYear - i;
     items.push({ value: 365 * i, label: String(year) });
@@ -23,6 +34,7 @@ const df = new DateFormatter("en-US", {
     dateStyle: "long"
 })
 
+// Get the Initials of a name
 const getInitials = (name:any) => {
   let initials = name.split(' ');
   
@@ -38,7 +50,7 @@ const getInitials = (name:any) => {
 // We want to refocus the trigger button when the user selects
 // an item from the list so users can continue navigating the
 // rest of the form with the keyboard.
-
+let open: boolean
 function closeAndFocusTrigger(triggerId: string) {
     open = false;
     tick().then(() => {
@@ -46,7 +58,7 @@ function closeAndFocusTrigger(triggerId: string) {
     });
   }
 
-
+// Reroute params with message
 function handleLoginRedirect(where : string , url: URL, notification:string='You Must Be logged In to view this page')
 {
     const redirectTo = url.pathname + url.search
@@ -54,15 +66,19 @@ function handleLoginRedirect(where : string , url: URL, notification:string='You
     return `${where}?redirectTo=${redirectTo}&notification=${notification}`
 }
 
+// calpitalizes first leter of a word
 function capitalizeFirstLetter(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Calculates your age
 function calculateAge(birthday: string) { // birthday is a date
   var ageDifMs = Date.now() - new Date(birthday).getTime();
   var ageDate = new Date(ageDifMs); // miliseconds from epoch
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
+
+// Likert Key
 let likert_options = new Map();
 
 likert_options.set('Agreement', [
@@ -155,7 +171,7 @@ likert_options.set('Importance', [
   {option: "Very unimportant"},
 ])
 
-
+// Depreceated
 const checkout = async (clientPack:Object) => {
   const data = await fetch("/create-payment-intent", {
     method: 'POST',
@@ -171,13 +187,22 @@ const checkout = async (clientPack:Object) => {
   window.location.replace(data.url)
 }
 
-export type CartItems = {
-  subtitles:string,
-  prices:string,
-  offers:string,
-  priceMn: string,
-  priceYr: string, 
-  comments:string,
-  features:string[]
-}[]
-export {items, df, open, likert_options,  checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}
+// Unbiased Shuffling
+// https://bost.ocks.org/mike/shuffle/
+function shuffle(array: Object[]) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
+
+export {items, df, open, likert_options, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}

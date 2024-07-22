@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { clientData, clientPackages, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
-import { checkDate } from '$lib/server/db_utils';
+import { checkDate, packageExpiry } from '$lib/server/db_utils';
 
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {
@@ -18,6 +18,8 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/respondent-dash', url, "Not Authorised"))
     }
     
+    // notifs
+    // to disable expired surveys
     const live = await db
     .select({
         sid: SurveyTable.surveyid,
@@ -26,12 +28,17 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
     .from(SurveyTable)
     .where(eq(SurveyTable.status, "Live"))
 
+    
     let msg = []
     for (const i of live) {
         const message = await checkDate(i.sid, i.to!)
         msg.push(message?.message)
     }
-
+    // to disable plans ythat have expired
+    const expired = await packageExpiry(user.id)
+    msg.push(expired?.message)
+    
+    // Features and payment plans
     const [payment] = await db
         .select({
             status : clientData.payment_status,
@@ -50,6 +57,7 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
     })
     .from(clientData)
     .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
+    .where(eq(clientData.clientId, user.id))
     return {
         payment,
         features:feats,

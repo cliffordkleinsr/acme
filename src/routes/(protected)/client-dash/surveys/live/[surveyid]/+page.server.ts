@@ -1,10 +1,11 @@
 import { db } from '$lib/server/db';
-import { SurveyTable } from '$lib/server/schema';
-import { eq } from 'drizzle-orm';
+import { agentSurveysTable, surveyqnsTableV2, SurveyTable, UsersTable } from '$lib/server/schema';
+import { eq, param, sql } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError, z } from "zod"
 import { gender } from '$lib/json';
+import { shuffle } from '$lib/helperFunctions/helpers';
 
 
 export const load: PageServerLoad = async ({params}) => {
@@ -33,11 +34,50 @@ export const actions: Actions = {
             target_gender: string
         }
         const data = Object.fromEntries(await request.formData()) as SurveyTimes
-        // console.log(data)
         const { from, to, target, target_age_group, target_gender } = data
         let starting = new Date(from)
         let ending = new Date(to)
-      
+
+        const ages:number[] = target_age_group.split('-').map(Number)
+        const total_qns = await db
+            .select()
+            .from(surveyqnsTableV2)
+            .where(eq(surveyqnsTableV2.surveid, params.surveyid))
+        const sq = await db
+            .select({
+                agentid: UsersTable.id
+            })
+            .from(UsersTable)
+            .where(
+                sql`
+                    ${target_gender} = 'any' or ${target_gender} = ${UsersTable.gender} 
+                    and 
+                    ${UsersTable.age} between ${ages[0]} and ${ages[1]}
+                    and
+                    ${UsersTable.role} = 'AGENT'
+                
+                `
+            )
+        /**
+         * Carry out an unbiases shuffling on the subquery array
+         * Reference: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+         * Then capture only the first elements based on the target
+        **/
+        shuffle(sq)
+        const matching_agents = sq.slice(0, parseInt(target))
+        /**
+         * Now add a surveyId Object so that we can multi append
+         */
+        type Matcher = {
+            agentid: string,
+            surveyid:string,
+            points:number
+        }
+        let map:Matcher[] = []
+        matching_agents.forEach((object) => {
+            map = [...map, {...object, surveyid : params.surveyid, points : total_qns.length}]
+        })
+
         try 
         {
             await db.update(SurveyTable)
@@ -52,6 +92,8 @@ export const actions: Actions = {
                 
             })
             .where(eq(SurveyTable.surveyid, params.surveyid))
+
+            await db.insert(agentSurveysTable).values(map)
             
         } catch (err) 
         {

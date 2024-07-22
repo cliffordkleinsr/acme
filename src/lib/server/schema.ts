@@ -3,7 +3,7 @@ import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer, prima
 
 
 // refs
-export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "RESP"])
+export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "AGENT"])
 export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Ranking", "Rating", "Likert"])
 export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
 
@@ -15,7 +15,7 @@ export const UsersTable = pgTable('users', {
     email: text("email").notNull().unique(),
     isEmailVerified: boolean("is_email_verified").notNull().default(false),
     password: text("password").notNull(),
-    role: UserRole("userole").default("RESP").notNull(),
+    role: UserRole("userole").default("AGENT").notNull(),
     age: integer("age"),
     gender: text("gender"),
     createdAt: timestamp('created_at', {
@@ -25,9 +25,9 @@ export const UsersTable = pgTable('users', {
 })
 
 
-export const respondentData = pgTable('respondent_data',{
-    respondentId: text('respondent_id').references(() => UsersTable.id).notNull(),
-    email: text("resp_email").references(() => UsersTable.email).notNull(),
+export const agentData = pgTable('agent_data',{
+    agentid: text('agent_id').references(() => UsersTable.id).notNull(),
+    email: text("agent_email").references(() => UsersTable.email).notNull(),
     phone: text("phone").notNull(),
     dateofbirth: text("dob").notNull(),
     county: text("county").notNull(),
@@ -106,8 +106,8 @@ export const sessionsTable = pgTable("user_sessions", {
 
 // Surveys
 export const SurveyTable = pgTable('surveys', {
-    surveyid: text('surveyid').primaryKey(),
-    clientid: text('id').notNull(),
+    surveyid: text('surveyid').primaryKey().notNull(),
+    clientid: text('client_id').notNull(),
     surveyTitle: text('survey_title').notNull(),
     surveyDescription: text('survey_desc').notNull(),
     status: Status("status").default("Draft").notNull(),
@@ -133,32 +133,19 @@ export const SurveyTable = pgTable('surveys', {
     }).defaultNow().notNull()
 })
 
+export const progressTable = pgTable('agent_progress_table', {
+    agentid: text('agent_id').references(() => UsersTable.id).notNull(),
+    surveyid: text('surveyid').references(() => SurveyTable.surveyid).notNull(),
+    current_ix: integer('current_ix').default(0).notNull()
+})
 export const agentSurveysTable = pgTable('agent_surv_table', {
-    respondentid: text('respondent_id').references(() => UsersTable.id),
+    agentid: text('agent_id').references(() => UsersTable.id),
     surveyid: text('surveyid').references(() => SurveyTable.surveyid),
     survey_completed: boolean('survey_completed').notNull().default(false),
     points: integer('points_earned').notNull()
 })
-// export const SurveyQnsTable = pgTable('survey_questions', {
-//     questionId: uuid('questionid').defaultRandom().primaryKey(),
-//     surveid: text("surveyid").references(() => SurveyTable.surveyid),
-//     questionT: QuestionType("question_type").default("Single").notNull(),
-//     question: text("question"),
-//     // answer: text("answer"),
-//     option1: text("option1"),
-//     option2: text("option2"),
-//     option3: text("option3"),
-//     option4: text("option4"),
-//     option5: text("option5"),
-//     option6: text("option6"),
-//     option7: text("option7"),
-//     updatedAt: timestamp('updated_at', {
-//         withTimezone: true,
-//         mode: "date" 
-//     }).defaultNow().notNull()
-// })
 
-
+// One and the same
 export const surveyqnsTableV2 = pgTable('survey_qns_optimum', {
     questionId: uuid('questionid').defaultRandom().primaryKey(),
     surveid: text("surveyid").references(() => SurveyTable.surveyid),
@@ -178,6 +165,7 @@ export const QuestionOptions = pgTable('question_options', {
         .notNull(),
     option: text('option').notNull(),
 });
+// 
 
 export const AnswersTable = pgTable('answers', {
     questionId: uuid('questionid').references(()=> surveyqnsTableV2.questionId).notNull(),
@@ -185,7 +173,7 @@ export const AnswersTable = pgTable('answers', {
     optionId: uuid('option_id').references(()=> QuestionOptions.optionId),
     rankId: text("rankid"),
     answer: text("answer").notNull(),
-    respondentId: text("respondent_id").references(() => UsersTable.id).notNull(),
+    agentId: text("agent_id").references(() => UsersTable.id).notNull(),
     updatedAt: timestamp('updated_at', {
         withTimezone: true,
         mode: "date" 
@@ -193,9 +181,10 @@ export const AnswersTable = pgTable('answers', {
 })
 export type userInsertSchema = typeof UsersTable.$inferInsert
 export type ClientDataInsertSchema = typeof clientData.$inferInsert
-export type RespondentInsertSchema = typeof respondentData.$inferInsert
+export type RespondentInsertSchema = typeof agentData.$inferInsert
 export type surveyGenerateSchema = typeof SurveyTable.$inferInsert
 export type surveySelectSchema = typeof SurveyTable.$inferSelect
 // export type surveyQnsSchema = typeof SurveyQnsTable.$inferInsert
 export type surveyQnsSchemaV2 = typeof surveyqnsTableV2.$inferInsert
-export type resData = typeof respondentData.$inferSelect
+export type resData = typeof agentData.$inferSelect
+export type progresType = typeof progressTable.$inferInsert

@@ -5,12 +5,16 @@
     import * as Form from "$lib/components/ui/form/index.js"
 	import { enhance } from "$app/forms";
     import Clock from "$lib/components/blocks/clock.svelte"
+	import type { PageData } from "./$types.js";
     export let form
+    export let data: PageData
 
+
+    const { surveys, features:{maxsurv} } = data
 </script>
 <div class="flex flex-col lg:m-16 gap-5 m-4 max-w-screen-lg">
     <h1 class="text-2xl ml-3">Create a new project</h1>
-    <form method="post" class="grid lg:grid-cols-3 gap-4" use:enhance>
+        <form method="post"class="grid lg:grid-cols-3 gap-4" use:enhance>
         <Card.Root class="col-span-2">
             <Card.Header>
                 <Card.Title>Survey Details</Card.Title>
@@ -27,7 +31,11 @@
                     {#if form?.message}
                         <Label class="text-red-600">{form.message}</Label>
                     {/if}
-                    {#if true}
+                    {#if surveys.length === maxsurv}
+                        <div class="bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert">
+                            <span class="font-bold">Warning</span> alert! You have exceeded the maximum available surveys for your plan
+                        </div>
+                    {:else}
                         <Form.Button class="max-w-sm">Submit</Form.Button>
                     {/if}
                 </div>

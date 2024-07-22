@@ -1,7 +1,8 @@
 <script lang="ts">
     import DataTable from "./data-table.svelte"
     export let data
-    const {live_surv}= data
+    const { available_qns }= data
+
 </script>
 
-<DataTable data={live_surv}/>
+<DataTable data={available_qns}/>

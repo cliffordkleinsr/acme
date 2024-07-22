@@ -3,11 +3,16 @@
 	  import { Separator } from '$lib/components/ui/separator'
     import Cackender from "$lib/components/blocks/liveComponent/cackendar.svelte"
 	  import Issue from "$lib/components/blocks/liveComponent/issue.svelte"
-    
-	
-      
+
     export let data
-    const { Role, survey_data } = data
+    const { Role, survey_data, features:{gender_active, ages, maxagents}} = data
+
+    let Props = {
+      user: Role,
+      gen_act: gender_active!,
+      age_act: ages!,
+      target: maxagents!
+    }
 
 </script>
 <!-- If is premium -->
@@ -34,7 +39,7 @@
           </Card.Content>
           <p class="text-start ml-6 mb-1">Pick a start and end time for your survey</p>
           <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
-              <Cackender user={Role} />
+              <Cackender {...Props} />
           </Card.Footer>
         </Card.Root>
         {/each}

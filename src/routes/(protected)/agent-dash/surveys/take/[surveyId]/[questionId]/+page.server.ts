@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db';
-import { AnswersTable, QuestionOptions, SurveyQnsTable, SurveyTable, surveyqnsTableV2 } from '$lib/server/schema';
+import { AnswersTable, QuestionOptions, SurveyTable, progressTable, surveyqnsTableV2 } from '$lib/server/schema';
 import { eq, asc, sql } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError, z } from "zod";
-import { setTarget } from '$lib/server/db_utils';
+import { getsurveyQuestions, setTarget } from '$lib/server/db_utils';
 
 const questionZodSchema = z.object({
     answer: z
@@ -36,22 +36,9 @@ const optionalansZodSchema = z.object({
         .min(2, { message: 'Answer must have atleast 2 characters' })
         .max(500, { message: 'Answer must have a maximum 500 characters'})
 })
-export const load: PageServerLoad = async ({params, cookies}) => {
+export const load: PageServerLoad = async ({params, cookies, locals:{user}}) => {
     // curr
-    const surveyqns = await db
-        .select({
-            id: surveyqnsTableV2.questionId,
-            question: surveyqnsTableV2.question,
-            question_type: surveyqnsTableV2.questionT,
-            likert_key: surveyqnsTableV2.likertKey,
-            optionid: sql<string[]>`ARRAY_AGG(${QuestionOptions.optionId})`,
-            options: sql<string[]>`ARRAY_AGG(${QuestionOptions.option})`
-        })
-        .from(surveyqnsTableV2)
-        .leftJoin(QuestionOptions, eq(surveyqnsTableV2.questionId, QuestionOptions.questionId))
-        .where(eq(surveyqnsTableV2.questionId, params.questionId))
-        .groupBy(surveyqnsTableV2.questionId, surveyqnsTableV2.question)
-        .orderBy(asc(surveyqnsTableV2.updatedAt))
+    const surveyqns = await getsurveyQuestions(params.questionId)
 
     // for percentages
     const ids = await db
@@ -63,6 +50,16 @@ export const load: PageServerLoad = async ({params, cookies}) => {
         .orderBy(asc(surveyqnsTableV2.updatedAt))
     
     let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
+    const sq = await db.select().from(progressTable).where(
+        sql`${progressTable.agentid} = ${user?.id!} and ${progressTable.surveyid} = ${params.surveyId}`
+    )
+    if (sq.length  === 0) {
+        await db.insert(progressTable).values({
+            agentid: user?.id as string,
+            current_ix:current_ix,
+            surveyid:params.surveyId
+        })
+    }
     return {
         count: current_ix,
         questions: surveyqns[0],
@@ -100,7 +97,7 @@ export const actions: Actions = {
                     questionId: params.questionId,
                     surveid: params.surveyId,
                     answer: answer,
-                    respondentId: locals.session?.userId as string
+                    agentId: locals.session?.userId as string
                 });
             }
             
@@ -130,6 +127,10 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 60 * 5, // expires after 5 mins
             })
+            await db.update(progressTable).set({
+                current_ix:current_ix
+            })
+            .where(sql`${progressTable.agentid} = ${locals.user?.id!} and ${progressTable.surveyid} = ${params.surveyId}`)
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`);
         } else {
             // If there are no more IDs, redirect to a different route or perform any other desired action
@@ -139,6 +140,7 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 0, // Expire the cookie immediately
             })
+            
             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
             //then redirect
@@ -183,7 +185,7 @@ export const actions: Actions = {
                     surveid: params.surveyId,
                     optionId: id,
                     answer: answer,
-                    respondentId: locals.session?.userId as string
+                    agentId: locals.session?.userId as string
                 })
 
             }
@@ -211,6 +213,10 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 60 * 5, // expires after 5 mins
             });
+            await db.update(progressTable).set({
+                current_ix:current_ix
+            })
+            .where(sql`${progressTable.agentid} = ${locals.user?.id!} and ${progressTable.surveyid} = ${params.surveyId}`)
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`);
         } else {
             // If there are no more IDs, redirect to a different route or perform any other desired action
@@ -221,6 +227,7 @@ export const actions: Actions = {
                 maxAge: 0, // Expire the cookie immediately
             });
             // set the new target since this guy cant do the survey again
+
             await setTarget(params.surveyId)
             //then redirect
             redirect(303, '/agent-dash/surveys/complete');
@@ -266,7 +273,7 @@ export const actions: Actions = {
                     surveid: params.surveyId,
                     rankId: id,
                     answer: option,
-                    respondentId: locals.session?.userId as string
+                    agentId: locals.session?.userId as string
                 })
 
             }
@@ -284,7 +291,6 @@ export const actions: Actions = {
             }
         }
         // Dynamic routing with incremental counter
-         
          if (current_ix < ids.length -1) {
             current_ix++;
             // Set the updated current_ix in the cookie
@@ -294,6 +300,10 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 60 * 5, // expires after 5 mins
             });
+            await db.update(progressTable).set({
+                current_ix
+            })
+            .where(sql`${progressTable.agentid} = ${locals.user?.id!} and ${progressTable.surveyid} = ${params.surveyId}`)
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`);
         } else {
             // If there are no more IDs, redirect to a different route or perform any other desired action
@@ -303,6 +313,7 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 0, // Expire the cookie immediately
             });
+        
             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
             //then redirect
@@ -339,7 +350,7 @@ export const actions: Actions = {
                     questionId: params.questionId,
                     surveid: params.surveyId,
                     answer: answer,
-                    respondentId: locals.session?.userId as string
+                    agentId: locals.session?.userId as string
                 });
             }
 
@@ -367,6 +378,10 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 60 * 5, // expires after 5 mins
             });
+            await db.update(progressTable).set({
+                current_ix
+            })
+            .where(sql`${progressTable.agentid} = ${locals.user?.id!} and ${progressTable.surveyid} = ${params.surveyId}`)
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`)
         } else {
             // If there are no more IDs, redirect to a different route or perform any other desired action
