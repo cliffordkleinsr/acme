@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({params, locals}) => {
     .leftJoin(AnswersTable, 
         eq(surveyqnsTableV2.questionId, AnswersTable.questionId)
     )
-    .where(sql`${surveyqnsTableV2.surveid} = ${params.surveyId} and ${AnswersTable.respondentId} = ${locals.session?.userId}`)
+    .where(sql`${surveyqnsTableV2.surveid} = ${params.surveyId} and ${AnswersTable.agentId} = ${locals.session?.userId}`)
     .groupBy(surveyqnsTableV2.questionId, surveyqnsTableV2.question, surveyqnsTableV2.surveid)
     .orderBy(asc(surveyqnsTableV2.updatedAt))
     // questions.forEach(element => {

@@ -4,7 +4,7 @@ import { eq, asc, sql } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError, z } from "zod";
-import { getsurveyQuestions, setTarget } from '$lib/server/db_utils';
+import { getpersistentIx, getsurveyQuestions, setTarget } from '$lib/server/db_utils';
 
 const questionZodSchema = z.object({
     answer: z
@@ -50,6 +50,9 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}}) => 
         .orderBy(asc(surveyqnsTableV2.updatedAt))
     
     let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
+    if (current_ix === 0) {
+        current_ix  = await getpersistentIx(user?.id!, params.surveyId)
+    }
     const sq = await db.select().from(progressTable).where(
         sql`${progressTable.agentid} = ${user?.id!} and ${progressTable.surveyid} = ${params.surveyId}`
     )
@@ -86,36 +89,39 @@ export const actions: Actions = {
                 eq(surveyqnsTableV2.surveid, params.surveyId)
             )
         
-        let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
+        let current_ix = parseInt(cookies.get('current_ix') ?? '0')
+        if (current_ix === 0) {
+            current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
+        }
         // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        try 
-        {
-            // validate
-            for (const element of map) {
-                const { answer } = questionZodSchema.parse(element);
-                await db.insert(AnswersTable).values({
-                    questionId: params.questionId,
-                    surveid: params.surveyId,
-                    answer: answer,
-                    agentId: locals.session?.userId as string
-                });
-            }
+        // try 
+        // {
+        //     // validate
+        //     for (const element of map) {
+        //         const { answer } = questionZodSchema.parse(element);
+        //         await db.insert(AnswersTable).values({
+        //             questionId: params.questionId,
+        //             surveid: params.surveyId,
+        //             answer: answer,
+        //             agentId: locals.session?.userId as string
+        //         });
+        //     }
             
             
 
-        } catch (err) 
-        {
+        // } catch (err) 
+        // {
             
-            if (err instanceof ZodError) {
-                const { fieldErrors: errors } = err.flatten()
-                return fail(400,{
-                    errors
-                })
-            }
-            else {
-                console.error(err)
-            }
-        }
+        //     if (err instanceof ZodError) {
+        //         const { fieldErrors: errors } = err.flatten()
+        //         return fail(400,{
+        //             errors
+        //         })
+        //     }
+        //     else {
+        //         console.error(err)
+        //     }
+        // }
         // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
@@ -140,7 +146,13 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 0, // Expire the cookie immediately
             })
-            
+            await db.delete(progressTable)
+            .where(
+                sql
+                `${progressTable.agentid} = ${locals.user?.id!}
+                and 
+                ${progressTable.surveyid} = ${params.surveyId}`
+            )
             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
             //then redirect
@@ -172,36 +184,39 @@ export const actions: Actions = {
             )
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        try 
-        {
-            for (const insert of filtered) {
-                //validate
-                const { answer, id} = optionalansZodSchema.parse(insert)
-                await db
-                .insert(AnswersTable)
-                .values({
-                    questionId: params.questionId,
-                    surveid: params.surveyId,
-                    optionId: id,
-                    answer: answer,
-                    agentId: locals.session?.userId as string
-                })
-
-            }
-            
-        } catch (err) 
-        {
-            if (err instanceof ZodError) {
-                const { fieldErrors: errors } = err.flatten()
-                return fail(400,{
-                    errors
-                })
-            }
-            else {
-                console.error(err)
-            }
+        if (current_ix === 0) {
+            current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
+        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
+        // try 
+        // {
+        //     for (const insert of filtered) {
+        //         //validate
+        //         const { answer, id} = optionalansZodSchema.parse(insert)
+        //         await db
+        //         .insert(AnswersTable)
+        //         .values({
+        //             questionId: params.questionId,
+        //             surveid: params.surveyId,
+        //             optionId: id,
+        //             answer: answer,
+        //             agentId: locals.session?.userId as string
+        //         })
+
+        //     }
+            
+        // } catch (err) 
+        // {
+        //     if (err instanceof ZodError) {
+        //         const { fieldErrors: errors } = err.flatten()
+        //         return fail(400,{
+        //             errors
+        //         })
+        //     }
+        //     else {
+        //         console.error(err)
+        //     }
+        // }
         // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
@@ -227,7 +242,13 @@ export const actions: Actions = {
                 maxAge: 0, // Expire the cookie immediately
             });
             // set the new target since this guy cant do the survey again
-
+            await db.delete(progressTable)
+            .where(
+                sql
+                `${progressTable.agentid} = ${locals.user?.id!}
+                and 
+                ${progressTable.surveyid} = ${params.surveyId}`
+            )
             await setTarget(params.surveyId)
             //then redirect
             redirect(303, '/agent-dash/surveys/complete');
@@ -259,37 +280,40 @@ export const actions: Actions = {
             )
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        try 
-        {
-            
-            for (const insert of filtered) {
-                //validate
-                const {id, option } = rankansZodSchema.parse(insert)
-                await db
-                .insert(AnswersTable)
-                .values({
-                    questionId: params.questionId,
-                    surveid: params.surveyId,
-                    rankId: id,
-                    answer: option,
-                    agentId: locals.session?.userId as string
-                })
-
-            }
-            
-        } catch (err) 
-        {
-            if (err instanceof ZodError) {
-                const { fieldErrors: errors } = err.flatten()
-                return fail(400,{
-                    errors
-                })
-            }
-            else {
-                console.error(err)
-            }
+        if (current_ix === 0) {
+            current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
+        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
+        // try 
+        // {
+            
+        //     for (const insert of filtered) {
+        //         //validate
+        //         const {id, option } = rankansZodSchema.parse(insert)
+        //         await db
+        //         .insert(AnswersTable)
+        //         .values({
+        //             questionId: params.questionId,
+        //             surveid: params.surveyId,
+        //             rankId: id,
+        //             answer: option,
+        //             agentId: locals.session?.userId as string
+        //         })
+
+        //     }
+            
+        // } catch (err) 
+        // {
+        //     if (err instanceof ZodError) {
+        //         const { fieldErrors: errors } = err.flatten()
+        //         return fail(400,{
+        //             errors
+        //         })
+        //     }
+        //     else {
+        //         console.error(err)
+        //     }
+        // }
         // Dynamic routing with incremental counter
          if (current_ix < ids.length -1) {
             current_ix++;
@@ -313,7 +337,13 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 0, // Expire the cookie immediately
             });
-        
+            await db.delete(progressTable)
+            .where(
+                sql
+                `${progressTable.agentid} = ${locals.user?.id!}
+                and 
+                ${progressTable.surveyid} = ${params.surveyId}`
+            )
             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
             //then redirect
@@ -340,33 +370,36 @@ export const actions: Actions = {
             )
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        try 
-        {
-            // validate
-            for (const element of map) {
-                const { answer } = rateZodSchema.parse(element);
-                await db.insert(AnswersTable).values({
-                    questionId: params.questionId,
-                    surveid: params.surveyId,
-                    answer: answer,
-                    agentId: locals.session?.userId as string
-                });
-            }
-
-        } catch (err) 
-        {
-            
-            if (err instanceof ZodError) {
-                const { fieldErrors: errors } = err.flatten()
-                return fail(400,{
-                    errors
-                })
-            }
-            else {
-                console.error(err)
-            }
+        if (current_ix === 0) {
+            current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
+        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
+        // try 
+        // {
+        //     // validate
+        //     for (const element of map) {
+        //         const { answer } = rateZodSchema.parse(element);
+        //         await db.insert(AnswersTable).values({
+        //             questionId: params.questionId,
+        //             surveid: params.surveyId,
+        //             answer: answer,
+        //             agentId: locals.session?.userId as string
+        //         });
+        //     }
+
+        // } catch (err) 
+        // {
+            
+        //     if (err instanceof ZodError) {
+        //         const { fieldErrors: errors } = err.flatten()
+        //         return fail(400,{
+        //             errors
+        //         })
+        //     }
+        //     else {
+        //         console.error(err)
+        //     }
+        // }
         // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
@@ -391,6 +424,13 @@ export const actions: Actions = {
                 sameSite: 'strict',
                 maxAge: 0, // Expire the cookie immediately
             })
+            await db.delete(progressTable)
+            .where(
+                sql
+                `${progressTable.agentid} = ${locals.user?.id!}
+                and 
+                ${progressTable.surveyid} = ${params.surveyId}`
+            )
             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
             //then redirect

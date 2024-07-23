@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({locals}) => {
     .leftJoin(AnswersTable,
         eq(SurveyTable.surveyid, AnswersTable.surveid)
     )
-    .where(sql`(${SurveyTable.status} = 'Live' or ${SurveyTable.status} = 'Closed') and ${AnswersTable.respondentId} = ${locals.session?.userId}`)
+    .where(sql`(${SurveyTable.status} = 'Live' or ${SurveyTable.status} = 'Closed') and ${AnswersTable.agentId} = ${locals.session?.userId}`)
 
     const history = hist.map(sv =>({
         id: sv.surveys.surveyid,

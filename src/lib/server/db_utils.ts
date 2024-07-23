@@ -140,7 +140,22 @@ export const getsurveyQuestions = async (questionId:string) => {
             .orderBy(asc(surveyqnsTableV2.updatedAt))
 }
 
-
+export const getpersistentIx = async (user:string , surveyid:string) => {
+    let persisted_ix:number = 0
+    const [persistent] = await db
+        .select({ix :progressTable.current_ix})
+        .from(progressTable)
+        .where(
+            sql
+            `${progressTable.agentid} = ${user}
+             and 
+             ${progressTable.surveyid} = ${surveyid}`
+        )
+    if (persistent) { 
+        persisted_ix = persistent.ix
+    }
+    return persisted_ix
+}
 
 export const setTarget = async (id: string): Promise<void> => {
     try {
