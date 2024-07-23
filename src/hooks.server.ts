@@ -35,5 +35,6 @@ export const handle: Handle = async ({ event, resolve}) => {
     // Store the user and session in event.locals, so they can be accessed in endpoints and pages
     event.locals.user = user;
 	event.locals.session = session;
+    
 	return resolve(event);
 }

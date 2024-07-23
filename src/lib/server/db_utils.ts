@@ -117,12 +117,99 @@ export const packageExpiry = async (id: string) => {
     }
     
 }
+/**
+ * Utiliy that gets the list of questions from the surveyquestionsV2 table
+ * @param surveid 
+ * @returns 
+ */
+export const questionCount = async (surveid:string) => {
+    return await db
+        .select()
+        .from(surveyqnsTableV2)
+        .where(
+            eq(surveyqnsTableV2.surveid, surveid)
+        )
+        .orderBy(asc(surveyqnsTableV2.updatedAt))
+}
 
-/** 
- * When answering qns we want to
- * 1). get the list of all the questions we are answering
- * reduce the target when we are answering the last question
- * */
+/** Utility to insert data into the progressTable
+ * 
+ * @param data 
+ * @returns
+ */
+export const insertprogressData = async (data:progresType) => {
+    return await db.insert(progressTable).values(data)
+}
+
+/**
+ *  Utility to update the index data in the progressTable
+ * @param user 
+ * @param surveyid 
+ * @param index 
+ * @returns 
+ */
+export const updateprogressData = async (user:string, surveyid:string, index:number) => {
+    return await db
+        .update(progressTable)
+        .set({
+            current_ix: index
+        })
+        .where(
+            sql
+            `${progressTable.agentid} = ${user}
+            and 
+            ${progressTable.surveyid} = ${surveyid}`
+        )
+}
+ /**
+     * Utility for selecting data from the progress table.
+     * It takes in two parameters :
+      * @param {string} user
+      * @param {string} surveyid 
+      * @returns {Array} query
+*/
+export const selectProgressData = async (user:string , surveyid:string) => {
+    return await db
+        .select()
+        .from(progressTable)
+        .where(
+            sql
+            `${progressTable.agentid} = ${user}
+            and 
+            ${progressTable.surveyid} = ${surveyid}`
+        )
+}
+
+/**
+ * Utility for deleting data from the progress table.
+ * @param user 
+ * @param surveyid 
+ * @returns 
+ */
+export const deleteProgressData = async (user:string , surveyid:string) => {
+    return await db
+        .delete(progressTable)
+        .where(
+            sql
+            `${progressTable.agentid} = ${user}
+            and 
+            ${progressTable.surveyid} = ${surveyid}`
+        )
+}
+
+
+
+//  When answering qns we want to:
+// 1). get the list of all the questions we are answering
+// reduce the target when we are answering the last question
+// 2). Analyze whether we have a stored index in persistent storage
+// 
+
+/**
+ * Get a list of all the questions we are answering
+ * @param questionId 
+ * @returns {Array}
+ */
 export const getsurveyQuestions = async (questionId:string) => {
     return await db
             .select({
@@ -139,7 +226,12 @@ export const getsurveyQuestions = async (questionId:string) => {
             .groupBy(surveyqnsTableV2.questionId, surveyqnsTableV2.question)
             .orderBy(asc(surveyqnsTableV2.updatedAt))
 }
-
+/**
+ * Analyzes whether we have a stored index in persistent storage
+ * @param user 
+ * @param surveyid 
+ * @returns 
+ */
 export const getpersistentIx = async (user:string , surveyid:string) => {
     let persisted_ix:number = 0
     const [persistent] = await db
@@ -157,6 +249,12 @@ export const getpersistentIx = async (user:string , surveyid:string) => {
     return persisted_ix
 }
 
+
+
+/**
+ * Updates the target once the survey has been completed
+ * @param id 
+ */
 export const setTarget = async (id: string): Promise<void> => {
     try {
         const curr_tgt = await db
