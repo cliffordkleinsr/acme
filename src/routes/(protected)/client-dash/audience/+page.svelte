@@ -105,6 +105,7 @@
         }]
         };
 </script>
+{#if by_sec.length > 0}
 <div class="flex flex-col gap-4 m-4">
     <h1 class="text-2xl font-bold">
         Audience Demographics
@@ -114,5 +115,8 @@
       <Chart class="md:shadow-md" options={pie_options} />
       <Chart class="space-y-2 w-5/6 2xl:w-1/2" options={area_options} />
     </div>
-    <Chart class="shadow-md w-80 lg:w-96 " options={radial} />
+    <Chart class="shadow-md w-80 lg:w-96" options={radial} />
 </div>
+{:else}
+<p class="m-5 italic text-sm">These statistics will grow as more people answer your surveys</p>
+{/if}

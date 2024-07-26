@@ -205,4 +205,17 @@ function shuffle(array: Object[]) {
   }
 }
 
-export {items, df, open, likert_options, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}
+function adjustDivider(x: number, currentDivider: number = 500): number {
+  if (x <= currentDivider) {
+      return currentDivider;
+  }
+  
+  // Find the next divider that's greater than or equal to x
+  let nextDivider = currentDivider;
+  while (nextDivider < x) {
+      nextDivider += 500;
+  }
+  
+  return nextDivider;
+}
+export {items, df, adjustDivider, open, likert_options, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}

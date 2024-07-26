@@ -25,12 +25,11 @@
 	
     
 </script>
-
 {#if client_pack.payment_status}
-<div id='printable' class="w-full">
-<Card.Root class="overflow-hidden m-4 w-1/2">
-	<Card.Header class="flex flex-row items-start bg-muted/50">
-		<div class="grid gap-0.5">
+<div id='printable' class="m-4 w-full max-w-3xl mx-auto">
+<Card.Root class="w-full">
+	<Card.Header class="flex flex-col sm:flex-row items-start bg-muted/50 p-4 sm:p-6">
+		<div class="grid gap-0.5 mb-4 sm:mb-0">
 			<Card.Title class="group flex items-center gap-2 text-lg">
 				Order ID <span class="text-sm">{client_pack.packageid} </span>
 				<Button
@@ -44,10 +43,10 @@
 			</Card.Title>
 			<Card.Description>Subscribed on: {date} </Card.Description>
 		</div>
-		<div class="ml-auto flex items-center gap-1" id="non-printable">
+		<div class="flex items-center gap-1 sm:ml-auto" id="non-printable">
 			<Button size="sm" variant="outline" class="h-8 gap-1">
 				<Truck class="h-3.5 w-3.5" />
-				<span class="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
+				<span class="whitespace-nowrap">
 					Modify Package
 				</span>
 			</Button>
@@ -77,7 +76,7 @@
 			</DropdownMenu.Root>
 		</div>
 	</Card.Header>
-	<Card.Content class="p-6 text-sm">
+	<Card.Content class="p-4 sm:p-6 text-sm">
 		<div class="grid gap-3">
 			<div class="font-semibold">Order Details</div>
 			<ul class="grid gap-3">
@@ -111,7 +110,7 @@
 			</ul>
 		</div>
 		<Separator class="my-4" />
-		<div class="grid grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 			<div class="grid gap-3">
 				<div class="font-semibold">Customer Information</div>
 				<address class="grid gap-0.5 not-italic text-muted-foreground">
@@ -162,12 +161,12 @@
 		</div>
 	</Card.Content>
 	<Card.Footer
-		class="flex flex-row items-center border-t bg-muted/50 px-6 py-3"
+		class="flex flex-col sm:flex-row items-center border-t bg-muted/50 px-4 sm:px-6 py-3"
 	>
-		<div class="text-xs text-muted-foreground">
+		<div class="text-xs text-muted-foreground mb-2 sm:mb-0">
 			Updated {new Date().toDateString()} {new Date().toLocaleTimeString()}
 		</div>
-		<Pagination.Root count={10} class="ml-auto mr-0 w-auto">
+		<Pagination.Root count={10} class="sm:ml-auto mr-0 w-auto">
 			<Pagination.Content>
 				<Pagination.Item>
 					<Button size="icon" variant="outline" class="h-6 w-6">
@@ -196,7 +195,9 @@
     }
 </style>
 {:else}
-	<h1 class="text-3xl m-4 text-center">You have not subscribed to any plan yet!</h1>
-	<p class="text-xl text-center"> Subscribe to a plan in order to go live</p>
-	<img class="w-1/2 mx-auto" src="https://i.postimg.cc/jjMJt36P/coming-soon.png" alt="soon">
+	<div class="text-center p-4">
+		<h1 class="text-2xl sm:text-3xl mb-4">You have not subscribed to any plan yet!</h1>
+		<p class="text-lg sm:text-xl mb-6"> Subscribe to a plan in order to go live</p>
+		<img class="w-full max-w-md mx-auto" src="https://i.postimg.cc/jjMJt36P/coming-soon.png" alt="soon">
+	</div>
 {/if}

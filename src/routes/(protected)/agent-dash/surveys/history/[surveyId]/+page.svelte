@@ -32,7 +32,7 @@
           </Card.Header>
           <Card.Content class="lg:flex gap-7 mr-9">
             {#if qns.question_type === "Multiple"}
-              <div class="grid grid-cols-4 gap-2">
+              <div class="grid lg:grid-cols-4 gap-2">
                 {#each qns.answer as ans}
                   <div class="flex gap-2">
                     <Checkbox disabled checked class="border-green-500 data-[state=checked]:bg-green-500"/>

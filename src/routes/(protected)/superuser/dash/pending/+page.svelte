@@ -6,10 +6,9 @@
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import * as Table from "$lib/components/ui/table/index.js";
 
-    const arbitrary_data = [
-        {name: 'Christine Opadoh', status: 'pending', value: '$4.99',  points: '60', at:'2024-07-12 10:42 AM'},
-        {name: 'Austine Kiptoo', status: 'complete', value: '$2.99',  points: '30', at:'2024-09-12 12:42 PM'},
-    ]
+	export let data
+	const { payment_requests } = data
+
 </script>
 
 <Card.Root class='m-3'>
@@ -38,7 +37,7 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-                {#each arbitrary_data as arb}
+                {#each payment_requests as arb}
 				<Table.Row>                
                     <Table.Cell class="hidden sm:table-cell">
 						<img
@@ -51,13 +50,12 @@
 					</Table.Cell>
 					<Table.Cell class="font-medium">{arb.name}</Table.Cell>
 					<Table.Cell>
-                        
-						<Badge variant="outline">{arb.status}</Badge>
+						<Badge variant="outline" class="{arb.status ==="complete"?"bg-primary": ""}">{arb.status}</Badge>
 					</Table.Cell>
-					<Table.Cell class="hidden md:table-cell">{arb.value}</Table.Cell>
-					<Table.Cell class="hidden md:table-cell">{arb.points}</Table.Cell>
+					<Table.Cell class="hidden md:table-cell">KES {arb.amount}</Table.Cell>
+					<Table.Cell class="hidden md:table-cell">{arb.amount}</Table.Cell>
 					<Table.Cell class="hidden md:table-cell">
-						{arb.at}
+						{arb.requestedat}
 					</Table.Cell>
 					<Table.Cell>
 						<DropdownMenu.Root>

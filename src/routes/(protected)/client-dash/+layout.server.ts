@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { clientData, clientPackages, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
-import { checkDate, packageExpiry } from '$lib/server/db_utils';
+import { checkDate, getpackageFeatures, retExpiryDate, setpackageExpired } from '$lib/server/db_utils';
 
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {
@@ -14,10 +14,12 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/client/signin', url))
         // console.log(fromUrl)
     }
-    if (user.role === "RESP") {
-        redirect(302, handleLoginRedirect('/respondent-dash', url, "Not Authorised"))
+    if (user.role === "AGENT") {
+        redirect(302, handleLoginRedirect('/', url, "Not Authorised"))
     }
     
+    const expiry_date = await retExpiryDate(user.id)
+    const {expiry} = expiry_date
     // notifs
     // to disable expired surveys
     const live = await db
@@ -34,9 +36,12 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         const message = await checkDate(i.sid, i.to!)
         msg.push(message?.message)
     }
-    // to disable plans ythat have expired
-    const expired = await packageExpiry(user.id)
-    msg.push(expired?.message)
+    // to disable plans that have expired
+    if(new Date(expiry).setHours(0,0,0,0) === new Date().setHours(0,0,0,0)) {
+        const expired = await setpackageExpired(user.id, expiry_date)
+        msg.push(expired?.message)
+    }
+    
     
     // Features and payment plans
     const [payment] = await db
@@ -46,21 +51,10 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         .from(clientData)
         .where(sql`${clientData.clientId} = ${user.id}`)
 
-    const [feats] = await db
-    .select({
-        gender_active: clientPackages.demographics,
-        ages: clientPackages.ages,
-        maxqns: clientPackages.max_questions,
-        maxagents: clientPackages.max_agents,
-        maxsurv: clientPackages.max_surv,
-        plan: clientPackages.package_price_mn,
-    })
-    .from(clientData)
-    .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
-    .where(eq(clientData.clientId, user.id))
+    const features = await getpackageFeatures(user.id)
     return {
         payment,
-        features:feats,
+        features,
         AuthedUser: user.fullname,
         Role: user.role,
         email: user.email,

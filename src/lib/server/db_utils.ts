@@ -1,5 +1,6 @@
-import {asc, eq, getTableColumns, sql } from "drizzle-orm"
+import {asc, eq, sql } from "drizzle-orm"
 import { db } from "./db"
+
 import { 
     AnswersTable,
     // SurveyQnsTable,
@@ -20,10 +21,13 @@ import {
     type userInsertSchema, 
     QuestionOptions,
     type progresType,
-    progressTable
+    progressTable,
+    agentSurveysTable,
+    payoutRequests
 } from "./schema"
 import type { PgColumn, PgTable } from "drizzle-orm/pg-core"
 import { clientPackage } from "$lib/store"
+import type { RetryAfterRateLimiter } from "sveltekit-rate-limiter/server"
 
 export const getCountAgents = async (variable: PgColumn, userId:string) => {
     const queryResult = await db
@@ -53,6 +57,20 @@ export const checkIfEmailExists = async (email:string) => {
     return queryResult.length > 0
 }
 
+export const checkUserRole= async (email:string) => {
+    const [queryResult] = await db
+    .select({
+        email: UsersTable.email,
+        role: UsersTable.role
+    }).from(
+        UsersTable
+    ).where(
+        eq(UsersTable.email, email)
+    )
+    
+    return queryResult
+}
+
 // Insertion for any User
 export const insertNewUser = async (user: userInsertSchema) => {
     return await db.insert(UsersTable).values(user)
@@ -70,12 +88,35 @@ export const createNewSurvey = async (data: surveyGenerateSchema) => {
     return await db.insert(SurveyTable).values(data)
 }
 
-// export const addSurveyQuestions = async (data: surveyQnsSchema) => {
-//     await db.insert(SurveyQnsTable).values(data)
-// }
 export const addSurveyQuestionsv2 = async (data: surveyQnsSchemaV2) => {
     await db.insert(surveyqnsTableV2).values(data)
 }
+
+// =========================== Client Package Utilities ==========================
+
+/**
+ * returns the expiry date & the package itself
+ * @param id 
+ * @returns 
+ */
+export const retExpiryDate = async (id:string) => {
+   const [expiry_date] = await db
+    .select({
+        expiry : sql<Date>`${clientData.expires_at}`,
+        packagetype: sql<string>`${clientPackages.packageDesc}`
+    })
+    .from(clientData)
+    .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
+    .where(eq(clientData.clientId, id))
+    return expiry_date
+}
+
+/**
+ * Checks whether a surveys to date has reached and closes the survey
+ * @param id 
+ * @param fromdb 
+ * @returns 
+ */
 export const checkDate = async (id:string, fromdb: Date) => {
     let diff = new Date().getTime() - fromdb.getTime()
     if (diff  > 0) {
@@ -88,17 +129,36 @@ export const checkDate = async (id:string, fromdb: Date) => {
     }
 }
 
-export const packageExpiry = async (id: string) => {
-    const [expiry_date] = await db
-        .select({
-            expiry : clientData.expires_at,
-            package: clientPackages.packageDesc
-        })
-        .from(clientData)
-        .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
-        .where(eq(clientData.clientId, id))
-    if (expiry_date.expiry) {
-        let diff = new Date().getTime() - expiry_date.expiry?.getTime()
+/**
+ * Utility to get all features to a package that a client has subscribed to
+ * @param id 
+ * @returns 
+ */
+export const getpackageFeatures = async (id: string) => {
+    const [feats] = await db
+    .select({
+        gender_active: clientPackages.demographics,
+        ages: clientPackages.ages,
+        maxqns: clientPackages.max_questions,
+        maxagents: clientPackages.max_agents,
+        maxsurv: clientPackages.max_surv,
+        plan: clientPackages.package_price_mn,
+    })
+    .from(clientData)
+    .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
+    .where(eq(clientData.clientId, id))
+
+    return feats
+}
+/**
+ * Utility to analyze whether client package has expired
+ * @param id 
+ * @returns 
+ */
+export const setpackageExpired = async (id: string, expiry_date:{expiry:Date, packagetype:string}) => {
+    if (expiry_date) {
+        let doe = new Date(expiry_date.expiry)
+        let diff = new Date().getTime() - doe.getTime()
         if (diff  > 0) {
             await db
             .update(clientData)
@@ -110,7 +170,7 @@ export const packageExpiry = async (id: string) => {
             })
             .where(eq(clientData.clientId, id))
             return {
-                message: `Your subscription for the ${expiry_date.package} plan has expired. Renew your plan`
+                message: `Your subscription for the ${expiry_date.packagetype} plan has expired. Renew your plan`
             }
         }
         
@@ -131,6 +191,8 @@ export const questionCount = async (surveid:string) => {
         )
         .orderBy(asc(surveyqnsTableV2.updatedAt))
 }
+
+//=========================== Agent Progress Utilities ======================================
 
 /** Utility to insert data into the progressTable
  * 
@@ -197,8 +259,6 @@ export const deleteProgressData = async (user:string , surveyid:string) => {
         )
 }
 
-
-
 //  When answering qns we want to:
 // 1). get the list of all the questions we are answering
 // reduce the target when we are answering the last question
@@ -232,7 +292,7 @@ export const getsurveyQuestions = async (questionId:string) => {
  * @param surveyid 
  * @returns 
  */
-export const getpersistentIx = async (user:string , surveyid:string) => {
+export const getpersistentIx = async (user:string, surveyid:string) => {
     let persisted_ix:number = 0
     const [persistent] = await db
         .select({ix :progressTable.current_ix})
@@ -248,8 +308,6 @@ export const getpersistentIx = async (user:string , surveyid:string) => {
     }
     return persisted_ix
 }
-
-
 
 /**
  * Updates the target once the survey has been completed
@@ -282,3 +340,64 @@ export const setTarget = async (id: string): Promise<void> => {
     }
 };
 
+/**
+ * Utility to complete the survey
+ * @param user 
+ * @param surveyid 
+ * @returns 
+ */
+export const setsurveyComplete = async (user:string, surveyid:string) => {
+    return await db
+        .update(agentSurveysTable)
+        .set({
+            survey_completed:true
+        })
+        .where(
+            sql
+            `${agentSurveysTable.agentid} = ${user}
+             and 
+             ${agentSurveysTable.surveyid} = ${surveyid}`
+        )
+}
+export const updatesurveyPoints = async (user:string, surveyid:string) => {
+    const [curr_pts] = await db
+        .select({
+            pts: agentData.total_pts_earned
+        })
+        .from(agentData)
+        .where(eq(agentData.agentid, user))
+    
+    const [to_add] = await db
+        .select({
+            pts: agentSurveysTable.points
+        })
+        .from(agentSurveysTable)
+        .where(
+            sql
+            `${agentSurveysTable.agentid} = ${user}
+             and 
+             ${agentSurveysTable.surveyid} = ${surveyid}`
+        )
+    const aggregate = curr_pts.pts + to_add.pts
+
+    return await db.update(agentData).set({
+        total_pts_earned: aggregate
+    }).where(eq(agentData.agentid, user))
+}
+
+/**
+ * Util to reset all the amounts and rate limits in dev mode
+ * @param userid 
+ * @param limiter 
+ * @returns 
+ */
+export const paymentRequestreset = async (userid:string) => {
+    return await Promise.all([ 
+        db.update(agentData).set({
+            total_points_payable: 2000
+        }).where(eq(agentData.agentid, userid)),
+
+        db.delete(payoutRequests),
+
+    ])
+}

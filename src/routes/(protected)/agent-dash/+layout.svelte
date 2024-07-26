@@ -62,7 +62,7 @@
     <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
       <a
         href="/agent-dash"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/client-dash"?'text-primary bg-muted':''} transition-all hover:text-primary"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/agent-dash"?'text-primary bg-muted':''} transition-all hover:text-primary"
       >
         <Home class="h-4 w-4" />
         Dashboard
@@ -93,8 +93,8 @@
         </Collapsible.Content>
       </Collapsible.Root>
       <a
-        href="##"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        href="/agent-dash/statement"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/agent-dash/statement"?'text-primary bg-muted':''} transition-all hover:text-primary"
       >
       <HandCoins class="size-4"/>
         Account Statement
@@ -113,7 +113,7 @@
         </Card.Description>
       </Card.Header>
       <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
-        <Button size="sm" class="w-full">View Details</Button>
+        <Button size="sm" class="w-full" href="/agent-dash/statement">View Details</Button>
       </Card.Content>
     </Card.Root>
   </div>

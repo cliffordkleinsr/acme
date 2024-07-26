@@ -1,42 +1,14 @@
 import { db } from '$lib/server/db';
-import { AnswersTable, QuestionOptions, SurveyTable, progressTable, surveyqnsTableV2 } from '$lib/server/schema';
-import { eq, asc, sql } from 'drizzle-orm';
+import { AnswersTable, surveyqnsTableV2 } from '$lib/server/schema';
+import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import { ZodError, z } from "zod";
-import { getpersistentIx, questionCount, getsurveyQuestions, insertprogressData, selectProgressData, setTarget, deleteProgressData, updateprogressData } from '$lib/server/db_utils';
+import { questionZodSchema, rateZodSchema, rankansZodSchema, optionalansZodSchema } from './zodSch'
+import { getpersistentIx, questionCount, getsurveyQuestions, insertprogressData, selectProgressData, setTarget, deleteProgressData, updateprogressData, setsurveyComplete } from '$lib/server/db_utils';
 import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
+import { ZodError } from 'zod';
 
-const questionZodSchema = z.object({
-    answer: z
-        .string({ required_error: 'Answer is required' })
-        .min(2, { message: 'Answer must have atleast 2 characters' })
-        .max(500, { message: 'Answer must have a maximum 500 characters'})
-})
-const rateZodSchema = z.object({
-    answer: z
-        .string({ required_error: 'Option is required' })
-        .min(1, { message: 'Option is required' })
-})
-const rankansZodSchema = z.object({
-    id: z
-        .string({ required_error: 'id is required' })
-        .min(1, { message: 'id is required' }),
-    option: z
-        .string({ required_error: 'Option is required' })
-        .min(2, { message: 'Option must have atleast 2 characters' })
-        .max(500, { message: 'Option must have a maximum 500 characters'}),
-})
-const optionalansZodSchema = z.object({
-    answer: z
-        .string({ required_error: 'Answer is required' })
-        .min(2, { message: 'Answer must have atleast 2 characters' })
-        .max(500, { message: 'Answer must have a maximum 500 characters'}),
-    id: z
-        .string({ required_error: 'Answer is required' })
-        .min(2, { message: 'Answer must have atleast 2 characters' })
-        .max(500, { message: 'Answer must have a maximum 500 characters'})
-})
+
 export const load: PageServerLoad = async ({params, cookies, locals:{user}, url}) => {
     // curr
     if (!user) {
@@ -44,12 +16,12 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}, url}
         // redirect('/respondent/signin', {type: "error", message:"You Must Be logged In to view this page"}, cookies)
     }
     const surveyqns = await getsurveyQuestions(params.questionId)
-
     // for percentages
     const ids = await questionCount(params.surveyId)
     
     let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
     if (current_ix === 0) {
+        // check whether we have a persistent ix
         current_ix  = await getpersistentIx(user?.id!, params.surveyId)
     }
     const sq = await selectProgressData(user?.id!, params.surveyId)
@@ -88,37 +60,37 @@ export const actions: Actions = {
         
         let current_ix = parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
+            // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        // try 
-        // {
-        //     // validate
-        //     for (const element of map) {
-        //         const { answer } = questionZodSchema.parse(element);
-        //         await db.insert(AnswersTable).values({
-        //             questionId: params.questionId,
-        //             surveid: params.surveyId,
-        //             answer: answer,
-        //             agentId: locals.session?.userId as string
-        //         });
-        //     }
+        try 
+        {
+            // validate
+            for (const element of map) {
+                const { answer } = questionZodSchema.parse(element);
+                await db.insert(AnswersTable).values({
+                    questionId: params.questionId,
+                    surveid: params.surveyId,
+                    answer: answer,
+                    agentId: locals.session?.userId as string
+                });
+            }
             
             
 
-        // } catch (err) 
-        // {
+        } catch (err) 
+        {
             
-        //     if (err instanceof ZodError) {
-        //         const { fieldErrors: errors } = err.flatten()
-        //         return fail(400,{
-        //             errors
-        //         })
-        //     }
-        //     else {
-        //         console.error(err)
-        //     }
-        // }
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
         // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
@@ -133,7 +105,7 @@ export const actions: Actions = {
             await updateprogressData(locals.user?.id!, params.surveyId, current_ix)
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`);
         } else {
-            // If there are no more IDs, redirect to a different route or perform any other desired action
+            // Set the cookie to expire then
             cookies.set('current_ix', '0', {
                 path: '/',
                 httpOnly: true,
@@ -142,10 +114,12 @@ export const actions: Actions = {
             })
             // clear the persistent index also
             await deleteProgressData(locals.user?.id!, params.surveyId)
-            // set the new target since this guy cant do the survey again
+             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // set the survey as complete
+            await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
-            redirect(303, '/agent-dash/surveys/complete')
+            redirect(303, '/agent-dash/surveys/complete');
         }
     },
     addOptAns: async({request, cookies, params, locals}) => {
@@ -174,38 +148,38 @@ export const actions: Actions = {
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
+            // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        // try 
-        // {
-        //     for (const insert of filtered) {
-        //         //validate
-        //         const { answer, id} = optionalansZodSchema.parse(insert)
-        //         await db
-        //         .insert(AnswersTable)
-        //         .values({
-        //             questionId: params.questionId,
-        //             surveid: params.surveyId,
-        //             optionId: id,
-        //             answer: answer,
-        //             agentId: locals.session?.userId as string
-        //         })
+        try 
+        {
+            for (const insert of filtered) {
+                //validate
+                const { answer, id} = optionalansZodSchema.parse(insert)
+                await db
+                .insert(AnswersTable)
+                .values({
+                    questionId: params.questionId,
+                    surveid: params.surveyId,
+                    optionId: id,
+                    answer: answer,
+                    agentId: locals.session?.userId as string
+                })
 
-        //     }
+            }
             
-        // } catch (err) 
-        // {
-        //     if (err instanceof ZodError) {
-        //         const { fieldErrors: errors } = err.flatten()
-        //         return fail(400,{
-        //             errors
-        //         })
-        //     }
-        //     else {
-        //         console.error(err)
-        //     }
-        // }
+        } catch (err) 
+        {
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
         // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
@@ -219,19 +193,23 @@ export const actions: Actions = {
             });
             // update the persistent index
             await updateprogressData(locals.user?.id!, params.surveyId, current_ix)
+
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`);
         } else {
-            // If there are no more IDs, redirect to a different route or perform any other desired action
+            // Set the cookie to expire then
             cookies.set('current_ix', '0', {
                 path: '/',
                 httpOnly: true,
                 sameSite: 'strict',
                 maxAge: 0, // Expire the cookie immediately
             });
-            // set the new target since this guy cant do the survey again
+           
             // clear the persistent index also
             await deleteProgressData(locals.user?.id!, params.surveyId)
+             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // set the survey as complete
+            await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
             redirect(303, '/agent-dash/surveys/complete');
         }
@@ -263,39 +241,39 @@ export const actions: Actions = {
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
+            // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        // try 
-        // {
+        try 
+        {
             
-        //     for (const insert of filtered) {
-        //         //validate
-        //         const {id, option } = rankansZodSchema.parse(insert)
-        //         await db
-        //         .insert(AnswersTable)
-        //         .values({
-        //             questionId: params.questionId,
-        //             surveid: params.surveyId,
-        //             rankId: id,
-        //             answer: option,
-        //             agentId: locals.session?.userId as string
-        //         })
+            for (const insert of filtered) {
+                //validate
+                const {id, option } = rankansZodSchema.parse(insert)
+                await db
+                .insert(AnswersTable)
+                .values({
+                    questionId: params.questionId,
+                    surveid: params.surveyId,
+                    rankId: id,
+                    answer: option,
+                    agentId: locals.session?.userId as string
+                })
 
-        //     }
+            }
             
-        // } catch (err) 
-        // {
-        //     if (err instanceof ZodError) {
-        //         const { fieldErrors: errors } = err.flatten()
-        //         return fail(400,{
-        //             errors
-        //         })
-        //     }
-        //     else {
-        //         console.error(err)
-        //     }
-        // }
+        } catch (err) 
+        {
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
         // Dynamic routing with incremental counter
          if (current_ix < ids.length -1) {
             current_ix++;
@@ -308,9 +286,10 @@ export const actions: Actions = {
             });
             // update the persistent index
             await updateprogressData(locals.user?.id!, params.surveyId, current_ix)
+
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`);
         } else {
-            // If there are no more IDs, redirect to a different route or perform any other desired action
+            // Set the cookie to expire then
             cookies.set('current_ix', '0', {
                 path: '/',
                 httpOnly: true,
@@ -319,15 +298,16 @@ export const actions: Actions = {
             });
             // clear the persistent index also
             await deleteProgressData(locals.user?.id!, params.surveyId)
-            // set the new target since this guy cant do the survey again
+             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // set the survey as complete
+            await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
             redirect(303, '/agent-dash/surveys/complete');
         }
     },
     addRatAns: async ({request, params, cookies, locals}) => {
         const data = await request.formData()
-        // console.log(data)
         let map: any[] = []
         data.forEach(element => {
             map = [...map, {answer: element} as {answer: string}]
@@ -346,35 +326,35 @@ export const actions: Actions = {
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
+            // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
-        // await db.delete(AnswersTable).where(eq(AnswersTable.questionId, params.questionId))
-        // try 
-        // {
-        //     // validate
-        //     for (const element of map) {
-        //         const { answer } = rateZodSchema.parse(element);
-        //         await db.insert(AnswersTable).values({
-        //             questionId: params.questionId,
-        //             surveid: params.surveyId,
-        //             answer: answer,
-        //             agentId: locals.session?.userId as string
-        //         });
-        //     }
+        try 
+        {
+            // validate
+            for (const element of map) {
+                const { answer } = rateZodSchema.parse(element);
+                await db.insert(AnswersTable).values({
+                    questionId: params.questionId,
+                    surveid: params.surveyId,
+                    answer: answer,
+                    agentId: locals.session?.userId as string
+                });
+            }
 
-        // } catch (err) 
-        // {
+        } catch (err) 
+        {
             
-        //     if (err instanceof ZodError) {
-        //         const { fieldErrors: errors } = err.flatten()
-        //         return fail(400,{
-        //             errors
-        //         })
-        //     }
-        //     else {
-        //         console.error(err)
-        //     }
-        // }
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
         // Dynamic routing with incremental counter
          
          if (current_ix < ids.length -1) {
@@ -388,9 +368,10 @@ export const actions: Actions = {
             });
             // update the persistent index
             await updateprogressData(locals.user?.id!, params.surveyId, current_ix)
+
             redirect(303, `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`)
         } else {
-            // If there are no more IDs, redirect to a different route or perform any other desired action
+            // Set the cookie to expire then
             cookies.set('current_ix', '0', {
                 path: '/',
                 httpOnly: true,
@@ -399,10 +380,12 @@ export const actions: Actions = {
             })
             // clear the persistent index also
             await deleteProgressData(locals.user?.id!, params.surveyId)
-            // set the new target since this guy cant do the survey again
+             // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // set the survey as complete
+            await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
-            redirect(303, '/agent-dash/surveys/complete')
+            redirect(303, '/agent-dash/surveys/complete');
         }
     },
 }

@@ -17,7 +17,13 @@ export const load: PageServerLoad = async ({locals}) => {
         })
         .from(agentSurveysTable)
         .leftJoin(SurveyTable, sql`${agentSurveysTable.surveyid} = ${SurveyTable.surveyid} and ${SurveyTable.status} = 'Live'`)
-        .where(eq(agentSurveysTable.agentid, usr))
+        .where(
+            sql`
+                ${agentSurveysTable.agentid} = ${usr} 
+                and
+                ${agentSurveysTable.survey_completed} = false 
+            `
+        )
 
     return {
         available_qns  

@@ -5,9 +5,9 @@
     type ClientSubs = {
         name:string
         email:string
+        amt:string
     }
     export let subscriptions:ClientSubs[] =[]
-    const arbitrary_vals = [ 60, 200, 500, 2000, 5000]
 </script>
 <Table.Root>
     <Table.Header>
@@ -25,7 +25,7 @@
                     {sub.email}
                 </div>
             </Table.Cell>
-            <Table.Cell class="text-right">${arbitrary_vals[Math.floor(Math.random() * arbitrary_vals.length)]}</Table.Cell>
+            <Table.Cell class="text-right">${sub.amt}</Table.Cell>
             {/each}
         </Table.Row>
     </Table.Body>

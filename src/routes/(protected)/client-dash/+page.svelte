@@ -22,7 +22,11 @@
     let msg: string
     let visible = true
     
-    onMount(()=>{
+    onMount(async ()=>{
+        const theme = localStorage.getItem('mode-watcher-mode')
+        if (theme === 'dark') {
+           await import('intro.js/themes/introjs-dark.css')
+        }
         setTimeout(()=> {
             introJs().setOption("dontShowAgain", true).start();
         }, 1500)
@@ -88,7 +92,7 @@
             </Card.Footer>
         </Card.Root>
         <Card.Root
-            data-intro='These are the total people who have taken a survey that youve created'
+            data-intro='These are the total people who have taken a survey that you"ve created'
             class="lg:max-w-sm"
             data-x-chunk-name="dashboard-05-chunk-2"
             data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."

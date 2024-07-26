@@ -21,18 +21,19 @@
         setTimeout(()=>{
             introJs().setOptions({
                     "dontShowAgain":true,
-                    "dontShowAgainCookie":"introjs-dontShowAgain4"
+                    "dontShowAgainCookie":"introjs-dontShowAgain5"
             }).start();
         }, 1500)
       
     })
-    interface Survey {
+
+    interface History {
         id: string;
         title: string;
-        from: Date ;
-        to: Date;
+        taken: string ;
+        at: string
     }
-    export let data:Survey[]
+    export let data:History[]
  
 
     const table = createTable(readable(data), {
@@ -76,8 +77,8 @@
             header: "Survey Title",
         }),
         table.column({
-            accessor: "from",
-            header: "From",
+            accessor: "taken",
+            header: "Completed on",
             plugins: {
                 sort: {
                     disable: true,
@@ -88,8 +89,8 @@
             },
         }),
         table.column({
-            accessor: "to",
-            header: "To",
+            accessor: "at",
+            header: "Time",
             plugins: {
                 sort: {
                     disable: true,
@@ -101,7 +102,7 @@
         }),
         table.column({
             accessor: ({ id }) => id,
-            header: "Actions",
+            header: "",
             cell: ({ value }) => {
                 return createRender(DataTableActions, { id: value });
             },
@@ -137,7 +138,7 @@
         .filter(([, hide]) => !hide)
         .map(([id]) => id);
  
-  const hidableCols = ["created"]
+  const hidableCols = ["taken, at"]
 </script>
 
 <div class="lg:w-[98%] w-96 m-5 mx-auto">
@@ -165,52 +166,48 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border" data-intro='Here you will find a list of all the surveys available to you'>
+    <div class="rounded-md border" data-intro="pan left and click on the three dots to see what you answered">
         <Table.Root {...$tableAttrs}>
-            <Table.Header>
-                {#each $headerRows as headerRow}
-                <Subscribe rowAttrs={headerRow.attrs()}>
-                    <Table.Row>
-                    {#each headerRow.cells as cell (cell.id)}
-                        <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
-                        <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
-                            {#if cell.id === "title"}
-                                <Button variant="ghost" on:click={props.sort.toggle}>
-                                    <Render of={cell.render()} />
-                                    <ArrowUpDown class={"ml-2 h-4 w-4"} />
-                                </Button>
-                            {:else if cell.id !== "id" && cell.id !== "from" && cell.id !== "to" && cell.id !== "title"} 
-                            <div data-intro='If a survey is available there will be a list of actions you can perform using the "⋯" icon'>
+        <Table.Header>
+            {#each $headerRows as headerRow}
+            <Subscribe rowAttrs={headerRow.attrs()}>
+                <Table.Row>
+                {#each headerRow.cells as cell (cell.id)}
+                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
+                    <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
+                        {#if cell.id === "title"}
+                            <Button variant="ghost" on:click={props.sort.toggle}>
                                 <Render of={cell.render()} />
-                            </div>
-                            {:else}
-                                <Render of={cell.render()} />
-                            {/if}
-                        </Table.Head>
-                        </Subscribe>
-                    {/each}
-                    </Table.Row>
-                </Subscribe>
-                {/each}
-            </Table.Header>
-            <Table.Body {...$tableBodyAttrs}>
-                {#each $pageRows as row (row.id)}
-                <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-                    <Table.Row 
-                        {...rowAttrs}
-                        data-state={$selectedDataIds[row.id] && "selected"}
-                    >
-                    {#each row.cells as cell (cell.id)}
-                        <Subscribe attrs={cell.attrs()} let:attrs>
-                        <Table.Cell {...attrs}>
+                                <ArrowUpDown class={"ml-2 h-4 w-4"} />
+                            </Button>
+                        {:else}
                             <Render of={cell.render()} />
-                        </Table.Cell>
-                        </Subscribe>
-                    {/each}
-                    </Table.Row>
-                </Subscribe>
+                        {/if}
+                    </Table.Head>
+                    </Subscribe>
                 {/each}
-            </Table.Body>
+                </Table.Row>
+            </Subscribe>
+            {/each}
+        </Table.Header>
+        <Table.Body {...$tableBodyAttrs}>
+            {#each $pageRows as row (row.id)}
+            <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+                <Table.Row 
+                    {...rowAttrs}
+                    data-state={$selectedDataIds[row.id] && "selected"}
+                >
+                {#each row.cells as cell (cell.id)}
+                    <Subscribe attrs={cell.attrs()} let:attrs>
+                    <Table.Cell {...attrs}>
+                        <Render of={cell.render()} />
+                    </Table.Cell>
+                    </Subscribe>
+                {/each}
+                </Table.Row>
+            </Subscribe>
+            {/each}
+        </Table.Body>
         </Table.Root>
     </div>
     <div class="flex items-center justify-end space-x-4 py-4">

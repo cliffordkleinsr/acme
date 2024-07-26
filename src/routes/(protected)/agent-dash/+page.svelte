@@ -9,12 +9,18 @@
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb" 
 	import { onMount } from "svelte";
 	import Chart from "$lib/components/blocks/chart.svelte";
+	import { browser } from "$app/environment";
+	import { adjustDivider } from "$lib/helperFunctions/helpers.js";
 	   // custom param message
 	let msg: string
     let visible = true
     export let data
 
-    const { history} = data 
+    let mwacher:string|null =''
+    if (browser) {
+        mwacher = localStorage.getItem('mode-watcher-mode')
+    }
+    const { history, total_points, total_paid, total_payable} = data 
     setTimeout(() => {
         visible = false
     }, 2000)
@@ -29,6 +35,16 @@
     const taken = history.map(item => formatter(item.week))
     const count = history.map(item=> item.count)
     let options = {
+            theme: {
+                    mode: mwacher, 
+                    palette: 'palette1', 
+                    monochrome: {
+                        enabled: false,
+                        color: '#255aee',
+                        shadeTo: 'light',
+                        shadeIntensity: 0.65
+                    },
+                },
             chart: {
                 type: 'bar',
                 height: 150,
@@ -67,7 +83,11 @@
                 text: "Total Answers Weekly", 
             }
   
-        } 
+        }
+        
+        let divider: number = 500;
+        divider = adjustDivider(total_points, divider)
+        let mod = total_points/divider * 100 
 </script>
 {#if visible && msg}
 <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>
@@ -92,11 +112,31 @@
             </Breadcrumb.List>
         </Breadcrumb.Root>
     </div>
-    <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
+    <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">  
+        <Card.Root
+            class="max-w-lg"
+        >
+            <Card.Header class="pb-2 ">
+                <Card.Description class="flex gap-16">
+                    <p>Total Points Earned</p>
+                    <p>Total Points Paid</p>
+                    <p>Total Points Payable</p>
+                </Card.Description>
+                <Card.Title class="text-4xl flex gap-28">
+                    <p>{total_points}</p> 
+                    <p>{total_paid}</p>
+                    <p>{total_payable}</p>
+                </Card.Title>
+            </Card.Header>
+            <Card.Content>
+                <div class="text-xs text-muted-foreground">+{mod}% Progress to next payout</div>
+            </Card.Content>
+            <Card.Footer>
+                <Progress value={mod} aria-label="{mod}% increase" />
+            </Card.Footer>
+        </Card.Root>   
         <Card.Root
             class="sm:col-span-1 space-y-5"
-            data-x-chunk-name="dashboard-05-chunk-0"
-            data-x-chunk-description="A card for an orders dashboard with a description and a button to create a new order."
         >
             <Card.Header class="pb-3">
                 <Card.Title>My Survey History</Card.Title>
@@ -107,35 +147,17 @@
             </Card.Footer>
         </Card.Root>
         <Card.Root
-            class="max-w-lg"
-            data-x-chunk-name="dashboard-05-chunk-1"
-            data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."
-        >
-            <Card.Header class="pb-2 ">
-                <Card.Description>Total Surveys This Week</Card.Description>
-                <Card.Title class="text-4xl">2</Card.Title>
-            </Card.Header>
-            <Card.Content>
-                <div class="text-xs text-muted-foreground">+25% from last week</div>
-            </Card.Content>
-            <Card.Footer>
-                <Progress value={25} aria-label="{25}% increase" />
-            </Card.Footer>
-        </Card.Root>
-        <Card.Root
             class="lg:max-w-sm"
-            data-x-chunk-name="dashboard-05-chunk-2"
-            data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
         >
             <Card.Header class="pb-2">
-                <Card.Description>Total Surveys This Month</Card.Description>
-                <Card.Title class="text-3xl">5</Card.Title>
+                <Card.Description>Total Surveys This Week</Card.Description>
+                <Card.Title class="text-3xl">{[history[0].week].length}</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+10% from last month</div>
+                <div class="text-xs text-muted-foreground">+{history[history.length - 1].count}% from last week</div>
             </Card.Content>
             <Card.Footer>
-                <Progress value={12} aria-label="12% increase" />
+                <Progress value={history.length} aria-label="12% increase" />
             </Card.Footer>
         </Card.Root>            
     </div>

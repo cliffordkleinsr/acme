@@ -6,6 +6,7 @@ import { pgEnum, pgTable, timestamp, uuid, text, serial, boolean, integer, prima
 export const UserRole = pgEnum("UserRole", ["ADMIN", "CLIENT", "AGENT"])
 export const QuestionType = pgEnum("QuestionType", ["Single", "Optional", "Multiple", "Ranking", "Rating", "Likert"])
 export const Status = pgEnum("status", ["Draft", "Live", "Closed"])
+export const ProcessedStatus = pgEnum('processed_status', ["pending", "complete"])
 
 
 // Model USERS
@@ -26,7 +27,7 @@ export const UsersTable = pgTable('users', {
 
 
 export const agentData = pgTable('agent_data',{
-    agentid: text('agent_id').references(() => UsersTable.id).notNull(),
+    agentid: text('agent_id').references(() => UsersTable.id).primaryKey().unique().notNull(),
     email: text("agent_email").references(() => UsersTable.email).notNull(),
     phone: text("phone").notNull(),
     dateofbirth: text("dob").notNull(),
@@ -37,7 +38,8 @@ export const agentData = pgTable('agent_data',{
     sector: text("sector").notNull(),
     // additional
     total_pts_earned: integer('total_pts_earned').notNull().default(0),
-    total_pts_paid: integer('total_pts_paid').notNull().default(0)
+    total_pts_paid: integer('total_pts_paid').notNull().default(0),
+    total_points_payable: integer('total_points_payable').notNull().default(0)
 })
 
 export const clientData = pgTable('client_data',{
@@ -138,6 +140,7 @@ export const progressTable = pgTable('agent_progress_table', {
     surveyid: text('surveyid').references(() => SurveyTable.surveyid).notNull(),
     current_ix: integer('current_ix').default(0).notNull()
 })
+
 export const agentSurveysTable = pgTable('agent_surv_table', {
     agentid: text('agent_id').references(() => UsersTable.id),
     surveyid: text('surveyid').references(() => SurveyTable.surveyid),
@@ -146,6 +149,7 @@ export const agentSurveysTable = pgTable('agent_surv_table', {
 })
 
 // One and the same
+// =============================================================
 export const surveyqnsTableV2 = pgTable('survey_qns_optimum', {
     questionId: uuid('questionid').defaultRandom().primaryKey(),
     surveid: text("surveyid").references(() => SurveyTable.surveyid),
@@ -165,7 +169,7 @@ export const QuestionOptions = pgTable('question_options', {
         .notNull(),
     option: text('option').notNull(),
 });
-// 
+// ==============================================================
 
 export const AnswersTable = pgTable('answers', {
     questionId: uuid('questionid').references(()=> surveyqnsTableV2.questionId).notNull(),
@@ -178,6 +182,23 @@ export const AnswersTable = pgTable('answers', {
         withTimezone: true,
         mode: "date" 
     }).defaultNow().notNull()
+})
+
+
+export const payoutRequests = pgTable('payout_requests', {
+    payoutid: uuid('payout_id').defaultRandom().primaryKey().unique(),
+    agentid: text('agent_id').references(() => UsersTable.id).notNull(),
+    payout: integer('payout').notNull(),
+    status: ProcessedStatus("status").notNull().default("pending"),
+    createdAt:  timestamp('updated_at', {
+        withTimezone: true,
+        mode: "date" 
+    }).defaultNow().notNull(),
+    processedby: text('processed_by'),
+    processedAt: timestamp('processed_at', {
+        withTimezone: true,
+        mode: "date" 
+    })
 })
 export type userInsertSchema = typeof UsersTable.$inferInsert
 export type ClientDataInsertSchema = typeof clientData.$inferInsert

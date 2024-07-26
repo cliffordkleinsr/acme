@@ -14,10 +14,16 @@
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
     import 'intro.js/minified/introjs.min.css'
+    
+
     import introJs from 'intro.js'
 	import { onMount } from 'svelte';
     
-    onMount(() => {
+    onMount(async() => {
+        const theme = localStorage.getItem('mode-watcher-mode')
+        if (theme === 'dark') {
+           await import('intro.js/themes/introjs-dark.css')
+        }
         setTimeout(()=>{
             introJs().setOptions({
                     "dontShowAgain":true,

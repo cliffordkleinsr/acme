@@ -115,7 +115,7 @@
           <Separator />
           <a
             href="/client-dash/surveys/create"
-            class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
+            class=" flex gap-1 text-muted-foreground {$page.url.pathname === "/client-dash/surveys"?'text-primary bg-muted':''} transition-all hover:text-primary"
           >
           <AlignStartVertical class="size-4"/>
           Generate surveys
@@ -123,7 +123,7 @@
           <Separator />
           <a
             href="/client-dash/surveys/questionnaire"
-            class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+            class="flex gap-1 text-muted-foreground {$page.url.pathname === "/client-dash/surveys"?'text-primary bg-muted':''} transition-all hover:text-primary"
           >
           <SlidersVertical class="size-4"/>
           Manage surveys
@@ -132,7 +132,7 @@
           {#if payment.status}
             <a
                 href="/client-dash/surveys/live"
-                class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
+                class="flex gap-1 text-muted-foreground {$page.url.pathname === "/client-dash/surveys"?'text-primary bg-muted':''} transition-all hover:text-primary"
               >
               <RadioTower class="size-4"/>
               Go Live
@@ -143,7 +143,7 @@
       </Collapsible.Root>
       <a
         href="/client-dash/plans"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/client-dash/plans"?'text-primary bg-muted':''} transition-all hover:text-primary"
       >
       <Coins class="size-4"/>
         View Plan
@@ -151,14 +151,14 @@
       {#if payment.status}
       <a
         href="/client-dash/audience"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/client-dash/audience"?'text-primary bg-muted':''} transition-all hover:text-primary"
       >
         <Users class="size-4" />
         Audience
       </a>
       <a
         href="/client-dash/analytics"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground {$page.url.pathname === "/client-dash/analytics"?'text-primary bg-muted':''} transition-all hover:text-primary"
       >
         <LineChart class="size-4" />
         Analytics
@@ -273,7 +273,7 @@
         {/if}
       </nav>
       <div class="mt-auto">
-        {#if payment.status}
+        {#if payment.status === false}
         <Card.Root>
           <Card.Header>
             <Card.Title>Upgrade to Pro</Card.Title>

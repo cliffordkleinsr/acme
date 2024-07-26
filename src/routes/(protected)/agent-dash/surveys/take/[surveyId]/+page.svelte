@@ -9,7 +9,7 @@
     import { page } from "$app/stores"
 
     export let data
-    const { uri, current_ix, persisted_ix } = data
+    const { uri, current_ix } = data
 </script>
 <!-- {#if hidden} -->
 <div class="flex flex-col max-w-sm mx-auto mt-6">
@@ -29,7 +29,7 @@
             size="lg"
             href='{uri}'
         >
-            {current_ix > 0 || persisted_ix > 0? 'Continue where you left off': 'Start the survey'}
+            {current_ix > 0 ? 'Continue where you left off': 'Start the survey'}
         </Button>
     </Card.Content>
     <Card.Footer class="mt-7">

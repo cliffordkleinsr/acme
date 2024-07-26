@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Footer from "$lib/components/blocks/footer.svelte"
+	import Footer from "$lib/components/blocks/frontendComponents/footer.svelte"
 	import Navbar from "$lib/components/blocks/navbar.svelte"
 	import { sineIn, sineOut } from "svelte/easing";
 	import { fly } from "svelte/transition";

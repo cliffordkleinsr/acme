@@ -5,8 +5,8 @@
     type Usr =  {
         name: string;
         email: string;
-        role: "ADMIN" | "CLIENT" | "RESP";
-        gender: string | null;
+        role: "ADMIN" | "CLIENT" | "AGENT";
+        gender: string;
         at: string;
     }
     export let users:Usr[] = []
