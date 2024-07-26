@@ -73,6 +73,7 @@ export const actions: Actions = {
             .values({
                 agentid:usr,
                 payout: amount,
+                createdAt:new Date()
             })
             // subtruct on the points payable
             let remnant = balance.pts - amount

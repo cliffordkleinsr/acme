@@ -13,6 +13,24 @@
     import * as Form from "$lib/components/ui/form"
     import { amountSchema, type AmountSchema} from './paymt'
     import { toast } from "svelte-sonner";
+    import 'intro.js/minified/introjs.min.css'
+    import introJs from 'intro.js'
+    import { onMount } from 'svelte';
+      
+      onMount(() => {
+          const theme = localStorage.getItem('mode-watcher-mode')
+          if (theme === 'dark') {
+            import('intro.js/themes/introjs-dark.css')
+          }
+          setTimeout(()=>{
+              introJs().setOptions({
+                      "dontShowAgain":true,
+                      "dontShowAgainCookie":"introjs-dontShowAgain8"
+              }).start();
+          }, 1500)
+        
+      })
+
 
     export let data: SuperValidated<Infer<AmountSchema>>;
     export let payable:number
@@ -48,8 +66,8 @@
     <Card.Content class="space-y-2 w-full">
         <Form.Field {form} name="amount">
             <Form.Control let:attrs>
-                <Form.Label>Amount</Form.Label>
-                <div class="flex gap-2">
+                <Form.Label>Amount</Form.Label >
+                <div class="flex gap-2" data-intro="Ensure the number you registered with is the correct number before proceeding with the checkout. You can change your number in the settings">
                     <Input {...attrs} bind:value={$formData.amount} type="number" class="max-w-sm"/>
                     <p class="text-muted-foreground py-2">KES</p>
                     <img class="w-[72px] mx-auto" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png?20191120100524" alt="">

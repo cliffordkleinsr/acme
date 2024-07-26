@@ -42,7 +42,7 @@
             breakpoint: 480,
             options: {
                 chart: {
-                    width: 200,
+                    width: 300,
                     
                 },
                 legend: {
@@ -80,7 +80,22 @@
         xaxis: {
           categories: sect_lbl,
           
+        },
+        responsive: [
+        {
+          breakpoint: 1000,
+          options: {
+            plotOptions: {
+              bar: {
+                horizontal: false
+              }
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
         }
+  ]
     }
 
     var radial = {
@@ -96,7 +111,7 @@
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 300
             },
             legend: {
               position: 'bottom'

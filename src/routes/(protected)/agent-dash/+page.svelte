@@ -139,8 +139,8 @@
             class="sm:col-span-1 space-y-5"
         >
             <Card.Header class="pb-3">
-                <Card.Title>My Survey History</Card.Title>
-				<Card.Description></Card.Description>
+                <Card.Title></Card.Title>
+				<Card.Description>My Survey History</Card.Description>
             </Card.Header>
             <Card.Footer>
                 <Button variant="default" href="/agent-dash/surveys/history">View history</Button>
@@ -150,7 +150,7 @@
             class="lg:max-w-sm"
         >
             <Card.Header class="pb-2">
-                <Card.Description>Total Surveys This Week</Card.Description>
+                <Card.Description>Total surveys answered this week</Card.Description>
                 <Card.Title class="text-3xl">{[history[0].week].length}</Card.Title>
             </Card.Header>
             <Card.Content>

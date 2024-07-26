@@ -9,10 +9,10 @@
     import { Label } from "$lib/components/ui/label"
     
     import Undo2 from 'lucide-svelte/icons/undo-2'
-	import { capitalizeFirstLetter } from '$lib/helperFunctions/helpers';
-	import StarComponent from '$lib/components/blocks/questionnareComponents/rating/StarComponent.svelte';
-	import Ranker from '$lib/components/blocks/questionnareComponents/rankingComponent/Ranker.svelte';
-	import PresetRanker from '$lib/components/blocks/questionnareComponents/rankingComponent/PresetRanker.svelte';
+    import { capitalizeFirstLetter } from '$lib/helperFunctions/helpers';
+    import StarComponent from '$lib/components/blocks/questionnareComponents/rating/StarComponent.svelte';
+    import Ranker from '$lib/components/blocks/questionnareComponents/rankingComponent/Ranker.svelte';
+    import PresetRanker from '$lib/components/blocks/questionnareComponents/rankingComponent/PresetRanker.svelte';
     export let data: PageData;
     const { questions} =data
 </script>

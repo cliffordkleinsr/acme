@@ -18,6 +18,10 @@
 	import { onMount } from 'svelte';
     
     onMount(() => {
+        const theme = localStorage.getItem('mode-watcher-mode')
+        if (theme === 'dark') {
+           import('intro.js/themes/introjs-dark.css')
+        }
         setTimeout(()=>{
             introJs().setOptions({
                     "dontShowAgain":true,

@@ -1,8 +1,7 @@
 import { db } from '$lib/server/db';
 import { clientData, clientPackages } from '$lib/server/schema';
-import { eq, sql } from 'drizzle-orm';
+import { eq, sql } from "drizzle-orm";
 import type { PageServerLoad } from './$types';
-import { Phone } from 'lucide-svelte';
 
 export const load: PageServerLoad = async ({locals}) => {
     const [client_pack] = await db
