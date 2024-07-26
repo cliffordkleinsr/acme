@@ -67,6 +67,7 @@ export const actions: Actions = {
                 fullname: fullname,
                 email: email,
                 password:hashPassword,
+                role: "AGENT",
                 isEmailVerified: true, //set to false if you use email verification
                 age: age,
                 gender: gender

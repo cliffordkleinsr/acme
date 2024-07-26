@@ -32,8 +32,17 @@
 
     $: msg= $page.url.searchParams.get("notification") ?? ""
 
-    const taken = history.map(item => formatter(item.week))
-    const count = history.map(item=> item.count)
+    let taken:any[] = []
+    let count:any[] = []
+    let tot_wk:number = 0
+    let perk:number = 0
+    if (history.length > 0) {
+        perk = history[history.length - 1].count
+        tot_wk = [history[0].week].length
+        taken = history.map(item => formatter(item.week))
+        count = history.map(item=> item.count)
+    }
+   
     let options = {
             theme: {
                     mode: mwacher, 
@@ -151,15 +160,15 @@
         >
             <Card.Header class="pb-2">
                 <Card.Description>Total surveys answered this week</Card.Description>
-                <Card.Title class="text-3xl">{[history[0].week].length}</Card.Title>
+                <Card.Title class="text-3xl">{tot_wk}</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+{history[history.length - 1].count}% from last week</div>
+                <div class="text-xs text-muted-foreground">+{perk}% from last week</div>
             </Card.Content>
             <Card.Footer>
                 <Progress value={history.length} aria-label="12% increase" />
             </Card.Footer>
-        </Card.Root>            
+        </Card.Root>        
     </div>
 </div>
 {#if count.length > 0}
