@@ -34,32 +34,27 @@
   import Settings from "lucide-svelte/icons/settings"
   import AlignStartVertical from 'lucide-svelte/icons/align-start-vertical'
   import SlidersVertical from 'lucide-svelte/icons/sliders-vertical'
-	import { fade } from "svelte/transition";
-	import { sineIn, sineInOut, sineOut } from "svelte/easing";
   import * as Tooltip from "$lib/components/ui/tooltip"
-	// import { msg } from "$lib/store.js";
-  import {notifications} from '$lib/store.js'
-	import { message } from "sveltekit-superforms";
 
   
   export let data
   const { notif, payment } = data
-
-  if ($notifications.messages.length > 0) {
-    notifications.update(msg => ({
-      messages: [...msg.messages, ...notif as string[]]
-    }))
-  }
-  else {
-    notifications.set({messages:notif as string[]})
-  }
-  const clearNotifs = () => { 
-    notifications.set({messages:[] as string[]})
-  }
-  // msg.update(messages => [...messages, ...notif as string[]])
+  let messages = notif
+  // if ($notifications.messages.length > 0) {
+  //   notifications.update(msg => ({
+  //     messages: [...msg.messages, ...notif as string[]]
+  //   }))
+  // }
+  // else {
+  //   notifications.set({messages:notif as string[]})
+  // }
   // const clearNotifs = () => { 
-  //   msg.set([])
-  //   }
+  //   notifications.set({messages:[] as string[]})
+  // }
+  // msg.update(messages => [...messages, ...notif as string[]])
+  const clearNotifs = () => { 
+    messages = []
+    }
 </script>
 
 
@@ -80,8 +75,8 @@
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Content class="space-y-3 w-72">
-          {#if $notifications.messages.filter((notif) => notif != undefined).length}
-            {#each $notifications.messages.filter((notif) => notif != undefined) as notif, ix}
+          {#if messages.filter((notif) => notif != undefined).length}
+            {#each messages.filter((notif) => notif != undefined) as notif, ix}
               <p class="pl-5 font-mono">{ix+1}. {notif}</p>
               <Separator/>
             {/each}
@@ -91,8 +86,8 @@
           {/if}
         </Tooltip.Content>
       </Tooltip.Root>
-      {#if $notifications.messages.filter((notif) => notif != undefined).length}
-        <Badge class="size-5 justify-center absolute left-5 bottom-4">{$notifications.messages.filter((notif) => notif != undefined).length}</Badge>
+      {#if messages.filter((notif) => notif != undefined).length}
+        <Badge class="size-5 justify-center absolute left-5 bottom-4">{messages.filter((notif) => notif != undefined).length}</Badge>
       {/if}     
     </div>
    

@@ -6,15 +6,18 @@ import { generateId } from 'lucia';
 import { createNewSurvey } from '$lib/server/db_utils';
 import { eq, sql } from 'drizzle-orm';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({locals:{user}}) => {
     const surveys = await db
     .select({
         id: SurveyTable.surveyid
     })
     .from(SurveyTable)
     .leftJoin(clientData, eq(SurveyTable.clientid, clientData.clientId))
-    .where(sql`${SurveyTable.createdAt} BETWEEN ${clientData.processed_at} - INTERVAL '1 week' AND ${clientData.expires_at}`)
-
+    .where(sql`
+        ${SurveyTable.createdAt} BETWEEN ${clientData.processed_at} - INTERVAL '1 week' AND ${clientData.expires_at} 
+        AND 
+        ${SurveyTable.clientid} = ${user?.id}
+        `)
     return {
         surveys
     }

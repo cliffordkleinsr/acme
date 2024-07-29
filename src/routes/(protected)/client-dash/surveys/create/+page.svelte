@@ -11,6 +11,7 @@
 
 
     const { surveys, features:{maxsurv} } = data
+    // let threshold = maxsurv ?? 0
 </script>
 <div class="flex flex-col lg:m-16 gap-5 m-4 max-w-screen-lg">
     <h1 class="text-2xl ml-3">Create a new project</h1>
@@ -31,7 +32,11 @@
                     {#if form?.message}
                         <Label class="text-red-600">{form.message}</Label>
                     {/if}
-                    {#if surveys.length === maxsurv}
+                    {#if maxsurv === null}
+                        <div class="mt-2 bg-red-500 text-sm text-white rounded-lg p-4" role="alert" tabindex="-1" aria-labelledby="hs-solid-color-danger-label">
+                            <span id="hs-solid-color-danger-label" class="font-bold">Error!</span> You are not subscribed to any plan!
+                        </div>
+                    {:else if surveys.length === maxsurv}
                         <div class="bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert">
                             <span class="font-bold">Warning</span> alert! You have exceeded the maximum available surveys for your plan
                         </div>

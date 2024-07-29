@@ -8,7 +8,3 @@ export const clientPackage = persisted('client_package', {
     price: '0',
     priceId:'None'
 })
-
-export const notifications = persisted('client_notifs', {
-    messages: ['test message']
-})
