@@ -5,4 +5,4 @@
     export let data: PageData;
     const { draft_surveys, payment } = data
 </script>
-<DataTable data={draft_surveys} payment_stat={payment.status}/>
+<DataTable data={draft_surveys} payment_stat={payment.status} status ="Draft"/>

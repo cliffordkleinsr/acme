@@ -15,7 +15,7 @@
 </script>
 <div class="flex flex-col lg:m-16 gap-5 m-4 max-w-screen-lg">
     <h1 class="text-2xl ml-3">Create a new project</h1>
-        <form method="post"class="grid lg:grid-cols-3 gap-4" use:enhance>
+    <form method="post"class="grid lg:grid-cols-3 gap-4" use:enhance>
         <Card.Root class="col-span-2">
             <Card.Header>
                 <Card.Title>Survey Details</Card.Title>

@@ -117,12 +117,12 @@ export const retExpiryDate = async (id:string) => {
  * @param fromdb 
  * @returns 
  */
-export const checkDate = async (id:string, fromdb: Date) => {
+export const checkDate = async (id:string, fromdb: Date, userid:string) => {
     let diff = new Date().getTime() - fromdb.getTime()
     if (diff  > 0) {
         await db.update(SurveyTable).set({
             status:"Closed"
-        }).where(eq(SurveyTable.surveyid, id))
+        }).where(sql`${SurveyTable.surveyid} = ${id} and ${SurveyTable.clientid} = ${userid}`)
         return {
             message: `Survey ${id} has been closed`
         }

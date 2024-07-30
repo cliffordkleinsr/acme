@@ -5,7 +5,7 @@
 	import * as Card from "$lib/components/ui/card/index.js";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import * as Table from "$lib/components/ui/table/index.js";
-
+	import  CreditCard  from "lucide-svelte/icons/credit-card";
 	export let data
 	const { payment_requests } = data
 
@@ -58,7 +58,7 @@
 						{arb.requestedat}
 					</Table.Cell>
 					<Table.Cell>
-						<DropdownMenu.Root>
+						<!-- <DropdownMenu.Root>
 							<DropdownMenu.Trigger asChild let:builder>
 								<Button
 									aria-haspopup="true"
@@ -75,7 +75,9 @@
 								<DropdownMenu.Item>Pay</DropdownMenu.Item>
 								<DropdownMenu.Item>Reject</DropdownMenu.Item>
 							</DropdownMenu.Content>
-						</DropdownMenu.Root>
+						</DropdownMenu.Root> -->
+						<Button size="icon" variant="secondary" on:click={() => alert("Paid")}>Pay</Button>
+						<Button variant="destructive" on:click={() => alert("Declined")}>Decline</Button>
 					</Table.Cell>
 				</Table.Row>
                 {/each}
@@ -84,7 +86,7 @@
 	</Card.Content>
 	<Card.Footer>
 		<div class="text-xs text-muted-foreground">
-			Showing <strong>1-10</strong> of <strong>32</strong> products
+			Showing <strong>1-10</strong> of <strong>{payment_requests.length}</strong> requests
 		</div>
 	</Card.Footer>
 </Card.Root>

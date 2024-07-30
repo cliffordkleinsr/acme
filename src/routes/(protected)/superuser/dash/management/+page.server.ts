@@ -1,22 +1,9 @@
 import { db } from '$lib/server/db';
 import { SurveyTable } from '$lib/server/schema';
-import { eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-    
-    const data  = await db
-        .select({
-            id: SurveyTable.surveyid,
-            title: SurveyTable.surveyTitle,
-            status: SurveyTable.status, 
-            created: sql<Date>`${SurveyTable.createdAt}::timestamp::date`
-        })
-        .from(SurveyTable)
-
-    return {
-        survs: data
-    }
 };
 
 export const actions: Actions = {

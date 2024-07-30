@@ -6,7 +6,9 @@
     import * as Form from "$lib/components/ui/form/index.js"
     export let id: string;
     export let payment_stat:boolean
+    export let status:string
   </script>
+  {#if status !== "Closed"}
   <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
       <Button
@@ -32,3 +34,4 @@
       {/if}
     </DropdownMenu.Content>
   </DropdownMenu.Root>
+{/if}

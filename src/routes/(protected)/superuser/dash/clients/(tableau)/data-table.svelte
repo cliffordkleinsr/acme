@@ -13,16 +13,15 @@
     import { Button } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
-	import { Badge } from '$lib/components/ui/badge';
+
     type Survey = {
-        id: string;
-        title: string;
-        created: Date;
-        status: string,
+        id: string
+        name: string
+        email: string
+        role: string
     }
     export let data:Survey[]
-    export let payment_stat:boolean
-    export let status:string
+ 
 
     const table = createTable(readable(data), {
         page: addPagination(),
@@ -61,38 +60,30 @@
             },
         }),
         table.column({
-            accessor: "title",
-            header: "Survey Title",
+            accessor: "name",
+            header: "Name",
         }),
         table.column({
-            accessor: "created",
-            header: "Created At",
+            accessor: "email",
+            header: "Email",
             plugins: {
                 sort: {
                     disable: true,
                 },
                 filter: {
-                    exclude: true,
+                    exclude: false,
                 },
             },
         }),
         table.column({
-            accessor: "status",
-            header: "Status",
-            plugins: {
-                sort: {
-                    disable: true,
-                },
-                filter: {
-                    exclude: true,
-                },
-            },
+            accessor: "role",
+            header: "Role",
         }),
         table.column({
             accessor: ({ id }) => id,
-            header: "",
+            header: "Actions",
             cell: ({ value }) => {
-                return createRender(DataTableActions, { id: value , payment_stat, status});
+                return createRender(DataTableActions, { id: value });
             },
             plugins: {
                 sort: {
@@ -126,18 +117,23 @@
         .filter(([, hide]) => !hide)
         .map(([id]) => id);
  
-  const hidableCols = ["created", "status"]
+  const hidableCols = ["name", "email"]
+ 
 </script>
 
-<div class="lg:w-[98%] m-5 mx-auto">
-
+<div class="m-5">
+    <!-- <h1 class="text-sm ">
+        Select your predifined action using the <span class="italic font-bold">Actions</span> tab
+   </h1> -->
+   
     <div class="flex items-center py-4">
         <Input
           class="max-w-sm"
-          placeholder="Filter Surveys..."
+          placeholder="Search Users..."
           type="text"
           bind:value={$filterValue}
         />
+       
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild let:builder>
               <Button variant="outline" class="ml-auto" builders={[builder]}>
@@ -162,15 +158,17 @@
             <Subscribe rowAttrs={headerRow.attrs()}>
                 <Table.Row>
                 {#each headerRow.cells as cell (cell.id)}
-                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
                     <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
                         {#if cell.id === "title"}
                             <Button variant="ghost" on:click={props.sort.toggle}>
                                 <Render of={cell.render()} />
                                 <ArrowUpDown class={"ml-2 h-4 w-4"} />
-                            </Button>
+                            </Button>  
+                        {:else if cell.id !== "id" && cell.id !== "created" && cell.id !== "title"} 
+                                <Render of={cell.render()} />
                         {:else}
-                        <Render of={cell.render()} />
+                            <Render of={cell.render()} />
                         {/if}
                     </Table.Head>
                     </Subscribe>
@@ -189,32 +187,22 @@
                 {#each row.cells as cell (cell.id)}
                     <Subscribe attrs={cell.attrs()} let:attrs>
                     <Table.Cell {...attrs}>
-                        {#if cell.id != ""}
-                            {#if cell.id === "status"}
-                                <Badge 
-                                class="{
-                                    cell.render() === "Closed"
-                                        ? "bg-primary text-primary-foreground"
-                                        :cell.render() != "Live"
-                                        ?"bg-secondary text-muted-foreground dark:text-white"
-                                        :"bg-green-600"}">
-                                        <Render of={cell.render()} />
-                                </Badge>
-                            {:else}
-                                <Render of={cell.render()} />
-                            {/if}
-                        {:else if typeof cell.render() === "object"}
+                        {#if cell.id !== "id" && cell.id !== "created" && cell.id !== "title"}
                             <Render of={cell.render()} />
-                        {/if}
+                        {:else}
+                            <Render of={cell.render()} />
+                        {/if}  
                     </Table.Cell>
                     </Subscribe>
                 {/each}
                 </Table.Row>
             </Subscribe>
             {/each}
+            
         </Table.Body>
         </Table.Root>
     </div>
+    
     <div class="flex items-center justify-end space-x-4 py-4">
         <div class="flex-1 text-sm text-muted-foreground">
             {Object.keys($selectedDataIds).length} of{" "}
@@ -230,7 +218,7 @@
           variant="outline"
           size="sm"
           disabled={!$hasNextPage}
-          on:click={() => ($pageIndex = $pageIndex + 1)}>{$pageIndex+1}</Button
+          on:click={() => ($pageIndex = $pageIndex + 1)}>{$pageIndex + 1}</Button
         >
     </div>
 </div>

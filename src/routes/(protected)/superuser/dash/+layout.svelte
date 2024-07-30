@@ -23,6 +23,7 @@
   import * as Tooltip from "$lib/components/ui/tooltip/index.js";
 	import SquareArrowRight from 'lucide-svelte/icons/square-arrow-right'
 	import { enhance } from "$app/forms";
+	import { page } from "$app/stores";
     // export let data: LayoutData;
 </script>
 <div class="flex min-h-screen w-full flex-col bg-muted/40">
@@ -33,13 +34,13 @@
           class="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
         >
           <Package2 class="h-4 w-4 transition-all group-hover:scale-110" />
-          <span class="sr-only">Acme Inc</span>
+          <span class="sr-only">Int Insights</span>
         </a>
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
             <a
               href="/superuser/dash"
-              class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              class="flex h-9 w-9 items-center justify-center rounded-lg {$page.url.pathname === "/superuser/dash"? " bg-accent": ""} text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
             >
@@ -53,7 +54,7 @@
           <Tooltip.Trigger asChild let:builder>
             <a
               href="/superuser/dash/management"
-              class="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              class="flex h-9 w-9 items-center justify-center rounded-lg {$page.url.pathname === "/superuser/dash/management"? " bg-accent": ""} text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
             >
@@ -66,8 +67,8 @@
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
             <a
-              href="##"
-              class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              href="/superuser/dash/clients"
+              class="flex h-9 w-9 items-center justify-center rounded-lg {$page.url.pathname === "/superuser/dash/clients"? " bg-accent": ""} text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
             >
@@ -75,13 +76,13 @@
               <span class="sr-only">Client Management</span>
             </a>
           </Tooltip.Trigger>
-          <Tooltip.Content side="right">Client Management</Tooltip.Content>
+          <Tooltip.Content side="right"></Tooltip.Content>
         </Tooltip.Root>
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
             <a
-              href="##"
-              class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              href="/superuser/dash/agents"
+              class="flex h-9 w-9 items-center justify-center rounded-lg {$page.url.pathname === "/superuser/dash/agents"? " bg-accent": ""} text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
             >
@@ -141,7 +142,7 @@
                 class="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
               >
                 <Package2 class="h-5 w-5 transition-all group-hover:scale-110" />
-                <span class="sr-only">Acme Inc</span>
+                <span class="sr-only">Int Insights</span>
               </a>
               <a
                 href="/superuser/dash"
@@ -151,22 +152,22 @@
                 Dashboard
               </a>
               <a
-                href="##"
+                href="/superuser/dash/management"
                 class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
-                <ShoppingCart class="h-5 w-5" />
-                Orders
+                <FolderKanban class="h-5 w-5" />
+                Survey Management
               </a>
-              <a href="##" class="flex items-center gap-4 px-2.5 text-foreground">
-                <Package class="h-5 w-5" />
-                Products
+              <a href="/superuser/dash/clients" class="flex items-center gap-4 px-2.5 text-muted-foreground">
+                <UserCheck class="h-5 w-5" />
+                Client Management
               </a>
               <a
-                href="##"
+                href="/superuser/dash/agents"
                 class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <UsersRound class="h-5 w-5" />
-                Customers
+                Agent Management
               </a>
               <a
                 href="##"

@@ -77,12 +77,12 @@
         <Tooltip.Content class="space-y-3 w-72">
           {#if messages.filter((notif) => notif != undefined).length}
             {#each messages.filter((notif) => notif != undefined) as notif, ix}
-              <p class="pl-5 font-mono">{ix+1}. {notif}</p>
+              <p class="pl-5 text-xs">{ix+1}. {notif}</p>
               <Separator/>
             {/each}
             <Button variant="secondary" on:click={clearNotifs}>Clear Notifications</Button>
           {:else}
-          <p class="pl-5 font-mono">No New Messages</p>
+            <p class="pl-5 text-xs">No new messages</p>
           {/if}
         </Tooltip.Content>
       </Tooltip.Root>

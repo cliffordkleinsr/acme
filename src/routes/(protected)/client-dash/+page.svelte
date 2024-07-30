@@ -117,12 +117,12 @@
       <Tabs.Trigger value="completed" data-intro='This tab shows surveys that have been completed.'>Completed</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="draft">
-        <DataTable data={draft_surv} payment_stat={payment.status}/>
+        <DataTable data={draft_surv} payment_stat={payment.status} status ="Draft"/>
     </Tabs.Content>
     <Tabs.Content value="running">
-        <DataTable data={live_surv} payment_stat={payment.status}/>
+        <DataTable data={live_surv} payment_stat={payment.status} status="Live"/>
     </Tabs.Content>
     <Tabs.Content value="completed">
-        <DataTable data={closed_surv} payment_stat={payment.status}/>
+        <DataTable data={closed_surv} payment_stat={payment.status} status="Closed"/>
     </Tabs.Content>
 </Tabs.Root>  

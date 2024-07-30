@@ -6,12 +6,8 @@
     const { survs } = data
 </script>
 
-<Card.Root class='m-3'>
-	<Card.Header class="px-7">
-		<Card.Title>Surveys</Card.Title>
-		<Card.Description>A list of all created surveys.</Card.Description>
-	</Card.Header>
-	<Card.Content>
-			<DataTable data={survs} />
-	</Card.Content>
-</Card.Root>
+<div class="m-3 space-y-2">
+	<h1 class="text-xl font-semibold">Surveys</h1>
+	<p class="text-muted-forgeground text-sm">A list of all created surveys.</p>
+</div>
+<DataTable data={survs} />
