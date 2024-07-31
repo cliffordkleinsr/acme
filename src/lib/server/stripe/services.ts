@@ -1,6 +1,14 @@
 import { Stripe } from 'stripe';
 import { stripe } from './stripe';
-import { BASE } from '$env/static/private'
+import { BASE_DEV, BASE_PROD} from '$env/static/private'
+
+let BASE =  ''
+if (process.env.NODE_ENV === "production") {
+    BASE = BASE_PROD
+}
+else if (process.env.NODE_ENV == "development") {
+    BASE = BASE_DEV
+}
 const subscribe = async (priceId: string): Promise<Stripe.Checkout.Session | undefined> => {
     try 
     {

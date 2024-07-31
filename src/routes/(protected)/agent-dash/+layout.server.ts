@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
 import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { agentData, AnswersTable, SurveyTable } from '$lib/server/schema';
+import { agentData, agentSurveysTable, AnswersTable, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {

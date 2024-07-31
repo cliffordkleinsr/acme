@@ -1,19 +1,19 @@
 import { db } from '$lib/server/db'
-import { QuestionOptions, SurveyTable, surveyqnsTableV2 } from '$lib/server/schema'
+import { AnswersTable, QuestionOptions, SurveyTable, surveyqnsTableV2 } from '$lib/server/schema'
 import { eq, asc, sql } from 'drizzle-orm'
 import type { Actions, PageServerLoad } from './$types'
 import { addSurveyQuestionsv2 } from '$lib/server/db_utils'
 import { fail } from '@sveltejs/kit'
 import { ZodError, z } from 'zod'
 
-export const load: PageServerLoad = async ({params}) => {
-    const data = await db
+export const load: PageServerLoad = async ({params, locals:{user}}) => {
+    const [data] = await db
     .select({
         title:SurveyTable.surveyTitle,
         desc: SurveyTable.surveyDescription
     })
     .from(SurveyTable)
-    .where(eq(SurveyTable.surveyid , params.surveyid))
+    .where(sql`${SurveyTable.surveyid} = ${params.surveyid} and ${SurveyTable.clientid} = ${user?.id}`)
 
     const questions = await db
             .select({
@@ -374,12 +374,13 @@ export const actions: Actions = {
         const{ questionId } = data
 
         try 
-        {
+        {   
+            await db.delete(AnswersTable).where(eq(AnswersTable.questionId, questionId))
             await db.delete(surveyqnsTableV2).where(eq(surveyqnsTableV2.questionId, questionId))
-        
+            
         } catch (err) 
         {
-            
+            console.error(err)
         }
     },
     editSurvQns: async ({request}) =>{

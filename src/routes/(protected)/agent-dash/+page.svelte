@@ -131,7 +131,7 @@
                     <p>Total Points Paid</p>
                     <p>Total Points Payable</p>
                 </Card.Description>
-                <Card.Title class="text-4xl flex gap-28">
+                <Card.Title class="text-4xl grid grid-cols-3 gap-20">
                     <p>{total_points}</p> 
                     <p>{total_paid}</p>
                     <p>{total_payable}</p>
@@ -159,14 +159,14 @@
             class="lg:max-w-sm"
         >
             <Card.Header class="pb-2">
-                <Card.Description>Total surveys answered this week</Card.Description>
-                <Card.Title class="text-3xl">{tot_wk}</Card.Title>
+                <Card.Description >Cumulative Surveys</Card.Description>
+                <Card.Title class="text-4xl">{tot_wk}</Card.Title>
             </Card.Header>
             <Card.Content>
-                <div class="text-xs text-muted-foreground">+{perk}% from last week</div>
+                <!-- <div class="text-xs text-muted-foreground">+{perk}% from last week</div> -->
             </Card.Content>
             <Card.Footer>
-                <Progress value={history.length} aria-label="12% increase" />
+                <!-- <Progress value={tot_wk} aria-label="12% increase" /> -->
             </Card.Footer>
         </Card.Root>        
     </div>

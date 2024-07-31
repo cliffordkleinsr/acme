@@ -111,7 +111,7 @@
 
       <!-- Card -->
     {#each cardItems as item}       
-    <Card.Root class="{item.subtitles === 'Standard Business'? 'border-primary': ''} dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000">
+    <Card.Root class="{item.subtitles === 'Standard Business'? 'border-primary': ''} relative dark:shadow-lg hover:dark:shadow-orange-500/50 transition duration-1000 h-full">
         <Card.Header>
             {#if item.subtitles === 'Standard Business'}
                 <Button class="w-32 h-6 mx-auto" disabled>MOST POPULAR</Button>
@@ -162,7 +162,7 @@
                 {:else}
                     <Button 
                         variant="outline"
-                        class="w-full" 
+                        class=" absolute top-0 end-0 w-full" 
                         {href}
                     >
                         {Message}

@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { progressTable, surveyqnsTableV2 } from '$lib/server/schema';
-import { eq, sql } from 'drizzle-orm';
+import { asc, eq, sql } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { getpersistentIx } from '$lib/server/db_utils';
 
@@ -14,6 +14,7 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}}) => 
             .where(
                 eq(surveyqnsTableV2.surveid, params.surveyId)
             )
+            .orderBy(asc(surveyqnsTableV2.updatedAt))
     let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
     // first check whether we have a cookie for the indexed session
     if (current_ix === 0) {

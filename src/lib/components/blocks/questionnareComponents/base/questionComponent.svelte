@@ -7,7 +7,7 @@
     import { Input } from "$lib/components/ui/input"
     import CheckCheck from 'lucide-svelte/icons/check-check'
     import Target from 'lucide-svelte/icons/target'
-    import FolderOpen from "lucide-svelte/icons/folder-open";
+    import Webcam from "lucide-svelte/icons/webcam"
     import Star from 'lucide-svelte/icons/star'
     import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
     import * as Select from "$lib/components/ui/select"
@@ -108,7 +108,7 @@
 {#if isDesktop}
   <Dialog.Root bind:open >
     <Dialog.Trigger asChild let:builder data-intro="">
-        <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><FolderOpen class="size-4"/> Add an open ended question</Button>
+        <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><Webcam class="size-4"/> Add an open ended question</Button>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header class="space-y-3">
@@ -129,7 +129,7 @@
 {:else}
   <Drawer.Root bind:open>
     <Drawer.Trigger asChild let:builder>
-      <Button variant="outline" builders={[builder]} class="flex gap-2"><FolderOpen class="size-4"/> Add an open ended question</Button>
+      <Button variant="outline" builders={[builder]} class="flex gap-2"><Webcam class="size-4"/> Add an open ended question</Button>
     </Drawer.Trigger>
     <Drawer.Content>
       <Drawer.Header class="text-left space-y-3">
