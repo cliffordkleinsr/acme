@@ -17,7 +17,7 @@
   }
 </script>
 <h1 class="text-3xl text-center m-2 text-muted-foreground">Historical Entries</h1>
-<div class="grid lg:grid-cols-4 gap-4 m-3">
+<div class="grid lg:grid-cols-3 gap-4 m-3 w-full">
   {#if overview.length  > 0}
   {#each overview as view, ix}
     <Card.Root>

@@ -8,7 +8,7 @@
     export let payment_stat:boolean
     export let status:string
   </script>
-  {#if status !== "Closed"}
+  {#if status !== "Closed" && status !== "Live"}
   <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
       <Button

@@ -144,7 +144,7 @@
                     </span>
                   </Button>
                   <Tooltip.Content>
-                    <p>Writing survey questions</p>
+                    <p>Writing survey questions?</p>
                     <p>Click to learn the best practices when generating a survey</p>
                   </Tooltip.Content>
                 </Tooltip.Trigger>

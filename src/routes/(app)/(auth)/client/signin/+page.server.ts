@@ -46,7 +46,8 @@ export const actions: Actions = {
         const [existingUser] = await db
         .select({
             id: UsersTable.id,
-            password: UsersTable.password
+            password: UsersTable.password,
+            role : UsersTable.role
         })
         .from(UsersTable)
         .where(eq(UsersTable.email, email))
@@ -56,6 +57,9 @@ export const actions: Actions = {
             return setError(form, 'email', 'Email not registered')
         }
 
+        if (existingUser.role === "AGENT") {
+            return setError(form, 'email', 'User of this type is not allowed, please use the appropriate login form')
+        }
         // Verify the password
         const validPassword = await new Argon2id().verify(
             existingUser.password,

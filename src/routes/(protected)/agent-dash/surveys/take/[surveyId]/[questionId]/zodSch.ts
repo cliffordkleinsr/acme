@@ -3,8 +3,8 @@ import { z } from "zod";
 const questionZodSchema = z.object({
     answer: z
         .string({ required_error: 'Answer is required' })
-        .min(2, { message: 'Answer must have atleast 2 characters' })
-        .max(500, { message: 'Answer must have a maximum 500 characters'})
+        .min(5, { message: 'Please answer the question' })
+        .max(500, { message: 'Your answer is too long'})
 })
 const rateZodSchema = z.object({
     answer: z
@@ -13,22 +13,24 @@ const rateZodSchema = z.object({
 })
 const rankansZodSchema = z.object({
     id: z
-        .string({ required_error: 'id is required' })
-        .min(1, { message: 'id is required' }),
+        .coerce
+        .number()
+        .gte(1, { message: 'Please select all options for this question'})
+        .transform((val) => val.toString()),
     option: z
         .string({ required_error: 'Option is required' })
         .min(2, { message: 'Option must have atleast 2 characters' })
         .max(500, { message: 'Option must have a maximum 500 characters'}),
 })
-const optionalansZodSchema = z.object({
-    answer: z
+const checkboxansZodSchema = z.object({
+    id: z
         .string({ required_error: 'Answer is required' })
         .min(2, { message: 'Answer must have atleast 2 characters' })
         .max(500, { message: 'Answer must have a maximum 500 characters'}),
-    id: z
+    answer: z
         .string({ required_error: 'Answer is required' })
         .min(2, { message: 'Answer must have atleast 2 characters' })
         .max(500, { message: 'Answer must have a maximum 500 characters'})
 })
 
-export { questionZodSchema, rateZodSchema, rankansZodSchema, optionalansZodSchema }
+export { questionZodSchema, rateZodSchema, rankansZodSchema, checkboxansZodSchema }

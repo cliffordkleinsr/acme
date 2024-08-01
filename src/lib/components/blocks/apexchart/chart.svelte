@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	  import { cn } from '$lib/utils';
     import { onMount } from 'svelte';
     import type { HTMLAnchorAttributes } from "svelte/elements"
     export let options = {}; // Options for the chart

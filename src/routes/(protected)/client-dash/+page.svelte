@@ -28,7 +28,10 @@
            await import('intro.js/themes/introjs-dark.css')
         }
         setTimeout(()=> {
-            introJs().setOption("dontShowAgain", true).start();
+            introJs().setOptions({
+                "dontShowAgain": true,
+                "disableInteraction":true
+        }).start();
         }, 1500)
         
     })
@@ -63,7 +66,7 @@
         </Breadcrumb.Root>
     </div>
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
-        <Card.Root data-intro='Here you can create new surveys'>
+        <Card.Root data-intro='Create new surveys by clicking here'>
             <Card.Header>
                 <Card.Title><LineChart class="size-6 text-primary"/></Card.Title>
                 <Card.Description class="text-balance leading-relaxed">
@@ -75,7 +78,7 @@
             </Card.Footer>
         </Card.Root>
         <Card.Root
-            data-intro='Here you can see your total surveys'
+            data-intro='This displays your total surveys'
             class="max-w-lg"
             data-x-chunk-name="dashboard-05-chunk-1"
             data-x-chunk-description="A stats card showing this week's total sales in USD, the percentage difference from last week, and a progress bar."

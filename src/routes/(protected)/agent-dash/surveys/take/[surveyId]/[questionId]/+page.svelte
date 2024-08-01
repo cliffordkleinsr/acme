@@ -14,6 +14,7 @@
 	import Ranker from '$lib/components/blocks/questionnareComponents/rankingComponent/Ranker.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import type { ZodError } from 'zod';
     
     export let data: PageData;
     export let form
@@ -61,8 +62,8 @@
                 {/if}
             {/each}
             <RadioGroup.Input name="answer"/>
-            {#if form?.errors?.answer}
-                <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
+            {#if form?.warnings?.message}
+                <p class=" text-destructive text-sm">{form?.warnings?.message}</p>
             {/if}
         </RadioGroup.Root>
         <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
@@ -92,13 +93,13 @@
     <form action="?/addRankAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
         <Label for="question">{qns.question}</Label>
         <Ranker options={qns.options} />
-        {#if form?.errors?.answer}
-            <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
+        {#if form?.errors?.id}
+            <p class=" text-destructive text-sm">{form?.errors?.id[0]}</p>
         {/if}
         <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
     </form>
 {:else}
-    <form action="?/addOptAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
+    <form action="?/addCheckAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
         <Label for="question">{qns.question}</Label> 
         {#each qns.options as opt, i}
             {@const id = qns.optionid[i]}
@@ -124,9 +125,12 @@
                 </div>
             {/if}
         {/each}
-        {#if form?.errors?.answer}
-            <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
+        {#if form?.warnings?.message}
+            <p class=" text-destructive text-sm">{form?.warnings?.message}</p>
         {/if}
+        <!-- {#if form?.errors?.answer}
+            <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
+        {/if} -->
         <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>
     </form>
 {/if}

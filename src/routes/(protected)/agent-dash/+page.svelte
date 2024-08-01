@@ -8,7 +8,7 @@
 	import { Progress } from "$lib/components/ui/progress"
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb" 
 	import { onMount } from "svelte";
-	import Chart from "$lib/components/blocks/chart.svelte";
+	import Chart from "$lib/components/blocks/apexchart/chart.svelte";
 	import { browser } from "$app/environment";
 	import { adjustDivider } from "$lib/helperFunctions/helpers.js";
 	   // custom param message
@@ -20,7 +20,7 @@
     if (browser) {
         mwacher = localStorage.getItem('mode-watcher-mode')
     }
-    const { history, total_points, total_paid, total_payable} = data 
+    const { history, total_points, total_paid, total_payable, cumulative} = data 
     setTimeout(() => {
         visible = false
     }, 2000)
@@ -34,11 +34,7 @@
 
     let taken:any[] = []
     let count:any[] = []
-    let tot_wk:number = 0
-    let perk:number = 0
     if (history.length > 0) {
-        perk = history[history.length - 1].count
-        tot_wk = [history[0].week].length
         taken = history.map(item => formatter(item.week))
         count = history.map(item=> item.count)
     }
@@ -103,7 +99,7 @@
     <Pretoast message={msg} type="warning"/>
 </div>
 {/if}
-<div class="flex flex-col p-4 gap-10  mt-2">
+<div class="flex flex-col p-4 gap-10 mt-2">
     <div class="ml-5 pb-2">
         <Breadcrumb.Root>
             <Breadcrumb.List>
@@ -123,7 +119,7 @@
     </div>
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">  
         <Card.Root
-            class="max-w-lg"
+            class="max-w-xl"
         >
             <Card.Header class="pb-2 ">
                 <Card.Description class="flex gap-16">
@@ -131,7 +127,7 @@
                     <p>Total Points Paid</p>
                     <p>Total Points Payable</p>
                 </Card.Description>
-                <Card.Title class="text-4xl grid grid-cols-3 gap-20">
+                <Card.Title class="text-4xl grid grid-cols-3 gap-10">
                     <p>{total_points}</p> 
                     <p>{total_paid}</p>
                     <p>{total_payable}</p>
@@ -160,7 +156,7 @@
         >
             <Card.Header class="pb-2">
                 <Card.Description >Cumulative Surveys</Card.Description>
-                <Card.Title class="text-4xl">{tot_wk}</Card.Title>
+                <Card.Title class="text-4xl">{cumulative}</Card.Title>
             </Card.Header>
             <Card.Content>
                 <!-- <div class="text-xs text-muted-foreground">+{perk}% from last week</div> -->

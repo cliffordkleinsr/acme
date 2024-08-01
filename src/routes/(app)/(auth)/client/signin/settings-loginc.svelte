@@ -111,7 +111,7 @@
                 </div>
                 <div class="mt-4 text-center text-sm">
                     Don't have an account?
-                    <a href="/respondent/register" class="underline"> Register </a>
+                    <a href="/client/register" class="underline"> Register </a>
                 </div>
             </Card.Content>
         </Card.Root>

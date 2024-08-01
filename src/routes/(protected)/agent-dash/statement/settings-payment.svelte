@@ -56,7 +56,7 @@
 
 
 <form method="POST" class="m-4 w-full max-w-2xl mx-auto" use:enhance>
-    <Card.Root>
+    <Card.Root data-intro="Ensure the number you registered with is the correct number before proceeding with the checkout. You can change your number in the settings">
     <Card.Header>
         <Card.Title class="text-2xl">Checkout</Card.Title>
         <Card.Description class="text-md">Enter the amount you want to recieve.</Card.Description>
@@ -67,7 +67,7 @@
         <Form.Field {form} name="amount">
             <Form.Control let:attrs>
                 <Form.Label>Amount</Form.Label >
-                <div class="flex gap-2" data-intro="Ensure the number you registered with is the correct number before proceeding with the checkout. You can change your number in the settings">
+                <div class="flex gap-2">
                     <Input {...attrs} bind:value={$formData.amount} type="number" class="max-w-sm"/>
                     <p class="text-muted-foreground py-2">KES</p>
                     <img class="w-[72px] mx-auto" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png?20191120100524" alt="">

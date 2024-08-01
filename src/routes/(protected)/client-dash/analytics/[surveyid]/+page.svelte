@@ -4,7 +4,7 @@
     import * as Table from "$lib/components/ui/table"
     import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
     import { Progress } from "$lib/components/ui/progress"
-    import Chart from "$lib/components/blocks/chart.svelte"
+    import Chart from "$lib/components/blocks/apexchart/chart.svelte"
     import PieChart from "lucide-svelte/icons/pie-chart"
     import { Button } from "$lib/components/ui/button"
     import * as Dialog from "$lib/components/ui/dialog"
@@ -83,7 +83,6 @@
 </script>
 {#if answers.length > 0}
 {#if isDesktop}
-
   <div class="grid gap-4 m-2 w-full">
   {#each groupedAnswers as question}
   <Card.Root>
@@ -192,7 +191,6 @@
   {/each}
   </div>
 {/if}
-
 {:else}
-<p class="m-5 italic text-sm">These statistics will grow as more people answer your surveys</p>
+  <p class="m-5 italic text-sm">These statistics will grow as more people answer your surveys</p>
 {/if}

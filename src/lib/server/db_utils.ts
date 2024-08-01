@@ -359,6 +359,12 @@ export const setsurveyComplete = async (user:string, surveyid:string) => {
              ${agentSurveysTable.surveyid} = ${surveyid}`
         )
 }
+/**
+ * Sets the points after survey completion
+ * @param user 
+ * @param surveyid 
+ * @returns 
+ */
 export const updatesurveyPoints = async (user:string, surveyid:string) => {
     const [curr_pts] = await db
         .select({

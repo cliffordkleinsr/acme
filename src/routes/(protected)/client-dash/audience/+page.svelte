@@ -1,6 +1,8 @@
 <script lang="ts">
     import type {PageData} from './$types';
-	  import Chart from '$lib/components/blocks/chart.svelte';
+	  import Chart from '$lib/components/blocks/apexchart/chart.svelte';
+	import Datamaps from '$lib/components/blocks/datamaps/datamaps.svelte';
+	import { browser } from '$app/environment';
 
 
     export let data: PageData;
@@ -21,7 +23,27 @@
     const age_cnt = by_age.map(item => item.agent_cnt)
     const age_lbl = by_age.map(item => calculateAge(new Date(item.variable)))
 
-
+    let opts = {
+      projection: 'mercator', // big world map
+      // countries don't listed in dataset will be painted with this color
+      fills: { defaultFill: '#F5F5F5' },
+      data: {"KEN": { "fillColor": "#42a844", numberOfThings: by_cty.length}},
+      geographyConfig: {
+        highlightOnHover: false,
+        borderColor: '#DEDEDE',
+        highlightBorderWidth: 2,
+        highlightBorderColor: '#B7B7B7',
+        popupTemplate: function(geo: { properties: { name: any; }; }, data: { numberOfThings: any; }) {
+                // don't show tooltip if country don't present in dataset
+                if (!data) { return ; }
+                // tooltip content
+                return ['<div class="hoverinfo">',
+                    '<strong>', geo.properties.name, '</strong>',
+                    '<br>Total Respondents: <strong>', data.numberOfThings, '</strong>',
+                    '</div>'].join('');
+            }
+      }
+    }
     let pie_options = {
         series: loc_cnt ,
         chart: {
@@ -119,6 +141,10 @@
           }
         }]
         };
+        let isDesktop = true
+        if (browser) {
+          isDesktop = window.innerWidth >= 768
+        }
 </script>
 {#if by_sec.length > 0}
 <div class="flex flex-col gap-4 m-4">
@@ -128,9 +154,18 @@
     <p class="italic text-sm">These statistics will continue to grow as more people respond to you're surveys</p>
     <div class="md:flex gap-6 w-full space-x-4 ">
       <Chart class="md:shadow-md" options={pie_options} />
+      
       <Chart class="space-y-2 w-5/6 2xl:w-1/2" options={area_options} />
     </div>
-    <Chart class="shadow-md w-80 lg:w-96" options={radial} />
+    <div class="grid lg:grid-cols-2 gap-3 max-w-5xl">
+      <Chart class="shadow-md w-80 lg:w-96" options={radial} />
+      {#if isDesktop}
+      <div class="">
+        <h1 class="text-lg font-bold">Global Outreach</h1>
+        <Datamaps options={opts}/>
+      </div>
+      {/if}
+    </div>
 </div>
 {:else}
 <p class="m-5 italic text-sm">These statistics will grow as more people answer your surveys</p>

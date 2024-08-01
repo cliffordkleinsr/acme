@@ -20,7 +20,8 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         count: sql<number>`COUNT(*)`
         })
         .from(AnswersTable)
-        .where(sql`${AnswersTable.agentId} = ${user.id}`)
+        .leftJoin(agentSurveysTable, sql`${AnswersTable.surveid} = ${agentSurveysTable.surveyid}`)
+        .where(sql`${AnswersTable.agentId} = ${user.id} and ${agentSurveysTable.survey_completed} = true`)
         .groupBy(sql`DATE_TRUNC('week', ${AnswersTable.updatedAt})`)
         .orderBy(sql`DATE_TRUNC('week', ${AnswersTable.updatedAt})`);
     const [tot_points] = await db
@@ -31,11 +32,18 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         })
         .from(agentData)
         .where(eq(agentData.agentid, user.id))
+    const cum_surveys = await db
+        .select({
+            id: agentSurveysTable.surveyid
+        })
+        .from(agentSurveysTable)
+        .where(sql`${agentSurveysTable.survey_completed} = true and ${agentSurveysTable.agentid} = ${user.id}`)
     return {
         history:dat,
         total_points: tot_points.pts,
         total_paid: tot_points.pds,
         total_payable: tot_points.pybl,
+        cumulative: cum_surveys.length,
         url: url.pathname, 
         AuthedUser: user.fullname,    
     }

@@ -43,15 +43,15 @@
       {label: "20 - 30", value: '20-30'},
       {label: "30 - 50", value: '30-50'},
       {label: "50 - 70", value: '50-70'},
-
+      {label: "All", value:'0-100'}
     ]
-    let target_age_group:string='20-30'
-    let selected_age_group = {label:'Select Age Group' , value:'20-30'}
+    let target_age_group:string='0-100'
+    let selected_age_group = {label:'Select Age Group' , value:'0-100'}
 
     let gender = [
       {label: "male", value: 'male'},
       {label: "female", value: 'female'},
-      {label: "Any", value: 'any'},
+      {label: "both", value: 'any'},
       {label: "Attack Helicopter", value: 'helicopter'},
     ]
     let target_gender:string='male'
@@ -61,18 +61,18 @@
     export let default_txt = 'Go Live'
   </script>
 
-  <div class=" grid lg:grid-cols-3 gap-3 space-x-2">
+<div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
   <div class="grid gap-2">
     <Popover.Root openFocus>
       <Popover.Trigger asChild let:builder>
-        <Button
-          variant="outline"
-          class={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !value && "text-muted-foreground"
-          )}
-          builders={[builder]}
-        >
+          <Button
+            variant="outline"
+            class={cn(
+              "w-full max-w-[280px] justify-start text-left font-normal",
+              !value && "text-muted-foreground"
+            )}
+            builders={[builder]}
+          >
           <CalendarIcon class="mr-2 h-4 w-4" />
           {#if value && value.start}
             {#if value.end}
@@ -103,11 +103,11 @@
   </div>
   {#if user === 'ADMIN'}
   <Select.Root
-  selected={selected_agents}
-  onSelectedChange={(v) => {
-    v && (target = v.value);
-  }}
->
+    selected={selected_agents}
+    onSelectedChange={(v) => {
+      v && (target = v.value);
+    }}
+  >
     <Select.Trigger>
       <Select.Value placeholder="Select Target Agents" />
     </Select.Trigger>
@@ -153,11 +153,11 @@
     </Select.Root>
   {/if}
   {#if user === 'ADMIN'}
-    <div class=""></div>
+    <div class="hidden lg:block"></div>
   {/if}
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild let:builder>
-      <Button builders={[builder]}><Flame class="size-4"/>{default_txt}</Button>
+      <Button builders={[builder]} class="w-full"><Flame class="size-4 mr-2"/>{default_txt}</Button>
     </AlertDialog.Trigger>
     <AlertDialog.Content>
       <AlertDialog.Header>

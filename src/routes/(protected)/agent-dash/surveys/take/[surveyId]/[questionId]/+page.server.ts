@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db';
-import { AnswersTable, surveyqnsTableV2 } from '$lib/server/schema';
-import { eq } from 'drizzle-orm';
+import { AnswersTable, progressTable, surveyqnsTableV2 } from '$lib/server/schema';
+import { asc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import { questionZodSchema, rateZodSchema, rankansZodSchema, optionalansZodSchema } from './zodSch'
-import { getpersistentIx, questionCount, getsurveyQuestions, insertprogressData, selectProgressData, setTarget, deleteProgressData, updateprogressData, setsurveyComplete } from '$lib/server/db_utils';
+import { questionZodSchema, rateZodSchema, rankansZodSchema, checkboxansZodSchema } from './zodSch'
+import { getpersistentIx, questionCount, getsurveyQuestions, insertprogressData, selectProgressData, setTarget, deleteProgressData, updateprogressData, setsurveyComplete, updatesurveyPoints } from '$lib/server/db_utils';
 import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
 import { ZodError } from 'zod';
 
@@ -15,10 +15,11 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}, url}
         redirect(302, handleLoginRedirect('/agent/signin', url))
         // redirect('/respondent/signin', {type: "error", message:"You Must Be logged In to view this page"}, cookies)
     }
+    // await db.delete(AnswersTable).where(eq(AnswersTable.surveid, params.surveyId))
     const surveyqns = await getsurveyQuestions(params.questionId)
     // for percentages
     const ids = await questionCount(params.surveyId)
-    
+    // await db.delete(progressTable).where(eq(progressTable.surveyid, "wncpwl3rf3h2zes"))
     let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
     if (current_ix === 0) {
         // check whether we have a persistent ix
@@ -41,13 +42,12 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}, url}
 
 export const actions: Actions = {
     defaultAns: async ({request, params, cookies, locals}) => {
-        const data = await request.formData()
-        // console.log(data)
-        let map: any[] = []
-        data.forEach(element => {
-            map = [...map, {answer: element} as {answer: string}]
+        const data = Object.fromEntries(await request.formData())
+        // let map: any[] = []
+        // data.forEach(element => {
+        //     map = [...map, {answer: element} as {answer: string}]
             
-        })
+        // })
         // console.log(map)
         const ids = await db
             .select({
@@ -57,24 +57,30 @@ export const actions: Actions = {
             .where(
                 eq(surveyqnsTableV2.surveid, params.surveyId)
             )
+            .orderBy(asc(surveyqnsTableV2.updatedAt))
         
         let current_ix = parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
             // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
-        try 
-        {
-            // validate
-            for (const element of map) {
-                const { answer } = questionZodSchema.parse(element);
-                await db.insert(AnswersTable).values({
-                    questionId: params.questionId,
-                    surveid: params.surveyId,
-                    answer: answer,
-                    agentId: locals.session?.userId as string
-                });
+        
+        if ( data.answer === 'undefined')
+            return fail(400,  {
+            warnings: {
+                message: "Please select an option"
             }
+        })
+        try 
+        {   
+            // validate
+            const { answer } = questionZodSchema.parse(data);
+            await db.insert(AnswersTable).values({
+                questionId: params.questionId,
+                surveid: params.surveyId,
+                answer: answer,
+                agentId: locals.session?.userId as string
+            });
             
             
 
@@ -116,13 +122,15 @@ export const actions: Actions = {
             await deleteProgressData(locals.user?.id!, params.surveyId)
              // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // update points
+            await updatesurveyPoints(locals.user?.id!, params.surveyId)
             // set the survey as complete
             await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
             redirect(303, '/agent-dash/surveys/complete');
         }
     },
-    addOptAns: async({request, cookies, params, locals}) => {
+    addCheckAns: async({request, cookies, params, locals}) => {
         const data = await request.formData()
         // console.log(data)
         let map:any[] = []
@@ -136,7 +144,6 @@ export const actions: Actions = {
             }
         })
         const filtered = map.filter(obj => obj.hasOwnProperty('answer'))
-
         const ids = await db
             .select({
                 id:surveyqnsTableV2.questionId
@@ -145,17 +152,26 @@ export const actions: Actions = {
             .where(
                 eq(surveyqnsTableV2.surveid, params.surveyId)
             )
+            .orderBy(asc(surveyqnsTableV2.updatedAt))
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
             // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
+        if (filtered.length === 0) {
+            return fail(400, {
+                warnings: {
+                    message: "Plese select something before proceeding"
+                }
+            })
+        }
+        
         try 
         {
             for (const insert of filtered) {
                 //validate
-                const { answer, id} = optionalansZodSchema.parse(insert)
+                const { answer, id} = checkboxansZodSchema.parse(insert)
                 await db
                 .insert(AnswersTable)
                 .values({
@@ -208,6 +224,8 @@ export const actions: Actions = {
             await deleteProgressData(locals.user?.id!, params.surveyId)
              // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // update points
+            await updatesurveyPoints(locals.user?.id!, params.surveyId)
             // set the survey as complete
             await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
@@ -230,6 +248,7 @@ export const actions: Actions = {
         })
 
         const filtered = map.filter(obj => obj.hasOwnProperty("option"))
+        // console.log(filtered)
         const ids = await db
             .select({
                 id:surveyqnsTableV2.questionId
@@ -238,16 +257,19 @@ export const actions: Actions = {
             .where(
                 eq(surveyqnsTableV2.surveid, params.surveyId)
             )
+            .orderBy(asc(surveyqnsTableV2.updatedAt))
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
             // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
+
         try 
         {
-            
+            // console.log(filtered)
             for (const insert of filtered) {
+                // console.log(insert)
                 //validate
                 const {id, option } = rankansZodSchema.parse(insert)
                 await db
@@ -300,6 +322,8 @@ export const actions: Actions = {
             await deleteProgressData(locals.user?.id!, params.surveyId)
              // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // update points
+            await updatesurveyPoints(locals.user?.id!, params.surveyId)
             // set the survey as complete
             await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect
@@ -307,12 +331,12 @@ export const actions: Actions = {
         }
     },
     addRatAns: async ({request, params, cookies, locals}) => {
-        const data = await request.formData()
-        let map: any[] = []
-        data.forEach(element => {
-            map = [...map, {answer: element} as {answer: string}]
+        const data = Object.fromEntries(await request.formData())
+        // let map: any[] = []
+        // data.forEach(element => {
+        //     map = [...map, {answer: element} as {answer: string}]
             
-        })
+        // })
         // console.log(map)
 
         const ids = await db
@@ -323,24 +347,29 @@ export const actions: Actions = {
             .where(
                 eq(surveyqnsTableV2.surveid, params.surveyId)
             )
+            .orderBy(asc(surveyqnsTableV2.updatedAt))
         
         let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
         if (current_ix === 0) {
             // check whether we have a persistent ix
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
+        if ( data.answer === 'undefined')
+            return fail(400,  {
+            warnings: {
+                message: "Please select an option"
+            }
+        })
         try 
         {
             // validate
-            for (const element of map) {
-                const { answer } = rateZodSchema.parse(element);
-                await db.insert(AnswersTable).values({
-                    questionId: params.questionId,
-                    surveid: params.surveyId,
-                    answer: answer,
-                    agentId: locals.session?.userId as string
-                });
-            }
+            const { answer } = rateZodSchema.parse(data);
+            await db.insert(AnswersTable).values({
+                questionId: params.questionId,
+                surveid: params.surveyId,
+                answer: answer,
+                agentId: locals.session?.userId as string
+            });
 
         } catch (err) 
         {
@@ -382,6 +411,8 @@ export const actions: Actions = {
             await deleteProgressData(locals.user?.id!, params.surveyId)
              // set the new target since this guy cant do the survey again
             await setTarget(params.surveyId)
+            // update points
+            await updatesurveyPoints(locals.user?.id!, params.surveyId)
             // set the survey as complete
             await setsurveyComplete(locals.user?.id!, params.surveyId)
             //then redirect

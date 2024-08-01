@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({locals:{user}}) => {
             id:SurveyTable.surveyid,
             title: SurveyTable.surveyTitle,
             at: sql<string>`to_char((${SurveyTable.createdAt}::timestamp at time zone 'UTC' at time zone ${timezone}), 'DD/MM/YYYY HH24:MI:SS')`,
-            tot_resp: sql<string[]>`ARRAY_AGG(${agentSurveysTable.agentid})`
+            tot_resp: sql<number>`COUNT(${agentSurveysTable.agentid})`
         })
         .from(SurveyTable)
         .leftJoin(agentSurveysTable, sql`${SurveyTable.surveyid} = ${agentSurveysTable.surveyid} and ${agentSurveysTable.survey_completed} = true`)

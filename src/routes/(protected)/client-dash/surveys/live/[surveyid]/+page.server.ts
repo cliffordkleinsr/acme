@@ -80,40 +80,40 @@ export const actions: Actions = {
             map = [...map, {...object, surveyid : params.surveyid, points : total_qns.length}]
         })
 
-        // try 
-        // {
-        //     await db.update(SurveyTable)
-        //     .set({
-        //         status: "Live",
-        //         from: starting,
-        //         to: ending,
-        //         target: parseInt(target),
-        //         target_age: target_age_group,
-        //         target_gender:target_gender,
-        //         updatedAt: new Date()
+        try 
+        {
+            await db.update(SurveyTable)
+            .set({
+                status: "Live",
+                from: starting,
+                to: ending,
+                target: parseInt(target),
+                target_age: target_age_group,
+                target_gender:target_gender,
+                updatedAt: new Date()
                 
-        //     })
-        //     .where(eq(SurveyTable.surveyid, params.surveyid))
+            })
+            .where(eq(SurveyTable.surveyid, params.surveyid))
 
-        //     await db.insert(agentSurveysTable).values(map)
+            await db.insert(agentSurveysTable).values(map)
             
-        // } catch (err) 
-        // {
-        //     if (err instanceof ZodError)
-        //     {
-        //         // Handle Zod validation errors
-        //         const { fieldErrors: errors } = err.flatten()
+        } catch (err) 
+        {
+            if (err instanceof ZodError)
+            {
+                // Handle Zod validation errors
+                const { fieldErrors: errors } = err.flatten()
 
-        //         return fail(400,{
-        //             errors
-        //         })
-        //     }
-        //     else 
-        //     {
-        //         console.error(err)
-        //     }
-        // }
+                return fail(400,{
+                    errors
+                })
+            }
+            else 
+            {
+                console.error(err)
+            }
+        }
 
-        // redirect(303, '/client-dash')
+        redirect(303, '/client-dash')
     }
 }
