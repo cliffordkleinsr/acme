@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { PageData } from './$types';
+  import type { ActionData, PageData } from './$types';
   import * as Card from "$lib/components/ui/card"
   import { Button } from "$lib/components/ui/button"
 	import Undo2 from 'lucide-svelte/icons/undo-2';
@@ -30,8 +30,9 @@
   // }
   
   export let data: PageData;
-  const { surveydata, surveyqns, features:{maxqns} } = data
+  export let form: ActionData
 
+  $: ( { surveydata, surveyqns, features:{maxqns} } = data)
   // let rankings:any = []
   // for (const { options } of surveyqns) {
   //   rankings = options.map(()=>0)
@@ -53,7 +54,7 @@
   // }
   // Existing in DB
 </script>
-<div class="m-4 overflow-y-auto">
+<div class="m-4 overflow-y-auto w-full">
   <div class="grid lg:grid-cols-3 gap-4">
     <!-- Survey Title and Description Card -->
     <div class="lg:col-span-2">
@@ -112,7 +113,7 @@
             <span class="font-bold">Warning</span> alert! You have exceeded the maximum available questions for your plan
           </div>
         {:else}
-          <QuestionComponent />
+          <QuestionComponent {form}/>
         {/if}
       </Card.Content>
     </Card.Root>

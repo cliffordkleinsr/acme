@@ -2,7 +2,7 @@
 	  import { browser } from "$app/environment";
     import * as Dialog from "$lib/components/ui/dialog"
     import * as Drawer from "$lib/components/ui/drawer"
-    import { Button } from "$lib/components/ui/button"
+    import { Button, buttonVariants } from "$lib/components/ui/button"
     import { Label } from "$lib/components/ui/label"
     import { Input } from "$lib/components/ui/input"
     import CheckCheck from 'lucide-svelte/icons/check-check'
@@ -12,7 +12,11 @@
     import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
     import * as Select from "$lib/components/ui/select"
     import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
+	import { applyAction, enhance } from "$app/forms";
+	import { toast } from "svelte-sonner";
+	import { goto, invalidateAll } from "$app/navigation";
 
+    export let form
     let isDesktop = true
     let open = false;
     let disabled = false
@@ -102,13 +106,14 @@
   const remOption2 = () => {
     rankers = rankers.slice(0, rankers.length-1)
   }
+  let singledialog = false
 </script>
 
 
 {#if isDesktop}
-  <Dialog.Root bind:open >
-    <Dialog.Trigger asChild let:builder data-intro="">
-        <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"><Webcam class="size-4"/> Add an open ended question</Button>
+  <Dialog.Root bind:open={singledialog} >
+    <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
+      <p class="text-xs">Add an open ended question</p>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header class="space-y-3">
@@ -117,11 +122,28 @@
             Enter Question (This question will have a single answer option)
         </Dialog.Description>
         </Dialog.Header>
-        <form action="?/addSingleQns" method="post" class="grid items-start gap-4">
+        <form action="?/addSingleQns" method="post" class="grid items-start gap-4" use:enhance={
+          ({ formElement, formData, action, cancel }) => {
+              return async ({ result, update }) => {
+                  console.log(result)
+                  if (result.type === "redirect") {
+                    singledialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+        }>
         <div class="grid gap-2">
             <Label for="question">Question</Label>
             <Input type="text" name="question"/>
         </div>
+        {#if form?.errors?.question}
+            <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
         <Button type="submit">Save changes</Button>
         </form>
     </Dialog.Content>

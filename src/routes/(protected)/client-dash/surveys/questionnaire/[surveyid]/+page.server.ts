@@ -1,12 +1,14 @@
 import { db } from '$lib/server/db'
-import { AnswersTable, QuestionOptions, SurveyTable, surveyqnsTableV2 } from '$lib/server/schema'
+import { AnswersTable, QuestionOptions, SurveyTable, UsersTable, agentData, agentSurveysTable, clientData, surveyqnsTableV2 } from '$lib/server/schema'
 import { eq, asc, sql } from 'drizzle-orm'
 import type { Actions, PageServerLoad } from './$types'
-import { addSurveyQuestionsv2 } from '$lib/server/db_utils'
-import { fail } from '@sveltejs/kit'
+import { addSurveyQuestionsv2, deleteAUser, deleteCUser } from '$lib/server/db_utils'
+import { fail, redirect } from '@sveltejs/kit'
 import { ZodError, z } from 'zod'
+import { toast } from 'svelte-sonner'
 
 export const load: PageServerLoad = async ({params, locals:{user}}) => {
+    // await deleteAUser("ka945bt74uo0zv7")
     const [data] = await db
     .select({
         title:SurveyTable.surveyTitle,
@@ -68,16 +70,23 @@ const editZodSchema = z.object({
     .min(2, { message: 'Answer must have atleast 2 characters' })
     .max(500, { message: 'Answer must have a maximum 500 characters'})
 })
+const singleZosSchema = z.object({
+    question: z
+    .string({ required_error: 'Answer is required' })
+    .min(10, { message: 'Please add a question' })
+    .max(500, { message: 'Your question is too long'}),
+})
 export const actions: Actions = {
     addSingleQns: async({request, params}) =>{
         type Entry = {
             question: string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
-        const { question } = data
+        
 
         try 
         {
+            const { question } = singleZosSchema.parse(data)
             await addSurveyQuestionsv2({
                 surveid: params.surveyid,
                 question: question,
@@ -89,8 +98,18 @@ export const actions: Actions = {
 
         } catch (err) 
         {
-            console.error(err)
+            if (err instanceof ZodError) 
+            {
+                const { fieldErrors: errors} = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            } else {
+               console.error(err) 
+            }
+            
         }
+        redirect(302, `/client-dash/surveys/questionnaire/${params.surveyid}`)
     },
 
     addMultiQns: async ({ request, params }) => {

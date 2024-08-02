@@ -108,6 +108,6 @@ export const actions: Actions = {
          if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
          }
-        throw redirect(303, '/agent-dash', {type: "success", message:"User Registration Successful"}, cookies)
+        throw redirect(303, '/agent/signin', {type: "success", message:"User Registration Successful"}, cookies)
     }
 };

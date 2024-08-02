@@ -29,6 +29,20 @@ import type { PgColumn, PgTable } from "drizzle-orm/pg-core"
 import { clientPackage } from "$lib/store"
 import type { RetryAfterRateLimiter } from "sveltekit-rate-limiter/server"
 
+
+export const deleteCUser = async (userid:string, surveyid:string) => {
+    await db.delete(surveyqnsTableV2).where(eq(surveyqnsTableV2.surveid, surveyid))
+    await db.delete(SurveyTable).where(eq(SurveyTable.clientid, userid))
+    await db.delete(clientData).where(eq(clientData.clientId, userid))
+    await db.delete(sessionsTable).where(eq(sessionsTable.userId, userid))
+    await db.delete(UsersTable).where(eq(UsersTable.id, userid))
+    
+}
+export const deleteAUser = async ( userid:string) => {
+    await db.delete(agentData).where(eq(agentData.agentid, userid))
+    await db.delete(sessionsTable).where(eq(sessionsTable.userId, userid))
+    await db.delete(UsersTable).where(eq(UsersTable.id, userid))
+}
 export const getCountAgents = async (variable: PgColumn, userId:string) => {
     const queryResult = await db
     .select({
