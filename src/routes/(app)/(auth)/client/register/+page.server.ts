@@ -125,7 +125,7 @@ export const actions: Actions = {
         if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
         }
-        redirect(303, '/client/signin', {type: "success", message:"User Registration Successful"}, cookies)
+        redirect(303, '/client-dash', {type: "success", message:"User Registration Successful"}, cookies)
         
     }
     

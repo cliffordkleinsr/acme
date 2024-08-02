@@ -136,7 +136,7 @@
           <div class="grid gap-2">
             <Form.Field {form} name="fullname">
               <Form.Control let:attrs>
-                <Form.Label>Fullname</Form.Label>
+                <Form.Label>Full Name</Form.Label>
                 <Input {...attrs} bind:value={$formData.fullname} />
               </Form.Control>
               <Form.FieldErrors />

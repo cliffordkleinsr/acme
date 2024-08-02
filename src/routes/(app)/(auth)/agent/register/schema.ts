@@ -21,7 +21,7 @@ export const registerRSchema = z.object({
         .min(10, { message: 'Phone number must be more equal to ten digits' }),
     gender: z
         .string({ required_error: 'Gender is required' })
-        .min(4, { message: 'Gender must be more equal to ten digits' }),
+        .min(4, { message: 'Please select a valid gender' }),
     dateofbirth: z
         .string()
         .refine((v) => v, { message: "A date of birth is required." }),

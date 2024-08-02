@@ -22,6 +22,7 @@
   import { onMount } from "svelte";
   import * as Tooltip from "$lib/components/ui/tooltip"
   import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
+	import Questiontype from '$lib/components/blocks/questionnareComponents/questiontype.svelte';
   // let arr = [1,2,3,4]
   // let disabl = [false,false,false,false] 
   // const setRank = (index: number, rank: number)=> {
@@ -53,116 +54,69 @@
   // Existing in DB
 </script>
 <div class="m-4">
-<div class="grid lg:grid-cols-3 gap-4">
-  <div class="lg:col-span-2 grid max-h-56 space-y-6">
-    <Card.Root>
+  <div class="grid lg:grid-cols-3 gap-4">
+    <!-- Survey Title and Description Card -->
+    <div class="lg:col-span-2">
+      <Card.Root class="h-full">
         <Card.Header>
-            <Card.Title class="">Title : {surveydata.title}</Card.Title>
+          <Card.Title>Title: {surveydata.title}</Card.Title>
         </Card.Header>
         <Card.Content>
-            <p><span class=" font-semibold ">Description:</span> {surveydata.desc}</p>
+          <p><span class="font-semibold">Description:</span> {surveydata.desc}</p>
         </Card.Content>
-        <Card.Footer class="lg:float-end">
-            <Button href="/client-dash/surveys/questionnaire" variant="outline"><Undo2 class="size-4"/> Back</Button>
+        <Card.Footer class="mt-auto float-end">
+          <Button href="/client-dash/surveys/questionnaire" variant="outline"><Undo2 class="size-4"/> Back</Button>
         </Card.Footer>
-    </Card.Root>         
-  </div>
-    <Card.Root>
+      </Card.Root>         
+    </div>
+
+    <!-- Types of Questions Card -->
+    <Card.Root class="lg:row-span-2">
       <Card.Header>
         <Card.Title>Types of Questions</Card.Title>
         <Card.Description>Description on the types of questions that can be generated</Card.Description>
       </Card.Header>
-      <Card.Content class="grid grid-cols-2 gap-4">
-        <div class="flex items-center gap-4">
-          <div class="bg-black rounded-md flex items-center justify-center aspect-square w-12">
-            <Webcam class="size-6 text-primary-foreground" />
-          </div>
-          <div class="grid gap-1">
-            <h4 class="font-semibold">Open-Ended</h4>
-            <p class="text-muted-foreground text-sm">Allows for free-form responses from the user.</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="bg-secondary rounded-md flex items-center justify-center aspect-square w-12">
-            <CheckCheck class="size-6 text-secondary-foreground" />
-          </div>
-          <div class="grid gap-1">
-            <h4 class="font-semibold">Multiple Selection</h4>
-            <p class="text-muted-foreground text-sm">Presents the user with a set of options to choose from.</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="bg-secondary rounded-md flex items-center justify-center aspect-square w-12">
-            <Target class="size-6 text-secondary-foreground" />
-          </div>
-          <div class="grid gap-1">
-            <h4 class="font-semibold">Single Selection</h4>
-            <p class="text-muted-foreground text-sm">Presents the user with a set of options where respondents can choose only one option.</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="bg-secondary rounded-md flex items-center justify-center aspect-square w-12">
-            <Star class="size-6 text-secondary-foreground" />
-          </div>
-          <div class="grid gap-1">
-            <h4 class="font-semibold">Rating</h4>
-            <p class="text-muted-foreground text-sm">A type of closed-ended question that asks respondents to evaluate something on a scale.</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="bg-secondary rounded-md flex items-center justify-center aspect-square w-12">
-            <SlidersHorizontal class="size-6 text-secondary-foreground" />
-          </div>
-          <div class="grid gap-1">
-            <h4 class="font-semibold">Likert</h4>
-            <p class="text-muted-foreground text-sm">Presents the user with a psychometric scale used to measure attitudes, opinions, or beliefs.</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="bg-secondary rounded-md flex items-center justify-center aspect-square w-12">
-            <BarChart4 class="size-6 text-secondary-foreground" />
-          </div>
-          <div class="grid gap-1">
-            <h4 class="font-semibold">Ranking</h4>
-            <p class="text-muted-foreground text-sm">Presents the user with a list of items where respondents can compare and order these items based on a specific criterion.</p>
-          </div>
-        </div>
+      <Card.Content class="grid sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
+        <!-- Question types content remains the same -->
+        <!-- ... -->
+         <Questiontype />
       </Card.Content>
     </Card.Root>
-    <!-- <img class="w-52" src="https://i.postimg.cc/QCtG9jMc/image.png" alt="s"> -->
-    <Card.Root class="col-span-1 grid lg:-my-48 lg:mb-20">
-        <Card.Header class="space-y-5">
-            <Card.Title class="">
-              <p>Survey Questionaire</p>
-              <Tooltip.Root>
-                <Tooltip.Trigger let:builder asChild>
-                  <Button builders={[builder]} variant="ghost" size="icon" class="relative float-end">
-                    <a href="/howto"><Lightbulb class="size-5 text-muted-foreground"/></a>
-                    <span class="flex absolute top-1 end-1 size-3 -mt-1.5 -me-1.5">
-                      <span class="animate-ping absolute inline-flex size-full rounded-full bg-orange-400 opacity-75 dark:bg-orange-600"></span>
-                      <span class="relative inline-flex rounded-full size-3 bg-orange-500"></span>
-                    </span>
-                  </Button>
-                  <Tooltip.Content>
-                    <p>Writing survey questions?</p>
-                    <p>Click to learn the best practices when generating a survey</p>
-                  </Tooltip.Content>
-                </Tooltip.Trigger>
-            </Tooltip.Root>
-            </Card.Title>
-            <Card.Description>Add questions and select the type of answer to be given. The Questions Format will be displayed below.</Card.Description>
-        </Card.Header>
-        <Card.Content class="grid lg:grid-cols-2 gap-3">
-          {#if surveyqns.length === maxqns}
-            <div class="bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert">
-              <span class="font-bold">Warning</span> alert! You have exceeded the maximum available questions for your plan
-            </div>
-          {:else}
-            <QuestionComponent />
-         {/if}
-        </Card.Content>
+
+    <!-- Survey Questionnaire Card -->
+    <Card.Root class="lg:col-span-2">
+      <Card.Header class="space-y-5">
+        <Card.Title class="flex justify-between items-center">
+          <p>Survey Questionnaire</p>
+          <Tooltip.Root>
+              <Tooltip.Trigger let:builder asChild>
+                <Button builders={[builder]} variant="ghost" size="icon" class="relative float-end">
+                  <a href="/howto"><Lightbulb class="size-5 text-muted-foreground"/></a>
+                  <span class="flex absolute top-1 end-1 size-3 -mt-1.5 -me-1.5">
+                    <span class="animate-ping absolute inline-flex size-full rounded-full bg-orange-400 opacity-75 dark:bg-orange-600"></span>
+                    <span class="relative inline-flex rounded-full size-3 bg-orange-500"></span>
+                  </span>
+                </Button>
+                <Tooltip.Content>
+                  <p>Writing survey questions?</p>
+                  <p>Click to learn the best practices when generating a survey</p>
+                </Tooltip.Content>
+              </Tooltip.Trigger>
+          </Tooltip.Root>
+        </Card.Title>
+        <Card.Description>Add questions and select the type of answer to be given. The Questions Format will be displayed below.</Card.Description>
+      </Card.Header>
+      <Card.Content class="grid lg:grid-cols-2 gap-3">
+        {#if surveyqns.length === maxqns}
+          <div class="bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert">
+            <span class="font-bold">Warning</span> alert! You have exceeded the maximum available questions for your plan
+          </div>
+        {:else}
+          <QuestionComponent />
+        {/if}
+      </Card.Content>
     </Card.Root>
-</div>
+  </div>
 <h1 class="text-center mt-10 text-xl font-medium pr-16 pb-6">Question List</h1>
 <div class="grid gap-3">
 {#each surveyqns as qns, id}

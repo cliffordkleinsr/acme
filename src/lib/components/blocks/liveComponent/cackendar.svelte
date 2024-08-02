@@ -46,22 +46,22 @@
       {label: "All", value:'0-100'}
     ]
     let target_age_group:string='0-100'
-    let selected_age_group = {label:'Select Age Group' , value:'0-100'}
+    let selected_age_group = {label:'Select Age' , value:'0-100'}
 
     let gender = [
-      {label: "male", value: 'male'},
-      {label: "female", value: 'female'},
-      {label: "both", value: 'any'},
+      {label: "Male", value: 'male'},
+      {label: "Female", value: 'female'},
+      {label: "Both", value: 'any'},
       {label: "Attack Helicopter", value: 'helicopter'},
     ]
     let target_gender:string='male'
-    let selected_gender = {label:'Select Prefered Gender Demographic', value:'male'}
+    let selected_gender = {label:'Select Gender', value:'male'}
     let startValue: DateValue | undefined = undefined;
 
     export let default_txt = 'Go Live'
   </script>
 
-<div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+<div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3">
   <div class="grid gap-2">
     <Popover.Root openFocus>
       <Popover.Trigger asChild let:builder>
@@ -164,7 +164,7 @@
         <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
         <AlertDialog.Description>
           This action cannot be undone. This will permanently mark your survey as live
-          and cannot be further edited.
+          and cannot be further edited. Kindly confirm you have added the correct daterange, gender and age for your survey before proceeding.
         </AlertDialog.Description>
       </AlertDialog.Header>
       <AlertDialog.Footer>
