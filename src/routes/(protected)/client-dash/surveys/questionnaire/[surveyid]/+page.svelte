@@ -53,7 +53,7 @@
   // }
   // Existing in DB
 </script>
-<div class="m-4 h-screen">
+<div class="m-4 overflow-y-auto">
   <div class="grid lg:grid-cols-3 gap-4">
     <!-- Survey Title and Description Card -->
     <div class="lg:col-span-2">
