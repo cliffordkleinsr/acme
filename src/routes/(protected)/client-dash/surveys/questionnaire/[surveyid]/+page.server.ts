@@ -6,6 +6,63 @@ import { addSurveyQuestionsv2, deleteAUser, deleteCUser } from '$lib/server/db_u
 import { fail, redirect } from '@sveltejs/kit'
 import { ZodError, z } from 'zod'
 import { toast } from 'svelte-sonner'
+import { items } from '$lib/helperFunctions/helpers'
+
+const checkZodSchema = z.object({
+    question: z
+        .string({ required_error: 'Question is required' })
+        .min(10, { message: 'Please add a question' })
+        .max(500, { message: 'Your question is too long'}),
+    option: z
+        .string({ required_error: 'Option is required' })
+        .min(2, { message: 'Option cannot be blank' })
+        .max(500, { message: 'Your option is too long'})
+        .array(),
+})
+const rankZodSchema = z.object({
+    question: z
+    .string({ required_error: 'Question is required' })
+    .min(10, { message: 'Please add a question' })
+    .max(500, { message: 'Your question is too long'}),
+    option: z
+        .string({ required_error: 'Option is required' })
+        .min(2, { message: 'Option cannot be blank' })
+        .max(500, { message: 'Your option is too long'})
+        .array()
+        .min(5, {
+            message: 'Ranking questions must have a minimum of 5 questions'
+        }),
+    })
+
+const editZodSchema = z.object({
+    option: z
+        .string({ required_error: 'Answer is required' })
+        .min(2, { message: 'Answer must have atleast 2 characters' })
+        .max(500, { message: 'Answer must have a maximum 500 characters'}),
+    id: z
+    .string({ required_error: 'Answer is required' })
+    .min(2, { message: 'Answer must have atleast 2 characters' })
+    .max(500, { message: 'Answer must have a maximum 500 characters'})
+})
+const singleZosSchema = z.object({
+    question: z
+        .string({ required_error: 'Question is required' })
+        .min(10, { message: 'Please add a question' })
+        .max(500, { message: 'Your question is too long'}),
+})
+
+const likertZosSchema = z.object({
+    question: z
+        .string({ required_error: 'Question is required' })
+        .min(10, { message: 'Please add a question' })
+        .max(500, { message: 'Your question is too long'}),
+    target: z
+        .string({ required_error: 'Question is required' })
+        .min(2, { message: 'Please add a question' })
+        .max(500, { message: 'Your question is too long'}),
+})
+
+
 
 export const load: PageServerLoad = async ({params, locals:{user}}) => {
     // await deleteAUser("ka945bt74uo0zv7")
@@ -53,36 +110,12 @@ export const load: PageServerLoad = async ({params, locals:{user}}) => {
     }
 }
 
-const multiZodSchema = z.object({
-    option: z
-        .string({ required_error: 'Answer is required' })
-        .min(2, { message: 'Answer must have atleast 2 characters' })
-        .max(500, { message: 'Answer must have a maximum 500 characters'})
-})
-
-const editZodSchema = z.object({
-    option: z
-        .string({ required_error: 'Answer is required' })
-        .min(2, { message: 'Answer must have atleast 2 characters' })
-        .max(500, { message: 'Answer must have a maximum 500 characters'}),
-    id: z
-    .string({ required_error: 'Answer is required' })
-    .min(2, { message: 'Answer must have atleast 2 characters' })
-    .max(500, { message: 'Answer must have a maximum 500 characters'})
-})
-const singleZosSchema = z.object({
-    question: z
-    .string({ required_error: 'Answer is required' })
-    .min(10, { message: 'Please add a question' })
-    .max(500, { message: 'Your question is too long'}),
-})
 export const actions: Actions = {
     addSingleQns: async({request, params}) =>{
         type Entry = {
             question: string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
-        
 
         try 
         {
@@ -91,10 +124,6 @@ export const actions: Actions = {
                 surveid: params.surveyid,
                 question: question,
             })
-            // await addSurveyQuestions({
-            //     surveid: params.surveyid,
-            //     question: question
-            // })
 
         } catch (err) 
         {
@@ -115,39 +144,30 @@ export const actions: Actions = {
     addMultiQns: async ({ request, params }) => {
 
         const data = await request.formData()
-        const qns = data.get("question")
-        const quid =  crypto.randomUUID()
-        // console.log(data)
-        let map: any[] = []
-
-        data.forEach((value, name) => {
-            if (name !== "question"){
-                map = [...map, { option: value} as {option: string}]
-            }
-        })
+        let uuid = crypto.randomUUID()
+        const construct = {
+            question: data.get("question"),
+            option: data.getAll("option")
+        }
 
         try {
             // Validate and insert the question once
-
+            
+            const { question, option } = checkZodSchema.parse(construct)
+            
+            const options = option.map(item => ({
+                questionId: uuid, option:item
+            }))
             await db.insert(surveyqnsTableV2).values({
-                questionId: quid,
+                questionId: uuid,
                 surveid: params.surveyid,
                 questionT: "Multiple",
-                question: qns as string
+                question: question
             })
 
             // Insert each unique option for the question
-            // const uniqueOptions = [...new Set(map.map(item => item.option))];
-            for (const insert of map) {
-                // Validate the option
-                const { option } = multiZodSchema.parse(insert);
+            await db.insert(QuestionOptions).values(options)
 
-                // Insert the option
-                await db.insert(QuestionOptions).values({
-                    questionId: quid,
-                    option: option
-                })
-            }
             
         } catch (err) {
              
@@ -160,82 +180,35 @@ export const actions: Actions = {
             else {
                 console.error(err)
             }
-        }
-
-        // type Entry = {
-        //     question: string
-        //     option_0: string 
-        //     option_1: string
-        //     option_2: string
-        //     option_3: string
-        //     option_4: string
-        //     option_5: string
-        //     option_6: string
-        // }
-        // const data = Object.fromEntries(await request.formData()) as Entry
-        // const {
-        //      question, option_0, option_1, option_2,
-        //      option_3, option_4, option_5, option_6,
-        //     } = data
-
-        
-        // try 
-        // {
-        //     await addSurveyQuestions({
-        //         surveid: params.surveyid,
-        //         question: question,
-        //         option1: option_0 === '' ? null : option_0,
-        //         option2: option_1 === '' ? null : option_1,
-        //         option3: option_2 === '' ? null : option_2,
-        //         option4: option_3 === '' ? null : option_3,
-        //         option5: option_4 === '' ? null : option_4,
-        //         option6: option_5 === '' ? null : option_5,
-        //         option7: option_6 === '' ? null : option_6,
-        //         questionT: "Multiple"
-        //     })
             
-        // } catch (err) 
-        // {
-        //     console.error(err)
-        // }
+        }
+        redirect(302, `/client-dash/surveys/questionnaire/${params.surveyid}`)
     },
 
     addOptQns: async ({request, params}) => {
         const data = await request.formData()
-        const qns = data.get('question')
-
+        const construct = {
+            question: data.get("question"),
+            option: data.getAll("option")
+        }
         const quid =  crypto.randomUUID()
-        // console.log(data)
-        let map: any[] = []
-
-        data.forEach((value, name) => {
-            if (name !== "question"){
-                map = [...map, { option: value} as {option: string}]
-            }
-        })
 
         try {
             // Validate and insert the question once
-
+            const { question, option } = checkZodSchema.parse(construct)
+            
+            const options = option.map(item => ({
+                questionId: quid, option:item
+            }))
             await db.insert(surveyqnsTableV2).values({
                 questionId: quid,
                 surveid: params.surveyid,
                 questionT: "Optional",
-                question: qns as string
+                question: question
             })
-
-            // Insert each unique option for the question
-            // const uniqueOptions = [...new Set(map.map(item => item.option))];
-            for (const insert of map) {
-                // Validate the option
-                const { option } = multiZodSchema.parse(insert);
-
-                // Insert the option
-                await db.insert(QuestionOptions).values({
-                    questionId: quid,
-                    option: option
-                })
-            }
+            // Insert the option
+            await db.insert(QuestionOptions).values(options)
+        
         } catch (err) {
 
             if (err instanceof ZodError) {
@@ -248,51 +221,17 @@ export const actions: Actions = {
                 console.error(err)
             }
         }
-        // type Entry = {
-        //     question: string
-        //     option_0: string 
-        //     option_1: string
-        //     option_2: string
-        //     option_3: string
-        //     option_4: string
-        //     option_5: string
-        //     option_6: string
-        // }
-        // const data = Object.fromEntries(await request.formData()) as Entry
-        // const {
-        //     question, option_0, option_1, option_2,
-        //     option_3, option_4, option_5, option_6,
-        //    } = data
-
-        // try 
-        //    {
-        //        await addSurveyQuestions({
-        //            surveid: params.surveyid,
-        //            question: question,
-        //            option1: option_0 === '' ? null : option_0,
-        //            option2: option_1 === '' ? null : option_1,
-        //            option3: option_2 === '' ? null : option_2,
-        //            option4: option_3 === '' ? null : option_3,
-        //            option5: option_4 === '' ? null : option_4,
-        //            option6: option_5 === '' ? null : option_5,
-        //            option7: option_6 === '' ? null : option_6,
-        //            questionT: "Optional"
-        //        })
-               
-        //    } catch (err) 
-        //    {
-        //        console.error(err)
-        //    }
+        redirect(302, `/client-dash/surveys/questionnaire/${params.surveyid}`)
     },
     addStarQns: async ({request, params}) => {
         type Entry = {
             question: string
         }
         const data = Object.fromEntries(await request.formData()) as Entry
-        const { question } = data
 
         try 
         {
+            const { question } = singleZosSchema.parse(data)
             await addSurveyQuestionsv2({
                 surveid: params.surveyid,
                 questionT: "Rating",
@@ -305,8 +244,17 @@ export const actions: Actions = {
 
         } catch (err) 
         {
-            console.error(err)
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
         }
+        redirect(302, `/client-dash/surveys/questionnaire/${params.surveyid}`)
     },
     addLikQns: async({request, params}) => {
         type Entry = {
@@ -315,10 +263,12 @@ export const actions: Actions = {
         }
         const data = Object.fromEntries(await request.formData()) as Entry
         // console.log(data)
-        const { question , target} = data
 
         try 
         {
+            const { question , target} = likertZosSchema.partial({
+                target: true
+            }).parse(data)
             await addSurveyQuestionsv2({
                 surveid: params.surveyid,
                 questionT: "Likert",
@@ -332,47 +282,6 @@ export const actions: Actions = {
 
         } catch (err) 
         {
-            console.error(err)
-        }
-    },
-    addRnkQns: async({request, params}) => {
-        const data = await request.formData()
-        const qns = data.get("question")
-        const quid =  crypto.randomUUID()
-        // console.log(data)
-        let map: any[] = []
-
-        data.forEach((value, name) => {
-            if (name !== "question"){
-                map = [...map, { option: value} as {option: string}]
-            }
-        })
-
-        try {
-            // Validate and insert the question once
-
-            await db.insert(surveyqnsTableV2).values({
-                questionId: quid,
-                surveid: params.surveyid,
-                questionT: "Ranking",
-                question: qns as string
-            })
-
-            // Insert each unique option for the question
-            // const uniqueOptions = [...new Set(map.map(item => item.option))];
-            for (const insert of map) {
-                // Validate the option
-                const { option } = multiZodSchema.parse(insert);
-
-                // Insert the option
-                await db.insert(QuestionOptions).values({
-                    questionId: quid,
-                    option: option
-                })
-            }
-            
-        } catch (err) {
-             
             if (err instanceof ZodError) {
                 const { fieldErrors: errors } = err.flatten()
                 return fail(400,{
@@ -383,20 +292,62 @@ export const actions: Actions = {
                 console.error(err)
             }
         }
+        redirect(302, `/client-dash/surveys/questionnaire/${params.surveyid}`)
+    },
+    addRnkQns: async({request, params}) => {
+        const data = await request.formData()
+        const construct = {
+            question: data.get("question"),
+            option: data.getAll("option")
+        }
+        const quid =  crypto.randomUUID()
+
+        try {
+            // Validate and insert the question once
+            const { question, option } = rankZodSchema.parse(construct)
+            
+            const options = option.map(item => ({
+                questionId: quid, option:item
+            }))
+            await db.insert(surveyqnsTableV2).values({
+                questionId: quid,
+                surveid: params.surveyid,
+                questionT: "Ranking",
+                question: question
+            })
+            // Insert the option
+            await db.insert(QuestionOptions).values(options)
+        
+        } catch (err) {
+
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors } = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
+        redirect(302, `/client-dash/surveys/questionnaire/${params.surveyid}`)
     },
     deleteSurvQns: async ({request}) => {
         type EntryId = {
-            questionId: string
+            questionId: string 
+            questionType:string
         }
         const data = Object.fromEntries(await request.formData()) as EntryId
 
-        const{ questionId } = data
+        const{ questionId, questionType} = data
 
         try 
         {   
-            await db.delete(AnswersTable).where(eq(AnswersTable.questionId, questionId))
+
+            await db.delete(QuestionOptions).where(eq(QuestionOptions.questionId, questionId))
             await db.delete(surveyqnsTableV2).where(eq(surveyqnsTableV2.questionId, questionId))
-            
+            await db.delete(surveyqnsTableV2).where(eq(surveyqnsTableV2.questionId, questionId))
+        
         } catch (err) 
         {
             console.error(err)

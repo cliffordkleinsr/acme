@@ -107,6 +107,11 @@
     rankers = rankers.slice(0, rankers.length-1)
   }
   let singledialog = false
+  let multidialog = false
+  let optidialog = false
+  let stardialog = false
+  let likertdialog = false
+  let rankdialog = false
 </script>
 
 
@@ -123,9 +128,8 @@
         </Dialog.Description>
         </Dialog.Header>
         <form action="?/addSingleQns" method="post" class="grid items-start gap-4" use:enhance={
-          ({ formElement, formData, action, cancel }) => {
+          () => {
               return async ({ result, update }) => {
-                  console.log(result)
                   if (result.type === "redirect") {
                     singledialog = false
                     await invalidateAll()
@@ -149,9 +153,11 @@
     </Dialog.Content>
   </Dialog.Root>
 {:else}
-  <Drawer.Root bind:open>
-    <Drawer.Trigger asChild let:builder>
-      <Button variant="outline" builders={[builder]} class="flex gap-2"><Webcam class="size-4"/> Add an open ended question</Button>
+  <Drawer.Root bind:open={singledialog}>
+    <Drawer.Trigger class={buttonVariants({ variant: "outline" })}>
+      <div class="flex gap-2">
+        <Webcam class="size-4"/> Add an open ended question
+      </div>
     </Drawer.Trigger>
     <Drawer.Content>
       <Drawer.Header class="text-left space-y-3">
@@ -160,11 +166,28 @@
           Enter Question (This question will have a single answer option)
         </Drawer.Description>
       </Drawer.Header>
-      <form action="?/addSingleQns" method="post" class="grid items-start gap-4 px-4">
+      <form action="?/addSingleQns" method="post" class="grid items-start gap-4 px-4"
+        use:enhance={
+          () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    singledialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+        }>
         <div class="grid gap-2">
           <Label for="question">Question</Label>
           <Input type="text" name="question"/>
         </div>
+        {#if form?.errors?.question}
+            <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
         <Button type="submit">Save changes</Button>
       </form>
       <Drawer.Footer class="pt-2">
@@ -176,9 +199,11 @@
   </Drawer.Root>
 {/if}
 {#if isDesktop}
-  <Dialog.Root>
-  <Dialog.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="text-xs flex gap-1"><CheckCheck class="size-4" />Add multiple selection question</Button>
+  <Dialog.Root bind:open={multidialog}>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
+    <div class="flex gap-2 text-xs">
+      <CheckCheck class="size-4" />Add multiple selection question
+    </div>
   </Dialog.Trigger>
   <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header class="space-y-3">
@@ -187,25 +212,47 @@
         Enter Question (This question can have multiple answers which can be ticked)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addMultiQns" method="post" class="grid items-start gap-4">
+    <form action="?/addMultiQns" method="post" class="grid items-start gap-4" use:enhance= {
+       () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    multidialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+    }>
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
         {#each values as v, i}
           <Label for="option">Enter Option</Label>
           <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
+      {#if form?.errors?.option}
+        <p class=" text-destructive text-sm">{form?.errors?.option}</p>
+      {/if}
       <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
       <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
+      
     </form>
   </Dialog.Content>
   </Dialog.Root>
 {:else}
-  <Drawer.Root>
-  <Drawer.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="flex gap-2"><CheckCheck class="size-4" /> Add a multiple selection question</Button>
+  <Drawer.Root bind:open={multidialog}>
+  <Drawer.Trigger class={buttonVariants({ variant: "outline" })}>
+    <div class="flex gap-2">
+      <CheckCheck class="size-4" />Add multiple selection question
+    </div>
   </Drawer.Trigger>
   <Drawer.Content>
     <Drawer.Header class="text-left space-y-3">
@@ -214,31 +261,53 @@
         Enter Question (This question can have multiple answers which can be ticked)
       </Drawer.Description>
     </Drawer.Header>
-    <form action="?/addMultiQns" method="post" class="grid items-start gap-4 px-4">
+    <form action="?/addMultiQns" method="post" class="grid items-start gap-4 px-4" 
+      use:enhance= {
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    multidialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+    }>
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
         {#each values as v, i}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option_{i}"/>
+          <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
+        {#if form?.errors?.option}
+          <p class="text-destructive text-sm">{form?.errors?.option}</p>
+        {/if}
       <Button variant="secondary" on:click={addOption}>Add Option</Button>
       <Button variant="secondary" on:click={remOption}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
     <Drawer.Footer class="pt-2">
-      <Drawer.Close asChild let:builder>
-        <Button variant="outline" builders={[builder]}>Cancel</Button>
+      <Drawer.Close class={buttonVariants({ variant: "outline" })}>
+        Cancel
       </Drawer.Close>
     </Drawer.Footer>
   </Drawer.Content>
   </Drawer.Root>
 {/if}
 {#if isDesktop}
-  <Dialog.Root>
-  <Dialog.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <Target class="size-4"/> Add a single selection question</Button>
+  <Dialog.Root bind:open={optidialog}>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
+    <div class="flex gap-2 text-xs">
+       <Target class="size-4"/> Add a single selection question
+    </div>
   </Dialog.Trigger>
   <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header class="space-y-3">
@@ -247,15 +316,36 @@
         Enter Question (This question will have one optional answer with multiple selections)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addOptQns" method="post" class="grid items-start gap-4">
+    <form action="?/addOptQns" method="post" class="grid items-start gap-4"
+      use:enhance={
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    optidialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-        {#each values as v, i}
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
+        {#each values as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option_{i}"/>
+          <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
+      {#if form?.errors?.option}
+        <p class="text-destructive text-sm">{form?.errors?.option}</p>
+      {/if}
       <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
       <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
@@ -263,9 +353,11 @@
   </Dialog.Content>
   </Dialog.Root>
 {:else}
-  <Drawer.Root>
-  <Drawer.Trigger asChild let:builder>
-    <Button variant="outline" builders={[builder]} class="flex gap-2"> <Target class="size-4"/> Add a single selection question</Button>
+  <Drawer.Root bind:open={optidialog}>
+  <Drawer.Trigger class={buttonVariants({ variant: "outline" })}>
+    <div class="flex gap-2">
+       <Target class="size-4"/> Add a single selection question
+    </div>
   </Drawer.Trigger>
   <Drawer.Content>
     <Drawer.Header class="text-left space-y-3">
@@ -274,15 +366,36 @@
         Enter Question (This question will have one optional answer with multiple selections)
       </Drawer.Description>
     </Drawer.Header>
-    <form action="?/addOptQns" method="post" class="grid items-start gap-4 px-4">
+    <form action="?/addOptQns" method="post" class="grid items-start gap-4 px-4"
+      use:enhance={
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    optidialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-        {#each values as v, i}
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
+        {#each values as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option_{i}"/>
+          <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
+      {#if form?.errors?.option}
+        <p class="text-destructive text-sm">{form?.errors?.option}</p>
+      {/if}
       <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
       <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
@@ -296,7 +409,7 @@
   </Drawer.Root>
 {/if}
 {#if isDesktop}
-  <Dialog.Root>
+  <Dialog.Root bind:open={stardialog}>
   <Dialog.Trigger asChild let:builder>
     <Button variant="outline" builders={[builder]} class="text-xs flex gap-2 text-center"><Star class="size-4"/> Add a rating question</Button>
   </Dialog.Trigger>
@@ -307,17 +420,35 @@
         Enter Question (This question will have 5 stars to choose from)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addStarQns" method="post" class="grid items-start gap-4">
+    <form action="?/addStarQns" method="post" class="grid items-start gap-4"
+      use:enhance={
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    stardialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
       </div>
+      {#if form?.errors?.question}
+        <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+      {/if}
       <Button type="submit">Save changes</Button>
     </form>
   </Dialog.Content>
   </Dialog.Root>
 {:else}
-  <Drawer.Root>
+  <Drawer.Root bind:open={stardialog}>
   <Drawer.Trigger asChild let:builder>
     <Button variant="outline" builders={[builder]} class="flex gap-2"> <Star class="size-4"/> Add rating question</Button>
   </Drawer.Trigger>
@@ -328,11 +459,29 @@
         Enter Question (This question will have 5 stars to choose from)
       </Drawer.Description>
     </Drawer.Header>
-    <form action="?/addStarQns" method="post" class="grid items-start gap-4 px-4">
+    <form action="?/addStarQns" method="post" class="grid items-start gap-4 px-4"
+      use:enhance={
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    stardialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
       </div>
+      {#if form?.errors?.question}
+        <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+      {/if}
       <Button type="submit">Save changes</Button>
     </form>
     <Drawer.Footer class="pt-2">
@@ -344,7 +493,7 @@
   </Drawer.Root>
 {/if}
 {#if isDesktop}
-  <Dialog.Root>
+  <Dialog.Root bind:open={likertdialog}>
   <Dialog.Trigger asChild let:builder>
     <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <SlidersHorizontal class="size-4"/> Add a likert question</Button>
   </Dialog.Trigger>
@@ -355,10 +504,28 @@
         Enter Question (This question will have one optinionative selection)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addLikQns" method="post" class="grid items-start gap-4">
+    <form action="?/addLikQns" method="post" class="grid items-start gap-4"
+      use:enhance={
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    likertdialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
         <Select.Root
             selected={selected_lks}
             onSelectedChange={(v) => {
@@ -381,7 +548,7 @@
   </Dialog.Content>
   </Dialog.Root>
 {:else}
-  <Drawer.Root>
+  <Drawer.Root bind:open={likertdialog}>
   <Drawer.Trigger asChild let:builder>
     <Button variant="outline" builders={[builder]} class="flex gap-2"> <SlidersHorizontal class="size-4"/> Add a likert question</Button>
   </Drawer.Trigger>
@@ -392,11 +559,28 @@
         Enter Question (This question will have one optinionative selection)
       </Drawer.Description>
     </Drawer.Header>
-    <form action="?/addLikQns" method="post" class="grid items-start gap-4 px-4">
+    <form action="?/addLikQns" method="post" class="grid items-start gap-4 px-4"
+      use:enhance={
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    likertdialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
         <Select.Root
             selected={selected_lks}
             onSelectedChange={(v) => {
@@ -425,7 +609,7 @@
   </Drawer.Root>
 {/if}
 {#if isDesktop}
-  <Dialog.Root>
+  <Dialog.Root bind:open={rankdialog}>
   <Dialog.Trigger asChild let:builder>
     <Button variant="outline" builders={[builder]} class="text-xs flex gap-2"> <BarChart4  class="size-4"/> Add a ranking question</Button>
   </Dialog.Trigger>
@@ -436,15 +620,36 @@
         Enter Question (This question will have a rank of 1 to 5)
       </Dialog.Description>
     </Dialog.Header>
-    <form action="?/addRnkQns" method="post" class="grid items-start gap-4">
+    <form action="?/addRnkQns" method="post" class="grid items-start gap-4"
+      use:enhance = {
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    rankdialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-        {#each rankers as v, i}
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
+        {#each rankers as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.opts} name="option_{i}"/>
+          <Input type="text" bind:value={v.opts} name="option"/>
         {/each}
       </div>
+      {#if form?.errors?.option}
+        <p class=" text-destructive text-sm">{form?.errors?.option}</p>
+      {/if}
       <Button variant="secondary" on:click={addOption2} bind:disabled={disabled_rank}>Add Option</Button>
       <Button variant="secondary" on:click={remOption2} bind:disabled={other_rank}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
@@ -452,7 +657,7 @@
   </Dialog.Content>
   </Dialog.Root>
 {:else}
-  <Drawer.Root>
+  <Drawer.Root bind:open={rankdialog}>
   <Drawer.Trigger asChild let:builder>
     <Button variant="outline" builders={[builder]} class="flex gap-2"> <BarChart4 class="size-4"/> Add a ranking question</Button>
   </Drawer.Trigger>
@@ -463,15 +668,36 @@
         Enter Question (This question will have a rank of 1 to 5)
       </Drawer.Description>
     </Drawer.Header>
-    <form action="?/addRnkQns" method="post" class="grid items-start gap-4 px-4">
+    <form action="?/addRnkQns" method="post" class="grid items-start gap-4 px-4"
+      use:enhance = {
+        () => {
+              return async ({ result, update }) => {
+                  if (result.type === "redirect") {
+                    rankdialog = false
+                    await invalidateAll()
+                    goto(result.location);      
+                  }
+                  else {
+                    await update();
+                  }
+              }
+          }
+      }
+    >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
         <Input type="text" name="question"/>
-        {#each rankers as v, i}
+        {#if form?.errors?.question}
+          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {/if}
+        {#each rankers as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.opts} name="option_{i}"/>
+          <Input type="text" bind:value={v.opts} name="option"/>
         {/each}
       </div>
+      {#if form?.errors?.option}
+        <p class=" text-destructive text-sm">{form?.errors?.option}</p>
+      {/if}
       <Button variant="secondary" on:click={addOption2} bind:disabled={disabled_rank}>Add Option</Button>
       <Button variant="secondary" on:click={remOption2} bind:disabled={other_rank}>Remove Option</Button>
       <Button type="submit">Save changes</Button>

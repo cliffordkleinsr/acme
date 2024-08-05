@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ActionData, PageData } from './$types';
   import * as Card from "$lib/components/ui/card"
-  import { Button } from "$lib/components/ui/button"
+  import { Button, buttonVariants } from "$lib/components/ui/button"
 	import Undo2 from 'lucide-svelte/icons/undo-2';
   import { Label } from "$lib/components/ui/label"
   import { Input } from "$lib/components/ui/input"
@@ -23,6 +23,8 @@
   import * as Tooltip from "$lib/components/ui/tooltip"
   import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
 	import Questiontype from '$lib/components/blocks/questionnareComponents/questiontype.svelte';
+	import { enhance } from '$app/forms';
+	import { invalidateAll, goto } from '$app/navigation';
   // let arr = [1,2,3,4]
   // let disabl = [false,false,false,false] 
   // const setRank = (index: number, rank: number)=> {
@@ -54,8 +56,7 @@
   // }
   // Existing in DB
 </script>
-<div class="m-4 overflow-y-auto w-full">
-  <div class="grid lg:grid-cols-3 gap-4">
+  <div class="grid lg:grid-cols-3 gap-4 max-w-7xl m-2">
     <!-- Survey Title and Description Card -->
     <div class="lg:col-span-2">
       <Card.Root class="h-full">
@@ -228,7 +229,7 @@
         {/each}
       </div>
       {:else}
-        <Input class="w-1/2 max-h-full" disabled/>
+        <Input class="lg:w-1/2 max-h-full" disabled/>
       {/if}
   </Card.Content>
   <Card.Footer class="float-end gap-10">
@@ -273,8 +274,8 @@
       </AlertDialog.Content>
     </AlertDialog.Root>
     <AlertDialog.Root>
-      <AlertDialog.Trigger asChild let:builder>
-        <Button builders={[builder]}>Delete</Button>
+      <AlertDialog.Trigger class={buttonVariants({ variant: "default" })}>
+        Delete
       </AlertDialog.Trigger>
       <AlertDialog.Content>
         <AlertDialog.Header>
@@ -286,9 +287,10 @@
         </AlertDialog.Header>
         <AlertDialog.Footer>
           <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-          <form action="?/deleteSurvQns" method="post">
+          <form action="?/deleteSurvQns" method="post" use:enhance>
             <Input type="text" value={qns.id} class="hidden" name="questionId"/>
-            <Form.Button>Continue</Form.Button>
+            <Input type="text" value={qns.question_type} class="hidden" name="questionType"/>
+            <Form.Button class="w-full">Continue</Form.Button>
           </form>
         </AlertDialog.Footer>
       </AlertDialog.Content>
@@ -296,5 +298,4 @@
   </Card.Footer>
 </Card.Root>
 {/each}
-</div>
 </div>
