@@ -24,7 +24,10 @@
   import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
 	import Questiontype from '$lib/components/blocks/questionnareComponents/questiontype.svelte';
 	import { enhance } from '$app/forms';
-	import { invalidateAll, goto } from '$app/navigation';
+	import * as Collapsible from "$lib/components/ui/collapsible"
+  import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down'
+  import { ScrollArea } from "$lib/components/ui/scroll-area/index.js"
+	import { cn } from '$lib/utils';
   // let arr = [1,2,3,4]
   // let disabl = [false,false,false,false] 
   // const setRank = (index: number, rank: number)=> {
@@ -79,8 +82,6 @@
         <Card.Description>Description on the types of questions that can be generated</Card.Description>
       </Card.Header>
       <Card.Content class="grid sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
-        <!-- Question types content remains the same -->
-        <!-- ... -->
          <Questiontype />
       </Card.Content>
     </Card.Root>
@@ -119,10 +120,10 @@
       </Card.Content>
     </Card.Root>
   </div>
-<h1 class="text-center mt-10 text-xl font-medium pr-16 pb-6">Question List</h1>
-<div class="grid gap-3">
+<h1 class="text-start m-5 text-xl font-medium">Question List</h1>
+<div class="grid gap-3 max-w-xl mx-5">
 {#each surveyqns as qns, id}
-<Card.Root class="lg:w-full auto-rows-auto">
+<Card.Root>
   <Card.Header>
     <Card.Description class="text-xs font-thin">
       {#if qns.question_type === "Optional"}
@@ -160,77 +161,95 @@
   </Card.Header>
   <Card.Content class="space-y-3">
     <h1 class="text-md">{qns.question}</h1>
-    {#if qns.question_type === "Optional"}
-          <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3">
-            {#each qns.options as option, id}
+    <Collapsible.Root>
+      <div class="flex gap-1">
+          <Collapsible.Trigger
+            class={cn(buttonVariants({ variant: "outline", size:"icon" }), "size-8")}
+          >
+          <ChevronsUpDown class="size-4" /> 
+          </Collapsible.Trigger>
+          <h1 class="text-sm mx-1 my-1 text-muted-foreground">Options</h1>
+          
+      </div>
+      <Collapsible.Content class="my-2">
+      {#if qns.question_type === "Optional"}
+            <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3">
+              {#each qns.options as option, id}
+                {#if option != null}
+                  <div class="flex items-center space-x-2">
+                    <RadioGroup.Item value="{option}" disabled/>
+                    <Label for={option} class="text-muted-foreground">{option}</Label>
+                  </div>
+                  {/if}
+              {/each}
+            </RadioGroup.Root>
+        {:else if qns.question_type === "Multiple"}
+          <div class="grid grid-cols-2 2xl:grid-cols-3 gap-2">
+          {#each qns.options as option, id}
               {#if option != null}
-                <div class="flex items-center space-x-2">
-                  <RadioGroup.Item value="{option}" disabled/>
-                  <Label for={option} class="text-muted-foreground">{option}</Label>
-                </div>
+              <div class="flex gap-2">
+              <Checkbox disabled/>
+                <Label
+                  for="option1"
+                  class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
+                >
+                  {option}
+                </Label>
+              </div>
                 {/if}
-            {/each}
+          {/each}
+        </div>
+        {:else if qns.question_type === "Rating"}
+          <StarComponent/>
+        {:else if qns.question_type === "Likert"}
+          <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3 space-y-1">
+            <LikertComponent  likert_key={qns.likert_key} />
           </RadioGroup.Root>
-      {:else if qns.question_type === "Multiple"}
-        <div class="grid grid-cols-2 2xl:grid-cols-3 gap-2">
-        {#each qns.options as option, id}
-            {#if option != null}
-            <div class="flex gap-2">
-            <Checkbox disabled/>
-              <Label
-                for="option1"
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
-              >
-                {option}
-              </Label>
-            </div>
-              {/if}
-        {/each}
-      </div>
-      {:else if qns.question_type === "Rating"}
-        <StarComponent/>
-      {:else if qns.question_type === "Likert"}
-        <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3 space-y-1">
-          <LikertComponent  likert_key={qns.likert_key} />
-        </RadioGroup.Root>
-      {:else if qns.question_type === "Ranking"}
-      <div class="grid gap-1">
-        {#each qns.options as option, id} 
-           <p class="text-muted-foreground">{option}</p> 
-           <div class="grid grid-cols-5 gap-1 max-w-lg">
-            {#each [1, 2, 3, 4, 5] as rank}
-            <div class="flex flex-col gap-2">
-              <Button
-                variant="secondary"
-                size="icon"
-                disabled
-              >
-                {rank}
-              </Button>
-              {#if rank === 1}
-              <p class="text-muted-foreground text-xs ml-2">High</p>
-              {:else if rank === 5}
-              <p class="text-muted-foreground text-xs ml-2">Low</p>
-              {/if}
-              
-              <!-- <Button
-               
-                variant="secondary"
-                size="icon"
-                class="{rankings[id] === rank?'bg-primary': 'bg-muted'}"
-                on:click={() => setRank(id, rank)}
-                disabled={rankings[id] !== rank && isRankDisabled(rank)}
-              >
-              {rank}
-            </Button> -->
-            </div>
-            {/each}
-            </div>
-        {/each}
-      </div>
-      {:else}
-        <Input class="lg:w-1/2 max-h-full" disabled/>
-      {/if}
+        {:else if qns.question_type === "Ranking"}
+          <ScrollArea
+              class="h-[180px] rounded-md border"
+              orientation="both"
+          >
+          <div class="grid gap-1">
+            {#each qns.options as option, id} 
+              <p class="text-muted-foreground">{option}</p> 
+              <div class="grid grid-cols-5 gap-1 max-w-lg">
+                {#each [1, 2, 3, 4, 5] as rank}
+                <div class="flex flex-col gap-2">
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    disabled
+                  >
+                    {rank}
+                  </Button>
+                  {#if rank === 1}
+                  <p class="text-muted-foreground text-xs ml-2">High</p>
+                  {:else if rank === 5}
+                  <p class="text-muted-foreground text-xs ml-2">Low</p>
+                  {/if}
+                  
+                  <!-- <Button
+                  
+                    variant="secondary"
+                    size="icon"
+                    class="{rankings[id] === rank?'bg-primary': 'bg-muted'}"
+                    on:click={() => setRank(id, rank)}
+                    disabled={rankings[id] !== rank && isRankDisabled(rank)}
+                  >
+                  {rank}
+                </Button> -->
+                </div>
+              {/each}
+              </div>
+          {/each}
+        </div>
+        </ScrollArea>
+        {:else}
+          <Input class="lg:w-1/2 max-h-full" disabled/>
+        {/if}
+      </Collapsible.Content>
+    </Collapsible.Root>
   </Card.Content>
   <Card.Footer class="float-end gap-10">
     <AlertDialog.Root>

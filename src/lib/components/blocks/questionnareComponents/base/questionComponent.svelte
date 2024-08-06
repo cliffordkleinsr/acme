@@ -12,18 +12,13 @@
     import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
     import * as Select from "$lib/components/ui/select"
     import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
-	import { applyAction, enhance } from "$app/forms";
-	import { toast } from "svelte-sonner";
-	import { goto, invalidateAll } from "$app/navigation";
+    import { applyAction, enhance } from "$app/forms";
+    import { toast } from "svelte-sonner";
+    import { goto, invalidateAll } from "$app/navigation";
+    import { options, rankers, multiples, multiplesDisabled, multiplesOther, optionsDisabled, optionsOther, rankersDisabled, rankersOther } from './state'
 
     export let form
     let isDesktop = true
-    let open = false;
-    let disabled = false
-    let other = true
-
-    let disabled_rank = false
-    let other_rank = true
     
     if (browser) {
       isDesktop = window.innerWidth >= 768
@@ -43,78 +38,15 @@
 
     let selected_lks = {label:'Select target likert scale' , value:'agreement'}
 
-    let values = [
-      {option: ''}
-    ]
-    let rankers = [
-      {opts: ''}
-    ]
-
-  // Blank Values
-  $: length = values.length
-  $: length_rank = rankers.length
-
-  // for Multiplechoice
-  $: switch (true) {
-    case length >= 7:
-      disabled = true
-      break;
-  
-    default:
-      disabled = false;
-      break;
-  }
-  $: switch (true) {
-    case length >= 1:
-      other = false
-      break;
-  
-    default:
-      other = true
-      break;
-  }
-
-  // for ranker
-  $: switch (true) {
-    case length_rank >= 5:
-      disabled_rank = true
-      break;
-  
-    default:
-      disabled_rank = false;
-      break;
-  }
-  $: switch (true) {
-    case length >= 1:
-      other_rank = false
-      break;
-  
-    default:
-      other_rank = true
-      break;
-  }
-  const addOption = () => {
-    values = [...values, {option: ''}]
-  }
-  const remOption = () => {
-      values = values.slice(0, values.length-1)
-  }
-
-  const addOption2 = () => {
-    rankers = [...rankers, {opts: ''}]
-  }
-  const remOption2 = () => {
-    rankers = rankers.slice(0, rankers.length-1)
-  }
-  let singledialog = false
-  let multidialog = false
-  let optidialog = false
-  let stardialog = false
-  let likertdialog = false
-  let rankdialog = false
+    let singledialog = false
+    let multidialog = false
+    let optidialog = false
+    let stardialog = false
+    let likertdialog = false
+    let rankdialog = false
 </script>
 
-
+<!-- Single Question -->
 {#if isDesktop}
   <Dialog.Root bind:open={singledialog} >
     <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
@@ -143,10 +75,10 @@
         }>
         <div class="grid gap-2">
             <Label for="question">Question</Label>
-            <Input type="text" name="question"/>
+            <Input type="text" name="single_question"/>
         </div>
-        {#if form?.errors?.question}
-            <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {#if form?.errors?.single_question}
+            <p class=" text-destructive text-sm">{form?.errors?.single_question}</p>
         {/if}
         <Button type="submit">Save changes</Button>
         </form>
@@ -183,10 +115,10 @@
         }>
         <div class="grid gap-2">
           <Label for="question">Question</Label>
-          <Input type="text" name="question"/>
+          <Input type="text" name="single_question"/>
         </div>
-        {#if form?.errors?.question}
-            <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        {#if form?.errors?.single_question}
+            <p class=" text-destructive text-sm">{form?.errors?.single_question}</p>
         {/if}
         <Button type="submit">Save changes</Button>
       </form>
@@ -198,6 +130,7 @@
     </Drawer.Content>
   </Drawer.Root>
 {/if}
+<!-- Multiple Selection -->
 {#if isDesktop}
   <Dialog.Root bind:open={multidialog}>
   <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
@@ -217,6 +150,7 @@
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     multidialog = false
+                    multiples.reset()
                     await invalidateAll()
                     goto(result.location);      
                   }
@@ -232,7 +166,7 @@
         {#if form?.errors?.question}
           <p class=" text-destructive text-sm">{form?.errors?.question}</p>
         {/if}
-        {#each values as v, i}
+        {#each $multiples as v}
           <Label for="option">Enter Option</Label>
           <Input type="text" bind:value={v.option} name="option"/>
         {/each}
@@ -240,8 +174,8 @@
       {#if form?.errors?.option}
         <p class=" text-destructive text-sm">{form?.errors?.option}</p>
       {/if}
-      <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-      <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
+      <Button variant="secondary" on:click={multiples.add} disabled={$multiplesDisabled}>Add Option</Button>
+      <Button variant="secondary" on:click={multiples.remove} disabled={$multiplesOther}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
       
     </form>
@@ -267,6 +201,7 @@
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     multidialog = false
+                    multiples.reset()
                     await invalidateAll()
                     goto(result.location);      
                   }
@@ -282,7 +217,7 @@
         {#if form?.errors?.question}
           <p class=" text-destructive text-sm">{form?.errors?.question}</p>
         {/if}
-        {#each values as v, i}
+        {#each $multiples as v}
           <Label for="option">Enter Option</Label>
           <Input type="text" bind:value={v.option} name="option"/>
         {/each}
@@ -290,8 +225,8 @@
         {#if form?.errors?.option}
           <p class="text-destructive text-sm">{form?.errors?.option}</p>
         {/if}
-      <Button variant="secondary" on:click={addOption}>Add Option</Button>
-      <Button variant="secondary" on:click={remOption}>Remove Option</Button>
+      <Button variant="secondary" on:click={multiples.add} disabled={$multiplesDisabled}>Add Option</Button>
+      <Button variant="secondary" on:click={multiples.remove} disabled={$multiplesOther}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
     <Drawer.Footer class="pt-2">
@@ -302,6 +237,7 @@
   </Drawer.Content>
   </Drawer.Root>
 {/if}
+<!-- single selection -->
 {#if isDesktop}
   <Dialog.Root bind:open={optidialog}>
   <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
@@ -322,6 +258,7 @@
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     optidialog = false
+                    options.reset()
                     await invalidateAll()
                     goto(result.location);      
                   }
@@ -334,20 +271,20 @@
     >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
-        <Input type="text" name="question"/>
-        {#if form?.errors?.question}
-          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        <Input type="text" name="radio_question"/>
+        {#if form?.errors?.radio_question}
+          <p class=" text-destructive text-sm">{form?.errors?.radio_question}</p>
         {/if}
-        {#each values as v}
+        {#each $options as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option"/>
+          <Input type="text" bind:value={v.option} name="radio_option"/>
         {/each}
       </div>
-      {#if form?.errors?.option}
-        <p class="text-destructive text-sm">{form?.errors?.option}</p>
+      {#if form?.errors?.radio_option}
+        <p class="text-destructive text-sm">{form?.errors?.radio_option}</p>
       {/if}
-      <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-      <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
+      <Button variant="secondary" on:click={options.add} disabled={$optionsDisabled}>Add Option</Button>
+      <Button variant="secondary" on:click={options.remove} disabled={$optionsOther}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
   </Dialog.Content>
@@ -372,6 +309,7 @@
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     optidialog = false
+                    options.reset()
                     await invalidateAll()
                     goto(result.location);      
                   }
@@ -384,20 +322,20 @@
     >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
-        <Input type="text" name="question"/>
-        {#if form?.errors?.question}
-          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        <Input type="text" name="radio_question"/>
+        {#if form?.errors?.radio_question}
+          <p class=" text-destructive text-sm">{form?.errors?.radio_question}</p>
         {/if}
-        {#each values as v}
+        {#each $options as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option"/>
+          <Input type="text" bind:value={v.option} name="radio_option"/>
         {/each}
       </div>
-      {#if form?.errors?.option}
-        <p class="text-destructive text-sm">{form?.errors?.option}</p>
+      {#if form?.errors?.radio_option}
+        <p class="text-destructive text-sm">{form?.errors?.radio_option}</p>
       {/if}
-      <Button variant="secondary" on:click={addOption} bind:disabled>Add Option</Button>
-      <Button variant="secondary" on:click={remOption} bind:disabled={other}>Remove Option</Button>
+      <Button variant="secondary" on:click={options.add} disabled={$optionsDisabled}>Add Option</Button>
+      <Button variant="secondary" on:click={options.remove} disabled={$optionsOther}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
     <Drawer.Footer class="pt-2">
@@ -408,6 +346,7 @@
   </Drawer.Content>
   </Drawer.Root>
 {/if}
+<!-- Rating -->
 {#if isDesktop}
   <Dialog.Root bind:open={stardialog}>
   <Dialog.Trigger asChild let:builder>
@@ -438,10 +377,10 @@
     >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
-        <Input type="text" name="question"/>
+        <Input type="text" name="rating_question"/>
       </div>
-      {#if form?.errors?.question}
-        <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+      {#if form?.errors?.rating_question}
+        <p class=" text-destructive text-sm">{form?.errors?.rating_question}</p>
       {/if}
       <Button type="submit">Save changes</Button>
     </form>
@@ -477,10 +416,10 @@
     >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
-        <Input type="text" name="question"/>
+        <Input type="text" name="rating_question"/>
       </div>
-      {#if form?.errors?.question}
-        <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+      {#if form?.errors?.rating_question}
+        <p class=" text-destructive text-sm">{form?.errors?.rating_question}</p>
       {/if}
       <Button type="submit">Save changes</Button>
     </form>
@@ -492,6 +431,7 @@
   </Drawer.Content>
   </Drawer.Root>
 {/if}
+<!-- Likert -->
 {#if isDesktop}
   <Dialog.Root bind:open={likertdialog}>
   <Dialog.Trigger asChild let:builder>
@@ -608,6 +548,7 @@
   </Drawer.Content>
   </Drawer.Root>
 {/if}
+<!-- Rankers -->
 {#if isDesktop}
   <Dialog.Root bind:open={rankdialog}>
   <Dialog.Trigger asChild let:builder>
@@ -626,6 +567,7 @@
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     rankdialog = false
+                    rankers.reset()
                     await invalidateAll()
                     goto(result.location);      
                   }
@@ -638,20 +580,20 @@
     >
       <div class="grid gap-2">
         <Label for="question">Question</Label>
-        <Input type="text" name="question"/>
-        {#if form?.errors?.question}
-          <p class=" text-destructive text-sm">{form?.errors?.question}</p>
+        <Input type="text" name="rnk_question"/>
+        {#if form?.errors?.rnk_question}
+          <p class=" text-destructive text-sm">{form?.errors?.rnk_question}</p>
         {/if}
-        {#each rankers as v}
+        {#each $rankers as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.opts} name="option"/>
+          <Input type="text" bind:value={v.option} name="rnk_option"/>
         {/each}
       </div>
-      {#if form?.errors?.option}
-        <p class=" text-destructive text-sm">{form?.errors?.option}</p>
+      {#if form?.errors?.rnk_option}
+        <p class=" text-destructive text-sm">{form?.errors?.rnk_option}</p>
       {/if}
-      <Button variant="secondary" on:click={addOption2} bind:disabled={disabled_rank}>Add Option</Button>
-      <Button variant="secondary" on:click={remOption2} bind:disabled={other_rank}>Remove Option</Button>
+      <Button variant="secondary" on:click={rankers.add} disabled={$rankersDisabled}>Add Option</Button>
+      <Button variant="secondary" on:click={rankers.remove} disabled={$optionsOther}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
   </Dialog.Content>
@@ -674,6 +616,7 @@
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     rankdialog = false
+                    rankers.reset()
                     await invalidateAll()
                     goto(result.location);      
                   }
@@ -690,16 +633,16 @@
         {#if form?.errors?.question}
           <p class=" text-destructive text-sm">{form?.errors?.question}</p>
         {/if}
-        {#each rankers as v}
+        {#each $rankers as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.opts} name="option"/>
+          <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
       {#if form?.errors?.option}
         <p class=" text-destructive text-sm">{form?.errors?.option}</p>
       {/if}
-      <Button variant="secondary" on:click={addOption2} bind:disabled={disabled_rank}>Add Option</Button>
-      <Button variant="secondary" on:click={remOption2} bind:disabled={other_rank}>Remove Option</Button>
+      <Button variant="secondary" on:click={rankers.add} disabled={$rankersDisabled}>Add Option</Button>
+      <Button variant="secondary" on:click={rankers.remove} disabled={$rankersOther}>Remove Option</Button>
       <Button type="submit">Save changes</Button>
     </form>
     <Drawer.Footer class="pt-2">

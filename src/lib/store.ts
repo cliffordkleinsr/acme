@@ -8,3 +8,4 @@ export const clientPackage = persisted('client_package', {
     price: '0',
     priceId:'None'
 })
+
