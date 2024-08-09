@@ -12,7 +12,9 @@
 	import { browser } from "$app/environment";
 	import { onMount } from "svelte";
 	import { applyAction, enhance } from "$app/forms";
-
+	import Footer from "$lib/components/blocks/frontendComponents/footer.svelte";
+    import ChevronLeft from 'lucide-svelte/icons/chevron-left'
+    import ChevronRight from 'lucide-svelte/icons/chevron-right'
     export let data
     let clicked = false
     const { recent_users, client_subs, count_survs, week } = data
@@ -113,6 +115,15 @@
             <Card.Content>
              <ClientOrders subscriptions={client_subs}/>
             </Card.Content>
+            <Card.Footer class="float-end gap-3">
+                <div class="text-muted-foreground text-xs">
+                    Showing <strong>1-5</strong> of <strong>{client_subs.length}</strong> Customers
+                    </div>
+                    <div class="flex gap-2 ">
+                       <Button class="" variant="secondary" size='icon'><ChevronLeft class="size-4"/></Button>
+                       <Button class="" variant="secondary" size='icon'><ChevronRight class="size-4"/></Button>
+                    </div>
+            </Card.Footer>
         </Card.Root>     
         <Card.Root
             data-x-chunk-name="dashboard-01-chunk-5"

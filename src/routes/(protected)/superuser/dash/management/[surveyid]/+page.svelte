@@ -41,7 +41,9 @@
                 <Card.Description>
                   Status: {surv_data.status}
                 </Card.Description>
-                <Button href="/client-dash/surveys/questionnaire" variant="outline"><Undo2 class="size-4"/> Back</Button>
+                <Card.Description>
+                  <Button class="float-end" href="/client-dash/surveys/questionnaire" variant="outline"><Undo2 class="size-4"/> Back</Button>
+                </Card.Description>
                 <Separator />
             </Card.Header>
             <Card.Content class="lg:flex gap-7 mr-9">
@@ -54,8 +56,13 @@
                 </div>
             </Card.Content>
             <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
-                <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>
-                <Cackender user={role} value={dates} default_txt={'Set as Live'}/>
+                {#if surv_data.status === 'Live'}
+                  <span></span>
+                {:else}
+                  <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>
+                  <Cackender user={role} value={dates} default_txt={'Set as Live'} age_act={true} gen_act={true}/>
+                {/if}
+                
             </Card.Footer>
             </Card.Root>
         </div>
@@ -109,6 +116,7 @@
               </RadioGroup.Root>
           {:else if qns.question_type === "Multiple"}
             <div class="grid grid-cols-2 2xl:grid-cols-3 gap-2">
+              <p class="text-muted-foreground text-xs">(Select all that apply)</p>
             {#each qns.options as option, id}
                 {#if option != null}
                 <div class="flex gap-2">
@@ -131,6 +139,7 @@
             </RadioGroup.Root>
           {:else if qns.question_type === "Ranking"}
           <div class="grid gap-1">
+            <p class="text-muted-foreground text-xs">(With 1 being the most important and 5 being the least important)</p>
             {#each qns.options as option, id} 
                <p class="text-muted-foreground">{option}</p> 
                <div class="grid grid-cols-5 gap-1 max-w-lg">

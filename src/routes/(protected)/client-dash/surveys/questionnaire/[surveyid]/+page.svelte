@@ -213,7 +213,8 @@
               >
               <div class="grid gap-1">
                 {#each qns.options as option, id} 
-                  <p class="text-muted-foreground">{option}</p> 
+                  <p class="text-muted-foreground">{option}</p>
+                  <p class="text-muted-foreground">(With 1 being the most important and 5 being the least important)</p> 
                   <div class="grid grid-cols-5 gap-1 max-w-lg">
                     {#each [1, 2, 3, 4, 5] as rank}
                     <div class="flex flex-col gap-2">

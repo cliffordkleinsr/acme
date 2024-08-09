@@ -213,7 +213,7 @@
                   <Select.Content side="bottom">
                     <ScrollArea class="h-[200px] lg:h-96">
                     {#each sectors as sector}
-                      <Select.Item value={sector.label} label={sector.label}></Select.Item>
+                      <Select.Item value={sector.value} label={sector.label}></Select.Item>
                     {/each}
                   </ScrollArea>
                   </Select.Content>

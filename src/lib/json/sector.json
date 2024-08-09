@@ -1,68 +1,91 @@
 [
-    {
-        "label": "Agriculture"
+    {   
+        "label": "Agriculture",
+        "value": "0001-Agriculture"
     },
     {
-        "label": "Automotive"
+        "label": "Automotive",
+        "value": "0002-Automotive"
     },
     {
-        "label": "Banking"
+        "label": "Banking",
+        "value": "0003-Banking"
     },
     {
-        "label": "Construction"
+        "label": "Banking",
+        "value": "0004-Construction"
     },
     {
-        "label": "Education"
+        "label": "Education",
+        "value": "0005-Education"
     },
     {
-        "label": "Energy"
+        "label": "Energy",
+        "value": "0006-Energy"
     },
     {
-        "label": "Entertainment"
+        "label": "Entertainment",
+        "value": "0007-Entertainment"
     },
     {
-        "label": "Fashion"
+        "label": "Banking",
+        "value": "0008-Fashion"
     },
     {
-        "label": "Finance"
+        "label": "Finance",
+        "value": "0009-Finance"
     },
     {
-        "label": "Food & Beverage"
+        "label": "Food & Beverage",
+        "value": "0010-Food & Beverage"
     },
     {
-        "label": "Healthcare"
+        "label": "Healthcare",
+        "value": "0011-Healthcare"
     },
     {
-        "label": "Hospitality"
+        "label": "Hospitality",
+        "value": "0012-Hospitality"
     },
     {
-        "label": "Information Technology"
+        "label": "Information Technology",
+        "value": "0013-Information Technology"
     },
     {
-        "label": "Manufacturing"
+        "label": "Manufacturing",
+        "value": "0014-Manufacturing"
     },
     {
-        "label": "Media"
+        "label": "Media",
+        "value": "0015-Media"
     },
     {
-        "label": "Real Estate"
+        "label": "Real Estate",
+        "value": "0016-Real Estate"
     },
     {
-        "label": "Retail"
+        "label": "Retail",
+        "value": "0017-Retail"
     },
     {
-        "label": "Telecommunications"
+        "label": "Telecommunications",
+        "value": "0018-Telecommunications"
     },
     {
-        "label": "Transportation"
+        "label": "Transportation",
+        "value": "0019-Transportation"
     },
     {
-        "label": "Travel"
+        "label": "Travel",
+        "value": "0020-Travel"
     },
     {
-        "label":"NGO"
+        "label": "Government",
+        "value": "0020-Government"
     },
     {
-        "label": "Government"
+        "label": "NGO's",
+        "value": "0020-NGOs"
     }
+    
 ]

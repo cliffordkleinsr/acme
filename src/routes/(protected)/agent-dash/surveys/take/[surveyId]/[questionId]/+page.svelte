@@ -95,6 +95,7 @@
 {:else if qns.question_type === "Ranking"}
     <form action="?/addRankAns" method="post" class="flex flex-col gap-5 m-5 lg:max-w-lg max-w-sm mx-auto mt-20">
         <Label for="question">{qns.question}</Label>
+        <p class="text-muted-foreground">(With 1 being the most important and 5 being the least important)</p>
         <Ranker options={qns.options} />
         {#if form?.errors?.id}
             <p class=" text-destructive text-sm">{form?.errors?.id[0]}</p>
