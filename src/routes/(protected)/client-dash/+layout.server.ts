@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { clientData, clientPackages, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
-import { checkDate, getpackageFeatures, retExpiryDate, setpackageExpired } from '$lib/server/db_utils';
+import { checkDate, deleteCUser, getpackageFeatures, retExpiryDate, setpackageExpired } from '$lib/server/db_utils';
 
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {

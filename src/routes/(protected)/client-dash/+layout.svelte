@@ -334,8 +334,6 @@
 </header>
 <!-- {#key data.url}
   <div 
-  in:fade={{delay:500, duration:300, easing:sineIn}}
-  out:fade={{duration:300, easing:sineOut}}
   > -->
   <slot />
   <!-- </div>
