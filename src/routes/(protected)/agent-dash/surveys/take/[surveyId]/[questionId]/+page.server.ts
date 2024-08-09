@@ -15,6 +15,7 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}, url}
         redirect(302, handleLoginRedirect('/agent/signin', url))
         // redirect('/respondent/signin', {type: "error", message:"You Must Be logged In to view this page"}, cookies)
     }
+    
     // await db.delete(AnswersTable).where(eq(AnswersTable.surveid, params.surveyId))
     const surveyqns = await getsurveyQuestions(params.questionId)
     // for percentages
@@ -65,7 +66,7 @@ export const actions: Actions = {
             current_ix  = await getpersistentIx(locals.user?.id!, params.surveyId)
         }
         
-        if ( data.answer === 'undefined')
+        if (data.answer === 'undefined')
             return fail(400,  {
             warnings: {
                 message: "Please select an option"
@@ -75,6 +76,7 @@ export const actions: Actions = {
         {   
             // validate
             const { answer } = questionZodSchema.parse(data);
+
             await db.insert(AnswersTable).values({
                 questionId: params.questionId,
                 surveid: params.surveyId,

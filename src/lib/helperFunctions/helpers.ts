@@ -171,6 +171,16 @@ likert_options.set('Importance', [
   {option: "Very unimportant"},
 ])
 
+likert_options.set('Likelihood', [
+  {option: "Very likely"},
+  {option: "Likely"},
+  {option: "Slightly likely"},
+  {option: "Neutral"},
+  {option: "Slightly unlikely"},
+  {option: "Unlikely"},
+  {option: "Very unlikely"},
+])
+
 // Depreceated
 const checkout = async (clientPack:Object) => {
   const data = await fetch("/create-payment-intent", {

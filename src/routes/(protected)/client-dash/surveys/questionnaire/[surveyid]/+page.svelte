@@ -59,7 +59,8 @@
   // }
   // Existing in DB
 </script>
-  <div class="grid lg:grid-cols-3 gap-4 max-w-7xl m-2">
+<div class="m-2 w-full max-w-7xl">
+  <div class="grid lg:grid-cols-3 gap-4">
     <!-- Survey Title and Description Card -->
     <div class="lg:col-span-2">
       <Card.Root class="h-full">
@@ -120,201 +121,202 @@
       </Card.Content>
     </Card.Root>
   </div>
-<h1 class="text-start m-5 text-xl font-medium">Question List</h1>
-<div class="grid gap-3 max-w-xl mx-5">
-{#each surveyqns as qns, id}
-<Card.Root>
-  <Card.Header>
-    <Card.Description class="text-xs font-thin">
-      {#if qns.question_type === "Optional"}
-      <div class="flex gap-2">
-        <p class=" font-semibold">{id+1}.</p>
-        <Target class="size-4"/>
-      </div>
-      {:else if qns.question_type === "Multiple"}
-      <div class="flex gap-2">
-        <p class=" font-semibold">{id+1}.</p>
-        <CheckCheck class="size-4" />
-      </div>
-      {:else if qns.question_type === "Rating"}
-      <div class="flex gap-2">
-        <p class=" font-semibold">{id+1}.</p>
-        <Star class="size-4" />
-      </div>
-      {:else if qns.question_type === "Likert"}
-      <div class="flex gap-2">
-        <p class=" font-semibold">{id+1}.</p>
-        <SlidersHorizontal class="size-4" />
-      </div>
-      {:else if qns.question_type === "Ranking"}
-      <div class="flex gap-2">
-        <p class=" font-semibold">{id+1}.</p>
-        <BarChart4 class="size-4" />
-      </div>
-      {:else}
-      <div class="flex gap-2">
-        <p class=" font-semibold">{id+1}.</p>
-        <Webcam class="size-4"/>
-      </div>
-      {/if}
-    </Card.Description>
-  </Card.Header>
-  <Card.Content class="space-y-3">
-    <h1 class="text-md">{qns.question}</h1>
-    <Collapsible.Root>
-      <div class="flex gap-1">
-          <Collapsible.Trigger
-            class={cn(buttonVariants({ variant: "outline", size:"icon" }), "size-8")}
-          >
-          <ChevronsUpDown class="size-4" /> 
-          </Collapsible.Trigger>
-          <h1 class="text-sm mx-1 my-1 text-muted-foreground">Options</h1>
-          
-      </div>
-      <Collapsible.Content class="my-2">
-      {#if qns.question_type === "Optional"}
-            <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3">
+  <h1 class="text-start m-5 text-xl font-medium">Question List</h1>
+  <div class="grid gap-3 max-w-xl mx-5">
+    {#each surveyqns as qns, id}
+    <Card.Root>
+      <Card.Header>
+        <Card.Description class="text-xs font-thin">
+          {#if qns.question_type === "Optional"}
+          <div class="flex gap-2">
+            <p class=" font-semibold">{id+1}.</p>
+            <Target class="size-4"/>
+          </div>
+          {:else if qns.question_type === "Multiple"}
+          <div class="flex gap-2">
+            <p class=" font-semibold">{id+1}.</p>
+            <CheckCheck class="size-4" />
+          </div>
+          {:else if qns.question_type === "Rating"}
+          <div class="flex gap-2">
+            <p class=" font-semibold">{id+1}.</p>
+            <Star class="size-4" />
+          </div>
+          {:else if qns.question_type === "Likert"}
+          <div class="flex gap-2">
+            <p class=" font-semibold">{id+1}.</p>
+            <SlidersHorizontal class="size-4" />
+          </div>
+          {:else if qns.question_type === "Ranking"}
+          <div class="flex gap-2">
+            <p class=" font-semibold">{id+1}.</p>
+            <BarChart4 class="size-4" />
+          </div>
+          {:else}
+          <div class="flex gap-2">
+            <p class=" font-semibold">{id+1}.</p>
+            <Webcam class="size-4"/>
+          </div>
+          {/if}
+        </Card.Description>
+      </Card.Header>
+      <Card.Content class="space-y-3">
+        <h1 class="text-md">{qns.question}</h1>
+        <Collapsible.Root>
+          <div class="flex gap-1">
+              <Collapsible.Trigger
+                class={cn(buttonVariants({ variant: "outline", size:"icon" }), "size-8")}
+              >
+              <ChevronsUpDown class="size-4" /> 
+              </Collapsible.Trigger>
+              <h1 class="text-sm mx-1 my-1 text-muted-foreground">Options</h1>
+              
+          </div>
+          <Collapsible.Content class="my-2">
+          {#if qns.question_type === "Optional"}
+                <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3">
+                  {#each qns.options as option, id}
+                    {#if option != null}
+                      <div class="flex items-center space-x-2">
+                        <RadioGroup.Item value="{option}" disabled/>
+                        <Label for={option} class="text-muted-foreground">{option}</Label>
+                      </div>
+                      {/if}
+                  {/each}
+                </RadioGroup.Root>
+            {:else if qns.question_type === "Multiple"}
+              <div class="grid grid-cols-2 2xl:grid-cols-3 gap-2">
               {#each qns.options as option, id}
-                {#if option != null}
-                  <div class="flex items-center space-x-2">
-                    <RadioGroup.Item value="{option}" disabled/>
-                    <Label for={option} class="text-muted-foreground">{option}</Label>
+                  {#if option != null}
+                  <div class="flex gap-2">
+                  <Checkbox disabled/>
+                    <Label
+                      for="option1"
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
+                    >
+                      {option}
+                    </Label>
                   </div>
-                  {/if}
+                    {/if}
               {/each}
-            </RadioGroup.Root>
-        {:else if qns.question_type === "Multiple"}
-          <div class="grid grid-cols-2 2xl:grid-cols-3 gap-2">
-          {#each qns.options as option, id}
-              {#if option != null}
-              <div class="flex gap-2">
-              <Checkbox disabled/>
-                <Label
-                  for="option1"
-                  class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-[3px]"
-                >
-                  {option}
-                </Label>
-              </div>
-                {/if}
-          {/each}
-        </div>
-        {:else if qns.question_type === "Rating"}
-          <StarComponent/>
-        {:else if qns.question_type === "Likert"}
-          <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3 space-y-1">
-            <LikertComponent  likert_key={qns.likert_key} />
-          </RadioGroup.Root>
-        {:else if qns.question_type === "Ranking"}
-          <ScrollArea
-              class="h-[180px] rounded-md border"
-              orientation="both"
-          >
-          <div class="grid gap-1">
-            {#each qns.options as option, id} 
-              <p class="text-muted-foreground">{option}</p> 
-              <div class="grid grid-cols-5 gap-1 max-w-lg">
-                {#each [1, 2, 3, 4, 5] as rank}
-                <div class="flex flex-col gap-2">
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    disabled
-                  >
-                    {rank}
-                  </Button>
-                  {#if rank === 1}
-                  <p class="text-muted-foreground text-xs ml-2">High</p>
-                  {:else if rank === 5}
-                  <p class="text-muted-foreground text-xs ml-2">Low</p>
-                  {/if}
-                  
-                  <!-- <Button
-                  
-                    variant="secondary"
-                    size="icon"
-                    class="{rankings[id] === rank?'bg-primary': 'bg-muted'}"
-                    on:click={() => setRank(id, rank)}
-                    disabled={rankings[id] !== rank && isRankDisabled(rank)}
-                  >
-                  {rank}
-                </Button> -->
-                </div>
+            </div>
+            {:else if qns.question_type === "Rating"}
+              <StarComponent/>
+            {:else if qns.question_type === "Likert"}
+              <RadioGroup.Root value="option-one" class="grid grid-cols-2 2xl:grid-cols-3 space-y-1">
+                <LikertComponent  likert_key={qns.likert_key} />
+              </RadioGroup.Root>
+            {:else if qns.question_type === "Ranking"}
+              <ScrollArea
+                  class="h-[180px] rounded-md border"
+                  orientation="both"
+              >
+              <div class="grid gap-1">
+                {#each qns.options as option, id} 
+                  <p class="text-muted-foreground">{option}</p> 
+                  <div class="grid grid-cols-5 gap-1 max-w-lg">
+                    {#each [1, 2, 3, 4, 5] as rank}
+                    <div class="flex flex-col gap-2">
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        disabled
+                      >
+                        {rank}
+                      </Button>
+                      {#if rank === 1}
+                      <p class="text-muted-foreground text-xs ml-2">High</p>
+                      {:else if rank === 5}
+                      <p class="text-muted-foreground text-xs ml-2">Low</p>
+                      {/if}
+                      
+                      <!-- <Button
+                      
+                        variant="secondary"
+                        size="icon"
+                        class="{rankings[id] === rank?'bg-primary': 'bg-muted'}"
+                        on:click={() => setRank(id, rank)}
+                        disabled={rankings[id] !== rank && isRankDisabled(rank)}
+                      >
+                      {rank}
+                    </Button> -->
+                    </div>
+                  {/each}
+                  </div>
               {/each}
-              </div>
-          {/each}
-        </div>
-        </ScrollArea>
-        {:else}
-          <Input class="lg:w-1/2 max-h-full" disabled/>
-        {/if}
-      </Collapsible.Content>
-    </Collapsible.Root>
-  </Card.Content>
-  <Card.Footer class="float-end gap-10">
-    <AlertDialog.Root>
-      <AlertDialog.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="outline">Edit </Button>
-      </AlertDialog.Trigger>
-      <AlertDialog.Content>
-        <AlertDialog.Header>
-          <AlertDialog.Title>Edit your Question</AlertDialog.Title>
-          <AlertDialog.Description>
-            This action will edit your survey.
-          </AlertDialog.Description>
-        </AlertDialog.Header>
-        <form action="?/editSurvQns" method="post">
-        <AlertDialog.Footer>
-          <div class="flex flex-col gap-2 w-full">
-            <Label>Question </Label>
-            <Input type="text" value={qns.question} name="question"/>
-            <Input type="text" value={qns.id} class="hidden" name="questionId"/>
-            {#if qns.question_type === "Optional" || qns.question_type ===  "Multiple"}
-              <Label>Options </Label>
-              {#each qns.options as option, i}
-              {@const id = qns.optionid[i]}
-                {#if option != null}
-                  <div class="flex gap-4">
-                  <Input type="text" value={option} name="option"/>
-                  <Input type="text" value={id} name="optionId" class="hidden"/>
-                <form action="?/deleteOpt" method="post">
-                  <Input type="text" value={id} name="optionId" class="hidden"/>
-                  <Button size="icon" variant="secondary" type="submit"><Trash2 class="size-4 text-destructive"/></Button>
-                </form>
-              </div>
-                {/if}
-              {/each}
+            </div>
+            </ScrollArea>
+            {:else}
+              <Input class="lg:w-1/2 max-h-full" disabled/>
             {/if}
-            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-          <Form.Button>Save</Form.Button>
-        </div>
-        </AlertDialog.Footer>
-      </form>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
-    <AlertDialog.Root>
-      <AlertDialog.Trigger class={buttonVariants({ variant: "default" })}>
-        Delete
-      </AlertDialog.Trigger>
-      <AlertDialog.Content>
-        <AlertDialog.Header>
-          <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
-          <AlertDialog.Description>
-            This action cannot be undone. This will permanently delete this question
-            and remove your data from our servers.
-          </AlertDialog.Description>
-        </AlertDialog.Header>
-        <AlertDialog.Footer>
-          <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-          <form action="?/deleteSurvQns" method="post" use:enhance>
-            <Input type="text" value={qns.id} class="hidden" name="questionId"/>
-            <Input type="text" value={qns.question_type} class="hidden" name="questionType"/>
-            <Form.Button class="w-full">Continue</Form.Button>
+          </Collapsible.Content>
+        </Collapsible.Root>
+      </Card.Content>
+      <Card.Footer class="float-end gap-10">
+        <AlertDialog.Root>
+          <AlertDialog.Trigger asChild let:builder>
+            <Button builders={[builder]} variant="outline">Edit </Button>
+          </AlertDialog.Trigger>
+          <AlertDialog.Content>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Edit your Question</AlertDialog.Title>
+              <AlertDialog.Description>
+                This action will edit your survey.
+              </AlertDialog.Description>
+            </AlertDialog.Header>
+            <form action="?/editSurvQns" method="post">
+            <AlertDialog.Footer>
+              <div class="flex flex-col gap-2 w-full">
+                <Label>Question </Label>
+                <Input type="text" value={qns.question} name="question"/>
+                <Input type="text" value={qns.id} class="hidden" name="questionId"/>
+                {#if qns.question_type === "Optional" || qns.question_type ===  "Multiple"}
+                  <Label>Options </Label>
+                  {#each qns.options as option, i}
+                  {@const id = qns.optionid[i]}
+                    {#if option != null}
+                      <div class="flex gap-4">
+                      <Input type="text" value={option} name="option"/>
+                      <Input type="text" value={id} name="optionId" class="hidden"/>
+                    <form action="?/deleteOpt" method="post">
+                      <Input type="text" value={id} name="optionId" class="hidden"/>
+                      <Button size="icon" variant="secondary" type="submit"><Trash2 class="size-4 text-destructive"/></Button>
+                    </form>
+                  </div>
+                    {/if}
+                  {/each}
+                {/if}
+                <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+              <Form.Button>Save</Form.Button>
+            </div>
+            </AlertDialog.Footer>
           </form>
-        </AlertDialog.Footer>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
-  </Card.Footer>
-</Card.Root>
-{/each}
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger class={buttonVariants({ variant: "default" })}>
+            Delete
+          </AlertDialog.Trigger>
+          <AlertDialog.Content>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+              <AlertDialog.Description>
+                This action cannot be undone. This will permanently delete this question
+                and remove your data from our servers.
+              </AlertDialog.Description>
+            </AlertDialog.Header>
+            <AlertDialog.Footer>
+              <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+              <form action="?/deleteSurvQns" method="post" use:enhance>
+                <Input type="text" value={qns.id} class="hidden" name="questionId"/>
+                <Input type="text" value={qns.question_type} class="hidden" name="questionType"/>
+                <Form.Button class="w-full">Continue</Form.Button>
+              </form>
+            </AlertDialog.Footer>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+      </Card.Footer>
+    </Card.Root>
+    {/each}
+  </div>
 </div>

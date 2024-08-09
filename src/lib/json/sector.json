@@ -1,62 +1,68 @@
 [
     {
-        "label": "0001-Agriculture"
+        "label": "Agriculture"
     },
     {
-        "label": "0002-Automotive"
+        "label": "Automotive"
     },
     {
-        "label": "0003-Banking"
+        "label": "Banking"
     },
     {
-        "label": "0004-Construction"
+        "label": "Construction"
     },
     {
-        "label": "0005-Education"
+        "label": "Education"
     },
     {
-        "label": "0006-Energy"
+        "label": "Energy"
     },
     {
-        "label": "0007-Entertainment"
+        "label": "Entertainment"
     },
     {
-        "label": "0008-Fashion"
+        "label": "Fashion"
     },
     {
-        "label": "0009-Finance"
+        "label": "Finance"
     },
     {
-        "label": "0010-Food & Beverage"
+        "label": "Food & Beverage"
     },
     {
-        "label": "0011-Healthcare"
+        "label": "Healthcare"
     },
     {
-        "label": "0012-Hospitality"
+        "label": "Hospitality"
     },
     {
-        "label": "0013-Information Technology"
+        "label": "Information Technology"
     },
     {
-        "label": "0014-Manufacturing"
+        "label": "Manufacturing"
     },
     {
-        "label": "0015-Media"
+        "label": "Media"
     },
     {
-        "label": "0016-Real Estate"
+        "label": "Real Estate"
     },
     {
-        "label": "0017-Retail"
+        "label": "Retail"
     },
     {
-        "label": "0018-Telecommunications"
+        "label": "Telecommunications"
     },
     {
-        "label": "0019-Transportation"
+        "label": "Transportation"
     },
     {
-        "label": "0020-Travel"
+        "label": "Travel"
+    },
+    {
+        "label":"NGO"
+    },
+    {
+        "label": "Government"
     }
 ]

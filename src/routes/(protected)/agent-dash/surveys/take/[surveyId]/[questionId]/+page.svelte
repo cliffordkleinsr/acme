@@ -74,8 +74,11 @@
         <RadioGroup.Root>
             <LikertComponent likert_key={qns.likert_key} disabled={false}/>
             <RadioGroup.Input name="answer"/>
-            {#if form?.errors?.answer}
+            <!-- {#if form?.errors?.answer}
                 <p class=" text-destructive text-sm">{form?.errors?.answer}</p>
+            {/if} -->
+            {#if form?.warnings?.message}
+                <p class=" text-destructive text-sm">{form?.warnings?.message}</p>
             {/if}
         </RadioGroup.Root>
         <Form.Button class="mt-16 gap-4" variant="outline"> <CheckCheck class="text-green-400" /> Submit</Form.Button>

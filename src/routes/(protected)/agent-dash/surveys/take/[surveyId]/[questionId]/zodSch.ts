@@ -3,7 +3,7 @@ import { z } from "zod";
 const questionZodSchema = z.object({
     answer: z
         .string({ required_error: 'Answer is required' })
-        .min(5, { message: 'Please answer the question' })
+        .min(2, { message: 'Please answer the question' })
         .max(500, { message: 'Your answer is too long'})
 })
 const rateZodSchema = z.object({
