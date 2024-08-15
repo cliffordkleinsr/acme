@@ -20,7 +20,7 @@
         validators: zodClient(signinRSchema),
     })
 
-    const { form: formData, enhance } = form
+    const { form: formData, enhance, delayed } = form
 
     // custom param message
     let msg: string
@@ -82,7 +82,14 @@
                             <Form.FieldErrors />
                         </Form.Field>
                     </div>
-                    <Form.Button>Login</Form.Button>
+                    {#if $delayed}
+                        <Button class='flex gap-2'>
+                            <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                            Loading...
+                        </Button>
+                    {:else}
+                        <Form.Button>Login</Form.Button>
+                    {/if}
                     <!-- <Button type="submit" class="w-full">t</Button> -->
                     <Button variant="outline" class="w-full">Sign up with Google</Button>
                 </div>

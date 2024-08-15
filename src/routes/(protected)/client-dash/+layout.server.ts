@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { clientData, clientPackages, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
-import { checkDate, deleteCUser, getpackageFeatures, retExpiryDate, setpackageExpired } from '$lib/server/db_utils';
+import { checkDate, deleteCUser, deleteSurvey, getpackageFeatures, retExpiryDate, setpackageExpired } from '$lib/server/db_utils';
 
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {
@@ -17,11 +17,13 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
     if (user.role === "AGENT") {
         redirect(302, handleLoginRedirect('/', url, "Not Authorised"))
     }
+    
     // get client feats
     const features = await getpackageFeatures(user.id)
     let msg = []
     // if they have a plan go a head and check if its expired
-    if (features.plan !== null) {
+    if(features) {
+       if (features.plan !== null) {
         const expiry_date = await retExpiryDate(user.id)
         const { expiry } = expiry_date
          // to disable plans that have expired
@@ -29,7 +31,9 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
             const expired = await setpackageExpired(user.id, expiry_date)
             msg.push(expired?.message)
         }
+    } 
     }
+    
     
     // notifs
     // to disable expired surveys
@@ -39,7 +43,7 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         to: SurveyTable.to,
     })
     .from(SurveyTable)
-    .where(eq(SurveyTable.status, "Live"))
+    .where(sql`${SurveyTable.status} = 'Live' and ${SurveyTable.clientid} = ${user.id}`)
 
     
     

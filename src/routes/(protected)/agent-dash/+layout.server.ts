@@ -4,6 +4,7 @@ import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { agentData, agentSurveysTable, AnswersTable, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
+import { deleteCUser } from '$lib/server/db_utils';
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {
     if (!user) {

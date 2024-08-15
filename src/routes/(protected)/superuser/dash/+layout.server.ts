@@ -4,6 +4,7 @@ import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
 import { clientData, SurveyTable } from '$lib/server/schema';
 import { sql } from 'drizzle-orm';
 import { db } from '$lib/server/db';
+import { deleteSurvey } from '$lib/server/db_utils';
 
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {
     if (!user) {

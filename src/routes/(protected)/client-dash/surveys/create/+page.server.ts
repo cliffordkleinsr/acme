@@ -50,7 +50,7 @@ export const actions: Actions = {
         
         // ensure not empty 
         if (surveyTitle === '') {
-            return fail(404, {message: 'Please fill in the Survey name!'})
+            return fail(404, {message: 'Please fill in the Survey Title!'})
         }
 
         // Ensure that we cant submit if we have no plans

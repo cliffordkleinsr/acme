@@ -12,10 +12,11 @@
     import SlidersHorizontal from 'lucide-svelte/icons/sliders-horizontal'
     import * as Select from "$lib/components/ui/select"
     import BarChart4 from 'lucide-svelte/icons/bar-chart-4'
-    import { applyAction, enhance } from "$app/forms";
+    import { enhance } from "$app/forms";
     import { toast } from "svelte-sonner";
     import { goto, invalidateAll } from "$app/navigation";
     import { options, rankers, multiples, multiplesDisabled, multiplesOther, optionsDisabled, optionsOther, rankersDisabled, rankersOther } from './state'
+    import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 
     export let form
     let isDesktop = true
@@ -44,13 +45,23 @@
     let stardialog = false
     let likertdialog = false
     let rankdialog = false
+    let sing_loading = false
+    let multi_loading = false
+    let opti_loading = false
+    let starloading = false
+    let likertloading = false
+    let rank_loading = false
+
+
 </script>
 
 <!-- Single Question -->
 {#if isDesktop}
   <Dialog.Root bind:open={singledialog} >
     <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-      <p class="text-xs">Add an open ended question</p>
+      <div class="flex gap-2 text-xs">
+        <Webcam class="size-4"/> Add an open ended question
+      </div>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header class="space-y-3">
@@ -61,13 +72,17 @@
         </Dialog.Header>
         <form action="?/addSingleQns" method="post" class="grid items-start gap-4" use:enhance={
           () => {
+              sing_loading =true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     singledialog = false
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    sing_loading =false
+                    toast.success("Created Successfully")      
                   }
                   else {
+                    sing_loading =false
                     await update();
                   }
               }
@@ -80,7 +95,16 @@
         {#if form?.errors?.single_question}
             <p class=" text-destructive text-sm">{form?.errors?.single_question}</p>
         {/if}
-        <Button type="submit">Save changes</Button>
+        <Button type='submit' class="max-w-sm" disabled={sing_loading}>
+          {#if sing_loading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+          {:else}
+          Save changes
+          {/if}
+      </Button>
         </form>
     </Dialog.Content>
   </Dialog.Root>
@@ -101,13 +125,17 @@
       <form action="?/addSingleQns" method="post" class="grid items-start gap-4 px-4"
         use:enhance={
           () => {
+              sing_loading =true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     singledialog = false
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    sing_loading =false
+                    toast.success("Created Successfully")      
                   }
                   else {
+                    sing_loading =false
                     await update();
                   }
               }
@@ -120,7 +148,16 @@
         {#if form?.errors?.single_question}
             <p class=" text-destructive text-sm">{form?.errors?.single_question}</p>
         {/if}
-        <Button type="submit">Save changes</Button>
+        <Button type='submit' class="max-w-sm" disabled={sing_loading}>
+          {#if sing_loading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+          {:else}
+          Save changes
+          {/if}
+      </Button>
       </form>
       <Drawer.Footer class="pt-2">
         <Drawer.Close asChild let:builder>
@@ -147,14 +184,18 @@
     </Dialog.Header>
     <form action="?/addMultiQns" method="post" class="grid items-start gap-4" use:enhance= {
        () => {
+              multi_loading = true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     multidialog = false
                     multiples.reset()
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    multi_loading = false
+                    toast.success("Created Successfully")          
                   }
                   else {
+                    multi_loading=false
                     await update();
                   }
               }
@@ -176,7 +217,16 @@
       {/if}
       <Button variant="secondary" on:click={multiples.add} disabled={$multiplesDisabled}>Add Option</Button>
       <Button variant="secondary" on:click={multiples.remove} disabled={$multiplesOther}>Remove Option</Button>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={multi_loading}>
+          {#if multi_loading}
+            <div class="flex gap-2">
+                <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                Loading...
+            </div>
+          {:else}
+            Save changes
+          {/if}
+      </Button>
       
     </form>
   </Dialog.Content>
@@ -198,14 +248,18 @@
     <form action="?/addMultiQns" method="post" class="grid items-start gap-4 px-4" 
       use:enhance= {
         () => {
+              multi_loading =true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     multidialog = false
                     multiples.reset()
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    multi_loading =false
+                    toast.success("Created Successfully")          
                   }
                   else {
+                    multi_loading=false
                     await update();
                   }
               }
@@ -219,7 +273,7 @@
         {/if}
         {#each $multiples as v}
           <Label for="option">Enter Option</Label>
-          <Input type="text" bind:value={v.option} name="option"/>
+            <Input type="text" bind:value={v.option} name="option"/>
         {/each}
       </div>
         {#if form?.errors?.option}
@@ -227,7 +281,16 @@
         {/if}
       <Button variant="secondary" on:click={multiples.add} disabled={$multiplesDisabled}>Add Option</Button>
       <Button variant="secondary" on:click={multiples.remove} disabled={$multiplesOther}>Remove Option</Button>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={multi_loading}>
+          {#if multi_loading}
+            <div class="flex gap-2">
+                <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                Loading...
+            </div>
+          {:else}
+            Save changes
+          {/if}
+      </Button>
     </form>
     <Drawer.Footer class="pt-2">
       <Drawer.Close class={buttonVariants({ variant: "outline" })}>
@@ -255,14 +318,18 @@
     <form action="?/addOptQns" method="post" class="grid items-start gap-4"
       use:enhance={
         () => {
+              opti_loading = true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     optidialog = false
                     options.reset()
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    opti_loading=false
+                    toast.success("Created Successfully")          
                   }
                   else {
+                    opti_loading=false
                     await update();
                   }
               }
@@ -285,7 +352,16 @@
       {/if}
       <Button variant="secondary" on:click={options.add} disabled={$optionsDisabled}>Add Option</Button>
       <Button variant="secondary" on:click={options.remove} disabled={$optionsOther}>Remove Option</Button>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={opti_loading}>
+        {#if opti_loading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
   </Dialog.Content>
   </Dialog.Root>
@@ -306,14 +382,18 @@
     <form action="?/addOptQns" method="post" class="grid items-start gap-4 px-4"
       use:enhance={
         () => {
+              opti_loading=true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     optidialog = false
                     options.reset()
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location); 
+                    opti_loading=false
+                    toast.success("Created Successfully")        
                   }
                   else {
+                    opti_loading =false
                     await update();
                   }
               }
@@ -336,7 +416,16 @@
       {/if}
       <Button variant="secondary" on:click={options.add} disabled={$optionsDisabled}>Add Option</Button>
       <Button variant="secondary" on:click={options.remove} disabled={$optionsOther}>Remove Option</Button>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={opti_loading}>
+        {#if opti_loading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
     <Drawer.Footer class="pt-2">
       <Drawer.Close asChild let:builder>
@@ -362,13 +451,17 @@
     <form action="?/addStarQns" method="post" class="grid items-start gap-4"
       use:enhance={
         () => {
+              starloading = true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     stardialog = false
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    starloading=false
+                    toast.success("Created Successfully")          
                   }
                   else {
+                    starloading=false
                     await update();
                   }
               }
@@ -382,7 +475,16 @@
       {#if form?.errors?.rating_question}
         <p class=" text-destructive text-sm">{form?.errors?.rating_question}</p>
       {/if}
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={starloading}>
+        {#if starloading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
   </Dialog.Content>
   </Dialog.Root>
@@ -401,13 +503,17 @@
     <form action="?/addStarQns" method="post" class="grid items-start gap-4 px-4"
       use:enhance={
         () => {
+              starloading= true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     stardialog = false
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    starloading=false
+                    toast.success("Created Successfully")      
                   }
                   else {
+                    starloading=false
                     await update();
                   }
               }
@@ -421,7 +527,16 @@
       {#if form?.errors?.rating_question}
         <p class=" text-destructive text-sm">{form?.errors?.rating_question}</p>
       {/if}
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={starloading}>
+        {#if starloading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
     <Drawer.Footer class="pt-2">
       <Drawer.Close asChild let:builder>
@@ -447,13 +562,17 @@
     <form action="?/addLikQns" method="post" class="grid items-start gap-4"
       use:enhance={
         () => {
+              likertloading =true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     likertdialog = false
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    likertloading=false 
+                    toast.success("Created Successfully")     
                   }
                   else {
+                    likertloading=false
                     await update();
                   }
               }
@@ -483,7 +602,16 @@
       </Select.Root>
         <Input value={target} name="target" class="hidden"/>
       </div>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={likertloading}>
+        {#if likertloading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
   </Dialog.Content>
   </Dialog.Root>
@@ -502,13 +630,17 @@
     <form action="?/addLikQns" method="post" class="grid items-start gap-4 px-4"
       use:enhance={
         () => {
+              likertloading=true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     likertdialog = false
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);  
+                    likertloading=false
+                    toast.success("Created Successfully")    
                   }
                   else {
+                    likertloading=false
                     await update();
                   }
               }
@@ -538,7 +670,16 @@
         </Select.Root>
         <Input value={target} name="target" class="hidden"/>
       </div>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={likertloading}>
+        {#if likertloading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
     <Drawer.Footer class="pt-2">
       <Drawer.Close asChild let:builder>
@@ -564,14 +705,18 @@
     <form action="?/addRnkQns" method="post" class="grid items-start gap-4"
       use:enhance = {
         () => {
+              rank_loading=true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     rankdialog = false
                     rankers.reset()
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    rank_loading=false 
+                    toast.success("Created Successfully")     
                   }
                   else {
+                    rank_loading=false
                     await update();
                   }
               }
@@ -594,7 +739,16 @@
       {/if}
       <Button variant="secondary" on:click={rankers.add} disabled={$rankersDisabled}>Add Option</Button>
       <Button variant="secondary" on:click={rankers.remove} disabled={$optionsOther}>Remove Option</Button>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={rank_loading}>
+        {#if rank_loading}
+          <div class="flex gap-2">
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </div>
+        {:else}
+          Save changes
+        {/if}
+    </Button>
     </form>
   </Dialog.Content>
   </Dialog.Root>
@@ -613,14 +767,18 @@
     <form action="?/addRnkQns" method="post" class="grid items-start gap-4 px-4"
       use:enhance = {
         () => {
+              rank_loading=true
               return async ({ result, update }) => {
                   if (result.type === "redirect") {
                     rankdialog = false
                     rankers.reset()
                     await invalidateAll()
-                    goto(result.location);      
+                    goto(result.location);
+                    rank_loading=false
+                    toast.success("Created Successfully")      
                   }
                   else {
+                    rank_loading=false
                     await update();
                   }
               }
@@ -643,7 +801,16 @@
       {/if}
       <Button variant="secondary" on:click={rankers.add} disabled={$rankersDisabled}>Add Option</Button>
       <Button variant="secondary" on:click={rankers.remove} disabled={$rankersOther}>Remove Option</Button>
-      <Button type="submit">Save changes</Button>
+      <Button type='submit' class="max-w-sm" disabled={rank_loading}>
+          {#if rank_loading}
+            <div class="flex gap-2">
+                <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                Loading...
+            </div>
+          {:else}
+            Save changes
+          {/if}
+      </Button>
     </form>
     <Drawer.Footer class="pt-2">
       <Drawer.Close asChild let:builder>

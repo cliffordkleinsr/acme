@@ -55,8 +55,6 @@ export const actions: Actions = {
                     ${UsersTable.age} between ${ages[0]} and ${ages[1]}
                     and
                     ${UsersTable.role} = 'AGENT'
-                
-
                 `
             )
         /**
@@ -87,7 +85,7 @@ export const actions: Actions = {
                 status: "Live",
                 from: starting,
                 to: ending,
-                target: parseInt(target),
+                target: parseInt(target),   
                 target_age: target_age_group,
                 target_gender:target_gender,
                 updatedAt: new Date()
@@ -114,6 +112,33 @@ export const actions: Actions = {
             }
         }
 
-        redirect(303, '/client-dash')
+        // redirect(303, '/client-dash')
+    },
+
+    shareLive: async({ request, params }) => {
+        const EntrySchema = z.object({
+            from: z.coerce.date(),
+            to: z.coerce.date()
+        })
+        const data = Object.fromEntries(await request.formData())
+        
+
+        try 
+        {
+            const { from, to } = EntrySchema.parse(data)
+            
+        } catch (err) 
+        {
+
+            if (err instanceof ZodError) {
+                const { fieldErrors: errors} = err.flatten()
+                return fail(400,{
+                    errors
+                })
+            }
+            else {
+                console.error(err)
+            }
+        }
     }
 }

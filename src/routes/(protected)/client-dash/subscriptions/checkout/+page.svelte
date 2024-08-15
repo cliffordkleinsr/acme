@@ -26,4 +26,4 @@
     })
 </script>
 
-<div id="checkout" class="m-10"></div>
+<div id="checkout" class="m-10 h-full w-full"></div>

@@ -42,7 +42,7 @@
         }
     })
 
-    const { form: formData, enhance, message } = form
+    const { form: formData, enhance, message, delayed } = form
 
     // custom param message
     let msg: string
@@ -105,8 +105,14 @@
                             <Form.FieldErrors />
                         </Form.Field>
                     </div>
-                    <Form.Button>Login</Form.Button>
-                    <!-- <Button type="submit" class="w-full">t</Button> -->
+                    {#if $delayed}
+                        <Button class='flex gap-2'>
+                            <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                            Loading...
+                        </Button>
+                    {:else}
+                        <Form.Button>Login</Form.Button>
+                    {/if}
                     <Button variant="outline" class="w-full">Sign up with Google</Button>
                 </div>
                 <div class="mt-4 text-center text-sm">

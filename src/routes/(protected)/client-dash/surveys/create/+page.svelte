@@ -6,16 +6,40 @@
 	import { enhance } from "$app/forms";
     import Clock from "$lib/components/blocks/clock.svelte"
 	import type { PageData } from "./$types.js";
+	import { goto } from "$app/navigation";
     export let form
     export let data: PageData
 
-
+    let loading = false
     const { surveys, features:{maxsurv} } = data
     // let threshold = maxsurv ?? 0
 </script>
 <div class="flex flex-col lg:m-16 gap-5 m-4 max-w-screen-lg">
     <h1 class="text-2xl ml-3">Create a new project</h1>
-    <form method="post"class="grid lg:grid-cols-3 gap-4" use:enhance>
+    <form method="post"class="grid lg:grid-cols-3 gap-4" use:enhance={
+        () => {
+            loading =true
+            return async ({ result, update }) => {
+                switch (true) {
+                    case result.type === 'failure':
+                        loading = false
+                        await update()
+                        break;
+                    case result.type === 'success':
+                        loading = true
+                        await update()
+                        break;
+                    case result.type === 'redirect':
+                        loading = true
+                        await update()
+                        break;
+                    default:
+                        break;
+                } 
+                
+            }
+        }}
+    >
         <Card.Root class="col-span-2">
             <Card.Header>
                 <Card.Title>Survey Details</Card.Title>
@@ -41,7 +65,16 @@
                             <span class="font-bold">Warning</span> alert! You have exceeded the maximum available surveys for your plan
                         </div>
                     {:else}
-                        <Form.Button class="max-w-sm">Submit</Form.Button>
+                        <Form.Button class="max-w-sm" disabled={loading}>
+                            {#if loading}
+                            <div class="flex gap-2">
+                                <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                                Loading...
+                            </div>
+                            {:else}
+                                Submit
+                            {/if}
+                        </Form.Button>
                     {/if}
                 </div>
             </Card.Content>

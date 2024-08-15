@@ -60,7 +60,7 @@
   // Existing in DB
 </script>
 <div class="m-2 w-full max-w-7xl">
-  <div class="grid lg:grid-cols-3 gap-4">
+  <div class="grid lg:grid-cols-3 gap-4 backdrop-blur">
     <!-- Survey Title and Description Card -->
     <div class="lg:col-span-2">
       <Card.Root class="h-full">
@@ -122,7 +122,7 @@
     </Card.Root>
   </div>
   <h1 class="text-start m-5 text-xl font-medium">Question List</h1>
-  <div class="grid gap-3 max-w-xl mx-5">
+  <div class="grid gap-3  mx-5">
     {#each surveyqns as qns, id}
     <Card.Root>
       <Card.Header>

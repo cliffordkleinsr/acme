@@ -8,7 +8,7 @@
       getLocalTimeZone
     } from "@internationalized/date";
     import { cn } from "$lib/utils.js";
-    import { Button } from "$lib/components/ui/button/index.js";
+    import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
     import { RangeCalendar } from "$lib/components/ui/range-calendar/index.js";
     import * as Popover from "$lib/components/ui/popover/index.js";
     import Flame from "lucide-svelte/icons/flame";
@@ -16,7 +16,11 @@
     import * as AlertDialog from "$lib/components/ui/alert-dialog"
 	  import Input from "../../ui/input/input.svelte";
     import * as Select from "$lib/components/ui/select"
-
+    import * as Collapsible from "$lib/components/ui/collapsible"
+    import Clipboard from 'lucide-svelte/icons/clipboard'
+    import Share2 from 'lucide-svelte/icons/share-2'
+    import { goto, invalidateAll } from '$app/navigation'
+	  import { toast } from "svelte-sonner";
 
     let today = new Date()
     let dd = today.getDate()
@@ -25,6 +29,7 @@
 
 
     export let user
+    export let form
     export let gen_act: boolean
     export let age_act: boolean
     export let target:number=10
@@ -49,16 +54,19 @@
     let selected_age_group = {label:'Select Age' , value:'0-100'}
 
     let gender = [
+      {label: "Both", value: 'any'},
       {label: "Male", value: 'male'},
       {label: "Female", value: 'female'},
-      {label: "Both", value: 'any'},
       {label: "Attack Helicopter", value: 'helicopter'},
     ]
-    let target_gender:string='male'
-    let selected_gender = {label:'Select Gender', value:'male'}
+    let target_gender:string='any'
+    let selected_gender = {label:'Select Gender', value:'any'}
     let startValue: DateValue | undefined = undefined;
 
     export let default_txt = 'Go Live'
+    let dialog = false
+    let loading = false
+    let sh_loading= false
   </script>
 
 <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3">
@@ -100,6 +108,9 @@
         />
       </Popover.Content>
     </Popover.Root>
+    {#if form?.error.from}
+      <p class="text-destructive">{form?.error.from}</p>
+    {/if}
   </div>
   {#if user === 'ADMIN'}
   <Select.Root
@@ -155,7 +166,7 @@
   {#if user === 'ADMIN'}
     <div class="hidden lg:block"></div>
   {/if}
-  <AlertDialog.Root>
+  <AlertDialog.Root bind:open={dialog}>
     <AlertDialog.Trigger asChild let:builder>
       <Button builders={[builder]} class="w-full"><Flame class="size-4 mr-2"/>{default_txt}</Button>
     </AlertDialog.Trigger>
@@ -169,13 +180,75 @@
       </AlertDialog.Header>
       <AlertDialog.Footer>
         <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-        <form action="?/goLive" method="post" use:enhance>
+        <form action="?/goLive" method="post" use:enhance={
+          () => {
+            loading = true
+            return async({result, update}) => {
+              switch (true) {
+                case result.type === 'failure':
+                  loading = false
+                  await update()
+                  break;
+                case result.type === 'success':
+                  loading = true
+                  await update()
+                  break;
+                  case result.type === 'redirect':
+                    loading = true
+                    await update()
+                    break;
+                default:
+                  break;
+              }
+            }
+          }
+        }>
           <Input value={value?.start} name="from" class="hidden"/>
           <Input value={value?.end} name="to" class="hidden"/>
           <Input value={target} name="target" class="hidden"/>
           <Input value={target_age_group} name="target_age_group" class="hidden"/>
           <Input value={target_gender} name="target_gender" class="hidden"/>
-          <Button type="submit">Proceed</Button>
+          <Button type="submit" >
+            {#if loading}
+              <div class="flex gap-2">
+                  <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                  Loading...
+              </div>
+            {:else}
+             Use Our Database
+            {/if}
+            </Button>
+        </form>
+        <form action="?/shareLive" method="post" use:enhance = {
+          () => {
+            sh_loading = true
+            return async({ result, update}) => {
+              if (result.type === 'redirect') {
+                dialog = false
+                await invalidateAll()
+                goto(result.location)
+                sh_loading =false
+                toast.success('Marked as live')
+              }
+              else {
+                sh_loading=false
+                await update()
+              }
+            }
+          }
+        }>
+          <Input value={value?.start} name="from" class="hidden"/>
+          <Input value={value?.end} name="to" class="hidden"/>
+          <Button variant="secondary" type='submit'>
+            {#if sh_loading}
+              <div class="flex gap-2">
+                  <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent rounded-full" role="status" aria-label="loading"></span>
+                  Loading...
+              </div>
+            {:else}
+              Share the survey
+            {/if}
+          </Button>
         </form>
       </AlertDialog.Footer>
     </AlertDialog.Content>

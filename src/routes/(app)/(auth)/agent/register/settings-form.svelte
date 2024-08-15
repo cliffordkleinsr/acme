@@ -61,7 +61,7 @@
     }
   })
 
-  const { form: formData, enhance, message } = form
+  const { form: formData, enhance, message, delayed } = form
   
   // DatePicker
   let open:boolean = false
@@ -426,7 +426,14 @@
             <Form.FieldErrors />
           </Form.Field>
         </div>
-        <Form.Button>Create an account</Form.Button>
+        {#if $delayed}
+          <Button class='flex gap-2'>
+              <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Loading...
+          </Button>
+        {:else}
+            <Form.Button>Create an account</Form.Button>
+        {/if}
         <!-- <Button type="submit" class="w-full">t</Button> -->
         <Button variant="outline" class="w-full">Sign up with GitHub</Button>
       </div>

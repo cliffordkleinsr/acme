@@ -5,13 +5,15 @@
 	  import Issue from "$lib/components/blocks/liveComponent/issue.svelte"
 
     export let data
+    export let form
     const { Role, survey_data, features:{gender_active, ages, maxagents}} = data
 
     let Props = {
       user: Role,
       gen_act: gender_active!,
       age_act: ages!,
-      target: maxagents!
+      target: maxagents!,
+      form
     }
 
 </script>

@@ -285,7 +285,7 @@
       </div>
     </Sheet.Content>
   </Sheet.Root>
-  <div class="w-full flex-1">
+  <div class="sticky top-0 w-full flex-1">
     <form>
       <div class="relative">
         <Search class="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />

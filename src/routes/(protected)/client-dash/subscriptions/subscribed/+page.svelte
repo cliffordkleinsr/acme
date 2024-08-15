@@ -20,8 +20,8 @@
     <Button href="/client-dash/surveys/create">Create Survey</Button>
 </div>
 
-<style lang="css">
+<!-- <style lang="css">
     :global(body) {
 		overflow: hidden;
 	}
-</style>
+</style> -->

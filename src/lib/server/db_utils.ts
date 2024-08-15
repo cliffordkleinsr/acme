@@ -106,6 +106,12 @@ export const addSurveyQuestionsv2 = async (data: surveyQnsSchemaV2) => {
     await db.insert(surveyqnsTableV2).values(data)
 }
 
+export const deleteSurvey = async (surveyid:string) => {
+    await db.delete(agentSurveysTable).where(eq(agentSurveysTable.surveyid , surveyid))
+    await db.delete(surveyqnsTableV2).where(eq(surveyqnsTableV2.surveid, surveyid))
+    await db.delete(SurveyTable).where(eq(SurveyTable.surveyid, surveyid))  
+}
+
 // =========================== Client Package Utilities ==========================
 
 /**
