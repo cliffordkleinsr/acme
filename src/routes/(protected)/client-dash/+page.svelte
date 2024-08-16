@@ -13,10 +13,10 @@
     import 'intro.js/minified/introjs.min.css'
     import introJs from 'intro.js'
 	import { onMount } from "svelte";
-
+    import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
     export let data
 
-    const {all_surv, draft_surv, live_surv, closed_surv, count, payment } = data
+    const {all_surv, draft_surv, live_surv, closed_surv, count, payment, share } = data
    
     // custom param message
     let msg: string
@@ -65,12 +65,12 @@
             </Breadcrumb.List>
         </Breadcrumb.Root>
     </div>
-    <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">     
+    <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:{share > 0? 'grid-cols-4':'grid-cols-3'}">     
         <Card.Root data-intro='Create new surveys by clicking here'>
             <Card.Header>
                 <Card.Title><LineChart class="size-6 text-primary"/></Card.Title>
                 <Card.Description class="text-balance leading-relaxed">
-                    Create  engaging surveys to improve your audience:
+                    Create engaging surveys to improve your audience:
                 </Card.Description>
             </Card.Header>
             <Card.Footer>
@@ -110,7 +110,29 @@
             <Card.Footer>
                 <Progress value={count} aria-label="{count/100}% increase" />
             </Card.Footer>
-        </Card.Root>            
+        </Card.Root> 
+        {#if share > 0}    
+            <Card.Root
+                data-intro='These are the total people who have taken a survey that you"ve created'
+                class="lg:max-w-sm"
+                data-x-chunk-name="dashboard-05-chunk-2"
+                data-x-chunk-description="A stats card showing this month's total sales in USD, the percentage difference from last month, and a progress bar."
+            >
+                <Card.Header class="pb-2">
+                    <Card.Description>Total Sharable Surveys</Card.Description>
+                    <Card.Title class="text-3xl"></Card.Title>
+                </Card.Header>
+                <Card.Content class="text-3xl font-semibold">
+                    {share}
+                </Card.Content>
+                <Card.Footer>
+                    <Button href="/client-dash/surveys/sharable" size="default" variant='default' class="ml-auto gap-1 w-full">
+                        View sharable surveys
+                        <ArrowUpRight class="h-4 w-4" />
+                    </Button>
+                </Card.Footer>
+            </Card.Root>    
+        {/if}       
     </div>
 </div>
 <Tabs.Root value="draft" class="lg:w-full w-96 mx-auto">

@@ -62,7 +62,13 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         .from(clientData)
         .where(sql`${clientData.clientId} = ${user.id}`)
 
-    
+    const sharable = await db.select({
+        id: SurveyTable.surveyid,
+        title: SurveyTable.surveyTitle,
+        desc: SurveyTable.surveyDescription
+    })
+    .from(SurveyTable)
+    .where(sql`${SurveyTable.external} = true and ${SurveyTable.status} = 'Draft'`)
     return {
         payment,
         features,
@@ -70,7 +76,9 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         Role: user.role,
         email: user.email,
         url: url.pathname, 
-        notif: msg  
+        notif: msg,
+        share : sharable.length ,
+        sharable 
     }
 }
 

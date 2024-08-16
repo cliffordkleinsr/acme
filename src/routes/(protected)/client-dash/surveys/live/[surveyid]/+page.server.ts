@@ -126,6 +126,16 @@ export const actions: Actions = {
         try 
         {
             const { from, to } = EntrySchema.parse(data)
+            await db.update(SurveyTable)
+            .set({
+                status: "Live",
+                from,
+                to,
+                external:true,
+                updatedAt: new Date()
+                
+            })
+            .where(eq(SurveyTable.surveyid, params.surveyid))
             
         } catch (err) 
         {
@@ -140,5 +150,6 @@ export const actions: Actions = {
                 console.error(err)
             }
         }
+        redirect(303, '/client-dash')
     }
 }

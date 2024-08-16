@@ -168,7 +168,7 @@
   {/if}
   <AlertDialog.Root bind:open={dialog}>
     <AlertDialog.Trigger asChild let:builder>
-      <Button builders={[builder]} class="w-full"><Flame class="size-4 mr-2"/>{default_txt}</Button>
+      <Button builders={[builder]} class="w-full" ><Flame class="size-4 mr-2"/>{default_txt}</Button>
     </AlertDialog.Trigger>
     <AlertDialog.Content>
       <AlertDialog.Header>
@@ -208,7 +208,7 @@
           <Input value={target} name="target" class="hidden"/>
           <Input value={target_age_group} name="target_age_group" class="hidden"/>
           <Input value={target_gender} name="target_gender" class="hidden"/>
-          <Button type="submit" >
+          <Button type="submit"  disabled={loading}>
             {#if loading}
               <div class="flex gap-2">
                   <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
@@ -239,7 +239,7 @@
         }>
           <Input value={value?.start} name="from" class="hidden"/>
           <Input value={value?.end} name="to" class="hidden"/>
-          <Button variant="secondary" type='submit'>
+          <Button variant="secondary" type='submit' disabled={sh_loading}>
             {#if sh_loading}
               <div class="flex gap-2">
                   <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent rounded-full" role="status" aria-label="loading"></span>

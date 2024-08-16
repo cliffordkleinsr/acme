@@ -123,6 +123,7 @@ export const SurveyTable = pgTable('surveys', {
     to: timestamp('to', {
         mode:"date"
     }),
+    external: boolean('extern').default(false),
     // answeredby: text("answerd_by"),
     createdAt: timestamp('created_at', {
         withTimezone: true,
@@ -145,7 +146,8 @@ export const agentSurveysTable = pgTable('agent_surv_table', {
     agentid: text('agent_id').references(() => UsersTable.id),
     surveyid: text('surveyid').references(() => SurveyTable.surveyid),
     survey_completed: boolean('survey_completed').notNull().default(false),
-    points: integer('points_earned').notNull()
+    points: integer('points_earned').notNull(),
+    extagent: boolean('ext_agent').default(false)
 })
 
 // One and the same
@@ -190,7 +192,7 @@ export const payoutRequests = pgTable('payout_requests', {
     agentid: text('agent_id').references(() => UsersTable.id).notNull(),
     payout: integer('payout').notNull(),
     status: ProcessedStatus("status").notNull().default("pending"),
-    createdAt:  timestamp('updated_at', {
+    createdAt:  timestamp('created_at', {
         withTimezone: true,
         mode: "date" 
     }).defaultNow().notNull(),
