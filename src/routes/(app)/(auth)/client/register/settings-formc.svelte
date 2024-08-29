@@ -32,7 +32,7 @@
     // Local Variables
     import{ closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
     import { sectors} from '$lib/json/index'
-	import PaymentMethods from '$lib/components/blocks/pricingComponent/payment_methods.svelte';
+	  import PaymentMethods from '$lib/components/blocks/pricingComponent/payment_methods.svelte';
 
 
     // KitLoad<MiddleWare>
