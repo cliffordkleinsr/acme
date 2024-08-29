@@ -28,6 +28,12 @@
         </DropdownMenu.Item>
       </DropdownMenu.Group>
       <DropdownMenu.Separator />
+      <DropdownMenu.Group>
+        <DropdownMenu.Item href="/superuser/dash/clients/{id}">
+          Edit
+        </DropdownMenu.Item>
+      </DropdownMenu.Group>
+      <DropdownMenu.Separator />
       <AlertDialog.Root>
         <AlertDialog.Trigger asChild let:builder>
           <Button variant="ghost" builders={[builder]} class="-mx-1 text-start font-normal">Deactivate</Button>

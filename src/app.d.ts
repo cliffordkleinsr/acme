@@ -1,6 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 import { User, Session } from "lucia"
+import { SurveyData, Agent, Client} from '$lib/types'
 declare global {
 	interface Window {
 		Datamap: {
@@ -23,7 +24,12 @@ declare global {
 			flash?: { type: 'success' | 'error' | 'warning'; message: string }
 		}
 		
-		// interface PageState {}
+	
+		interface PageState {
+			profile: Agent,
+			clients: Client,
+			available_survs: SurveyData
+		}
 		// interface Platform {}
 	}
 }

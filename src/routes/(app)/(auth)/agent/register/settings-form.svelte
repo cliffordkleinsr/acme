@@ -101,6 +101,8 @@
         value: $formData.sector
       }
     : undefined
+
+    let ital = today(getLocalTimeZone()).subtract({years: 18})
 </script>
 
 <div class="flex flex-1 justify-center mt-10 mb-5">
@@ -125,7 +127,7 @@
 <div class="w-full h-full mt-20 mb-20">
   <!-- <SuperDebug data={$formData}/> -->
   <form method="post" use:enhance>
-  <Card.Root class="mx-auto max-w-md lg:max-w-2xl lg:mx-auto">
+  <Card.Root class="mx-auto max-w-md lg:max-w-xl lg:mx-auto">
     <Card.Header>
       <Card.Title class="text-xl">Sign Up</Card.Title>
       <Card.Description>Create a Agent account to start earning</Card.Description>
@@ -224,9 +226,8 @@
                           </Select.Content>
                         </Select.Root>
                         <Calendar
-                          {value}
                           minValue={new CalendarDate(1900, 1, 1)}
-                          maxValue={today(getLocalTimeZone())}
+                          maxValue={today(getLocalTimeZone()).subtract({years: 18})}
                           calendarLabel="Date of birth"
                           initialFocus
                           onValueChange={(v) => {
@@ -236,7 +237,7 @@
                               $formData.dateofbirth = ""
                             }
                           }}
-                        />
+                        bind:value={ital}/>
                       </Popover.Content>
                     </Popover.Root>
                     <Form.FieldErrors />
@@ -435,7 +436,7 @@
             <Form.Button>Create an account</Form.Button>
         {/if}
         <!-- <Button type="submit" class="w-full">t</Button> -->
-        <Button variant="outline" class="w-full">Sign up with GitHub</Button>
+        <!-- <Button variant="outline" class="w-full">Sign up with GitHub</Button> -->
       </div>
       <div class="mt-4 text-center text-sm">
         Already have an account?

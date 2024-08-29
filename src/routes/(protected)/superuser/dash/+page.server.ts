@@ -14,13 +14,14 @@ export const load: PageServerLoad = async () => {
         .select({
             name:sql<string>`${UsersTable.fullname}`,
             email: sql<string>`${UsersTable.email}`,
-            amt: sql<string>`
+            amount: sql<string>`
             CASE
                 WHEN ${clientData.typeid} = ${clientPackages.priceIdMn} THEN ${clientPackages.package_price_mn}
                 WHEN ${clientData.typeid} = ${clientPackages.priceIdYr} THEN ${clientPackages.package_price_yr}
                 ELSE '0'
             END
-        `
+            `,
+            package: sql<string>`${clientPackages.packageDesc}`
         })
         .from(UsersTable)
         .leftJoin(clientData, eq(UsersTable.id, clientData.clientId))
@@ -44,11 +45,27 @@ export const load: PageServerLoad = async () => {
         .from(UsersTable)
         .innerJoin(sessionsTable, eq(UsersTable.id, sessionsTable.userId))
         .where(sql`${sessionsTable.expiresAt}::timestamp >= date_trunc('week',  now()) and ${UsersTable.role} != 'ADMIN'`)
+    
+    const [live, pending, closed] = await Promise.all([
+        db.select().from(SurveyTable).where(
+            eq(SurveyTable.status, 'Live')
+        ),
+        db.select().from(SurveyTable).where(
+            eq(SurveyTable.status, 'Draft')
+        ),
+        db.select().from(SurveyTable).where(
+            eq(SurveyTable.status, 'Closed')
+        )
+    ])
+
     return {
         recent_users,
         client_subs,
         count_survs : count_tot.length,
-        week: count_tot
+        week: count_tot,
+        live_cnt: live.length,
+        pen_cnt: pending.length,
+        clo_cnt: closed.length
     }
     
 };

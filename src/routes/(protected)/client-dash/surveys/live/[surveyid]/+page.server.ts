@@ -112,7 +112,7 @@ export const actions: Actions = {
             }
         }
 
-        // redirect(303, '/client-dash')
+        redirect(303, '/client-dash')
     },
 
     shareLive: async({ request, params }) => {

@@ -1,12 +1,13 @@
 import { db } from '$lib/server/db';
 import { payoutRequests, UsersTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
     const payment_requests = await db
         .select({
+            id: payoutRequests.payoutid,
             name: UsersTable.fullname,
             status: payoutRequests.status,
             amount:payoutRequests.payout,
@@ -17,5 +18,13 @@ export const load: PageServerLoad = async () => {
 
     return {
         payment_requests
+    }
+    
+};
+export const actions: Actions = {
+    default: async ({request}) => {
+        const data = Object.fromEntries(await request.formData())
+
+        // console.log(data)
     }
 };

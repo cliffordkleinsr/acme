@@ -149,7 +149,7 @@
 {#if by_sec.length > 0}
 <div class="flex flex-col gap-4 m-4">
     <h1 class="text-2xl font-bold">
-        Audience Demographics
+        Cumulative Audience Demographics
     </h1>
     <p class="italic text-sm">These statistics will continue to grow as more people respond to you're surveys</p>
     <div class="md:flex gap-6 w-full space-x-4 ">

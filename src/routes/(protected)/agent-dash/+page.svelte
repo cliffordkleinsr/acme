@@ -11,6 +11,11 @@
 	import Chart from "$lib/components/blocks/apexchart/chart.svelte";
 	import { browser } from "$app/environment";
 	import { adjustDivider } from "$lib/helperFunctions/helpers.js";
+    import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
+    import Grid from "gridjs-svelte"
+    import "gridjs/dist/theme/mermaid.min.css"
+	import { html } from "gridjs";
+	import { badgeVariants } from "$lib/components/ui/badge";
 	   // custom param message
 	let msg: string
     let visible = true
@@ -20,7 +25,7 @@
     if (browser) {
         mwacher = localStorage.getItem('mode-watcher-mode')
     }
-    const { history, total_points, total_paid, total_payable, cumulative} = data 
+    const { history, total_points, total_paid, total_payable, complete, pending, payouts} = data 
     setTimeout(() => {
         visible = false
     }, 2000)
@@ -92,15 +97,43 @@
         
         let divider: number = 500;
         divider = adjustDivider(total_points, divider)
-        let mod = total_points/divider * 100 
+        let mod = total_points/divider * 100
+        
+        const columns = [
+            {
+                id:'id',
+                name: 'Payout Identifier',
+            },
+            {
+                id: 'payout',
+                name: 'Amount in Kshs',
+                formatter: (cell:string) => `KES${cell}`
+            },
+            {
+                id: 'status',
+                name: 'Status',
+                formatter: (cell:string) => html(`
+                    <div class='${badgeVariants({ variant: 'outline'})}'>${cell}</div>
+                `)
+            },
+            {
+                id: 'requested',
+                name: 'Date Requested'
+            },
+            {
+                id: 'processed',
+                name: 'Date Requested'
+            },
+        ]
+       
 </script>
 {#if visible && msg}
 <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>
     <Pretoast message={msg} type="warning"/>
 </div>
 {/if}
-<div class="flex flex-col p-4 gap-10 mt-2">
-    <div class="ml-5 pb-2">
+<div class="flex flex-col m-4 gap-10 mt-2">
+    <div class="ml-5 mb-2">
         <Breadcrumb.Root>
             <Breadcrumb.List>
               <Breadcrumb.Item>
@@ -119,9 +152,9 @@
     </div>
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">  
         <Card.Root
-            class="max-w-xl"
+            class="max-w-xl space-y-3"
         >
-            <Card.Header class="pb-2 ">
+            <Card.Header class="mb-2 ">
                 <Card.Description class="flex gap-16">
                     <p>Total Points Earned</p>
                     <p>Total Points Paid</p>
@@ -143,33 +176,57 @@
         <Card.Root
             class="sm:col-span-1 space-y-5"
         >
-            <Card.Header class="pb-3">
+            <Card.Header class="mb-3">
                 <Card.Title></Card.Title>
 				<Card.Description>My Survey History</Card.Description>
             </Card.Header>
+            <Card.Content>
+                <p class="text-4xl text-green-500 font-semibold">{complete} <span class="text-xl text-muted-foreground">Completed</span></p>
+            </Card.Content>
             <Card.Footer>
-                <Button variant="default" href="/agent-dash/surveys/history">View history</Button>
+                <Button variant="outline" href="/agent-dash/surveys/history" class='flex gap-2 w-full bg-green-500 text-white hover:bg-green-500/80 hover:text-white'>
+                    View history
+                    <ArrowUpRight class='size-4'/>
+                </Button>
             </Card.Footer>
         </Card.Root>
         <Card.Root
             class="lg:max-w-sm"
         >
-            <Card.Header class="pb-2">
+            <Card.Header class="mb-2">
                 <Card.Description >Cumulative Surveys</Card.Description>
-                <Card.Title class="text-4xl">{cumulative}</Card.Title>
+                <Card.Title class="text-4xl text-green-500">{complete + pending}</Card.Title>
+                <Card.Description >Eligible Surveys</Card.Description>
+                <Card.Title class="text-4xl text-destructive">{pending}</Card.Title>
+                <Card.Content >
+                    <Button class='w-full flex gap-2' variant="secondary" href="/agent-dash/surveys/take">
+                        Take a survey
+                        <ArrowUpRight class='size-4'/>
+                    </Button>
+                </Card.Content>
             </Card.Header>
-            <Card.Content>
-                <!-- <div class="text-xs text-muted-foreground">+{perk}% from last week</div> -->
-            </Card.Content>
-            <Card.Footer>
-                <!-- <Progress value={tot_wk} aria-label="12% increase" /> -->
-            </Card.Footer>
         </Card.Root>        
     </div>
-</div>
-{#if count.length > 0}
+    {#if count.length > 0}
     <Chart class="max-w-2xl ml-5 mt-5" options={options} />
-{:else}
-<p class="m-5 italic text-sm">take a survey to see your stats grow</p>
-{/if}
+    {:else}
+    <p class="m-5 italic text-sm">take a survey to see your stats grow</p>
+    {/if}
+    
+</div>
+<div class="m-4 max-w-[26rem] lg:max-w-full prose">
+    <h2>Payout Request History</h2>
+    <Grid
+            {columns}
+            data={payouts}
+            pagination={{
+                enable:true,
+                limit: 7
+            }}
+            className={{
+                td: 'text-sm',
+                pagination: 'text-sm'
+            }}
+        />
+</div>
 

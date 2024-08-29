@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { PageData } from './$types';
+    import type { ActionData, PageData } from './$types';
     import * as Card from "$lib/components/ui/card"
 	  import QuestionComponent from '$lib/components/blocks/questionnareComponents/base/questionComponent.svelte';
     import { Button, buttonVariants } from "$lib/components/ui/button"
@@ -24,14 +24,29 @@
     
 
     export let data: PageData;
+    export let form: ActionData
+    let dates
     const { surv_data, surveyqns, role } = data
-    const  [smm, sdd, syyyy] = Array.from(new Date(surv_data.from).toLocaleDateString().split('/'), Number)
-    const  [emm, edd, eyyyy] = Array.from(new Date(surv_data.to).toLocaleDateString().split('/'), Number)
-    
-    const dates = {
-      start: new CalendarDate(syyyy, smm, sdd ),
-      end: new CalendarDate(eyyyy, emm, edd )
+    if (surv_data.from) {
+      const  [smm, sdd, syyyy] = Array.from(new Date(surv_data.from).toLocaleDateString().split('/'), Number)
+      const  [emm, edd, eyyyy] = Array.from(new Date(surv_data.to).toLocaleDateString().split('/'), Number)
+      
+      dates = {
+        start: new CalendarDate(syyyy, smm, sdd ),
+        end: new CalendarDate(eyyyy, emm, edd )
+      }
     }
+    else {
+      let today = new Date()
+      let dd = today.getDate()
+      let mm = today.getMonth() + 1
+      let yyyy = today.getFullYear()
+        dates = {
+          start: new CalendarDate(yyyy, mm, dd),
+          end: new CalendarDate(yyyy, mm, dd).add({ days: 10 })
+        }
+    }
+   
      // checkbox Items
  
     let items:string[] = []
@@ -86,7 +101,7 @@
                   </Dialog.Root>
                 {:else}
                   <p class="lg:mr-64 text-start">Pick a start and end time for your survey</p>
-                  <Cackender user={role} value={dates} default_txt={'Set as Live'} age_act={true} gen_act={true}/>
+                  <Cackender user={role} value={dates} default_txt={'Set as Live'} age_act={true} gen_act={true} {form}/>
                 {/if}
                 
             </Card.Footer>

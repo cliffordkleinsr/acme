@@ -39,7 +39,6 @@
               <p class="text-lg">{s.desc}</p>
             </div>
           </Card.Content>
-          <p class="text-start ml-6 mb-1">Pick a start and end time for your survey</p>
           <Card.Footer class="flex flex-col gap-2 float-start space-y-2">
               <Cackender {...Props} />
           </Card.Footer>

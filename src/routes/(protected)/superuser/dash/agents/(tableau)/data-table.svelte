@@ -10,21 +10,28 @@
     import DataTableActions from "./data-table-actions.svelte"
     import DataTableCheckbox from "./data-table-checkbox.svelte"
     import ChevronDown from "lucide-svelte/icons/chevron-down"
-    import { Button } from "$lib/components/ui/button"
+    import { Button, buttonVariants } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+    import * as Dialog from "$lib/components/ui/dialog"
+	import { goto, preloadData, pushState } from '$app/navigation';
+    import ProfilePage from '../view-[agentid]/+page.svelte'
+    import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
+	import { page } from '$app/stores';
 
     type Survey = {
         id: string
         name: string
         email: string
-        role: string
+        createdat: Date
     }
     export let data:Survey[]
  
 
     const table = createTable(readable(data), {
-        page: addPagination(),
+        page: addPagination({
+            initialPageSize:5
+        }),
         sort: addSortBy(),
         filter: addTableFilter({
             fn: ({ filterValue, value }) =>
@@ -36,20 +43,7 @@
     const columns = table.createColumns([
         table.column({
             accessor: "id",
-            header: (_, { pluginStates }) => {
-                const { allPageRowsSelected } = pluginStates.select;
-                return createRender(DataTableCheckbox, {
-                checked: allPageRowsSelected,
-                });
-            },
-            cell: ({ row }, { pluginStates }) => {
-                const { getRowState } = pluginStates.select;
-                const { isSelected } = getRowState(row);
-        
-                return createRender(DataTableCheckbox, {
-                checked: isSelected,
-                });
-            },
+            header:'',
             plugins: {
                 sort: {
                     disable: true,
@@ -76,8 +70,8 @@
             },
         }),
         table.column({
-            accessor: "role",
-            header: "Role",
+            accessor: "createdat",
+            header: "Created At",
         }),
         table.column({
             accessor: ({ id }) => id,
@@ -118,7 +112,27 @@
         .map(([id]) => id);
  
   const hidableCols = ["name", "email"]
- 
+
+  async function onprofileLinkClick(e:MouseEvent & {currentTarget: HTMLAnchorElement}) {
+    if (e.metaKey || e.ctrlKey) return
+    e.preventDefault()
+
+    const { href } = e.currentTarget
+    const result = await preloadData(href)
+
+    if (result.type === 'loaded' && result.status === 200) {
+        //@ts-ignore
+        pushState(href, {profile: result.data})
+    } else {
+        goto(href)
+    }
+  }
+  let open = false
+  $: if ($page.state.profile) {
+        open= true
+  } else {
+    open = false
+  }
 </script>
 
 <div class="m-5">
@@ -151,22 +165,20 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border">
+    <div class="rounded-md border select-none">
         <Table.Root {...$tableAttrs}>
         <Table.Header>
             {#each $headerRows as headerRow}
-            <Subscribe rowAttrs={headerRow.attrs()}>
+            <Subscribe rowProps={headerRow.props()} let:rowProps>
                 <Table.Row>
                 {#each headerRow.cells as cell (cell.id)}
-                    <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props    >
-                    <Table.Head {...attrs} class="[&:has([role=checkbox])]:pl-3">
-                        {#if cell.id === "title"}
+                    <Subscribe  props={cell.props()} let:props>
+                    <Table.Head {...props} class="[&:has([role=checkbox])]:pl-3">
+                        {#if cell.id === "name"}
                             <Button variant="ghost" on:click={props.sort.toggle}>
                                 <Render of={cell.render()} />
                                 <ArrowUpDown class={"ml-2 h-4 w-4"} />
-                            </Button>  
-                        {:else if cell.id !== "id" && cell.id !== "created" && cell.id !== "title"} 
-                                <Render of={cell.render()} />
+                            </Button> 
                         {:else}
                             <Render of={cell.render()} />
                         {/if}
@@ -187,22 +199,28 @@
                 {#each row.cells as cell (cell.id)}
                     <Subscribe attrs={cell.attrs()} let:attrs>
                     <Table.Cell {...attrs}>
-                        {#if cell.id !== "id" && cell.id !== "created" && cell.id !== "title"}
-                            <Render of={cell.render()} />
+                        {#if cell.id === "id"}
+                        <a 
+                            class="{buttonVariants({variant:'secondary'})}"
+                            on:click={onprofileLinkClick}
+                            href="/superuser/dash/agents/view-{cell.render()}">
+                            View Profile
+                            <ArrowUpRight class='size-4'/>
+                        </a>
                         {:else}
                             <Render of={cell.render()} />
-                        {/if}  
+                        {/if}
                     </Table.Cell>
                     </Subscribe>
                 {/each}
                 </Table.Row>
             </Subscribe>
+            <!-- {$selectedDataIds[row.id]} -->
             {/each}
             
         </Table.Body>
         </Table.Root>
     </div>
-    
     <div class="flex items-center justify-end space-x-4 py-4">
         <div class="flex-1 text-sm text-muted-foreground">
             {Object.keys($selectedDataIds).length} of{" "}
@@ -222,3 +240,13 @@
         >
     </div>
 </div>
+
+<Dialog.Root {open} onOpenChange={(open) => {
+    if (!open) {
+        history.back()
+    }
+}}>
+  <Dialog.Content class="lg:max-w-2xl max-w-md">
+    <ProfilePage data={$page.state.profile}/>
+  </Dialog.Content>
+</Dialog.Root>

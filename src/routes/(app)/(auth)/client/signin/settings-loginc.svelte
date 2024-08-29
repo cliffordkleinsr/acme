@@ -74,7 +74,7 @@
         <Breadcrumb.Separator>
         </Breadcrumb.Separator>
         <Breadcrumb.Item>
-        <Breadcrumb.Page>Client SignIn</Breadcrumb.Page>
+        <Breadcrumb.Page>Client Login</Breadcrumb.Page>
         </Breadcrumb.Item>
     </Breadcrumb.List>
     </Breadcrumb.Root>
@@ -118,6 +118,9 @@
                 <div class="mt-4 text-center text-sm">
                     Don't have an account?
                     <a href="/client/register" class="underline"> Register </a>
+                </div>
+                <div class="mt-4 text-center text-sm">
+                    <a href="/client/password/reset" class="underline">Forgot Password?</a>
                 </div>
             </Card.Content>
         </Card.Root>

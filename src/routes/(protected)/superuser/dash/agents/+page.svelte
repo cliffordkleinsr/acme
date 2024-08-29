@@ -9,21 +9,21 @@
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card.Root>
           <Card.Header>
-            <Card.Title class="text-3xl select-none">Total Agents</Card.Title>
+            <Card.Title class="select-none">Total Agents</Card.Title>
             <Card.Description>
             </Card.Description>
           </Card.Header>
-          <Card.Content class="text-3xl font-semibold text-black text-start select-none">
+          <Card.Content class="text-4xl font-semibold text-primary text-start select-none">
             {agents.length}
           </Card.Content>
         </Card.Root>
         <Card.Root>
             <Card.Header>
-              <Card.Title class="text-3xl select-none">Total Surveys Answered</Card.Title>
+              <Card.Title class="select-none">Total Surveys Answered</Card.Title>
               <Card.Description>
               </Card.Description>
             </Card.Header>
-            <Card.Content class="text-3xl font-semibold text-black text-start select-none">
+            <Card.Content class="text-4xl font-semibold text-green-500 text-start select-none">
               {total}
             </Card.Content>
         </Card.Root>

@@ -2,7 +2,7 @@ import { message, setError, superValidate } from "sveltekit-superforms"
 import { signinCSchema } from "./schema"
 import { zod } from "sveltekit-superforms/adapters"
 import type { Actions, PageServerLoad } from "./$types"
-import { clientData, UsersTable } from "$lib/server/schema"
+import { clientData, clientPackages, emailVerification, sessionsTable, UsersTable } from "$lib/server/schema"
 import { db } from "$lib/server/db"
 import { eq } from "drizzle-orm"
 import { Argon2id } from "oslo/password"
@@ -26,13 +26,6 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
 export const actions: Actions = {
     default: async({ request, cookies, url}) =>{
         const form = await superValidate(request, zod(signinCSchema))
-        // await db.update(clientData)
-        // .set({
-        //     typeid: null,
-        //     packageid: null,
-        //     payment_status: false,
-        //     processed_at: null
-        // })
         // validate
         if (!form.valid) {
             return message(form, {
@@ -47,7 +40,9 @@ export const actions: Actions = {
         .select({
             id: UsersTable.id,
             password: UsersTable.password,
-            role : UsersTable.role
+            role : UsersTable.role,
+            verified: UsersTable.isEmailVerified
+
         })
         .from(UsersTable)
         .where(eq(UsersTable.email, email))
@@ -83,6 +78,12 @@ export const actions: Actions = {
          if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
          }
-         redirect(302, '/client-dash', {type: "success", message:"Logged In Successfully"}, cookies)
+         if (existingUser.verified) {
+            redirect(302, '/client-dash', {type: "success", message:"Logged In Successfully"}, cookies)
+         }
+         else {
+            redirect(302, '/client/verify/email', {type: "warning", message:"Email Not Verified!"}, cookies)
+         }
+        
     }
 };

@@ -9,7 +9,7 @@
     import { page } from "$app/stores"
 
     export let data
-    const { uri, current_ix } = data
+    const { uri, current_ix, question_cnt, survId } = data.available_surv
 </script>
 <!-- {#if hidden} -->
 <div class="flex flex-col max-w-sm mx-auto mt-6">
@@ -17,9 +17,9 @@
     <Card.Root class="mt-5">
     <Card.Header class="bg-yellow-300 text-center rounded-t-lg">
         <Card.Title class="text-neutral-500 text-xl">Total Survey Questions</Card.Title>
-        <Card.Title class="text-neutral-500 text-sm">ID: {$page.params.surveyId}</Card.Title>
+        <Card.Title class="text-neutral-500 text-sm">ID: {survId}</Card.Title>
         <Card.Description>
-            <Button variant="ghost" class="hover:bg-inherit hover:text-neutral-400" size="icon"><Clock class="size-5"/> {data.question_cnt}'</Button>
+            <Button variant="ghost" class="hover:bg-inherit hover:text-neutral-400" size="icon"><Clock class="size-5"/> {question_cnt}'</Button>
         </Card.Description>
     </Card.Header>
     <Card.Content class="mt-14 text-center">

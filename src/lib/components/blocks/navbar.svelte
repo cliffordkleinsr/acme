@@ -31,10 +31,10 @@
             <DropdownMenu.Trigger class="text-muted-foreground transition-colors hover:text-primary">Industries</DropdownMenu.Trigger>
             <DropdownMenu.Content class="text-muted-foreground transition-colors mt-4">
               <DropdownMenu.Group>
-                <DropdownMenu.Item href="/hospitality">Hospitality</DropdownMenu.Item>
-                <DropdownMenu.Item href="/healthcare">Healthcare</DropdownMenu.Item>
-                <DropdownMenu.Item href="/retail_fmcg">Retail</DropdownMenu.Item>
-                <DropdownMenu.Item href="/financial_services">Financial services</DropdownMenu.Item>
+                <DropdownMenu.Item href="/industries/hospitality">Hospitality</DropdownMenu.Item>
+                <DropdownMenu.Item href="/industries/healthcare">Healthcare</DropdownMenu.Item>
+                <DropdownMenu.Item href="/industries/retail_fmcg">Retail</DropdownMenu.Item>
+                <DropdownMenu.Item href="/industries/financial_services">Financial services</DropdownMenu.Item>
               </DropdownMenu.Group>
             </DropdownMenu.Content>
           </DropdownMenu.Root>
@@ -71,19 +71,19 @@
                 <Collapsible.Root class="space-y-2">
                     <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">Industries</Collapsible.Trigger>
                     <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-1">
-                        <a href="/hospitality" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a href="/industries/hospitality" class="text-muted-foreground transition-colors hover:text-primary">
                             Hospitality
                         </a>
                         <Separator />
-                        <a href="/healthcare" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a href="/industries/healthcare" class="text-muted-foreground transition-colors hover:text-primary">
                             Healthcare
                         </a>
                         <Separator />
-                        <a href="/retail_fmcg" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a href="/industries/retail_fmcg" class="text-muted-foreground transition-colors hover:text-primary">
                             Retail
                         </a>
                         <Separator />
-                        <a href="/financial_services" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a href="/industries/financial_services" class="text-muted-foreground transition-colors hover:text-primary">
                             Financial services
                         </a>
                     </Collapsible.Content>

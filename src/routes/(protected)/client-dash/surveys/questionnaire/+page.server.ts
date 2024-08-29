@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db'
-import { surveyqnsTableV2, SurveyTable } from '$lib/server/schema'
+import { QuestionOptions, surveyqnsTableV2, SurveyTable } from '$lib/server/schema'
 import { eq, sql } from 'drizzle-orm'
 import type { Actions, PageServerLoad } from './$types'
 

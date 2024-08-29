@@ -11,13 +11,14 @@
     import * as Drawer from "$lib/components/ui/drawer"
 	  import { browser } from '$app/environment';
     import * as AlertDialog from "$lib/components/ui/alert-dialog"
-
+    import { page } from '$app/stores'
+	  import Lmap from '$lib/components/Leaflet/Lmap.svelte';
+    import { cntys, items } from '$lib/helperFunctions/helpers';
+    import { jsPDF } from "jspdf"
+	  import html2canvas from 'html2canvas'
     export let data: PageData;
     let isDesktop = true
-    const { answers} = data
-    if (browser) {
-      isDesktop = window.innerWidth >= 768
-  }
+    const { answers, cnt_counties, cnt_gender, cnt_sect, total, completed} = data
     type Kamolian = {
         [key: string]: {
           id:string,
@@ -47,9 +48,9 @@
         // Question doesn't exist, create a new entry in the questionMap
           ans.push(answer)
             questionMap[question!] = {
-                id:question_id,
+                id:question_id!,
                 question:question!,
-                questionT: question_type,
+                questionT: question_type!,
                 results: [{answer, percentage, count}],
             };
         }
@@ -79,16 +80,124 @@
     };
   }
   const groupedAnswers = Object.values(questionMap)
+  const gen_lbl = cnt_gender.map(item => item.gen_dem)
+  const gen_cnt = cnt_gender.map(item => item.agents)
+  const sec_lbl = cnt_sect.map(item => item.sec_dem)
+  const sec_cnt = cnt_sect.map(item => item.agents)
 
+  let options = {
+          series: gen_cnt,
+          chart: {
+          width: 380,
+          type: 'polarArea'
+        },
+        labels: gen_lbl,
+        fill: {
+          opacity: 1
+        },
+        stroke: {
+          width: 1,
+          colors: undefined
+        },
+        yaxis: {
+          show: false
+        },
+        legend: {
+          position: 'bottom'
+        },
+        plotOptions: {
+          polarArea: {
+            rings: {
+              strokeWidth: 0
+            },
+            spokes: {
+              strokeWidth: 0
+            },
+          }
+        },
+        theme: {
+          monochrome: {
+            enabled: true,
+            shadeTo: 'light',
+            shadeIntensity: 0.6
+          }
+        }
+        };
+
+        let baroptions = {
+          series: [{
+          data: sec_cnt
+        }],
+          chart: {
+          type: 'bar',
+          height: 150
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 4,
+            borderRadiusApplication: 'end',
+            horizontal: true,
+            dataLabels: {
+              position: 'top'
+            }
+          }
+        },
+        xaxis: {
+          categories: sec_lbl,
+        }
+        };
+        let counties = new Map()
+        for (const {loc_dem, agents} of cnt_counties) {
+            counties.set(loc_dem, agents)
+        }
+        counties.forEach((value, key) => {
+            if (cntys.has(key)) {
+              cntys.set(key, value);
+            }
+        })
+      
 </script>
 {#if answers.length > 0}
+<div class="grid w-full m-2 gap-2" id="my-div">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 'max-w-4xl">
+    <Card.Root>
+      <Card.Header>
+        <Card.Title class='text-2xl'>Completes By Gender</Card.Title>
+      </Card.Header>
+      <Card.Content>
+        <Chart {options} />
+      </Card.Content>
+    </Card.Root>
+    <Lmap options={Object.fromEntries(counties)}/>
+    <Card.Root class='col-span-2'>
+      <Card.Header>
+        <Card.Title class='text-5xl text-end'>Summary Statistics</Card.Title>
+        <Card.Description class='text-end'>Survey Id: {$page.params.surveyid}</Card.Description>
+      </Card.Header>
+      
+      <Card.Content class='grid grid-cols-2 gap-2'>
+        <div class="grid gap-2">
+          <p class="text-sm">Total agents selected for this survey</p>
+           <p class="text-3xl font-semibold">{total}</p>
+        </div>
+        <div class="grid gap-2">
+          <p class="text-sm">Total agents who completed this survey</p>
+          <p class="text-3xl font-semibold">{completed}</p>
+        </div>
+        <div class="grid gap-2 col-span-2">
+          <Chart options={baroptions} />
+          <h1 class="mx-auto text-sm">Completes by sector</h1>
+        </div>
+      </Card.Content>
+    </Card.Root>
+</div>
 {#if isDesktop}
-  <div class="grid gap-4 m-2 w-full">
+  <div class="grid gap-4 w-full">
   {#each groupedAnswers as question}
   <Card.Root>
     <Card.Header class="space-y-4">
       <Card.Title>{question.question}</Card.Title>
-      <Card.Description class="text-xs">{question.id}</Card.Description>
+      <Card.Description class="text-xs">{question.questionT}</Card.Description>
     </Card.Header>
     <Card.Content>
       <Table.Root>
@@ -183,7 +292,7 @@
                 <Chart options={createChartOptions(question)}/>
               </Drawer.Description>
             </Drawer.Header>
-          </Drawer.Content>
+           </Drawer.Content> 
         </Drawer.Root>
       {/if}
     </Card.Footer>
@@ -191,6 +300,24 @@
   {/each}
   </div>
 {/if}
+</div>
 {:else}
   <p class="m-5 italic text-sm">These statistics will grow as more people answer your surveys</p>
 {/if}
+<style>
+  @media print {
+   @page {
+        size: auto;   /* auto is the initial value */
+        margin: 0;  /* this affects the margin in the printer settings */
+    }
+  :global(body) {
+    visibility: hidden;
+  }
+  #my-div {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+</style>

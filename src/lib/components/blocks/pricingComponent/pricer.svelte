@@ -28,14 +28,16 @@
     export let href:string='/client/register'
     export let Message:string='Sign Up'
     export let selected_plan:string | null = ''
+    export let onetime:boolean = false
     // pricing cards
     export let cardItems: CartItems=  [
             {
+                id:'prod_QjUMG44vCFNGXO',
                 subtitles: 'Basic',
                 prices: '60',
                 offers: '54',
-                priceMn: 'price_1Pc0QJRpYHoLk6LSKgdeI7Nn',
-                priceYr: 'price_1Pc0QJRpYHoLk6LS1gEg7Hi4',
+                priceMn: 'price_1Ps1ODRpYHoLk6LSg56V1no0',
+                priceYr: 'price_1Ps1ODRpYHoLk6LSMN8kgMJf',
                 comments: 'All the basics for an entry level business',
                 features: [
                     'Up to 2 surveys per month',
@@ -45,6 +47,7 @@
                 ]
             },
             {
+                id:'prod_QTg6aK5zM7RlUw',
                 subtitles: 'Standard Business',
                 prices: '200',
                 offers: '180',
@@ -61,9 +64,10 @@
                 ]
             },
             {
+                id: 'prod_QTgA9EH6qo3dRu',
                 subtitles: 'Premium Business',
-                prices: '2000',
-                offers: '1800',
+                prices: '1200',
+                offers: '1080',
                 priceMn:'price_1PcioZRpYHoLk6LShwTOi7Zc',
                 priceYr: 'price_1PcioZRpYHoLk6LSAOiDsuSs',
                 comments: 'Advanced features for scaling your business',
@@ -77,6 +81,7 @@
                 ]
             },
             {
+                id: 'N/A',
                 subtitles: 'Enterprise',
                 prices: 'Custom',
                 offers: 'Custom',
@@ -90,6 +95,25 @@
                 ]
             },
         ]
+        
+        const otp = {
+                id:'prod_QjUCV2u3waC96D',
+                subtitles: 'One-time',
+                prices: '30',
+                offers: '30',
+                priceMn: 'price_1Ps1ELRpYHoLk6LSjizQbL8q',
+                priceYr: 'price_1Ps1ELRpYHoLk6LSjizQbL8q',
+                comments: 'One time trial for platform features',
+                features: [
+                    'One time survey',
+                    'Up to 5 questions for the one time survey.',
+                    'Access to a limited respondent pool (100 respondents per survey)',
+                    'Email support.'
+                ]
+            }
+        if (!onetime) {
+            cardItems = [otp, ...cardItems]
+        }
 
 </script>
 <!-- Pricing -->
@@ -151,10 +175,10 @@
         </Card.Content>
         <Card.Footer>
             {#if item.subtitles === 'Enterprise'}
-                <Button variant="outline" class="w-full" >Contact Support</Button>  
+                <Button variant="outline" class="w-full " href='/about#contact'>Contact Support</Button>  
             {:else}
                 {#if applyLogic}
-                    <Button 
+                    <!-- <Button 
                         variant="outline"
                         disabled={
                             selected_plan === item.prices
@@ -170,7 +194,7 @@
                     >
                         {selected_plan === item.prices? "Current Plan": Message}
                         
-                    </Button>
+                    </Button> -->
                     {#if isDesktop}
                         <Dialog.Root>
                         <Dialog.Trigger let:builder asChild>
@@ -181,7 +205,9 @@
                                 on:click={()=> 
                                     clientPackage.set({
                                         plan : item.subtitles,
-                                        price : checked !== true? item.prices: String(parseInt(item.offers)*12),
+                                        price : checked !== true? item.prices:
+                                                item.subtitles ==='One-time'? item.prices :
+                                                String(parseInt(item.offers)*12),
                                         priceId: checked !== true? item.priceMn: item.priceYr
                                     })
                                 } 

@@ -12,13 +12,15 @@
     import Trash2 from "lucide-svelte/icons/trash-2";
     import { Input } from "$lib/components/ui/input"
 	import { enhance } from "$app/forms";
-    // export let data
+    export let data
+    const { otp } = data
 
     const pricerProps = {
         Message: 'Select Plan',
         href: '',
         table: false,
         applyLogic:true,
+        onetime: otp
     };
 </script>
 

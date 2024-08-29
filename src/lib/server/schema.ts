@@ -51,6 +51,7 @@ export const clientData = pgTable('client_data',{
     sector: text("sector").notNull(),
     //additional
     packageid: text("packageid"),
+    onetime: boolean('one_time').notNull().default(false),
     typeid: text("package_type_id"),
     payment_status: boolean('payment_status').notNull().default(false), 
     processed_at: timestamp('processed_at', {
@@ -72,7 +73,7 @@ export const clientPackages = pgTable('client_packages', {
     packageid: text("packageid").primaryKey(),
     packageDesc: text("package_description").notNull(),
     package_price_mn: text('package_price_mn').notNull(),
-    package_price_yr: text('package_price_yr').notNull().default('648'),
+    package_price_yr: text('package_price_yr').notNull(),
     priceIdMn: text("price_id_monthly"),
     priceIdYr: text("price_id_annual"),
     max_questions: integer('max_qns').notNull().default(1),
@@ -82,16 +83,34 @@ export const clientPackages = pgTable('client_packages', {
     ages: boolean("ages").notNull().default(false)
 })
 
-
-export const emailVerificationCodes = pgTable("email_verification_codes",{
-    id: serial('id').primaryKey(),
+export const emailVerification = pgTable('email_verification', {
     userId: text('user_id').notNull().references(() => UsersTable.id),
-    code: text('code').notNull(),
     email: text('email').notNull(),
-    expiresAt: timestamp("expires_at", {
-        withTimezone: true,
-        mode: "date"
-    }).notNull()
+    token: text('token').notNull(),
+    verified: boolean('verified').default(false).notNull(),
+    receiveEmail: boolean('recieved_email').default(true).notNull()
+})
+// export const emailVerificationCodes = pgTable("email_verification_codes",{
+//     id: serial('id').primaryKey(),
+//     userId: text('user_id').notNull().references(() => UsersTable.id),
+//     code: text('code').notNull(),
+//     email: text('email').notNull(),
+//     expiresAt: timestamp("expires_at", {
+//         withTimezone: true,
+//         mode: "date"
+//     }).notNull()
+// })
+export const smsVerification = pgTable('sms_verification', {
+    userId: text('user_id').notNull().references(() => UsersTable.id),
+    phone: text("phone").notNull(),
+    verified: boolean('verified').default(false).notNull(),
+    receiveSMS: boolean('recieved_sms').default(true).notNull()
+})
+
+export const passwordReset = pgTable('password_reset', {
+    id: serial('id').notNull().primaryKey(),
+    email: text('email').notNull(),
+    token: text('token').notNull()
 })
 
 export const sessionsTable = pgTable("user_sessions", {

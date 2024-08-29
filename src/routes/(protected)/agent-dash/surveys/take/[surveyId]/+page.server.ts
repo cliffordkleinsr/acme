@@ -4,9 +4,10 @@ import { asc, eq, sql } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { getpersistentIx } from '$lib/server/db_utils';
 import { redirect } from '@sveltejs/kit';
+import type { SurveyData } from '$lib/types';
+
 
 export const load: PageServerLoad = async ({params, cookies, locals:{user}}) => {
-    
     let [survey] = await db
         .select({
             completed:agentSurveysTable.survey_completed
@@ -17,34 +18,42 @@ export const load: PageServerLoad = async ({params, cookies, locals:{user}}) => 
     if (survey.completed === true) {
         redirect(303, '/agent-dash')
     }
-    let uri:string = ''
-    const ids = await db
-            .select({
-                id:surveyqnsTableV2.questionId
-            })
+    async function getSurvey() {
+        let uri:string = ''
+        const ids = await db
+                .select({
+                    id:surveyqnsTableV2.questionId
+                })
+                .from(surveyqnsTableV2)
+                .where(
+                    eq(surveyqnsTableV2.surveid, params.surveyId)
+                )
+                .orderBy(asc(surveyqnsTableV2.updatedAt))
+        let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
+        // first check whether we have a cookie for the indexed session
+        if (current_ix === 0) {
+            // if not we check whether we have a persisted index in the database
+            // if there is a persisted index in the database return the uri with the index url
+            current_ix = await getpersistentIx(user?.id!, params.surveyId)   
+        }
+        uri = `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`
+        const surveyqns = await db
+            .select()
             .from(surveyqnsTableV2)
-            .where(
-                eq(surveyqnsTableV2.surveid, params.surveyId)
-            )
-            .orderBy(asc(surveyqnsTableV2.updatedAt))
-    // await db.delete(progressTable).where(eq(progressTable.surveyid, "wncpwl3rf3h2zes"))
-    let current_ix =  parseInt(cookies.get('current_ix') ?? '0')
-    // first check whether we have a cookie for the indexed session
-    if (current_ix === 0) {
-        // if not we check whether we have a persisted index in the database
-        // if there is a persisted index in the database return the uri with the index url
-        current_ix = await getpersistentIx(user?.id!, params.surveyId)   
+            .where(eq(surveyqnsTableV2.surveid, params.surveyId))
+
+        const data = {
+            available_surv:{
+                uri,
+                current_ix,
+                question_cnt: surveyqns.length,
+                survId: params.surveyId
+            }
+        }
+        return data as SurveyData
     }
-    uri = `/agent-dash/surveys/take/${params.surveyId}/${ids[current_ix].id}`
-    const surveyqns = await db
-    .select()
-    .from(surveyqnsTableV2)
-    .where(eq(surveyqnsTableV2.surveid, params.surveyId))
     
+    return await getSurvey()
     
-    return {
-        uri,
-        current_ix,
-        question_cnt: surveyqns.length
-    }
+  
 }

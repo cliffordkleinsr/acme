@@ -10,7 +10,8 @@
   import Search from "lucide-svelte/icons/search";
   import Settings from "lucide-svelte/icons/settings";
   import ShoppingCart from "lucide-svelte/icons/shopping-cart";
-  import Bell  from "lucide-svelte/icons/bell";
+  import Tags  from "lucide-svelte/icons/tags";
+  import Tag  from "lucide-svelte/icons/tag";
   import UsersRound from "lucide-svelte/icons/users-round";
   import { Badge } from "$lib/components/ui/badge/index.js";
   import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
@@ -76,7 +77,7 @@
               <span class="sr-only">Client Management</span>
             </a>
           </Tooltip.Trigger>
-          <Tooltip.Content side="right"></Tooltip.Content>
+          <Tooltip.Content side="right">Client Management</Tooltip.Content>
         </Tooltip.Root>
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
@@ -95,16 +96,30 @@
         <Tooltip.Root>
           <Tooltip.Trigger asChild let:builder>
             <a
-              href="##"
-              class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              href="/superuser/dash/issue"
+              class="flex h-9 w-9 items-center justify-center rounded-lg {$page.url.pathname === "/superuser/dash/issue"? " bg-accent": ""} text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               use:builder.action
               {...builder}
             >
-              <Bell  class="h-5 w-5" />
-              <span class="sr-only">Notifications</span>
+              <Tag class='size-5'/>
+              <span class="sr-only">Create Ticket</span>
             </a>
           </Tooltip.Trigger>
-          <Tooltip.Content side="right">Notifications</Tooltip.Content>
+          <Tooltip.Content side="right">Create Ticket</Tooltip.Content>
+        </Tooltip.Root>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild let:builder>
+            <a
+              href="/superuser/dash/issue/tickets"
+              class="flex h-9 w-9 items-center justify-center rounded-lg {$page.url.pathname === "/superuser/dash/issue/tickets"? " bg-accent": ""} text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              use:builder.action
+              {...builder}
+            >
+              <Tags class='size-5'/>
+              <span class="sr-only">View Ticket</span>
+            </a>
+          </Tooltip.Trigger>
+          <Tooltip.Content side="right">View Ticket</Tooltip.Content>
         </Tooltip.Root>
       </nav>
       <nav class="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -168,6 +183,20 @@
               >
                 <UsersRound class="h-5 w-5" />
                 Agent Management
+              </a>
+              <a
+                href="/superuser/dash/issue"
+                class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <Tags class="h-5 w-5" />
+                Create Ticket
+              </a>
+              <a
+                href="/superuser/dash/issue/tickets"
+                class="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <Tags class="h-5 w-5" />
+                View Ticket
               </a>
               <a
                 href="##"

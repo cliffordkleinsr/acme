@@ -9,9 +9,12 @@ import { Argon2id } from "oslo/password"
 import { lucia } from "$lib/server/auth";
 import { calculateAge, handleLoginRedirect } from "$lib/helperFunctions/helpers"
 import type { Actions, PageServerLoad } from "./$types"
+import { smsVerification } from "$lib/server/schema"
+import { db } from "$lib/server/db"
+import { createVerification } from "$lib/server/twilioconfigs/sms-messages"
 
 
-export const load: PageServerLoad = async ({locals: { user}, url}) => {
+export const load: PageServerLoad = async ({locals:{ user}, url}) => {
     if (user) 
     {
         if (user.role === "AGENT") {
@@ -22,11 +25,12 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
     }
     return {
         form: await superValidate(zod(registerRSchema)),
-      }
+    }
 }
 
 export const actions: Actions = {
     default: async({ request, cookies, url}) =>{
+        let validate = false
         const form = await superValidate(request, zod(registerRSchema))
         // validate
         if (!form.valid) {
@@ -85,6 +89,18 @@ export const actions: Actions = {
                 sector: sector
             })
 
+            if (validate) {
+                // SMSVerification
+                let foramtted = '+254' + phoneno.slice(1)
+                await db.insert(smsVerification)
+                .values({
+                    userId: userid,
+                    phone:foramtted,
+                })
+
+                await createVerification(foramtted)
+            }
+            
             // create a session in the database
             const session = await lucia.createSession(userid, {})
             const sessionCookie = lucia.createSessionCookie(session.id)
@@ -108,6 +124,13 @@ export const actions: Actions = {
          if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
          }
-        throw redirect(303, '/agent/signin', {type: "success", message:"User Registration Successful"}, cookies)
+        
+        if (validate) {
+            redirect(303, '/agent/verify', {type: "success", message:"User Registration Successful"}, cookies)
+        }
+        else {
+            redirect(302, '/agent/signin')
+        }
+         
     }
 };

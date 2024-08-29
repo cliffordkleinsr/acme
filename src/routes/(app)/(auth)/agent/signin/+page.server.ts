@@ -3,7 +3,7 @@ import { zod } from "sveltekit-superforms/adapters"
 import { message, setError, superValidate } from "sveltekit-superforms";
 import { fail } from "@sveltejs/kit";
 import { db } from "$lib/server/db";
-import { UsersTable } from "$lib/server/schema";
+import { agentData, clientData, emailVerification, sessionsTable, smsVerification, UsersTable } from "$lib/server/schema";
 import { eq } from "drizzle-orm";
 import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
@@ -13,6 +13,9 @@ import type { Actions, PageServerLoad } from "./$types";
 
 
 export const load: PageServerLoad = async ({locals: { user}, url}) => {
+    // await db.delete(smsVerification).where(eq(smsVerification.userId, 't73teafewm08kvz'))
+    // await db.delete(agentData).where(eq(agentData.agentid, 't73teafewm08kvz'))
+    // await db.delete(UsersTable).where(eq(UsersTable.id, 't73teafewm08kvz'))
     if (user) 
     {
         if (user.role === "AGENT") {
@@ -20,13 +23,14 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
             redirect(302, handleLoginRedirect('/agent-dash', url, "User Already Logged In"))
         }
     }
-    
+
     return {
         form: await superValidate(zod(signinRSchema)),
       }
 }
 export const actions: Actions = {
     login: async({request, cookies, url}) =>{
+        let validate = false
         const form = await superValidate(request, zod(signinRSchema))
         // validate
         if (!form.valid) {
@@ -78,6 +82,23 @@ export const actions: Actions = {
         if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
         }
-        redirect(302, '/agent-dash', {type: "success", message:"Logged In Successfully"}, cookies)
+
+        const [state] = await db
+        .select({
+            Ver: smsVerification.verified
+        })
+        .from(smsVerification)
+        .where(eq(smsVerification.userId, existingUser.id))
+        if (validate){
+            if (state.Ver) {
+                redirect(302, '/agent-dash', {type: "success", message:"Logged In Successfully"}, cookies)
+            }
+            else {
+                redirect(302, '/agent/verify', {type: "warning", message:"Phone Number is Not Verified!"}, cookies)
+            }
+        }
+        else {
+            redirect(302, '/agent-dash', {type: "success", message:"Logged In Successfully"}, cookies)
+        }
     }
 }

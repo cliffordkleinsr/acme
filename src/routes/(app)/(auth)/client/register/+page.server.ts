@@ -10,7 +10,8 @@ import { handleLoginRedirect } from "$lib/helperFunctions/helpers"
 import { PENDING_VERIFICATION_COOKIE, generateEmailVerificationCode, sendEmailVerificationCode } from "$lib/server/email"
 import { redirect } from "sveltekit-flash-message/server"
 import { db } from "$lib/server/db"
-import { emailVerificationCodes } from "$lib/server/schema"
+import { emailVerification } from "$lib/server/schema"
+import { sendVerificationEmail } from "$lib/server/emailconfigs/email-messages"
 
 
 
@@ -24,11 +25,12 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
     }
     return {
         form: await superValidate(zod(registerCSchema)),
-      }
+    }
 }
 
 export const actions: Actions = {
     default: async({request, cookies, url}) =>{
+        let validate = false
         const form = await superValidate(request, zod(registerCSchema))
         // validate
         if (!form.valid) {
@@ -72,7 +74,7 @@ export const actions: Actions = {
                 fullname: fullname,
                 email: email,
                 password:hashPassword,
-                isEmailVerified: true, //set to false if you use email verification
+                isEmailVerified: !validate, //set to false if you use email verification
                 role:'CLIENT'
             })
 
@@ -84,7 +86,19 @@ export const actions: Actions = {
                 clientId: userid,
                 companyName: company
             })
-            // // EmailVerification
+
+            if (validate) {
+            //  EmailVerification
+            const token = crypto.randomUUID()
+            await db.insert(emailVerification)
+            .values({
+                userId: userid,
+                token:token,
+                email: email
+            })
+            await sendVerificationEmail(form.data.email, encodeURIComponent(token), 'client');
+            }
+           
             // const verificationCode = await generateEmailVerificationCode(userid, email)
 
             // const sendverificationCodeResult = await sendEmailVerificationCode(email, verificationCode)
@@ -101,13 +115,13 @@ export const actions: Actions = {
             //     path: '/email-verification'
             // })
             //  create a session in the database
-            // const session = await lucia.createSession(userid, {})
-            // const sessionCookie = lucia.createSessionCookie(session.id)
+            const session = await lucia.createSession(userid, {})
+            const sessionCookie = lucia.createSessionCookie(session.id)
 
-            // cookies.set(sessionCookie.name, sessionCookie.value,{
-            //     path: ".",
-            //     ...sessionCookie.attributes
-            // })
+            cookies.set(sessionCookie.name, sessionCookie.value,{
+                path: ".",
+                ...sessionCookie.attributes
+            })
            
             
         } catch (err) 
@@ -125,8 +139,12 @@ export const actions: Actions = {
         if (redirectTo) {
             redirect(302, `/${redirectTo.slice(1)}`, {type: "success", message:"Logged In Successfully"}, cookies)
         }
-        redirect(303, '/client/signin', {type: "success", message:"User Registration Successful"}, cookies)
-        
+        if (validate) {
+            redirect(302, '/client/verify/email')
+        }
+        else {
+            redirect(303, '/client/signin', {type: "success", message:"User Registration Successful"}, cookies)
+        }
     }
     
 }

@@ -7,7 +7,6 @@ import {
     SurveyTable,
     UsersTable, clientData,
     clientPackages,
-    emailVerificationCodes,
     agentData,
     sessionsTable,
     surveyqnsTableV2,
@@ -57,6 +56,7 @@ export const getCountAgents = async (variable: PgColumn, userId:string) => {
 
     return queryResult
 }
+
 
 export const checkIfEmailExists = async (email:string) => {
     const queryResult = await db
@@ -427,3 +427,102 @@ export const paymentRequestreset = async (userid:string) => {
 
     ])
 }
+
+export const countAgents= async (complete:boolean, survid:string) => {
+    const query = await db
+    .select({
+        id: agentSurveysTable.agentid
+    })
+    .from(agentSurveysTable)
+    .where(sql`${agentSurveysTable.survey_completed} = ${complete} and ${agentSurveysTable.surveyid} = ${survid}`)
+    return query.length
+}
+export const countTotAgents= async (survid:string) => {
+    const query = await db
+    .select({
+        id: agentSurveysTable.agentid
+    })
+    .from(agentSurveysTable)
+    .where(sql`${agentSurveysTable.surveyid} = ${survid}`)
+    return query.length
+}
+
+// await db.insert(clientPackages).values({
+//     packageid: 'prod_QTgA9EH6qo3dRu',
+//     packageDesc: 'Premium Business',
+//     package_price_mn: '2000',
+//     package_price_yr: '21600',
+//     demographics: true,
+//     ages: true,
+//     max_agents: 500,
+//     max_questions: 30,
+//     max_surv:6,
+//     priceIdMn: 'price_1PcioZRpYHoLk6LShwTOi7Zc',
+//     priceIdYr: 'price_1PcioZRpYHoLk6LSAOiDsuSs'
+// })
+// await Promise.all([
+//     db.insert(clientPackages).values({
+//         packageid: 'prod_QjUCV2u3waC96D',
+//         packageDesc: 'One-time',
+//         package_price_mn: '30',
+//         package_price_yr: '30',
+//         demographics: true,
+//         ages: true,
+//         max_agents: 100,
+//         max_questions: 5,
+//         max_surv:1,
+//         priceIdMn: 'price_1Ps1ELRpYHoLk6LSjizQbL8q',
+//         priceIdYr: 'price_1Ps1ELRpYHoLk6LSjizQbL8q'
+//     }),
+//     db.insert(clientPackages).values({
+//         packageid: 'prod_QjUMG44vCFNGXO',
+//         packageDesc: 'Basic',
+//         package_price_mn: '50',
+//         package_price_yr: '540',
+//         demographics: true,
+//         ages: true,
+//         max_agents: 100,
+//         max_questions: 5,
+//         max_surv:2,
+//         priceIdMn: 'price_1Ps1ODRpYHoLk6LSg56V1no0',
+//         priceIdYr: 'price_1Ps1ODRpYHoLk6LSMN8kgMJf'
+//     }),
+//     db.insert(clientPackages).values({
+//         packageid: 'prod_QTg6aK5zM7RlUw',
+//         packageDesc: 'Standard Business',
+//         package_price_mn: '200',
+//         package_price_yr: '2160',
+//         demographics: true,
+//         ages: true,
+//         max_agents: 250,
+//         max_questions: 15,
+//         max_surv:4,
+//         priceIdMn: 'price_1PcikKRpYHoLk6LSwn6RloI0',
+//         priceIdYr: 'price_1PcikKRpYHoLk6LSiWl3cO16'
+//     }),
+//     db.insert(clientPackages).values({
+//         packageid: 'prod_QTgA9EH6qo3dRu',
+//         packageDesc: 'Premium Business',
+//         package_price_mn: '1200',
+//         package_price_yr: '12960',
+//         demographics: true,
+//         ages: true,
+//         max_agents: 500,
+//         max_questions: 30,
+//         max_surv:6,
+//         priceIdMn: 'price_1PcioZRpYHoLk6LShwTOi7Zc',
+//         priceIdYr: 'price_1PcioZRpYHoLk6LSAOiDsuSs'
+//     }),
+// ]) 
+    // await db.delete(smsVerification).where(eq(smsVerification.userId, 'vsz9hei4m2dnr18'))
+    // await db.delete(agentData).where(eq(agentData.agentid, 'vsz9hei4m2dnr18'))
+    // await db.delete(UsersTable).where(eq(UsersTable.id, 'vsz9hei4m2dnr18'))
+    // await db.delete(emailVerification).where(
+    //     eq(emailVerification.userId, 'vsz9hei4m2dnr18')
+    // )
+    // await db.delete(clientData).where(
+    //     eq(clientData.clientId, 'vsz9hei4m2dnr18')
+    // )
+    // await db.delete(UsersTable).where(
+    //     eq(UsersTable.id, 'vsz9hei4m2dnr18')
+    // )

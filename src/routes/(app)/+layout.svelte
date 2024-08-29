@@ -10,6 +10,7 @@
 <Navbar/>
 {#key data.url}
 <div 
+class=" select-none"
 in:fly={{x: -100, delay:300, duration:300, easing:sineIn}}
 out:fly={{x: 100, duration:300, easing:sineOut}}
 >

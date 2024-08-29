@@ -11,6 +11,7 @@ type Years = {
 
 // clientPackages
 export type CartItems = {
+  id:string,
   subtitles:string,
   prices:string,
   offers:string,
@@ -23,7 +24,7 @@ export type CartItems = {
 
 // Years from 1940 JSON
 const items:Years[] = [] 
-const currentYear:number = new Date().getFullYear()
+const currentYear:number = (new Date().getFullYear() - 18)
 for (let i = 0; i <= currentYear - 1940; i++) {
     const year = currentYear - i;
     items.push({ value: 365 * i, label: String(year) });
@@ -79,6 +80,54 @@ function calculateAge(birthday: string) { // birthday is a date
 }
 
 // Likert Key
+let cntys = new Map()
+    cntys.set('MOMBASA' , 0)
+    cntys.set('KWALE' , 0)
+    cntys.set('KILIFI' , 0)
+    cntys.set('TANA_RIVER' , 0)
+    cntys.set('LAMU' , 0)
+    cntys.set('TAITA_TAVETA' , 0)
+    cntys.set('GARISSA' , 0)
+    cntys.set('WAJIR' , 0)
+    cntys.set('MANDERA' , 0)
+    cntys.set('MARSABIT' , 0)
+    cntys.set('ISIOLO' , 0)
+    cntys.set('MERU' , 0)
+    cntys.set('THARAKA_NITHI' , 0)
+    cntys.set('EMBU' , 0)
+    cntys.set('KITUI' , 0)
+    cntys.set('MACHAKOS' , 0)
+    cntys.set('MAKUENI' , 0)
+    cntys.set('NYANDARUA' , 0)
+    cntys.set('NYERI' , 0)
+    cntys.set('KIRINYAGA' , 0)
+    cntys.set('MURANGA' , 0)
+    cntys.set('KIAMBU' , 0)
+    cntys.set('TURKANA' , 0)
+    cntys.set('WEST_POKOT' , 0)
+    cntys.set('SAMBURU' , 0)
+    cntys.set('TRANS_NZOIA' , 0)
+    cntys.set('UASIN_GISHU' , 0)
+    cntys.set('ELGEYO_MARAKWET' , 0)
+    cntys.set('NANDI' , 0)
+    cntys.set('BARINGO' , 0)
+    cntys.set('LAIKIPIA' , 0)
+    cntys.set('NAKURU' , 0)
+    cntys.set('NAROK' , 0)
+    cntys.set('KAJIADO' , 0)
+    cntys.set('KERICHO', 0)
+    cntys.set('BOMET', 0)
+    cntys.set('KAKAMEGA', 0)
+    cntys.set('VIHIGA', 0)
+    cntys.set('BUNGOMA', 0)
+    cntys.set('BUSIA', 0)
+    cntys.set('SIAYA', 0)
+    cntys.set('KISUMU', 0)
+    cntys.set('HOMA_BAY', 0)
+    cntys.set('MIGORI', 0)
+    cntys.set('KISII', 0)
+    cntys.set('NYAMIRA', 0)
+    cntys.set('NAIROBI', 0)
 let likert_options = new Map();
 
 likert_options.set('Agreement', [
@@ -228,4 +277,5 @@ function adjustDivider(x: number, currentDivider: number = 500): number {
   
   return nextDivider;
 }
-export {items, df, adjustDivider, open, likert_options, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}
+
+export {items, df, adjustDivider, open, likert_options, cntys, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}

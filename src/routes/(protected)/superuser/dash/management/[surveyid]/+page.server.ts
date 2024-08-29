@@ -156,11 +156,12 @@ export const actions: Actions = {
                 target:null,
                 target_age:null,
                 target_gender:null,
+                external:false,
                 status:"Draft"
            })
            .where(sql`${SurveyTable.surveyid} = ${params.surveyid}`) 
-        } catch (error) {
-            
+        } catch (err) {
+            console.error(err)
         }
     }
 };

@@ -51,7 +51,7 @@
         <Breadcrumb.Separator>
         </Breadcrumb.Separator>
         <Breadcrumb.Item>
-        <Breadcrumb.Page>Agent SignIn</Breadcrumb.Page>
+        <Breadcrumb.Page>Agent Login</Breadcrumb.Page>
         </Breadcrumb.Item>
     </Breadcrumb.List>
     </Breadcrumb.Root>
@@ -91,11 +91,14 @@
                         <Form.Button>Login</Form.Button>
                     {/if}
                     <!-- <Button type="submit" class="w-full">t</Button> -->
-                    <Button variant="outline" class="w-full">Sign up with Google</Button>
+                    <!-- <Button variant="outline" class="w-full">Sign up with Google</Button> -->
                 </div>
                 <div class="mt-4 text-center text-sm">
                     Don't have an account?
                     <a href="/agent/register" class="underline"> Register </a>
+                </div>
+                <div class="mt-4 text-center text-sm">
+                    <a href="/client/password/reset" class="underline">Forgot Password?</a>
                 </div>
             </Card.Content>
         </Card.Root>

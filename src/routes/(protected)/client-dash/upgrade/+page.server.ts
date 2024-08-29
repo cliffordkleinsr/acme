@@ -9,7 +9,7 @@ import { clientData } from '$lib/server/schema';
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 
-export const load: PageServerLoad = async ({request, locals, url}) => {
+export const load: PageServerLoad = async ({locals, url}) => {
     const [paid] = await db.select({
         payment_status: clientData.payment_status
     })
@@ -18,6 +18,17 @@ export const load: PageServerLoad = async ({request, locals, url}) => {
     
     if (paid.payment_status) {
         redirect(303, handleLoginRedirect('/client-dash/subscriptions/myplan', url, "You are currently subscribed to a plan"))
+    }
+
+    const [onetime] = await db
+        .select({
+            state: clientData.onetime
+        })
+        .from(clientData)
+        .where(eq(clientData.clientId, locals.user?.id as string))
+    
+    return {
+        otp: onetime.state
     }
 };
 

@@ -7,7 +7,6 @@ import { gender } from '$lib/json';
 
 export const load: PageServerLoad = async ({locals}) => {
     let usr = locals.session?.userId as string
-
     const available_qns = await db
         .select({
             id: sql<string>`${SurveyTable.surveyid}`,
@@ -16,15 +15,16 @@ export const load: PageServerLoad = async ({locals}) => {
             to: sql<Date>`${SurveyTable.to}::timestamp::date`,
         })
         .from(agentSurveysTable)
-        .leftJoin(SurveyTable, sql`${agentSurveysTable.surveyid} = ${SurveyTable.surveyid} and ${SurveyTable.status} = 'Live'`)
+        .leftJoin(SurveyTable, sql`${agentSurveysTable.surveyid} = ${SurveyTable.surveyid}`)
         .where(
             sql`
                 ${agentSurveysTable.agentid} = ${usr} 
                 and
                 ${agentSurveysTable.survey_completed} = false 
+                and
+                 ${SurveyTable.status} = 'Live'
             `
         )
-
     return {
         available_qns  
     }

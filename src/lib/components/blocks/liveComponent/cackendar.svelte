@@ -21,6 +21,7 @@
     import Share2 from 'lucide-svelte/icons/share-2'
     import { goto, invalidateAll } from '$app/navigation'
 	  import { toast } from "svelte-sonner";
+    import { Switch } from "$lib/components/ui/switch";
 
     let today = new Date()
     let dd = today.getDate()
@@ -67,8 +68,13 @@
     let dialog = false
     let loading = false
     let sh_loading= false
+    let checked = false
   </script>
 
+<div class="flex gap-2">
+  <Switch id="share" bind:checked={checked} />
+  <p class="text-sm"> Share to your demographics</p>
+</div>
 <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3">
   <div class="grid gap-2">
     <Popover.Root openFocus>
@@ -112,6 +118,7 @@
       <p class="text-destructive">{form?.error.from}</p>
     {/if}
   </div>
+  {#if !checked}
   {#if user === 'ADMIN'}
   <Select.Root
     selected={selected_agents}
@@ -166,6 +173,7 @@
   {#if user === 'ADMIN'}
     <div class="hidden lg:block"></div>
   {/if}
+  {/if}
   <AlertDialog.Root bind:open={dialog}>
     <AlertDialog.Trigger asChild let:builder>
       <Button builders={[builder]} class="w-full" ><Flame class="size-4 mr-2"/>{default_txt}</Button>
@@ -180,76 +188,79 @@
       </AlertDialog.Header>
       <AlertDialog.Footer>
         <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-        <form action="?/goLive" method="post" use:enhance={
-          () => {
-            loading = true
-            return async({result, update}) => {
-              switch (true) {
-                case result.type === 'failure':
-                  loading = false
+        {#if checked}
+          <form action="?/shareLive" method="post" use:enhance = {
+            () => {
+              sh_loading = true
+              return async({ result, update}) => {
+                if (result.type === 'redirect') {
+                  dialog = false
+                  await invalidateAll()
+                  goto(result.location)
+                  sh_loading =false
+                  toast.success('Marked as live')
+                }
+                else {
+                  sh_loading=false
                   await update()
-                  break;
-                case result.type === 'success':
-                  loading = true
-                  await update()
-                  break;
-                  case result.type === 'redirect':
+                }
+              }
+            }
+          }>
+            <Input value={value?.start} name="from" class="hidden"/>
+            <Input value={value?.end} name="to" class="hidden"/>
+            <Button variant="secondary" type='submit' disabled={sh_loading}>
+              {#if sh_loading}
+                <div class="flex gap-2">
+                    <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent rounded-full" role="status" aria-label="loading"></span>
+                    Loading...
+                </div>
+              {:else}
+                Share the survey
+              {/if}
+            </Button>
+          </form>
+        {:else}
+          <form action="?/goLive" method="post" use:enhance={
+            () => {
+              loading = true
+              return async({result, update}) => {
+                switch (true) {
+                  case result.type === 'failure':
+                    loading = false
+                    await update()
+                    break;
+                  case result.type === 'success':
                     loading = true
                     await update()
                     break;
-                default:
-                  break;
+                    case result.type === 'redirect':
+                      loading = true
+                      await update()
+                      break;
+                  default:
+                    break;
+                }
               }
             }
-          }
-        }>
-          <Input value={value?.start} name="from" class="hidden"/>
-          <Input value={value?.end} name="to" class="hidden"/>
-          <Input value={target} name="target" class="hidden"/>
-          <Input value={target_age_group} name="target_age_group" class="hidden"/>
-          <Input value={target_gender} name="target_gender" class="hidden"/>
-          <Button type="submit"  disabled={loading}>
-            {#if loading}
-              <div class="flex gap-2">
-                  <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
-                  Loading...
-              </div>
-            {:else}
-             Use Our Database
-            {/if}
-            </Button>
-        </form>
-        <form action="?/shareLive" method="post" use:enhance = {
-          () => {
-            sh_loading = true
-            return async({ result, update}) => {
-              if (result.type === 'redirect') {
-                dialog = false
-                await invalidateAll()
-                goto(result.location)
-                sh_loading =false
-                toast.success('Marked as live')
-              }
-              else {
-                sh_loading=false
-                await update()
-              }
-            }
-          }
-        }>
-          <Input value={value?.start} name="from" class="hidden"/>
-          <Input value={value?.end} name="to" class="hidden"/>
-          <Button variant="secondary" type='submit' disabled={sh_loading}>
-            {#if sh_loading}
-              <div class="flex gap-2">
-                  <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent rounded-full" role="status" aria-label="loading"></span>
-                  Loading...
-              </div>
-            {:else}
-              Share the survey
-            {/if}
-          </Button>
-        </form>
+          }>
+            <Input value={value?.start} name="from" class="hidden"/>
+            <Input value={value?.end} name="to" class="hidden"/>
+            <Input value={target} name="target" class="hidden"/>
+            <Input value={target_age_group} name="target_age_group" class="hidden"/>
+            <Input value={target_gender} name="target_gender" class="hidden"/>
+            <Button type="submit"  disabled={loading}>
+              {#if loading}
+                <div class="flex gap-2">
+                    <span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+                    Loading...
+                </div>
+              {:else}
+              Use Our Database
+              {/if}
+              </Button>
+          </form>
+        {/if}
       </AlertDialog.Footer>
     </AlertDialog.Content>
   </AlertDialog.Root>

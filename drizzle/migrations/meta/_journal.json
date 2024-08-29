@@ -456,6 +456,69 @@
       "when": 1723786382023,
       "tag": "0070_reflective_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "6",
+      "when": 1724072933856,
+      "tag": "0071_solid_flatman",
+      "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "6",
+      "when": 1724073028150,
+      "tag": "0072_crazy_miek",
+      "breakpoints": true
+    },
+    {
+      "idx": 73,
+      "version": "6",
+      "when": 1724073081646,
+      "tag": "0073_good_giant_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 74,
+      "version": "6",
+      "when": 1724319370578,
+      "tag": "0074_lethal_random",
+      "breakpoints": true
+    },
+    {
+      "idx": 75,
+      "version": "6",
+      "when": 1724319919160,
+      "tag": "0075_mature_violations",
+      "breakpoints": true
+    },
+    {
+      "idx": 76,
+      "version": "6",
+      "when": 1724319990677,
+      "tag": "0076_familiar_proemial_gods",
+      "breakpoints": true
+    },
+    {
+      "idx": 77,
+      "version": "6",
+      "when": 1724321329053,
+      "tag": "0077_sparkling_jamie_braddock",
+      "breakpoints": true
+    },
+    {
+      "idx": 78,
+      "version": "6",
+      "when": 1724417580063,
+      "tag": "0078_nostalgic_salo",
+      "breakpoints": true
+    },
+    {
+      "idx": 79,
+      "version": "6",
+      "when": 1724676804669,
+      "tag": "0079_condemned_namor",
+      "breakpoints": true
     }
   ]
 }

@@ -12,26 +12,4 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/superuser', url, "Not Authorised"))
         // console.log(fromUrl)
     }
-    const data  = await db
-    .select({
-        id: SurveyTable.surveyid,
-        title: SurveyTable.surveyTitle,
-        status: SurveyTable.status, 
-        created: sql<Date>`${SurveyTable.createdAt}::timestamp::date`
-    })
-    .from(SurveyTable)
-
-    const subs = await db
-        .select({
-            id: clientData.clientId
-        })
-        .from(clientData)
-        .where(
-            sql`${clientData.payment_status} = True`
-        )
-    return {
-        role: user.role,
-        survs: data,
-        subs
-    }
 };
