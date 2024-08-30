@@ -28,5 +28,9 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
         redirect(302, handleLoginRedirect('/', url, "Not Authorised"))
     }
 
+    return {
+        AuthedUser: user.fullname,
+        url: url.pathname
+    }
     
 }

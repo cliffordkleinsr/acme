@@ -10,13 +10,13 @@
     import DataTableActions from "./data-table-actions.svelte"
     import DataTableCheckbox from "./data-table-checkbox.svelte"
     import ChevronDown from "lucide-svelte/icons/chevron-down"
-    import { Button } from "$lib/components/ui/button"
+    import { Button, buttonVariants } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
     import 'intro.js/minified/introjs.min.css'
     import introJs from 'intro.js'
 	import { onMount } from 'svelte';
-    
+    import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
     onMount(() => {
         const theme = localStorage.getItem('mode-watcher-mode')
         if (theme === 'dark') {
@@ -53,20 +53,7 @@
     const columns = table.createColumns([
         table.column({
             accessor: "id",
-            header: (_, { pluginStates }) => {
-                const { allPageRowsSelected } = pluginStates.select;
-                return createRender(DataTableCheckbox, {
-                checked: allPageRowsSelected,
-                });
-            },
-            cell: ({ row }, { pluginStates }) => {
-                const { getRowState } = pluginStates.select;
-                const { isSelected } = getRowState(row);
-        
-                return createRender(DataTableCheckbox, {
-                checked: isSelected,
-                });
-            },
+            header: '',
             plugins: {
                 sort: {
                     disable: true,
@@ -104,21 +91,21 @@
                 },
             },
         }),
-        table.column({
-            accessor: ({ id }) => id,
-            header: "",
-            cell: ({ value }) => {
-                return createRender(DataTableActions, { id: value });
-            },
-            plugins: {
-                sort: {
-                    disable: true,
-                },
-                filter: {
-                    exclude: true,
-                },
-            },
-        }),
+        // table.column({
+        //     accessor: ({ id }) => id,
+        //     header: "",
+        //     cell: ({ value }) => {
+        //         return createRender(DataTableActions, { id: value });
+        //     },
+        //     plugins: {
+        //         sort: {
+        //             disable: true,
+        //         },
+        //         filter: {
+        //             exclude: true,
+        //         },
+        //     },
+        // }),
     ])
 
     const { 
@@ -204,7 +191,19 @@
                 {#each row.cells as cell (cell.id)}
                     <Subscribe attrs={cell.attrs()} let:attrs>
                     <Table.Cell {...attrs}>
-                        <Render of={cell.render()} />
+                        {#if cell.id === 'id'}
+                        <a 
+                            href="/agent-dash/surveys/history/{cell.render()}"
+                            class="{buttonVariants({ variant: 'secondary'})}"
+    
+                        >
+                            View
+                            <ArrowUpRight class='size-4'/>
+                        </a>
+                         {:else}
+                            <Render of={cell.render()} />   
+                        {/if}
+                        
                     </Table.Cell>
                     </Subscribe>
                 {/each}

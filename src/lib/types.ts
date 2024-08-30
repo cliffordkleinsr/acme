@@ -1,4 +1,6 @@
 interface SurveyData {
+    url: string;
+    AuthedUser: string,
     available_surv: {
         uri: string,
         current_ix: number,

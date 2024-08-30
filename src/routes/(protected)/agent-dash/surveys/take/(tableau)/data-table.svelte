@@ -22,8 +22,11 @@
 	import { page } from '$app/stores';
     import AvailableSurvs from '../[surveyId]/+page.svelte'
     import * as Dialog from "$lib/components/ui/dialog"
+    import * as Drawer from "$lib/components/ui/drawer"
     
+    let isDesktop = true
     onMount(() => {
+        isDesktop = window.innerWidth >= 768
         const theme = localStorage.getItem('mode-watcher-mode')
         if (theme === 'dark') {
             import('intro.js/themes/introjs-dark.css')
@@ -258,6 +261,7 @@
         >
     </div>
 </div>
+{#if isDesktop}
 <Dialog.Root {open} onOpenChange={(open) => {
     if (!open) {
         history.back()
@@ -267,3 +271,15 @@
     <AvailableSurvs data={$page.state.available_survs}/>
   </Dialog.Content>
 </Dialog.Root>
+{:else}
+<Drawer.Root {open} onOpenChange={(open) => {
+    if (!open) {
+        history.back()
+    }
+}}>
+  <Drawer.Content>
+    <AvailableSurvs data={$page.state.available_survs}/>    
+  </Drawer.Content>
+</Drawer.Root>
+
+{/if}

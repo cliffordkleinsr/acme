@@ -65,7 +65,6 @@ export const load: PageServerLoad = async ({locals:{user}, url}) => {
         total_paid: tot_points.pds,
         total_payable: tot_points.pybl,
         complete: complete_surveys.length,
-        AuthedUser: user.fullname,
         payouts    
     }
 };

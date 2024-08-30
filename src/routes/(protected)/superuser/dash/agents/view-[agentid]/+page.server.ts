@@ -35,15 +35,8 @@ export const load: PageServerLoad = async ({params}) => {
         })
         .from(agentData)
         .leftJoin(UsersTable, eq(agentData.agentid, UsersTable.id))
-        .leftJoin(agentSurveysTable, eq(agentData.agentid, agentSurveysTable.agentid))
-        .rightJoin(SurveyTable, sql`${agentSurveysTable.surveyid} = ${SurveyTable.surveyid}`)
-        .where(
-            sql`
-                ${agentData.agentid} = ${params.agentid} 
-                and
-                 ${SurveyTable.status} = 'Live'
-            `
-        )
+        .rightJoin(agentSurveysTable, eq(agentData.agentid, agentSurveysTable.agentid))
+        .where(sql`${agentData.agentid} = ${params.agentid}`)
         .groupBy(agentData.agentid, UsersTable.fullname, agentData.email, agentData.phone, UsersTable.gender, UsersTable.age)
 
         const [bi] = await db
@@ -51,12 +44,21 @@ export const load: PageServerLoad = async ({params}) => {
                 pending: sql<number>`count(${agentSurveysTable.surveyid})::int`
             })
             .from(agentSurveysTable)
-            .where(sql`${agentSurveysTable.agentid} = ${params.agentid} and ${agentSurveysTable.survey_completed} = false`)
+            .rightJoin(SurveyTable, sql`${agentSurveysTable.surveyid} = ${SurveyTable.surveyid}`)
+            .where(sql`
+                ${agentSurveysTable.agentid} = ${params.agentid}
+                 and 
+                ${agentSurveysTable.survey_completed} = false
+                 and
+                ${SurveyTable.status} = 'Live'
+                `
+                
+            )
         const { pending} = bi
         const data = {agent, pending}
 
         return data as Agent
     }
-   
+        
     return await getData()
 };

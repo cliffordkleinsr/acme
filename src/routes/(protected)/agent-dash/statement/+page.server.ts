@@ -24,8 +24,15 @@ const limiter = new RetryAfterRateLimiter ({
 export const load: PageServerLoad = async (event) => {
     // await paymentRequestreset(event.locals.user?.id!)
     await limiter.cookieLimiter?.preflight(event);
+    const { locals:{user}} = event
+    const [balance] = await db.select({
+        pts: agentData.total_points_payable
+    })
+    .from(agentData)
+    .where(eq(agentData.agentid, user?.id as string))
     return {
         form: await superValidate(zod(amountSchema)),
+        total_payable: balance.pts
     }
 }
 

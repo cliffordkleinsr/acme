@@ -11,7 +11,6 @@ export const load: PageServerLoad = async ({locals}) => {
         status: SurveyTable.status,
     };
   
-  if (locals.session) {
     const [allsurveys, draftsurveys, livesurveys, closedsurveys] = await Promise.all([
       db.select(select).from(SurveyTable).where(sql`${SurveyTable.clientid} = ${locals.user?.id}`),
       db.select(select).from(SurveyTable).where(sql`${SurveyTable.clientid} = ${locals.user?.id} and ${SurveyTable.status} = 'Draft'`),
@@ -35,7 +34,6 @@ export const load: PageServerLoad = async ({locals}) => {
       live_surv: livesurveys,
       closed_surv: closedsurveys,
     }
-  } 
  
 
 }

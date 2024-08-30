@@ -164,8 +164,8 @@ export const getpackageFeatures = async (id: string) => {
         maxsurv: clientPackages.max_surv,
         plan: clientPackages.package_price_mn,
     })
-    .from(clientData)
-    .leftJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
+    .from(clientPackages)
+    .leftJoin(clientData, eq(clientData.packageid, clientPackages.packageid))
     .where(eq(clientData.clientId, id))
 
     return feats

@@ -8,7 +8,7 @@ import { DATABASE_URL } from "$env/static/private"
 // import ws from 'ws';
 // neonConfig.webSocketConstructor = ws;  // <-- this is the key bit
 
-const sql = neon(DATABASE_URL!)
+const sql = neon(DATABASE_URL)
 const db = drizzle(sql, {schema, logger:false })
 
 // const client = new Pool({ connectionString: DATABASE_URL })

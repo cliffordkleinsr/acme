@@ -42,6 +42,7 @@
 	import { sineIn, sineInOut, sineOut } from "svelte/easing";
   export let data
  
+ let dialogOpen = false
 </script>
 
 
@@ -121,7 +122,7 @@
 </div>
 <div class="flex flex-col">
 <header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-  <Sheet.Root>
+  <Sheet.Root bind:open={dialogOpen}>
     <Sheet.Trigger asChild let:builder>
       <Button
         variant="outline"
@@ -141,6 +142,7 @@
         </a>
         <a
           href="/agent-dash"
+          on:click={() => dialogOpen = !dialogOpen}
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <Home class="h-5 w-5" />
@@ -154,6 +156,7 @@
           <Collapsible.Content class="flex flex-col gap-3 ml-10">
             <Separator />
             <a
+              on:click={() => dialogOpen = !dialogOpen}
               href="/agent-dash/surveys/take"
               class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
@@ -162,6 +165,7 @@
             </a>
             <Separator />
             <a
+              on:click={() => dialogOpen = !dialogOpen}
               href="/agent-dash/surveys/history"
               class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
@@ -172,7 +176,8 @@
           </Collapsible.Content>
         </Collapsible.Root>
         <a
-          href="##"
+        on:click={() => dialogOpen = !dialogOpen}
+          href="/agent-dash/statement"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
           <HandCoins class="size-5"/>
@@ -191,7 +196,7 @@
             </Card.Description>
           </Card.Header>
           <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
-            <Button size="sm" class="w-full">View Details</Button>
+            <Button size="sm" class="w-full" on:click={() => dialogOpen = !dialogOpen} href="/agent-dash/statement">View Details</Button>
           </Card.Content>
         </Card.Root>
       </div>

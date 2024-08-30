@@ -214,7 +214,8 @@
     {/if}
     
 </div>
-<div class="m-4 max-w-[26rem] lg:max-w-full prose">
+{#if payouts.length > 0}
+<div class="m-4 max-w-[24rem] lg:max-w-full prose">
     <h2>Payout Request History</h2>
     <Grid
             {columns}
@@ -229,4 +230,4 @@
             }}
         />
 </div>
-
+{/if}

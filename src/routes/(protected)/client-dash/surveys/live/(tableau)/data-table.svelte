@@ -20,6 +20,7 @@
     import introJs from 'intro.js'
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
+	import { cn } from '$lib/utils';
     
     onMount(async() => {
         const theme = localStorage.getItem('mode-watcher-mode')
@@ -206,9 +207,9 @@
                           </AlertDialog.Root>
                         {:else if cell.id === 'Options'}
                         <a 
-                            class="{buttonVariants({variant:'secondary'})}"
-                            href="/client-dash/surveys/questionnaire/{cell.render()}">
-                             Questions
+                            class="{cn(buttonVariants({variant:'secondary'}), 'bg-green-500 text-white hover:bg-green-500/70 hover:text-white')}"
+                            href="/client-dash/surveys/live/{cell.render()}">
+                             Go Live
                             <ArrowUpRight class='size-4'/>
                         </a>
                         {:else}

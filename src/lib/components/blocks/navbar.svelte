@@ -1,4 +1,4 @@
-<script>
+<script lang=ts>
     import * as Sheet from "$lib/components/ui/sheet";
 	import { Button } from "$lib/components/ui/button";
     import Menu from "lucide-svelte/icons/menu";
@@ -12,6 +12,9 @@
     import Wrench from 'lucide-svelte/icons/wrench'
     import * as Collapsible from "$lib/components/ui/collapsible"
 	import Separator from "../ui/separator/separator.svelte";
+
+    let dialogOpen = false;
+
 </script>
 
 <header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/95 px-4 md:px-6 backdrop-blur z-50 supports-[backdrop-filter]:bg-background/60 bg-primary">
@@ -54,71 +57,137 @@
             Pricing
         </a>
     </nav>
-    <Sheet.Root>
+    <Sheet.Root bind:open={dialogOpen}>
         <Sheet.Trigger asChild let:builder>
-            <Button variant="outline" size="icon" class="shrink-0 md:hidden" builders={[builder]}>
-                <Menu class="h-5 w-5" />
+            <Button  
+                variant="outline"
+                size="icon"
+                class="shrink-0 md:hidden"
+                builders={[builder]}>
+                    <Menu class="h-5 w-5" />
             </Button>
         </Sheet.Trigger>
         <Sheet.Content side="left"
         >
             <nav class="grid gap-6 text-lg font-medium">
-                <a href="/" class="flex items-center gap-2 text-lg font-semibold">
+                <a 
+                    href="/" 
+                    class="flex items-center gap-2 text-lg font-semibold"
+                    on:click={() => dialogOpen = !dialogOpen}>
                     <Package2 class="h-6 w-6" />
                 </a>
-                <a href="/" class="text-muted-foreground hover:text-primary"> Home </a>
-                <a href="/about" class="text-muted-foreground hover:text-primary"> About </a>
+                <a 
+                    href="/" 
+                    class="text-muted-foreground hover:text-primary"
+                    on:click={() => dialogOpen = !dialogOpen}
+                >
+                    Home 
+                </a>
+                <a 
+                    href="/about" 
+                    class="text-muted-foreground hover:text-primary"
+                    on:click={() => dialogOpen = !dialogOpen}
+                    > 
+                     About 
+                </a>
                 <Collapsible.Root class="space-y-2">
-                    <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">Industries</Collapsible.Trigger>
+                    <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">Industries
+                    </Collapsible.Trigger>
                     <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-1">
-                        <a href="/industries/hospitality" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a 
+                            href="/industries/hospitality"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Hospitality
                         </a>
                         <Separator />
-                        <a href="/industries/healthcare" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a  
+                            href="/industries/healthcare"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Healthcare
                         </a>
                         <Separator />
-                        <a href="/industries/retail_fmcg" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a 
+                            href="/industries/retail_fmcg"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Retail
                         </a>
                         <Separator />
-                        <a href="/industries/financial_services" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a 
+                            href="/industries/financial_services"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Financial services
                         </a>
                     </Collapsible.Content>
                 </Collapsible.Root>
                 <Collapsible.Root class="space-y-2">
-                    <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">Services</Collapsible.Trigger>
-                    <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-1">
-                        <a href="/services/corp_rep" class="text-muted-foreground transition-colors hover:text-primary">
+                    <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">
+                        Services
+                    </Collapsible.Trigger>
+                    <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-1 mt-1">
+                        <a 
+                            href="/services/corp_rep" 
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Corporate reputation
                         </a>
                         <Separator />
-                        <a href="/services/brand_image" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a 
+                            href="/services/brand_image"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Brand image
                         </a>
                         <Separator />
-                        <a href="/services/customer_experience" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a 
+                            href="/services/customer_experience"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Customer experience
                         </a>
                         <Separator />
-                        <a href="/services/product_assessment" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a  
+                            href="/services/product_assessment"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Product assessment
                         </a>
                         <Separator />
-                        <a href="/services/market_reaserch" class="text-muted-foreground transition-colors hover:text-primary">
+                        <a 
+                            href="/services/market_reaserch"
+                            class="text-muted-foreground transition-colors hover:text-primary"
+                            on:click={() => dialogOpen = !dialogOpen}
+                            >
                             Market research
                         </a>
                     </Collapsible.Content>
                 </Collapsible.Root>
-                <a href="/pricing" class="text-muted-foreground transition-colors hover:text-primary">
+                <a 
+                    href="/pricing"
+                    class="text-muted-foreground transition-colors hover:text-primary"
+                    on:click={() => dialogOpen = !dialogOpen}
+                    >
                     Pricing
                 </a>
-                <a href="/agent/signin" class="text-muted-foreground transition-colors hover:text-primary">
+                <a 
+                    href="/agent/signin"
+                    class="text-muted-foreground transition-colors hover:text-primary"
+                    on:click={() => dialogOpen = !dialogOpen}
+                    >
                     Agent Login
                 </a>
-            </nav>
+                </nav>
         </Sheet.Content>
     </Sheet.Root>
     <div class="flex flex-auto justify-end gap-2">

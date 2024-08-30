@@ -40,6 +40,7 @@
   export let data
   const { notif, payment } = data
   let messages = notif
+  let dialogOpen = false;
   // if ($notifications.messages.length > 0) {
   //   notifications.update(msg => ({
   //     messages: [...msg.messages, ...notif as string[]]
@@ -202,6 +203,7 @@
           <span class="sr-only">Welcome {data.AuthedUser}</span>
         </a>
         <a
+          on:click={() => dialogOpen = !dialogOpen}
           href="/client-dash"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
@@ -216,6 +218,7 @@
           <Collapsible.Content class="flex flex-col gap-3 ml-10">
             <Separator />
             <a
+              on:click={() => dialogOpen = !dialogOpen}
               href="/client-dash/surveys/create"
               class=" flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
@@ -224,6 +227,7 @@
             </a>
             <Separator />
             <a
+              on:click={() => dialogOpen = !dialogOpen}
               href="/client-dash/surveys/questionnaire"
               class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
             >
@@ -233,6 +237,7 @@
             <Separator />
             {#if payment.status}
               <a
+                on:click={() => dialogOpen = !dialogOpen}
                 href="/client-dash/surveys/live"
                 class="flex gap-1 text-muted-foreground transition-all hover:text-primary"
               >
@@ -244,6 +249,7 @@
           </Collapsible.Content>
         </Collapsible.Root>
         <a
+          on:click={() => dialogOpen = !dialogOpen}
           href="/client-dash/plans"
           class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
         >
@@ -252,6 +258,7 @@
         </a>
         {#if payment.status}
           <a
+            on:click={() => dialogOpen = !dialogOpen}
             href="/client-dash/audience"
             class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
           >
@@ -259,6 +266,7 @@
             Audience
           </a>
           <a
+            on:click={() => dialogOpen = !dialogOpen}
             href="/client-dash/analytics"
             class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
           >
@@ -278,7 +286,9 @@
             </Card.Description>
           </Card.Header>
           <Card.Content>
-            <Button size="sm" class="w-full" href='/client-dash/upgrade'>Upgrade</Button>
+            <Button size="sm" class="w-full"
+            on:click={() => dialogOpen = !dialogOpen}
+            href='/client-dash/upgrade'>Upgrade</Button>
           </Card.Content>
         </Card.Root>
         {/if}

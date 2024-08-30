@@ -6,13 +6,13 @@
 
     export let data
     export let form
-    const { Role, survey_data, features:{gender_active, ages, maxagents}} = data
+    const { Role, survey_data, features} = data
 
     let Props = {
       user: Role,
-      gen_act: gender_active!,
-      age_act: ages!,
-      target: maxagents!,
+      gen_act: features?.gender_active!,
+      age_act: features?.ages!,
+      target: features?.maxagents!,
       form
     }
 
@@ -44,7 +44,5 @@
           </Card.Footer>
         </Card.Root>
         {/each}
-        <Issue />
-        <p class="font-mono text-sm m-2">All rights reserved Acme Inc</p>
     </div>
 </div>

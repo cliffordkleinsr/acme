@@ -9,7 +9,7 @@ import { gender } from '$lib/json';
 import type { Time } from '@internationalized/date';
 
 export const load: PageServerLoad = async () => {
-    // for now the pricing model doesen't exist so wil just have arbitrary values
+
     const client_subs = await db
         .select({
             name:sql<string>`${UsersTable.fullname}`,
