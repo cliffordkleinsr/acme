@@ -12,7 +12,7 @@
     const { uri, current_ix, question_cnt, survId } = data.available_surv
 </script>
 <!-- {#if hidden} -->
-<div class="flex flex-col max-w-sm mx-auto mt-6">
+<div class="flex flex-col max-w-sm mx-auto mt-6 h-fit">
     <h1 class="text-sm text-center antialiased"> Share your opinions on things that matter</h1>
     <Card.Root class="mt-5">
     <Card.Header class="bg-yellow-300 text-center rounded-t-lg">
@@ -42,7 +42,7 @@
         </div>
     </Card.Footer>
     </Card.Root>
-    <p class="text-xs text-center pt-72">By taking this survey you agree to the <a href="##" class=" text-blue-400 hover:underline underline-offset-1">Terms & Conditions</a></p>
+    <p class="text-xs text-center mt-32">By taking this survey you agree to the <a href="##" class=" text-blue-400 hover:underline underline-offset-1">Terms & Conditions</a></p>
 </div>
 <!-- {:else}
 <form action="" method="post" class="flex flex-col gap-5 m-7 lg:max-w-lg max-w-sm">

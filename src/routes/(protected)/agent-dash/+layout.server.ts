@@ -30,6 +30,7 @@ export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => 
 
     return {
         AuthedUser: user.fullname,
+        profile: user.pfp,
         url: url.pathname
     }
     

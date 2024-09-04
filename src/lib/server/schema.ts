@@ -19,6 +19,7 @@ export const UsersTable = pgTable('users', {
     role: UserRole("userole").default("AGENT").notNull(),
     age: integer("age"),
     gender: text("gender"),
+    pfp: text("profile_pic"),
     createdAt: timestamp('created_at', {
         withTimezone: true,
         mode: "date" 

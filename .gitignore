@@ -157,3 +157,6 @@ drizzle/migrations/meta/0079_snapshot.json
 src/routes/(protected)/superuser/dash/agents/view-[agentid]/+page.server.ts
 drizzle/migrations/meta/0079_snapshot.json
 drizzle/migrations/0071_solid_flatman.sql
+drizzle/migrations/0080_glamorous_doomsday.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0080_snapshot.json

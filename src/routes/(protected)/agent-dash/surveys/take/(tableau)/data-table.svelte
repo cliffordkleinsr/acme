@@ -187,7 +187,7 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
       </div>
-    <div class="rounded-md border" data-intro='Here you will find a list of all the surveys available to you'>
+    <div class="rounded-md border" data-intro='Below find a list of all the surveys available to you'>
         <Table.Root {...$tableAttrs}>
             <Table.Header>
                 {#each $headerRows as headerRow}
@@ -201,6 +201,10 @@
                                     <Render of={cell.render()} />
                                     <ArrowUpDown class={"ml-2 h-4 w-4"} />
                                 </Button> 
+                            {:else if cell.id === 'to'}
+                                <div class="hidden md:block">
+                                    <Render of={cell.render()} />
+                                </div>
                             {:else}
                                 <Render of={cell.render()} />
                             {/if}
@@ -230,6 +234,10 @@
                                  Take
                                  <ArrowUpRight class='size-4'/>
                                 </a>
+                            {:else if cell.id === 'to'}
+                                <div class="hidden md:block">
+                                    <Render of={cell.render()} />
+                                </div>
                             {:else}
                                 <Render of={cell.render()} />
                             {/if}

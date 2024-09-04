@@ -56,7 +56,7 @@
 
 
 <form method="POST" class="m-4 w-full max-w-2xl mx-auto" use:enhance>
-    <Card.Root data-intro="Ensure the number you registered with is the correct number before proceeding with the checkout. You can change your number in the settings">
+    <Card.Root data-intro="Ensure your number is correct">
     <Card.Header>
         <Card.Title class="text-2xl">Checkout</Card.Title>
         <Card.Description class="text-md">Enter the amount you want to recieve.</Card.Description>

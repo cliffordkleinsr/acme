@@ -16,6 +16,7 @@
     import "gridjs/dist/theme/mermaid.min.css"
 	import { html } from "gridjs";
 	import { badgeVariants } from "$lib/components/ui/badge";
+	import { cn } from "$lib/utils.js";
 	   // custom param message
 	let msg: string
     let visible = true
@@ -113,7 +114,7 @@
                 id: 'status',
                 name: 'Status',
                 formatter: (cell:string) => html(`
-                    <div class='${badgeVariants({ variant: 'outline'})}'>${cell}</div>
+                    <div class='${cn(badgeVariants({ variant: 'outline'}), 'dark:text-black')}'>${cell}</div>
                 `)
             },
             {
@@ -215,7 +216,7 @@
     
 </div>
 {#if payouts.length > 0}
-<div class="m-4 max-w-[24rem] lg:max-w-full prose">
+<div class="m-4 max-w-[23rem] lg:max-w-full prose">
     <h2>Payout Request History</h2>
     <Grid
             {columns}

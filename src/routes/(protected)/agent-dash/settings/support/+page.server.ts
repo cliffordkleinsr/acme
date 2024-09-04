@@ -1,13 +1,11 @@
+import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import type { Actions, PageServerLoad } from './$types';
 import { ticketSchema } from '$lib/common/schema';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
-    return {
-        form: await superValidate(zod(ticketSchema)),
-    }
-};
+export const load = (async () => {
+    return {form: await superValidate(zod(ticketSchema))};
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
     default: async ({request}) => {

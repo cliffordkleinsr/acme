@@ -3,9 +3,9 @@ import { z } from "zod";
 
 export const ticketSchema = z.object({
     client: z
-        .string({ required_error: 'Client is required' })
-        .min(2, { message: 'Enter a valid client name' })
-        .max(50, { message: 'Client name is too long' })
+        .string({ required_error: 'Name is required' })
+        .min(2, { message: 'Enter a valid name' })
+        .max(50, { message: 'Name name is too long' })
         .trim(),
     email: z
         .string()

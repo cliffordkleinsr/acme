@@ -40,6 +40,8 @@
   import FileClock  from 'lucide-svelte/icons/file-clock'
 	import { fade } from "svelte/transition";
 	import { sineIn, sineInOut, sineOut } from "svelte/easing";
+  import * as Avatar from "$lib/components/ui/avatar"
+  
   export let data
  
  let dialogOpen = false
@@ -231,17 +233,42 @@
         size="icon"
         class="rounded-full"
       >
-        <CircleUser class="h-5 w-5" />
+        {#if data.profile}
+          <Avatar.Root>
+            <Avatar.Image src="{data.profile}" alt="@shadcn" />
+            <Avatar.Fallback>CN</Avatar.Fallback>
+          </Avatar.Root>
+        {:else}
+          <CircleUser class="h-5 w-5" />
+        {/if}
+        
         <span class="sr-only">Toggle user menu</span>
       </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content align="end">
       <DropdownMenu.Label>My Account</DropdownMenu.Label>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item class="gap-3.5"><Settings class="size-4"/>Settings</DropdownMenu.Item>
-      
-      <DropdownMenu.Item class="gap-3.5"><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
-      <DropdownMenu.Item class="gap-3.5"><Tag class="size-4"/>Support</DropdownMenu.Item>
+      <DropdownMenu.Item 
+        class="gap-3.5"
+        href="/agent-dash/settings"
+      > 
+        <Settings class="size-4"/>
+         Settings
+      </DropdownMenu.Item>
+      <DropdownMenu.Item 
+        class="gap-3.5"
+        href="/agent-dash/settings/payouts"
+      >
+        <CreditCard class="size-4" />
+        Payout Requests
+      </DropdownMenu.Item>
+      <DropdownMenu.Item 
+        class="gap-3.5"
+        href="/agent-dash/settings/support"
+      >
+        <Tag class="size-4" />
+        Support
+      </DropdownMenu.Item>
       <DropdownMenu.Separator />
       <form action="/agent/signout" method="post" use:enhance>
         <Form.Button variant="link" size="sm" class="">Logout <SquareArrowRight class=" ml-1 w-4 h-4"/></Form.Button>

@@ -4,7 +4,7 @@
         import { toast } from "svelte-sonner";
         import { type SuperValidated, type Infer, superForm } from "sveltekit-superforms";
         import { zodClient } from "sveltekit-superforms/adapters";
-	    import { ticketSchema, type TicketSchema } from "./schema";
+	    import { ticketSchema, type TicketSchema } from "$lib/common/schema";
         import { Input } from "$lib/components/ui/input"
         import { Textarea } from "$lib/components/ui/textarea"
         import * as Select from "$lib/components/ui/select"
