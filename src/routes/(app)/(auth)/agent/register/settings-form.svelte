@@ -103,6 +103,7 @@
     : undefined
 
     let ital = today(getLocalTimeZone()).subtract({years: 18})
+    let cmd =false
 </script>
 
 <div class="flex flex-1 justify-center mt-10 mb-5">
@@ -194,7 +195,7 @@
                 <Form.Field {form} name="dateofbirth" class="flex flex-col">
                   <Form.Control let:attrs>
                     <Form.Label>Date of birth</Form.Label>
-                    <Popover.Root>
+                    <Popover.Root openFocus>
                       <Popover.Trigger
                         {...attrs}
                         class={cn(
@@ -273,6 +274,7 @@
                   <Popover.Content class="w-auto p-0" side="bottom">
                     <Command.Root>
                       <Command.Input
+                        
                         autofocus
                         placeholder="Search County..."
                         class="h-9"

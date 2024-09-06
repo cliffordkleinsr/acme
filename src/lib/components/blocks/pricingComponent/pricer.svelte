@@ -68,8 +68,8 @@
                 subtitles: 'Premium Business',
                 prices: '1200',
                 offers: '1080',
-                priceMn:'price_1PcioZRpYHoLk6LShwTOi7Zc',
-                priceYr: 'price_1PcioZRpYHoLk6LSAOiDsuSs',
+                priceMn:'price_1Ps1UARpYHoLk6LSTei2ionx',
+                priceYr: 'price_1Ps1UARpYHoLk6LSOaIVGyUe',
                 comments: 'Advanced features for scaling your business',
                 features: [
                     'Up to 6 surveys per month.',
@@ -202,6 +202,7 @@
                                 builders={[builder]}
                                 variant="outline"
                                 class="w-full"
+                                disabled={selected_plan === item.prices}
                                 on:click={()=> 
                                     clientPackage.set({
                                         plan : item.subtitles,

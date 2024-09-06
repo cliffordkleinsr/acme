@@ -35,7 +35,7 @@
   import AlignStartVertical from 'lucide-svelte/icons/align-start-vertical'
   import SlidersVertical from 'lucide-svelte/icons/sliders-vertical'
   import * as Tooltip from "$lib/components/ui/tooltip"
-
+  import * as Avatar from "$lib/components/ui/avatar"
   
   export let data
   const { notif, payment } = data
@@ -324,14 +324,21 @@
         size="icon"
         class="rounded-full"
       >
-        <CircleUser class="h-5 w-5" />
+        {#if data.profile}
+          <Avatar.Root>
+            <Avatar.Image src="{data.profile}" alt="@shadcn" />
+            <Avatar.Fallback>CN</Avatar.Fallback>
+          </Avatar.Root>
+        {:else}
+          <CircleUser class="h-5 w-5" />
+        {/if}
         <span class="sr-only">Toggle user menu</span>
       </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content align="end">
       <DropdownMenu.Label>My Account</DropdownMenu.Label>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item class="gap-3.5" href="/client-settings"><Settings class="size-4"/>Settings</DropdownMenu.Item>
+      <DropdownMenu.Item class="gap-3.5" href="/client-dash/settings"><Settings class="size-4"/>Settings</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5" href='/client-dash/subscriptions/myplan'> <CandlestickChart class="size-4"/> Pricing Plans</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5" href='/client-dash/plans'><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5"><Tag class="size-4"/>Support</DropdownMenu.Item>

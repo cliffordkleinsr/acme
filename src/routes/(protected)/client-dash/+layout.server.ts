@@ -83,6 +83,7 @@ export const load: LayoutServerLoad = async ({locals :{user, session}, url}) => 
         payment,
         features,
         AuthedUser: user.fullname,
+        profile: user.pfp,
         Role: user.role,
         email: user.email,
         url: url.pathname, 

@@ -90,7 +90,7 @@
         }),
         table.column({
             accessor: ({ id }) => id,
-            header: "",
+            header: "Actions",
             cell: ({ value }) => {
                 return createRender(DataTableActions, { id: value , payment_stat, status});
             },
@@ -200,6 +200,10 @@
                                         :"bg-green-600"}">
                                         <Render of={cell.render()} />
                                 </Badge>
+                            {:else if cell.id === "Actions"}
+                                {#if payment_stat}
+                                    <Render of={cell.render()} />
+                                {/if}
                             {:else}
                                 <Render of={cell.render()} />
                             {/if}

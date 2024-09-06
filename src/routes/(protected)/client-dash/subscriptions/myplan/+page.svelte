@@ -51,10 +51,12 @@
   </Popover.Trigger>
   <Popover.Content>
     <form action="?/subscribe" method="post" class="space-y-3">
-        <p>Starting {newDate.toDateString()} you will be charged ${$clientPackage.price} for the {$clientPackage.plan} package</p>
-            <Input type="text" name="plan" value={$clientPackage.plan} class="hidden"/>
-        <Separator />
-        <p class="text-sm">Total: ${$clientPackage.price}</p>
+        {#if parseInt($clientPackage.price) > 0}
+            <p>Starting {newDate.toDateString()} you will be charged ${$clientPackage.price} for the {$clientPackage.plan} package</p>
+            <Separator />
+            <p class="text-sm">Total: ${$clientPackage.price}</p>
+        {/if}
+        <Input type="text" name="plan" value={$clientPackage.plan} class="hidden"/>
         <Input type="text" name="priceId" value={$clientPackage.priceId} class="hidden"/>
         <Button variant="secondary" size="icon" 
                 on:click={()=> {
