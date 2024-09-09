@@ -8,10 +8,8 @@
     import Sun from "lucide-svelte/icons/sun";
     import Moon from "lucide-svelte/icons/moon";
     import { toggleMode } from "mode-watcher";
-	import Factory  from 'lucide-svelte/icons/factory'
-    import Wrench from 'lucide-svelte/icons/wrench'
     import * as Collapsible from "$lib/components/ui/collapsible"
-	import Separator from "../ui/separator/separator.svelte";
+	import Separator from "$lib/components/ui/separator/separator.svelte";
 
     let dialogOpen = false;
 
@@ -93,7 +91,7 @@
                 <Collapsible.Root class="space-y-2">
                     <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">Industries
                     </Collapsible.Trigger>
-                    <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-1">
+                    <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-2 text-sm">
                         <a 
                             href="/industries/hospitality"
                             class="text-muted-foreground transition-colors hover:text-primary"
@@ -128,10 +126,10 @@
                     </Collapsible.Content>
                 </Collapsible.Root>
                 <Collapsible.Root class="space-y-2">
-                    <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary">
+                    <Collapsible.Trigger class="text-muted-foreground transition-colors hover:text-primary ">
                         Services
                     </Collapsible.Trigger>
-                    <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-1 mt-1">
+                    <Collapsible.Content class="flex flex-col gap-2 max-w-48 ml-2 mt-1 text-sm">
                         <a 
                             href="/services/corp_rep" 
                             class="text-muted-foreground transition-colors hover:text-primary"

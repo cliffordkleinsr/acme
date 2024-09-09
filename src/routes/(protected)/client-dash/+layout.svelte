@@ -341,7 +341,7 @@
       <DropdownMenu.Item class="gap-3.5" href="/client-dash/settings"><Settings class="size-4"/>Settings</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5" href='/client-dash/subscriptions/myplan'> <CandlestickChart class="size-4"/> Pricing Plans</DropdownMenu.Item>
       <DropdownMenu.Item class="gap-3.5" href='/client-dash/plans'><CreditCard class="size-4" />Billing & Payments</DropdownMenu.Item>
-      <DropdownMenu.Item class="gap-3.5"><Tag class="size-4"/>Support</DropdownMenu.Item>
+      <DropdownMenu.Item class="gap-3.5" href='/client-dash/settings/support'><Tag class="size-4"/>Support</DropdownMenu.Item>
       <DropdownMenu.Separator />
       <form action="/client/signout" method="post" use:enhance>
         <Form.Button variant="link" size="sm" class="">Logout <SquareArrowRight class=" ml-1 w-4 h-4"/></Form.Button>

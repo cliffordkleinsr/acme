@@ -119,60 +119,60 @@
     {/if}
   </div>
   {#if !checked}
-  {#if user === 'ADMIN'}
-  <Select.Root
-    selected={selected_agents}
-    onSelectedChange={(v) => {
-      v && (target = v.value);
-    }}
-  >
-    <Select.Trigger>
-      <Select.Value placeholder="Select Target Agents" />
-    </Select.Trigger>
-    <Select.Content>
-      <Select.Item value=10>10 Agents</Select.Item>
-      <Select.Item value=20>20 Agents</Select.Item>
-      <Select.Item value=30>30 Agents</Select.Item>
-    </Select.Content>
-  </Select.Root>
-  {/if}
-  {#if age_act}
+    {#if user === 'ADMIN'}
     <Select.Root
-      selected={selected_age_group}
+      selected={selected_agents}
       onSelectedChange={(v) => {
-        v && (target_age_group = v.value);
+        v && (target = v.value);
       }}
     >
-        <Select.Trigger>
-          <Select.Value placeholder="Select Target Agents" />
-        </Select.Trigger>
-        <Select.Content>
-          {#each age_group as grp}
-          <Select.Item value={grp.value}>{grp.label}</Select.Item>
-          {/each}
-        </Select.Content>
-      </Select.Root> 
-  {/if}
-  {#if gen_act}
-    <Select.Root
-      selected={selected_gender}
-      onSelectedChange={(v) => {
-        v && (target_gender = v.value);
-      }}
-    >
-        <Select.Trigger>
-          <Select.Value placeholder="Select Target Agents" />
-        </Select.Trigger>
-        <Select.Content>
-          {#each gender as grp}
-          <Select.Item value={grp.value}>{grp.label}</Select.Item>
-          {/each}
-        </Select.Content>
+      <Select.Trigger>
+        <Select.Value placeholder="Select Target Agents" />
+      </Select.Trigger>
+      <Select.Content>
+        <Select.Item value=10>10 Agents</Select.Item>
+        <Select.Item value=20>20 Agents</Select.Item>
+        <Select.Item value=30>30 Agents</Select.Item>
+      </Select.Content>
     </Select.Root>
-  {/if}
-  {#if user === 'ADMIN'}
-    <div class="hidden lg:block"></div>
-  {/if}
+    {/if}
+    {#if age_act}
+      <Select.Root
+        selected={selected_age_group}
+        onSelectedChange={(v) => {
+          v && (target_age_group = v.value);
+        }}
+      >
+          <Select.Trigger>
+            <Select.Value placeholder="Select Target Agents" />
+          </Select.Trigger>
+          <Select.Content>
+            {#each age_group as grp}
+            <Select.Item value={grp.value}>{grp.label}</Select.Item>
+            {/each}
+          </Select.Content>
+        </Select.Root> 
+    {/if}
+    {#if gen_act}
+      <Select.Root
+        selected={selected_gender}
+        onSelectedChange={(v) => {
+          v && (target_gender = v.value);
+        }}
+      >
+          <Select.Trigger>
+            <Select.Value placeholder="Select Target Agents" />
+          </Select.Trigger>
+          <Select.Content>
+            {#each gender as grp}
+            <Select.Item value={grp.value}>{grp.label}</Select.Item>
+            {/each}
+          </Select.Content>
+      </Select.Root>
+    {/if}
+    {#if user === 'ADMIN'}
+      <div class="hidden lg:block"></div>
+    {/if}
   {/if}
   <AlertDialog.Root bind:open={dialog}>
     <AlertDialog.Trigger asChild let:builder>
@@ -183,7 +183,7 @@
         <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
         <AlertDialog.Description>
           This action cannot be undone. This will permanently mark your survey as live
-          and cannot be further edited. Kindly confirm you have added the correct daterange, gender and age for your survey before proceeding.
+          and cannot be further edited. {checked? '': 'Kindly confirm you have added the correct daterange, gender and age for your survey before proceeding.'}
         </AlertDialog.Description>
       </AlertDialog.Header>
       <AlertDialog.Footer>

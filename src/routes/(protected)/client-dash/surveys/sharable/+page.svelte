@@ -16,7 +16,7 @@
     import Check from 'lucide-svelte/icons/check'
     import * as AlertDialog from "$lib/components/ui/alert-dialog"
 	import { browser } from '$app/environment';
-
+    import FileX2 from 'lucide-svelte/icons/file-x-2'
     export let data: PageData;
   
     const {
@@ -30,6 +30,7 @@
       isDesktop = window.innerWidth >= 768
     }
 </script>
+{#if sharable.length > 0}
 <div class="flex flex-col m-4 gap-10">
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
         {#each sharable as item}
@@ -112,3 +113,14 @@
         {/each}
     </div>
 </div>
+{:else}
+<div class="flex flex-col items-center justify-center min-h-screen bg-background text-foreground">
+    <div class="text-center space-y-6">
+      <FileX2 class="mx-auto h-24 w-24 text-muted-foreground" />
+      <h1 class="text-3xl font-bold tracking-tight">Nothing to show here</h1>
+      <p class="text-muted-foreground max-w-sm mx-auto">
+        It looks like there's no data to display at the moment. Try reloading or check back later.
+      </p>
+    </div>
+  </div>
+{/if}

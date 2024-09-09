@@ -64,7 +64,6 @@
   const { form: formData, enhance, message, delayed } = form
   
   // DatePicker
-  let open:boolean = false
 
   let value: DateValue | undefined
   
@@ -103,7 +102,8 @@
     : undefined
 
     let ital = today(getLocalTimeZone()).subtract({years: 18})
-    let cmd =false
+    let open:boolean = false
+    let lender = false
 </script>
 
 <div class="flex flex-1 justify-center mt-10 mb-5">
@@ -195,7 +195,7 @@
                 <Form.Field {form} name="dateofbirth" class="flex flex-col">
                   <Form.Control let:attrs>
                     <Form.Label>Date of birth</Form.Label>
-                    <Popover.Root openFocus>
+                    <Popover.Root bind:open={lender} let:ids>
                       <Popover.Trigger
                         {...attrs}
                         class={cn(
@@ -234,6 +234,7 @@
                           onValueChange={(v) => {
                             if (v) {
                               $formData.dateofbirth = v.toString()
+                              lender = !lender
                             } else {
                               $formData.dateofbirth = ""
                             }
@@ -274,7 +275,6 @@
                   <Popover.Content class="w-auto p-0" side="bottom">
                     <Command.Root>
                       <Command.Input
-                        
                         autofocus
                         placeholder="Search County..."
                         class="h-9"
@@ -288,6 +288,7 @@
                             onSelect={() => {
                               $formData.county = cty.name
                               closeAndFocusTrigger(ids.trigger)
+                              open= !open
                             }}
                           >
                             {cty.name}

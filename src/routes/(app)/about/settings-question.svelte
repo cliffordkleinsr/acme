@@ -1,14 +1,11 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js"
-    import * as Card from "$lib/components/ui/card/index.js"
     import { Input } from "$lib/components/ui/input/index.js"
     import * as Form from "$lib/components/ui/form/index.js"
     import type { Infer, SuperValidated } from "sveltekit-superforms"
     import { superForm } from "sveltekit-superforms"
     import { zodClient } from "sveltekit-superforms/adapters"
 	import { subjectSchema, type SubjectSchema } from "./schema"
-    import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js"
-	import { page } from "$app/stores";
     import { Textarea } from "$lib/components/ui/textarea"
 	import { toast } from "svelte-sonner";
     

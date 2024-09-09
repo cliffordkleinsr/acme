@@ -21,7 +21,7 @@
       
     ],
     "examples": "Ever thought of a luxury resort facing declining bookings and negative reviews? By partnering with us, the resort can undertake a comprehensive reputation management program, addressing customer complaints swiftly and transparently, while promoting positive stories about their unique experiences and community involvement. We would revamp their brand image, emphasizing exclusivity and personalized luxury, while implementing a customer experience strategy that ensures every guest feels valued from the moment they book until after they leave. Regular product assessments would help the resort innovate and refine their offerings, such as introducing unique local experiences or upgrading facilities. Finally, our market research would identify emerging travel trends and preferences, allowing the resort to tailor its marketing and services to attract the right clientele. This holistic approach ensures that the resort not only recovers but thrives in a competitive market.",
-    "image": "https://images.unsplash.com/photo-1535827841776-24afc1e255ac?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    "image": "hotel"
   },
   {
     "id": 2,
@@ -48,7 +48,7 @@
       }
     ],
     "examples": "Consider a regional hospital facing declining patient satisfaction scores and negative online reviews. We offer solutions that addresses patient concerns swiftly and transparently, while promoting positive stories about their high-quality care and community involvement. We would work to enhance their brand image by highlighting their state-of-the-art facilities and commitment to patient safety. Implementing a patient experience strategy that focuses on empathetic communication and streamlined processes would help improve patient satisfaction. Regular product assessments would ensure the hospital's treatments and technologies remain cutting-edge and effective. Finally, our market research would identify patient demographics and preferences, allowing the hospital to tailor its services and outreach efforts to better meet community needs. This holistic approach ensures the hospital not only recovers but excels in providing exceptional healthcare",
-    "image": "https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    "image": "healthcare"
   },
   {
     "id": 3,
@@ -76,7 +76,7 @@
       
     ],
     "examples": "For instance, a mid-sized retail business that is experiencing inconsistent sales and conflicting client feedback. We are able to develop a thorough reputation management program that highlights their dedication to sustainability and quality while immediately and honestly addressing customer issues. By highlighting distinctive product features and characteristics that connect with their target market, we would strengthen their brand image. Customer satisfaction and loyalty could be increased by putting into practice a customer experience strategy that guarantees easy and delightful buying experiences, both in-store and online. Frequent evaluations of the company's products would guarantee that its offers are high-quality, current, and relevant. Lastly, the company would be able to modify its product lines and marketing methods in accordance with the insights our market research would bring into new consumer trends and preferences. This comprehensive approach ensures the company not only recovers but thrives in the competitive retail market.",
-    "image": "https://images.unsplash.com/photo-1601598851547-4302969d0614?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    "image": "retail"
   },
   {
     "id": 4,
@@ -107,6 +107,6 @@
       }
     ],
     "examples": "A financial services company that is showing a drop in customer acquisition and retention rates due to growing competition from fintech startups and digital-only banks. Together, we can put in place a reputation management program that actively promotes the company's security and customer service capabilities while transparently and effectively addressing client issues. We will also focus on distinctive value propositions such as individualized financial planning and strong security measures as we aim to improve their brand image. By putting into practice a customer experience strategy that guarantees seamless, user-friendly interactions across all digital and physical touchpoints they will be able to satisfy and retain more customers. Time to time we will be able to evaluate the firm's offerings and this will guarantee that its financial services and solutions continue to be cutting edge, safe, and customized for the needs of customers. Our market analysis would provide insights into emerging financial trends and consumer preferences, allowing the firm to adapt its offerings and marketing efforts to better meet market demands. This ensures the firm not only competes effectively with digital newcomers but also excels in providing exceptional financial services.",
-    "image": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    "image": "finance"
   }
 ]

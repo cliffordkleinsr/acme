@@ -3,7 +3,6 @@
   import * as Form from "$lib/components/ui/form/index.js"
   import { toggleMode } from "mode-watcher"
   import * as Card  from "$lib/components/ui/card"
-  import { Badge } from "$lib/components/ui/badge"
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
   import { Input } from "$lib/components/ui/input"
   import * as Sheet from "$lib/components/ui/sheet"
@@ -12,14 +11,9 @@
   
   // Lucide Svelte
   import Menu from "lucide-svelte/icons/menu"
-  import Package2 from "lucide-svelte/icons/package-2"
   import Search from "lucide-svelte/icons/search"
   import Home from "lucide-svelte/icons/house"
   import Table from 'lucide-svelte/icons/table'
-  import ShoppingCart from 'lucide-svelte/icons/shopping-cart'
-  import Users from "lucide-svelte/icons/users"
-  import LineChart from "lucide-svelte/icons/line-chart"
-  import Package from "lucide-svelte/icons/package"
   import CircleUser from "lucide-svelte/icons/circle-user"
   import CreditCard from 'lucide-svelte/icons/credit-card'
   import Bell from "lucide-svelte/icons/bell"
@@ -31,15 +25,13 @@
 
   import { page } from "$app/stores"
   import { enhance } from "$app/forms";
-  import Power from 'lucide-svelte/icons/power'
 	import Tag  from "lucide-svelte/icons/tag"
-  import CandlestickChart from "lucide-svelte/icons/candlestick-chart"
   import HandCoins  from "lucide-svelte/icons/hand-coins"
   import Settings from "lucide-svelte/icons/settings"
   import SquarePen  from 'lucide-svelte/icons/square-pen'
   import FileClock  from 'lucide-svelte/icons/file-clock'
 	import { fade } from "svelte/transition";
-	import { sineIn, sineInOut, sineOut } from "svelte/easing";
+	import { sineIn, sineOut } from "svelte/easing";
   import * as Avatar from "$lib/components/ui/avatar"
   
   export let data

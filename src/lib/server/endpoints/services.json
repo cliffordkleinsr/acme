@@ -11,7 +11,7 @@
             {"id": 4, "Name": "Digital reputation management", "content": "Managing the company’s online presence, including social media channels, review sites, and search engine results can be quite tough and stressful but we ensure you have a positive digital footprint."},
             {"id": 5, "Name": "Reputation monitoring and analysis", "content": "Our strategies help you in continuously tracking and analyzing public sentiment, media coverage, and online discussions to proactively address potential issues and measure reputation health."}
         ],
-        "img": "https://images.unsplash.com/photo-1552181903-a6af3a3d159d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "img": "corp_rep"
 
     },
     {
@@ -26,7 +26,7 @@
             {"id": 4, "Name": "Brand identity", "content": "Our insights help you in creating and refining the perfect visual elements and messaging that represent the brand, including logos, color schemes, taglines, and brand guidelines."},
             {"id": 5, "Name": "Brand advocacy", "content": "Our brand advocacy technique helps you to determine the best brand advocates among customers, employees, and other stakeholders who can positively influence public perception through testimonials, reviews, and word-of-mouth recommendations."}
         ],
-        "img": "https://images.unsplash.com/photo-1617563844154-4206853f7865?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "img": "brand_image"
     },
     {
         "id": 3,
@@ -41,7 +41,7 @@
             {"id": 5, "Name": "Customer service", "content": "Measure customers' satisfaction with the quality and responsiveness of customer service provided by representatives, including handling inquiries, resolving issues, and providing assistance."},
             {"id": 6, "Name": "Customer relationship management", "content": "We help you in managing interactions and relationships with current and potential customers. This involves organizing, automating, and synchronizing sales, marketing, customer service, and technical support."}
         ],
-        "img": "https://images.unsplash.com/photo-1611279522012-6c3e2d2c604f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "img": "customer_experience"
     },
     {
         "id": 4,
@@ -56,7 +56,7 @@
             {"id": 5, "Name": "User feedback collection", "content": "We help solicit feedback from users through surveys, interviews, and user testing sessions to understand their opinions, experiences, and suggestions for product improvement."},
             {"id": 6, "Name": "Performance analysis", "content": "Our team of experts help in analyzing data related to product performance, such as sales figures, customer feedback, and return rates, to assess its success and identify areas for enhancement."}
         ],
-        "img": "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "img": "product_assessment"
     },
     {
         "id": 4,
@@ -71,6 +71,6 @@
             {"id": 5, "Name": "Market forecasting", "content": "Our experts help in predicting future market trends, demand, and sales volumes based on historical data, economic indicators, and industry analysis."},
             {"id": 6, "Name": "Market opportunity assessment", "content": "We help you in evaluating potential market opportunities, niches, or gaps based on unmet needs, emerging trends, or underserved customer segments."}
         ],
-        "img": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "img": "market_reaserch"
     }
 ]

@@ -7,7 +7,7 @@
 	import * as Card from "$lib/components/ui/card"
 	import { Progress } from "$lib/components/ui/progress"
 	import * as Breadcrumb from "$lib/components/ui/breadcrumb" 
-	import { onMount } from "svelte";
+	// import { onMount } from "svelte";
 	import Chart from "$lib/components/blocks/apexchart/chart.svelte";
 	import { browser } from "$app/environment";
 	import { adjustDivider } from "$lib/helperFunctions/helpers.js";

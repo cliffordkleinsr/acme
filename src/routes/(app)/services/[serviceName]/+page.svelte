@@ -1,7 +1,5 @@
 <script>
-	import Announcer from '$lib/components/blocks/announcer.svelte';
-      import { Separator } from "$lib/components/ui/separator"
-    
+    import { CldImage } from 'svelte-cloudinary'
     export let data
     $: data
 </script>
@@ -22,5 +20,6 @@
             {/each}
         </div>
     </div>
-    <img class="lg:my-24 rounded-xl max-w-sm lg:max-w-lg mx-auto lg:mx-0" src={data.service.img} alt="s">
+    <CldImage class="lg:my-24 rounded-xl max-w-sm lg:max-w-lg mx-auto lg:mx-0" width="auto" height="auto" src="{data.service.img}" alt="Description of my image" />
+    <!-- <img class="lg:my-24 rounded-xl max-w-sm lg:max-w-lg mx-auto lg:mx-0" src={data.service.img} alt="s"> -->
 </section>

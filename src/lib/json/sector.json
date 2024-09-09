@@ -80,10 +80,6 @@
         "value": "0020-Travel"
     },
     {
-        "label": "Government",
-        "value": "0020-Government"
-    },
-    {
         "label": "NGO's",
         "value": "0020-NGOs"
     }

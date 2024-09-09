@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type {
-        PageData
-    } from './$types';
+    // import type {
+    //     PageData
+    // } from './$types';
 
     // export let data: PageData;
 </script>
@@ -14,7 +14,6 @@
 // v0 by Vercel.
 // https://v0.dev/t/IeHYCRwDY76
 -->
-
 <section class="w-full m-4">
     <div class="container grid gap-12 px-4 md:px-6 lg:grid-cols-2">
         <div class="space-y-6">

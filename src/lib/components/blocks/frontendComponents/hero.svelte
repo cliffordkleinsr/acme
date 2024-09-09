@@ -1,11 +1,13 @@
 <script>
     import { Button } from "$lib/components/ui/button"
-    
+    import { getCldImageUrl } from "svelte-cloudinary";
+
+    let url = getCldImageUrl({
+      src: 'laptop-lcp'
+    })
 </script>
-
-
 <!-- Hero -->
-<div class="relative lg:h-[785px] h-[600px] overflow-hidden before:absolute bg-[rgba(0,0,0,0.45)] before:top-0 before:start-1/2 before:bg-[url(https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+<div class="relative lg:h-[785px] h-[600px] overflow-hidden before:absolute bg-[rgba(0,0,0,0.45)] before:top-0 before:start-1/2 before:bg-[url('{url}')] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
     <div class="relative z-10">
       <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
         <div class="max-w-screen-xl text-start mx-auto lg:py-40">

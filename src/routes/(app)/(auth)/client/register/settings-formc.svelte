@@ -64,7 +64,6 @@
       }
     : undefined;
 
-
 </script>
 <div class="flex flex-1 justify-center mt-10 mb-5">
   <Breadcrumb.Root>
@@ -176,6 +175,7 @@
                               onSelect={() => {
                                 $formData.county = cty.name;
                                 closeAndFocusTrigger(ids.trigger);
+                                open = !open
                               }}
                             >
                               {cty.name}

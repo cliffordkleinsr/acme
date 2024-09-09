@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Features from '$lib/components/blocks/features.svelte';
+	// import Features from '$lib/components/blocks/features.svelte';
 	import {Separator} from '$lib/components/ui/separator';
 	import type { PageData } from './$types';
-
+  import { CldImage } from 'svelte-cloudinary'
   export let data: PageData
   // console.log(data)
   $: data 
@@ -26,7 +26,8 @@
             </ul>
           {/each}
       </div>
-      <img class="lg:h-[35em] rounded-lg mt-20 dark:shadow-lg dark:shadow-orange-500/50" src={data.industry.image} alt="">
+      <CldImage class="lg:h-[35em] rounded-lg mt-20 dark:shadow-lg dark:shadow-orange-500/50" width="auto" height="auto" src="{data.industry.image}" alt="industries" />
+      <!-- <img class="lg:h-[35em] rounded-lg mt-20 dark:shadow-lg dark:shadow-orange-500/50" src={data.industry.image} alt=""> -->
     </div>
     <Separator class="mt-10" />
     <h1 class="text-lg font-bold antialiased mt-5">
@@ -35,4 +36,4 @@
     <p class="text-md text-gray-800 dark:text-neutral-200 mt-3 w-full text-wrap overflow-hidden truncate">{data.industry.examples}</p>
 </div>
 <Separator />
-<Features /> 
+<!-- <Features />  -->
