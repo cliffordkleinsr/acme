@@ -1,9 +1,15 @@
 <script>
+	import Meta from '$lib/components/blocks/seo/meta.svelte';
     import { CldImage } from 'svelte-cloudinary'
     export let data
     $: data
+    const props = {
+		title: "Services | Intuitive Insights",
+		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+		type:"Website"
+	}
 </script>
-
+<Meta {...props}/>
 
 <section class="grid lg:grid-cols-2 py-10 sm:px-6 lg:px-8 lg:py-10 lg:ml-36 gap-16">
     <div class="py-8 px-4 mx-auto sm:py-8 lg:px-6">

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Meta from '$lib/components/blocks/seo/meta.svelte';
+
 	// import Features from '$lib/components/blocks/features.svelte';
 	import {Separator} from '$lib/components/ui/separator';
 	import type { PageData } from './$types';
@@ -6,7 +8,13 @@
   export let data: PageData
   // console.log(data)
   $: data 
+  const props = {
+		title: "Industries | Intuitive Insights",
+		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+		type:"Website"
+	}
 </script>
+<Meta {...props}/>
 <div class="max-w-[86rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-24 mx-auto place-content-evenly">
     <div class="lg:flex gap-32">
       <div class="flex flex-col gap-2 lg:max-w-5xl space-y-5">

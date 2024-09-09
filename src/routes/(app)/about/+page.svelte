@@ -1,9 +1,18 @@
 <script lang="ts">
+	import Meta from "$lib/components/blocks/seo/meta.svelte";
 	import type { PageData } from "./$types";
 	import SettingsQuestion from "./settings-question.svelte";
   import { CldImage } from "svelte-cloudinary";
   export let data:PageData
+
+  const props = {
+		title: "About | Intuitive Insights",
+		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+		type:"Website"
+	}
 </script>
+<Meta {...props}/>
+
 <main class="flex-1">
   <section class="w-full py-12 md:py-24 lg:py-32 bg-muted">
     <div class="container px-4 md:px-6 grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">

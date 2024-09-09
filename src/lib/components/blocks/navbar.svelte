@@ -189,7 +189,7 @@
         </Sheet.Content>
     </Sheet.Root>
     <div class="flex flex-auto justify-end gap-2">
-       <Button size="sm" variant="default" class="lg:flex text-sm py-5 hidden" href="/agent/signin">Agent Login</Button>
+       <Button size="sm" variant="default" class="lg:flex text-sm py-5 hover:bg-white hover:text-black transition ease-in-out duration-700 hidden" href="/agent/signin">Agent Login</Button>
         <Button on:click={toggleMode} variant="ghost" size="icon">
             <Sun
                 class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
