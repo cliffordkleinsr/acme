@@ -18,7 +18,7 @@
     `
         <script type="application/ld+json">
             {
-                "@context": "${base}",
+                "@context": "https://schema.org/",
                 "@type": "${type}",
                 "url": "${base}",
                 "name": "${title}",
