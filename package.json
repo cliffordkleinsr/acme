@@ -59,6 +59,7 @@
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@neoconfetti/svelte": "^2.2.1",
     "@neondatabase/serverless": "^0.9.3",
+    "@sveltejs/adapter-cloudflare": "^4.7.2",
     "@types/leaflet": "^1.9.12",
     "@types/ws": "^8.5.10",
     "@uploadthing/svelte": "^6.6.3",
