@@ -16,9 +16,9 @@
 </script>
 
 <header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/95 px-4 md:px-6 backdrop-blur z-50 supports-[backdrop-filter]:bg-background/60 bg-primary">
-    <a href="/" class="hidden lg:block">
+    <div class="hidden lg:block">
         <Package2 class="h-6 w-6"/>
-    </a>
+    </div>
     <nav
         class="hidden font-medium md:flex md:flex-row md:gap-5 lg:gap-9 md:justify-center md:basis-11/12">
         <a href="/" class="text-foreground transition-colors hover:text-primary">
@@ -189,7 +189,7 @@
         </Sheet.Content>
     </Sheet.Root>
     <div class="flex flex-auto justify-end gap-2">
-       <Button size="sm" variant="default" class="lg:flex text-sm py-5 hover:bg-white hover:text-black transition ease-in-out duration-700 hidden" href="/agent/signin">Agent Login</Button>
+       <Button size='default' variant="black" class="md:flex hidden" href="/agent/signin">Agent Login</Button>
         <Button on:click={toggleMode} variant="ghost" size="icon">
             <Sun
                 class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"

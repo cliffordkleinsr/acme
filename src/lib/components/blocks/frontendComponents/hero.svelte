@@ -4,7 +4,7 @@
 
 </script>
 <!-- Hero -->
-<div class="relative lg:h-[785px] h-[600px] overflow-hidden before:absolute bg-[rgba(0,0,0,0.45)] before:top-0 before:start-1/2 before:bg-[url('https://res.cloudinary.com/dmy8yp9el/image/upload/f_auto,q_auto/laptop-lcp')] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+<div class="relative h-full  overflow-hidden before:absolute bg-[rgba(0,0,0,0.45)] before:top-0 before:start-1/2 before:bg-[url('https://res.cloudinary.com/dmy8yp9el/image/upload/f_auto,q_auto/laptop-lcp')] dark:before:bg-[url('https://images.unsplash.com/photo-1668455199701-284281127a87?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
     <div class="relative z-10">
       <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
         <div class="max-w-screen-xl text-start mx-auto lg:py-40">
@@ -13,8 +13,8 @@
           </p> -->
           <!-- Title -->
           <div class="mt-5 max-w-3xl space-y-1">
-            <span class="text-primary"></span>
-            <h1 class="block font-semibold text-primary text-3xl md:text-4xl lg:text-5xl dark:text-neutral-200 drop-shadow-xl">
+            <!-- <span class="text-primary"></span> -->
+            <h1 class="block font-semibold text-primary text-4xl sm:text-6xl dark:text-neutral-200 drop-shadow-xl">
               Intuitive Insights 
             </h1>
             
@@ -33,8 +33,8 @@
               </div>
             </div>
           <div class="flex lg:justify-start justify-center gap-5 pt-10">
-            <Button class="hover:bg-white hover:text-black transition ease-in-out duration-700 rounded-xl" href='/about' size="lg">Gather Insights</Button>
-            <Button class="hover:bg-primary hover:text-white transition ease-in-out duration-700 rounded-xl" variant='secondary' href='/client/signin' size="lg">Client Login </Button>
+            <Button href='/about#more' size="lg" variant='secondary'>Learn More</Button>
+            <Button variant='black' href='/client/signin' size="lg">Client Login </Button>
           </div>
         </div>
       </div>

@@ -19,9 +19,9 @@
         <script type="application/ld+json">
             {
                 "@context": "${base}",
-                "@type": ${type},
-                "url": ${base},
-                "name": ${title},
+                "@type": "${type}",
+                "url": "${base}",
+                "name": "${title}",
                 "description": "${description}"
             }
         </script>

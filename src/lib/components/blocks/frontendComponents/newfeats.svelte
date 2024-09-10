@@ -9,7 +9,7 @@
           <div class="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Powerful Platform Features</div>
           <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">Elevate Your Feedback Gathering</h2>
           <p class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Our platform offers a wide range of features to help you gather insightful feedback, analyze
+            We offer a wide range of features to help you gather insightful feedback, analyze
             data, and make informed decisions.
           </p>
         </div>
@@ -53,19 +53,20 @@
         </div>
       </div>
       <div class="flex justify-center flex-row items-start gap-4">
-        <Button class="hover:bg-secondary hover:text-black transition ease-in-out duration-700"  href="/client/signin">Start for Free</Button>
+        <Button href="/client/signin" variant='black' size='lg'>Start for Free</Button>
         <!-- <a
           class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
           href="/agent/signin"
         >
           Start for Free
         </a> -->
-        <a
+        <Button href='/about#contact' variant='outline' size='lg'>Schedule a Demo</Button>
+        <!-- <a
           class="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
           href="/about#contact"
         >
           Schedule a Demo
-        </a>
+        </a> -->
       </div>
     </div>
   </section>
