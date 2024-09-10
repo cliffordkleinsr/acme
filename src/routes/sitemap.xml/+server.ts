@@ -17,46 +17,47 @@ export const GET: RequestHandler = async () => {
     return response
 };
 
-const sitemap = (routes: string[], serviceName:string[], industryName:string[]) => `
-    <?xml version="1.0" encoding="UTF-8" ?>
-    <urlset
-        xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="https://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="https://www.w3.org/1999/xhtml"
-        xmlns:mobile="https://www.google.com/schemas/sitemap-mobile/1.0"
-        xmlns:image="https://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="https://www.google.com/schemas/sitemap-video/1.1"
-    >
-        <!-- <url> elements go here -->
-        <url>
-            <loc>${site}</loc>
-            <changefreq>daily</changefreq>
-            <priority>0.5</priority>
-        </url>
-        ${routes.map((route) => 
-        `
-        <url>
-            <loc>${site}/${route}</loc>
-            <changefreq>daily</changefreq>
-            <priority>0.5</priority>
-        </url>
-        `
-        ).join('')}
-        ${industryName.map((element) => 
-        `
-        <url>
-            <loc>${site}/industries/${element}</loc>
-            <changefreq>daily</changefreq>
-            <priority>0.5</priority>
-        </url>
-        `).join('')}
-        ${serviceName.map((element) => 
-        `
-        <url>
-            <loc>${site}/services/${element}</loc>
-            <changefreq>daily</changefreq>
-            <priority>0.5</priority>
-        </url>
-        `).join('')}
-    </urlset>.trim()`
+const sitemap = (routes: string[], serviceName:string[], industryName:string[]) => `<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<urlset
+    xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:news="https://www.google.com/schemas/sitemap-news/0.9"
+    xmlns:xhtml="https://www.w3.org/1999/xhtml"
+    xmlns:mobile="https://www.google.com/schemas/sitemap-mobile/1.0"
+    xmlns:image="https://www.google.com/schemas/sitemap-image/1.1"
+    xmlns:video="https://www.google.com/schemas/sitemap-video/1.1"
+>
+    <!-- <url> elements go here -->
+    <url>
+        <loc>${site}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    ${routes.map((route) => 
+    `
+    <url>
+        <loc>${site}/${route}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    `
+    ).join('')}
+    ${industryName.map((element) => 
+    `
+    <url>
+        <loc>${site}/industries/${element}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    `).join('')}
+    ${serviceName.map((element) => 
+    `
+    <url>
+        <loc>${site}/services/${element}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    `).join('')}
+</urlset>`
 

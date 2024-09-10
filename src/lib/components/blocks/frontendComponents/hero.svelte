@@ -33,7 +33,7 @@
               </div>
             </div>
           <div class="flex lg:justify-start justify-center gap-5 pt-10">
-            <Button href='/about#more' size="lg" variant='secondary'>Learn More</Button>
+            <Button href='/about#more' size="lg" variant='secondary'>About Us</Button>
             <Button variant='black' href='/client/signin' size="lg">Client Login </Button>
           </div>
         </div>
