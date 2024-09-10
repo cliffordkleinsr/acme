@@ -5,7 +5,7 @@
 
 	const props = {
 		title: "Intuitive Insights",
-		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+		description: 'Gather Insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}
 </script>
