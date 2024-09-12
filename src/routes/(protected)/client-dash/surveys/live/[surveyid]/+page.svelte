@@ -2,7 +2,7 @@
     import * as Card from "$lib/components/ui/card"
 	  import { Separator } from '$lib/components/ui/separator'
     import Cackender from "$lib/components/blocks/liveComponent/cackendar.svelte"
-	  import Issue from "$lib/components/blocks/liveComponent/issue.svelte"
+    import { CldImage } from "svelte-cloudinary";
 
     export let data
     export let form
@@ -31,7 +31,8 @@
             <Separator />
           </Card.Header>
           <Card.Content class="lg:flex gap-7 mr-9">
-            <img class="w-52" src="https://i.postimg.cc/TY3g7WHD/vector3.png" alt="s">
+            <CldImage width="200" height="200" src="anfir41re6vnhxecg52s" alt="Going Live" />
+            <!-- <img class="w-52" src="https://i.postimg.cc/TY3g7WHD/vector3.png" alt="s"> -->
             <div class="flex flex-col space-y-4 mt-16 ">
               <h1 class="text-xl font-semibold font-mono">
                 Description

@@ -40,6 +40,7 @@
   // Local Variables
   import {incomes, employments, educations, sectors, gender} from '$lib/json/index'
   import{ items, df, closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
+	import type { Snapshot } from "./$types";
   
   // KitLoad<MiddleWare>
   export let data:SuperValidated<Infer<RegisterRSchema>>
@@ -63,6 +64,11 @@
 
   const { form: formData, enhance, message, delayed } = form
   
+
+  export const snapshot:Snapshot = {
+    capture: () => formData,
+    restore: (value) => (formData.set(value))
+  }
   // DatePicker
 
   let value: DateValue | undefined
@@ -101,7 +107,7 @@
       }
     : undefined
 
-    let ital = today(getLocalTimeZone()).subtract({years: 18})
+    // let ital = today(getLocalTimeZone()).subtract({years: 18})
     let open:boolean = false
     let lender = false
 </script>
@@ -195,7 +201,7 @@
                 <Form.Field {form} name="dateofbirth" class="flex flex-col">
                   <Form.Control let:attrs>
                     <Form.Label>Date of birth</Form.Label>
-                    <Popover.Root bind:open={lender} let:ids>
+                    <Popover.Root bind:open={lender}>
                       <Popover.Trigger
                         {...attrs}
                         class={cn(
@@ -227,19 +233,19 @@
                           </Select.Content>
                         </Select.Root>
                         <Calendar
+                          {value}
                           minValue={new CalendarDate(1900, 1, 1)}
-                          maxValue={today(getLocalTimeZone()).subtract({years: 18})}
+                          maxValue={today(getLocalTimeZone())}
                           calendarLabel="Date of birth"
                           initialFocus
                           onValueChange={(v) => {
                             if (v) {
                               $formData.dateofbirth = v.toString()
-                              lender = !lender
                             } else {
                               $formData.dateofbirth = ""
                             }
                           }}
-                        bind:value={ital}/>
+                        />
                       </Popover.Content>
                     </Popover.Root>
                     <Form.FieldErrors />

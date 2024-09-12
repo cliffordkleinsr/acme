@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
+import { handleExternal, handleLoginRedirect } from '$lib/helperFunctions/helpers';
 import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { agentData, agentSurveysTable, AnswersTable, payoutRequests, smsVerification, SurveyTable } from '$lib/server/schema';
@@ -9,7 +9,14 @@ import { deleteCUser } from '$lib/server/db_utils';
 export const load: LayoutServerLoad = async ({locals :{user}, cookies, url}) => {
     const validation = false
     if (!user) {
-        redirect(302, handleLoginRedirect('/agent/signin', url))
+        // check external user
+        const extrenal = url.searchParams.get("external")
+        if(extrenal) {
+            redirect(302, handleExternal('/agent/register', url))
+        }
+        else{
+            redirect(302, handleLoginRedirect('/agent/signin', url))
+        }
         // redirect('/respondent/signin', {type: "error", message:"You Must Be logged In to view this page"}, cookies)
     }
     if (validation) {

@@ -58,7 +58,7 @@ export const actions: Actions = {
                 `
             )
         /**
-         * Carry out an unbiases shuffling on the subquery array
+         * Carry out an unbiased shuffling on the subquery array
          * Reference: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
          * Then capture only the first elements based on the target
         **/

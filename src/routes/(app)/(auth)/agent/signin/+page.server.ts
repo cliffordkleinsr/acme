@@ -3,7 +3,7 @@ import { zod } from "sveltekit-superforms/adapters"
 import { message, setError, superValidate } from "sveltekit-superforms";
 import { fail } from "@sveltejs/kit";
 import { db } from "$lib/server/db";
-import { agentData, clientData, emailVerification, sessionsTable, smsVerification, UsersTable } from "$lib/server/schema";
+import { agentData, agentSurveysTable, clientData, emailVerification, sessionsTable, smsVerification, UsersTable } from "$lib/server/schema";
 import { eq } from "drizzle-orm";
 import { Argon2id } from "oslo/password";
 import { lucia } from "$lib/server/auth";
@@ -13,9 +13,6 @@ import type { Actions, PageServerLoad } from "./$types";
 
 
 export const load: PageServerLoad = async ({locals: { user}, url}) => {
-    // await db.delete(smsVerification).where(eq(smsVerification.userId, 't73teafewm08kvz'))
-    // await db.delete(agentData).where(eq(agentData.agentid, 't73teafewm08kvz'))
-    // await db.delete(UsersTable).where(eq(UsersTable.id, 't73teafewm08kvz'))
     if (user) 
     {
         if (user.role === "AGENT") {
@@ -23,10 +20,9 @@ export const load: PageServerLoad = async ({locals: { user}, url}) => {
             redirect(302, handleLoginRedirect('/agent-dash', url, "User Already Logged In"))
         }
     }
-
     return {
         form: await superValidate(zod(signinRSchema)),
-      }
+    }
 }
 export const actions: Actions = {
     login: async({request, cookies, url}) =>{

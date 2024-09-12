@@ -17,6 +17,8 @@
     import * as AlertDialog from "$lib/components/ui/alert-dialog"
 	import { browser } from '$app/environment';
     import FileX2 from 'lucide-svelte/icons/file-x-2'
+    import { dev } from "$app/environment"
+
     export let data: PageData;
   
     const {
@@ -29,6 +31,7 @@
     if (browser) {
       isDesktop = window.innerWidth >= 768
     }
+    const BASE_URL = dev ? 'http://localhost:5173' : 'https://int-insights.com';
 </script>
 {#if sharable.length > 0}
 <div class="flex flex-col m-4 gap-10">
@@ -46,11 +49,12 @@
                     <Button builders={[builder]} class='bg-black hover:bg-black/85' size='icon'>
                         <Share class='size-5'/>
                     </Button>
+                    <div class="my-3 text-sm italic">Hover over me</div>
                   </HoverCard.Trigger>
                   <HoverCard.Content side='right' class='flex gap-1 '>
-                    <Input value={`/agent-dash/surveys/take/${item.id}?external=true`}/>
+                    <Input value={`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`}/>
                     <Button variant='ghost' size='icon' on:click={() => {
-                        copyText(`/agent-dash/surveys/take/${item.id}?external=true`)
+                        copyText(`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`)
                         cicked = !cicked
                     }}>
                         {#if cicked}
@@ -72,9 +76,9 @@
                         <AlertDialog.Header>
                           <AlertDialog.Title></AlertDialog.Title>
                           <AlertDialog.Description class='flex gap-1'>
-                            <Input value={`/agent-dash/surveys/take/${item.id}`}/>
+                            <Input value={`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`}/>
                             <Button variant='ghost' size='icon' on:click={() => {
-                                copyText(`/agent-dash/surveys/take/${item.id}`)
+                                copyText(`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`)
                                 cicked = !cicked
                             }}>
                                 {#if cicked}
@@ -94,18 +98,18 @@
                 <div class="flex gap-2 flex-1 justify-end">
                     <Socials 
                         type='X'
-                        quote= 'Partake in my survey'
-                        url={`/agent-dash/surveys/take/${item.id}?external=true`}
+                        quote= 'Please have a look at my survey on {item.title}'
+                        url={`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`}
                     />
                     <Socials 
                         type='FB'
-                        quote='Svelte Share Buttons Component'
-                        url={`/agent-dash/surveys/take/${item.id}?external=true`}
+                        quote='Please have a look at my survey on {item.title}'
+                        url={`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`}
                     />
                     <Socials 
-                        quote=''
+                        quote='{item.title}'
                         type='IN'
-                        url={`/agent-dash/surveys/take/${item.id}?external=true`}
+                        url={`${BASE_URL}/agent-dash/surveys/take/${item.id}?external=${item.id}`}
                     />
                 </div>
             </Card.Content>

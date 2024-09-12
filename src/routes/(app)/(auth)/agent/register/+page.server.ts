@@ -9,8 +9,9 @@ import { Argon2id } from "oslo/password"
 import { lucia } from "$lib/server/auth";
 import { calculateAge, handleLoginRedirect } from "$lib/helperFunctions/helpers"
 import type { Actions, PageServerLoad } from "./$types"
-import { smsVerification } from "$lib/server/schema"
+import { agentSurveysTable, smsVerification, surveyqnsTableV2 } from "$lib/server/schema"
 import { db } from "$lib/server/db"
+import { eq } from "drizzle-orm"
 import { createVerification } from "$lib/server/twilioconfigs/sms-messages"
 
 
@@ -89,6 +90,20 @@ export const actions: Actions = {
                 sector: sector
             })
 
+            const extagent = url.searchParams.get("external")
+            
+            if (extagent) {
+                const total_qns = await db
+                .select()
+                .from(surveyqnsTableV2)
+                .where(eq(surveyqnsTableV2.surveid, extagent))
+                await db.insert(agentSurveysTable).values({
+                    agentid : userid,
+                    surveyid: extagent,
+                    points: total_qns.length,
+                    extagent:true
+                })
+            }
             if (validate) {
                 // SMSVerification
                 let foramtted = '+254' + phoneno.slice(1)
@@ -101,6 +116,7 @@ export const actions: Actions = {
                 await createVerification(foramtted)
             }
             
+           
             // create a session in the database
             const session = await lucia.createSession(userid, {})
             const sessionCookie = lucia.createSessionCookie(session.id)

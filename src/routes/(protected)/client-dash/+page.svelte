@@ -8,7 +8,7 @@
 	import { sineInOut } from "svelte/easing"
 	import { fade } from "svelte/transition"
     import * as Tabs from "$lib/components/ui/tabs"
-    import DataTable from "$lib/components/base_table/data-table.svelte"
+    import DataTable from "./(tableau)/data-table.svelte"
     import LineChart from "lucide-svelte/icons/line-chart"
     import 'intro.js/minified/introjs.min.css'
     import introJs from 'intro.js'
@@ -16,7 +16,7 @@
     import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
     export let data
 
-    const {all_surv, draft_surv, live_surv, closed_surv, count, payment, share } = data
+    const {all_surv, draft_surv, live_surv, closed_surv, count, payment, share, extern} = data
    
     // custom param message
     let msg: string
@@ -142,12 +142,12 @@
       <Tabs.Trigger value="completed" data-intro='This tab shows surveys that have been completed.'>Completed</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="draft">
-        <DataTable data={draft_surv} payment_stat={payment.status} status ="Draft"/>
+        <DataTable data={draft_surv} payment_stat={payment.status} status ="Draft" sharable={extern}/>
     </Tabs.Content>
     <Tabs.Content value="running">
-        <DataTable data={live_surv} payment_stat={payment.status} status="Live"/>
+        <DataTable data={live_surv} payment_stat={payment.status} status="Live" sharable={extern}/>
     </Tabs.Content>
     <Tabs.Content value="completed">
-        <DataTable data={closed_surv} payment_stat={payment.status} status="Closed"/>
+        <DataTable data={closed_surv} payment_stat={payment.status} status="Closed" sharable={extern}/>
     </Tabs.Content>
 </Tabs.Root>  

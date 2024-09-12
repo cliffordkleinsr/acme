@@ -17,8 +17,9 @@ export const registerRSchema = z.object({
         ).max(50, { message: 'Email cant have a maximum 50 characters' })
         .email({ message: 'Must be a valid Email Address' }),
     phoneno: z
-        .string({ required_error: 'Phone number is required' })
-        .min(10, { message: 'Phone number must be more equal to ten digits' }),
+        .string()
+        .min(10, { message: 'Phone number must be more equal to ten digits' })
+        .regex(/^(?:(?:\+254)|0)?([17])(?:(?:[1-9][0-9])|(?:0[0-8]))[0-9]{6}$/gm, {message: "Must be a valid Kenyan phone number"}),
     gender: z
         .string({ required_error: 'Gender is required' })
         .min(4, { message: 'Please select a valid gender' }),

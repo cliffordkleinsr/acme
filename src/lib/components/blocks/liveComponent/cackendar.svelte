@@ -22,6 +22,8 @@
     import { goto, invalidateAll } from '$app/navigation'
 	  import { toast } from "svelte-sonner";
     import { Switch } from "$lib/components/ui/switch";
+	import { fly } from "svelte/transition";
+	import { quintOut, sineInOut } from "svelte/easing";
 
     let today = new Date()
     let dd = today.getDate()
@@ -136,43 +138,47 @@
       </Select.Content>
     </Select.Root>
     {/if}
-    {#if age_act}
-      <Select.Root
-        selected={selected_age_group}
-        onSelectedChange={(v) => {
-          v && (target_age_group = v.value);
-        }}
-      >
-          <Select.Trigger>
-            <Select.Value placeholder="Select Target Agents" />
-          </Select.Trigger>
-          <Select.Content>
-            {#each age_group as grp}
-            <Select.Item value={grp.value}>{grp.label}</Select.Item>
-            {/each}
-          </Select.Content>
-        </Select.Root> 
-    {/if}
-    {#if gen_act}
-      <Select.Root
-        selected={selected_gender}
-        onSelectedChange={(v) => {
-          v && (target_gender = v.value);
-        }}
-      >
-          <Select.Trigger>
-            <Select.Value placeholder="Select Target Agents" />
-          </Select.Trigger>
-          <Select.Content>
-            {#each gender as grp}
-            <Select.Item value={grp.value}>{grp.label}</Select.Item>
-            {/each}
-          </Select.Content>
-      </Select.Root>
-    {/if}
+    <div transition:fly={{ delay: 250, duration: 300, x: 100, y: 300, opacity: 0.5, easing: sineInOut }}>
+      {#if age_act}
+        <Select.Root
+          selected={selected_age_group}
+          onSelectedChange={(v) => {
+            v && (target_age_group = v.value);
+          }}
+        >
+            <Select.Trigger>
+              <Select.Value placeholder="Select Target Agents" />
+            </Select.Trigger>
+            <Select.Content>
+              {#each age_group as grp}
+              <Select.Item value={grp.value}>{grp.label}</Select.Item>
+              {/each}
+            </Select.Content>
+          </Select.Root>
+      {/if}
+      </div>
+      <div transition:fly={{ delay: 350, duration: 300, x: 0, y: 300, opacity: 0.5, easing:sineInOut}}>
+      {#if gen_act}
+        <Select.Root
+          selected={selected_gender}
+          onSelectedChange={(v) => {
+            v && (target_gender = v.value);
+          }}
+        >
+            <Select.Trigger>
+              <Select.Value placeholder="Select Target Agents" />
+            </Select.Trigger>
+            <Select.Content>
+              {#each gender as grp}
+              <Select.Item value={grp.value}>{grp.label}</Select.Item>
+              {/each}
+            </Select.Content>
+        </Select.Root>
+      {/if}
+    </div>
     {#if user === 'ADMIN'}
       <div class="hidden lg:block"></div>
-    {/if}
+    {/if} 
   {/if}
   <AlertDialog.Root bind:open={dialog}>
     <AlertDialog.Trigger asChild let:builder>

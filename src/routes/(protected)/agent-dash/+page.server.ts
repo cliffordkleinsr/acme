@@ -5,11 +5,8 @@ import { db } from '$lib/server/db';
 import { handleLoginRedirect } from '$lib/helperFunctions/helpers';
 import { redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({locals:{user}, url}) => {
-    if (!user) {
-        redirect(302, handleLoginRedirect('/agent/signin', url))
-        // redirect('/respondent/signin', {type: "error", message:"You Must Be logged In to view this page"}, cookies)
-    }
+export const load: PageServerLoad = async ({locals:{user}, url, parent}) => {
+    if (!user) return
     const dat = await db
         .select({
         week: sql<Date>`DATE_TRUNC('week', ${AnswersTable.updatedAt})`,

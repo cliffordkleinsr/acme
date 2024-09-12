@@ -24,7 +24,7 @@ export type CartItems = {
 
 // Years from 1940 JSON
 const items:Years[] = [] 
-const currentYear:number = (new Date().getFullYear() - 18)
+const currentYear:number = (new Date().getFullYear())
 for (let i = 0; i <= currentYear - 1940; i++) {
     const year = currentYear - i;
     items.push({ value: 365 * i, label: String(year) });
@@ -62,11 +62,17 @@ function closeAndFocusTrigger(triggerId: string) {
 // Reroute params with message
 function handleLoginRedirect(where : string , url: URL, notification:string='You Must Be logged In to view this page')
 {
+    
     const redirectTo = url.pathname + url.search
 
     return `${where}?redirectTo=${redirectTo}&notification=${notification}`
 }
 
+function handleExternal(where:string , url: URL) {
+    const id = url.searchParams.get("external")
+    const redirectTo = url.pathname + url.search.split('?')[0]
+    return `${where}?external=${id}&redirectTo=${redirectTo}`
+}
 // calpitalizes first leter of a word
 function capitalizeFirstLetter(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -278,4 +284,4 @@ function adjustDivider(x: number, currentDivider: number = 500): number {
   return nextDivider;
 }
 
-export {items, df, adjustDivider, open, likert_options, cntys, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, capitalizeFirstLetter, calculateAge}
+export {items, df, adjustDivider, open, likert_options, cntys, shuffle, checkout, getInitials, closeAndFocusTrigger, handleLoginRedirect, handleExternal, capitalizeFirstLetter, calculateAge}

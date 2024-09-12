@@ -7,13 +7,17 @@
         addSelectedRows,
     } from "svelte-headless-table/plugins"
     import ArrowUpDown from "lucide-svelte/icons/arrow-up-down"
+    import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
     import DataTableActions from "./data-table-actions.svelte"
     import DataTableCheckbox from "./data-table-checkbox.svelte"
     import ChevronDown from "lucide-svelte/icons/chevron-down"
-    import { Button } from "$lib/components/ui/button"
+    import { Button, buttonVariants } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
 	import { Badge } from '$lib/components/ui/badge';
+    import * as AlertDialog from "$lib/components/ui/alert-dialog"
+    import Trash2 from 'lucide-svelte/icons/trash-2'
+
     type Survey = {
         id: string;
         title: string;
@@ -23,6 +27,7 @@
     export let data:Survey[]
     export let payment_stat:boolean
     export let status:string
+    export let sharable:boolean | null
 
     const table = createTable(readable(data), {
         page: addPagination(),
@@ -37,20 +42,7 @@
     const columns = table.createColumns([
         table.column({
             accessor: "id",
-            header: (_, { pluginStates }) => {
-                const { allPageRowsSelected } = pluginStates.select;
-                return createRender(DataTableCheckbox, {
-                checked: allPageRowsSelected,
-                });
-            },
-            cell: ({ row }, { pluginStates }) => {
-                const { getRowState } = pluginStates.select;
-                const { isSelected } = getRowState(row);
-        
-                return createRender(DataTableCheckbox, {
-                checked: isSelected,
-                });
-            },
+            header: "",
             plugins: {
                 sort: {
                     disable: true,
@@ -91,17 +83,6 @@
         table.column({
             accessor: ({ id }) => id,
             header: "Actions",
-            cell: ({ value }) => {
-                return createRender(DataTableActions, { id: value , payment_stat, status});
-            },
-            plugins: {
-                sort: {
-                    disable: true,
-                },
-                filter: {
-                    exclude: true,
-                },
-            },
         }),
     ])
 
@@ -189,25 +170,75 @@
                 {#each row.cells as cell (cell.id)}
                     <Subscribe attrs={cell.attrs()} let:attrs>
                     <Table.Cell {...attrs}>
-                        {#if cell.id != ""}
-                            {#if cell.id === "status"}
-                                <Badge 
-                                class="{
-                                    cell.render() === "Closed"
-                                        ? "bg-primary text-primary-foreground"
-                                        :cell.render() != "Live"
-                                        ?"bg-secondary text-muted-foreground dark:text-white"
-                                        :"bg-green-600"}">
-                                        <Render of={cell.render()} />
-                                </Badge>
-                            {:else if cell.id === "Actions"}
-                                {#if payment_stat}
+                        {#if cell.id === "status"}
+                            <Badge 
+                            class="{
+                                cell.render() === "Closed"
+                                    ? "bg-primary text-primary-foreground"
+                                    :cell.render() != "Live"
+                                    ?"bg-secondary text-muted-foreground dark:text-white"
+                                    :"bg-green-600"}">
                                     <Render of={cell.render()} />
+                            </Badge>
+                        {:else if cell.id === "Actions"}
+                            {#if payment_stat}
+                                {#if status === "Live"}
+                                    {#if sharable}
+                                        <a 
+                                            class="{buttonVariants({variant:'secondary'})}"
+                                            href="/client-dash/surveys/sharable">
+                                            Share
+                                            <ArrowUpRight class='size-4'/>
+                                        </a>
+                                    {:else}
+                                        <a 
+                                            class="{buttonVariants({variant:'secondary'})}"
+                                            href="/client-dash/analytics/{cell.render()}">
+                                            Analytics
+                                            <ArrowUpRight class='size-4'/>
+                                        </a>
+                                    {/if}
+                                {:else if status === "Closed"}
+                                    <a 
+                                        class="{buttonVariants({variant:'secondary'})}"
+                                        href="/client-dash/analytics/{cell.render()}">
+                                        Analytics
+                                        <ArrowUpRight class='size-4'/>
+                                    </a>
+                                {:else}
+                                    <AlertDialog.Root>
+                                        <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive', size:'icon'})}>
+                                            <Trash2 class='size-4'/>
+                                        </AlertDialog.Trigger>
+                                        <AlertDialog.Content>
+                                        <AlertDialog.Header>
+                                            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+                                            <AlertDialog.Description>
+                                            This action cannot be undone. This will permanently delete this survey
+                                            and remove your data from our servers.
+                                            </AlertDialog.Description>
+                                        </AlertDialog.Header>
+                                        <AlertDialog.Footer>
+                                            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+                                            <form action="?/deleteSurvey" method="post">
+                                            <Input type="text" value={cell.render()} class="hidden" name="id"/>
+                                            <Button type="submit">Delete Survey</Button>
+                                            </form>
+                                        </AlertDialog.Footer>
+                                        </AlertDialog.Content>
+                                    </AlertDialog.Root>
                                 {/if}
-                            {:else}
-                                <Render of={cell.render()} />
                             {/if}
-                        {:else if typeof cell.render() === "object"}
+                        {:else if cell.id === "id"}
+                            {#if status ==="Draft"}
+                                <a 
+                                    class="{buttonVariants({variant:'secondary'})}"
+                                    href="/client-dash/surveys/questionnaire/{cell.render()}">
+                                    Manage
+                                    <ArrowUpRight class='size-4'/>
+                                </a>
+                            {/if}
+                        {:else}
                             <Render of={cell.render()} />
                         {/if}
                     </Table.Cell>

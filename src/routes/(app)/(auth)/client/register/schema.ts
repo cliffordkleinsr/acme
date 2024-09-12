@@ -21,7 +21,8 @@ export const registerCSchema = z.object({
         .max(50, { message: 'Email cant have a maximum 50 characters' }),
     phoneno: z
         .string({ required_error: 'Phone number is required' })
-        .min(10, { message: 'Phone number must be more equal to ten digits' }),
+        .min(10, { message: 'Phone number must be more equal to ten digits' })
+        .regex(/^(?:(?:\+254)|0)?([17])(?:(?:[129][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6}$/gm, {message: "Must be a valid Kenyan phone number"}),
     county: z
         .enum(
             counties.map((f) => f.name) as [Counties, ...Counties[]],

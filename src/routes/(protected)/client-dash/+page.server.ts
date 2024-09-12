@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
-import { AnswersTable, SurveyTable } from '$lib/server/schema';
+import { AnswersTable, surveyqnsTableV2, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({locals}) => {
     const select = {
@@ -9,6 +9,7 @@ export const load: PageServerLoad = async ({locals}) => {
         title: SurveyTable.surveyTitle,
         created: sql<Date>`${SurveyTable.createdAt}::timestamp::date`,
         status: SurveyTable.status,
+
     };
   
     const [allsurveys, draftsurveys, livesurveys, closedsurveys] = await Promise.all([
@@ -17,6 +18,14 @@ export const load: PageServerLoad = async ({locals}) => {
       db.select(select).from(SurveyTable).where(sql`${SurveyTable.clientid} = ${locals.user?.id} and ${SurveyTable.status} = 'Live'`),
       db.select(select).from(SurveyTable).where(sql`${SurveyTable.clientid} = ${locals.user?.id} and ${SurveyTable.status} = 'Closed'`),
     ]);
+
+
+    const [sharable] = await db
+      .select({
+        Extern: SurveyTable.external
+      })
+      .from(SurveyTable)
+      .where(sql`${SurveyTable.clientid} = ${locals.user?.id}`)
   
     const total_agents = await db
       .selectDistinctOn([AnswersTable.agentId], {
@@ -33,7 +42,31 @@ export const load: PageServerLoad = async ({locals}) => {
       draft_surv: draftsurveys,
       live_surv: livesurveys,
       closed_surv: closedsurveys,
+      extern: sharable.Extern
     }
  
 
+}
+
+export const actions: Actions = {
+  deleteSurvey: async ({request}) => {
+      type En = {
+          id: string
+      }
+      const data = Object.fromEntries(await request.formData()) as En
+      const { id } = data
+      // console.log(data)
+      try 
+      {
+          await 
+              db.delete(surveyqnsTableV2)
+              .where(eq(surveyqnsTableV2.surveid, id))
+          await 
+              db.delete(SurveyTable)
+              .where(eq(SurveyTable.surveyid, id))
+      } catch (err) 
+      {
+          console.error(err)
+      }
+  }
 }
