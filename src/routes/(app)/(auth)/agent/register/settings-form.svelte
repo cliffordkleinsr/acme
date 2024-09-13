@@ -136,7 +136,7 @@
   <form method="post" use:enhance>
   <Card.Root class="mx-auto max-w-md lg:max-w-xl lg:mx-auto">
     <Card.Header>
-      <Card.Title class="text-xl">Sign Up</Card.Title>
+      <Card.Title class="text-xl text-primary">Sign Up</Card.Title>
       <Card.Description>Create a Agent account to start earning</Card.Description>
     </Card.Header>
     <Card.Content>
@@ -449,7 +449,7 @@
       </div>
       <div class="mt-4 text-center text-sm">
         Already have an account?
-        <a href="/respondent/signin" class="underline"> Sign in </a>
+        <a href="/agent/signin" class="underline hover:text-primary"> Sign in </a>
       </div>
     </Card.Content>
   </Card.Root>

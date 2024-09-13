@@ -59,9 +59,9 @@
 <div class="w-full place-content-center mb-56">
     <!-- <SuperDebug data={$formData}/> -->
     <form action="?/login" method="POST" use:enhance>
-        <Card.Root class="mx-auto max-w-sm lg:max-w-sm lg:mx-auto">
+        <Card.Root class="mx-auto max-w-sm lg:max-w-sm lg:mx-auto mb-16">
             <Card.Header>
-                <Card.Title class="text-xl">Login</Card.Title>
+                <Card.Title class="text-xl text-primary">Login</Card.Title>
                 <Card.Description>Login To The Agent DashBoard</Card.Description>
             </Card.Header>
             <Card.Content>
@@ -95,10 +95,10 @@
                 </div>
                 <div class="mt-4 text-center text-sm">
                     Don't have an account?
-                    <a href="/agent/register" class="underline"> Register </a>
+                    <a href="/agent/register" class="underline hover:text-primary"> Register </a>
                 </div>
                 <div class="mt-4 text-center text-sm">
-                    <a href="/client/password/reset" class="underline">Forgot Password?</a>
+                    <a href="/client/password/reset" class="underline hover:text-primary">Forgot Password?</a>
                 </div>
             </Card.Content>
         </Card.Root>

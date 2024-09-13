@@ -89,7 +89,7 @@
   <form method="post" class="m-2" use:enhance>
     <Card.Root class="mx-auto max-w-lg">
       <Card.Header>
-        <Card.Title class="text-xl">Sign Up</Card.Title>
+        <Card.Title class="text-xl text-primary">Sign Up</Card.Title>
         <Card.Description>Create a Client account to  begin gathering insights</Card.Description>
       </Card.Header>
       <Card.Content>
@@ -250,11 +250,11 @@
               <Form.Button>Create an account</Form.Button>
           {/if}
           <!-- <Button type="submit" class="w-full">t</Button> -->
-          <Button variant="outline" class="w-full">Sign up with Google</Button>
+          <!-- <Button variant="outline" class="w-full">Sign up with Google</Button> -->
         </div>
         <div class="mt-4 text-center text-sm">
           Already have an account?
-          <a href="/client/signin" class="underline"> Sign in </a>
+          <a href="/client/signin" class="underline hover:text-primary"> Sign in </a>
         </div>
       </Card.Content>
     </Card.Root>

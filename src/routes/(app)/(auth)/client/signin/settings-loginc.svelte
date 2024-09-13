@@ -82,9 +82,9 @@
 <div class="w-full place-content-center mb-56">
     <!-- <SuperDebug data={$formData}/> -->
     <form method="post" use:enhance>
-        <Card.Root class="mx-auto max-w-sm lg:max-w-sm lg:mx-auto">
+        <Card.Root class="mx-auto max-w-sm lg:max-w-sm lg:mx-auto mb-16">
             <Card.Header>
-                <Card.Title class="text-xl">Login</Card.Title>
+                <Card.Title class="text-xl text-primary">Login</Card.Title>
                 <Card.Description>Login To The Client DashBoard</Card.Description>
             </Card.Header>
             <Card.Content>
@@ -113,14 +113,14 @@
                     {:else}
                         <Form.Button>Login</Form.Button>
                     {/if}
-                    <Button variant="outline" class="w-full">Sign up with Google</Button>
+                    <!-- <Button variant="outline" class="w-full">Sign up with Google</Button> -->
                 </div>
                 <div class="mt-4 text-center text-sm">
                     Don't have an account?
-                    <a href="/client/register" class="underline"> Register </a>
+                    <a href="/client/register" class="underline hover:text-primary"> Register </a>
                 </div>
                 <div class="mt-4 text-center text-sm">
-                    <a href="/client/password/reset" class="underline">Forgot Password?</a>
+                    <a href="/client/password/reset" class="underline hover:text-primary">Forgot Password?</a>
                 </div>
             </Card.Content>
         </Card.Root>
