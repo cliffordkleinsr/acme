@@ -23,6 +23,7 @@
     
     import { sineInOut } from "svelte/easing";
 	import { fade } from "svelte/transition";
+	import Meta from "$lib/components/blocks/seo/meta.svelte";
     
     // KitLoad<MiddleWare>
     export let data:SuperValidated<Infer<SigninCSchema>>
@@ -54,7 +55,13 @@
 
     $: msg= $page.url.searchParams.get("notification") ?? ""
     
+	const props = {
+		title: "Client Sign in • Intuitive Insights",
+		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+		type:"Website"
+	}
 </script>
+<Meta {...props}/>
 {#if visible && msg}
     <div transition:fade={{delay:200, duration:300, easing:sineInOut}}>
         <Pretoast message={msg} type="warning"/>

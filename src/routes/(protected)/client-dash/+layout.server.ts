@@ -78,7 +78,14 @@ export const load: LayoutServerLoad = async ({locals :{user, session}, url}) => 
         desc: SurveyTable.surveyDescription
     })
     .from(SurveyTable)
-    .where(sql`${SurveyTable.external} = true and ${SurveyTable.status} = 'Live'`)
+    .where(
+        sql`
+        ${SurveyTable.external} = true
+        and 
+        ${SurveyTable.status} = 'Live'
+        and
+        ${SurveyTable.clientid} = ${user.id}
+        `)
     return {
         payment,
         features,

@@ -41,6 +41,7 @@
   import {incomes, employments, educations, sectors, gender} from '$lib/json/index'
   import{ items, df, closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
 	import type { Snapshot } from "./$types";
+	import Meta from "$lib/components/blocks/seo/meta.svelte";
   
   // KitLoad<MiddleWare>
   export let data:SuperValidated<Infer<RegisterRSchema>>
@@ -110,7 +111,13 @@
     // let ital = today(getLocalTimeZone()).subtract({years: 18})
     let open:boolean = false
     let lender = false
+    const props = {
+      title: "Agent Sign Up • Intuitive Insights",
+      description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+      type:"Website"
+    }
 </script>
+<Meta {...props}/>
 
 <div class="flex flex-1 justify-center mt-10 mb-5">
   <Breadcrumb.Root>

@@ -9,7 +9,7 @@
   // console.log(data)
   $: data 
   const props = {
-		title: "Industries • Intuitive Insights",
+		title: `Industries • Intuitive Insights • ${data.industry.title}`,
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}

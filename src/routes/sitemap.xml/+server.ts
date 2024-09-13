@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 import { dev } from '$app/environment';
 
 
-const site = dev ? 'http://localhost:5173' : 'https://acme-inky.vercel.app'; // change this to reflect your domain
+const site = dev ? 'http://localhost:5173' : 'https://int-insights.com'; // change this to reflect your domain
 const industries:string[] = ['hospitality', 'healthcare', 'retail_fmcg', 'financial_services']
 const services:string[] = ['corp_rep', 'brand_image', 'customer_experience', 'product_assessment', 'market_reaserch']
 const pages: string[] = [

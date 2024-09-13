@@ -1,6 +1,14 @@
 <script lang="ts">
+	import Meta from "$lib/components/blocks/seo/meta.svelte";
 
+
+    const props = {
+		title: "How to • Intuitive Insights",
+		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+		type:"Website"
+	}
 </script>
+<Meta {...props}/>
 <div class="m-5">
 <article class="prose lg:prose-lg mx-auto max-w-4xl">
     <h1>How to write good survey questions</h1>

@@ -33,6 +33,7 @@
     import{ closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
     import { sectors} from '$lib/json/index'
 	  import PaymentMethods from '$lib/components/blocks/pricingComponent/payment_methods.svelte';
+	import Meta from "$lib/components/blocks/seo/meta.svelte";
 
 
     // KitLoad<MiddleWare>
@@ -64,7 +65,13 @@
       }
     : undefined;
 
+    const props = {
+      title: "Client Sign Up • Intuitive Insights",
+      description: 'Gather insightful feedback, analyze data, and make informed decisions.',
+      type:"Website"
+    }
 </script>
+<Meta {...props}/>
 <div class="flex flex-1 justify-center mt-10 mb-5">
   <Breadcrumb.Root>
   <Breadcrumb.List>
