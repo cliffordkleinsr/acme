@@ -72,7 +72,7 @@
     : undefined
     
     const props = {
-      title: "Client Sign Up • Intuitive Insights",
+      title: "Client Sign Up • Intuitive Insights KE",
       description: 'Gather insightful feedback, analyze data, and make informed decisions.',
       type:"Website"
     }

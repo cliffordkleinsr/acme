@@ -56,7 +56,7 @@
     $: msg= $page.url.searchParams.get("notification") ?? ""
     
 	const props = {
-		title: "Client Sign in • Intuitive Insights",
+		title: "Client Sign in • Intuitive Insights KE",
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}

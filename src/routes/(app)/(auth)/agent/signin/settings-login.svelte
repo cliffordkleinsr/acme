@@ -33,7 +33,7 @@
 
     $: msg= $page.url.searchParams.get("notification") ?? ""
 	const props = {
-		title: "Agent Sign In • Intuitive Insights",
+		title: "Agent Sign In • Intuitive Insights KE",
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}

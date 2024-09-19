@@ -119,7 +119,7 @@
     let open:boolean = false
     let lender = false
     const props = {
-      title: "Agent Sign Up • Intuitive Insights",
+      title: "Agent Sign Up • Intuitive Insights KE",
       description: 'Gather insightful feedback, analyze data, and make informed decisions.',
       type:"Website"
     }

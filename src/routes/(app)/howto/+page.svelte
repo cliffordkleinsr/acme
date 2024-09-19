@@ -3,7 +3,7 @@
 
 
     const props = {
-		title: "How to • Intuitive Insights",
+		title: "How to • Intuitive Insights KE",
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}

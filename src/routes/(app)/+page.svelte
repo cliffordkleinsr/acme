@@ -3,7 +3,7 @@
 	import Newfeats from "$lib/components/blocks/frontendComponents/newfeats.svelte";
 	import Meta from "$lib/components/blocks/seo/meta.svelte";
 	const props = {
-		title: 'Home • Intuitive Insights',
+		title: 'Intuitive Insights KE',
 		description: 'Gather Insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}

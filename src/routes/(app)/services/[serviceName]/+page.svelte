@@ -4,7 +4,7 @@
     export let data
     $: data
     const props = {
-		title: `Services • Intuitive Insights • ${data.service.title}`,
+		title: `Services • Intuitive Insights KE • ${data.service.title}`,
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}

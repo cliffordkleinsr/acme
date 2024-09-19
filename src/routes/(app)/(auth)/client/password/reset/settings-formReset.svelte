@@ -8,6 +8,7 @@
     import { zodClient } from "sveltekit-superforms/adapters"
     import { type SuperValidated, type Infer, superForm } from "sveltekit-superforms"
 	import { toast } from "svelte-sonner";
+	import Meta from "$lib/components/blocks/seo/meta.svelte";
 
     // KitLoad<MiddleWare>
     export let data:SuperValidated<Infer<ResetSchema>>
@@ -27,7 +28,13 @@
         }
     })
     const { form: formData, enhance, message, delayed } = form
+    const props = {
+		title: 'Password reset • Intuitive Insights KE',
+		description: 'Gather Insightful feedback, analyze data, and make informed decisions.',
+		type:"Website"
+	}
 </script>
+<Meta {...props}/>
 
 <div class="flex flex-1 justify-center mt-10 mb-5">
     <Breadcrumb.Root>

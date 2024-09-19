@@ -13,25 +13,35 @@
 	import type { PageData } from "./$types";
 	import { getInitials } from "$lib/helperFunctions/helpers";
 	import FileText from 'lucide-svelte/icons/file-text'
+	import { onMount } from "svelte";
 
     
     export let data: PageData;
 
     const{ client_pack, AuthedUser, email } = data
     let date: string[]= [new Date(client_pack.at!).toDateString(), new Date(client_pack.at!).toLocaleTimeString()]
+	let expiry: string[]= [new Date(client_pack.expiry!).toDateString(), new Date(client_pack.expiry!).toLocaleTimeString()]
 	const price = client_pack.plan!
 	const vat = Math.round(parseInt(price) * 0.16)
+	let canvas: HTMLCanvasElement
+	onMount(async () => {
+		var QRCode = await import('qrcode')
 
-	
+		QRCode.toCanvas(canvas, client_pack.packageid!, function (error) {
+				if (error) console.error(error)
+				console.log('success!');
+		})
+		
+	})
     
 </script>
 {#if client_pack.payment_status}
 <div id='printable' class="m-4 w-full max-w-3xl mx-auto">
 <Card.Root class="w-full">
-	<Card.Header class="flex flex-col sm:flex-row items-start bg-muted/50 p-4 sm:p-6">
+	<Card.Header class="flex flex-col sm:flex-row items-start bg-muted/50 p-4 sm:p-6 w-full">
 		<div class="grid gap-0.5 mb-4 sm:mb-0">
 			<Card.Title class="group flex items-center gap-2 text-lg">
-				Order ID <span class="text-sm">{client_pack.packageid} </span>
+				<canvas  bind:this={canvas}> </canvas>
 				<Button
 					size="icon"
 					variant="outline"
@@ -41,7 +51,14 @@
 					<span class="sr-only">Copy Order ID</span>
 				</Button>
 			</Card.Title>
-			<Card.Description>Subscribed on: {date} </Card.Description>
+			<Card.Description class="grid gap-1">
+				<span class="font-bold">Subscribed on:</span>
+				 {date} 
+				 <Separator />
+					<span class="font-bold">Expires at:</span>
+					{expiry}
+				 <Separator />
+			</Card.Description>
 		</div>
 		<div class="flex items-center gap-1 sm:ml-auto" id="non-printable">
 			<Button size="sm" variant="outline" class="h-8 gap-1">

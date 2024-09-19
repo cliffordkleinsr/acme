@@ -6,7 +6,7 @@
   export let data:PageData
 
   const props = {
-		title: "About • Intuitive Insights",
+		title: "About • Intuitive Insights KE",
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}
