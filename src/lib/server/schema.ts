@@ -33,6 +33,7 @@ export const agentData = pgTable('agent_data',{
     phone: text("phone").notNull(),
     dateofbirth: text("dob").notNull(),
     county: text("county").notNull(),
+    subcounty: text("subcounty").notNull().default("Starehe"),
     income: text("income").notNull(),
     employment: text("employment").notNull(),
     education: text("education").notNull(),
