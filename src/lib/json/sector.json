@@ -1,91 +1,91 @@
 [
     {   
         "label": "Agriculture",
-        "value": "0001-Agriculture"
+        "value": "Agriculture"
     },
     {
         "label": "Automotive",
-        "value": "0002-Automotive"
+        "value": "Automotive"
     },
     {
         "label": "Banking",
-        "value": "0003-Banking"
+        "value": "Banking"
     },
     {
         "label": "Construction",
-        "value": "0004-Construction"
+        "value": "Construction"
     },
     {
         "label": "Education",
-        "value": "0005-Education"
+        "value": "Education"
     },
     {
         "label": "Energy",
-        "value": "0006-Energy"
+        "value": "Energy"
     },
     {
         "label": "Entertainment",
-        "value": "0007-Entertainment"
+        "value": "Entertainment"
     },
     {
         "label": "Fashion",
-        "value": "0008-Fashion"
+        "value": "Fashion"
     },
     {
         "label": "Finance",
-        "value": "0009-Finance"
+        "value": "Finance"
     },
     {
         "label": "Food & Beverage",
-        "value": "0010-Food & Beverage"
+        "value": "Food & Beverage"
     },
     {
         "label": "Healthcare",
-        "value": "0011-Healthcare"
+        "value": "Healthcare"
     },
     {
         "label": "Hospitality",
-        "value": "0012-Hospitality"
+        "value": "Hospitality"
     },
     {
         "label": "Information Technology",
-        "value": "0013-Information Technology"
+        "value": "Information Technology"
     },
     {
         "label": "Manufacturing",
-        "value": "0014-Manufacturing"
+        "value": "Manufacturing"
     },
     {
         "label": "Media",
-        "value": "0015-Media"
+        "value": "Media"
     },
     {
         "label": "Real Estate",
-        "value": "0016-Real Estate"
+        "value": "Real Estate"
     },
     {
         "label": "Retail",
-        "value": "0017-Retail"
+        "value": "Retail"
     },
     {
         "label": "Telecommunications",
-        "value": "0018-Telecommunications"
+        "value": "Telecommunications"
     },
     {
         "label": "Transportation",
-        "value": "0019-Transportation"
+        "value": "Transportation"
     },
     {
         "label": "Travel",
-        "value": "0020-Travel"
+        "value": "Travel"
     },
     {
         "label": "NGO's",
-        "value": "0020-NGOs"
+        "value": "NGOs"
     },
     {
         "label": "Others",
-        "value": "0020-Others"
+        "value": "Others"
     }
     
 ]

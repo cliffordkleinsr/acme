@@ -1,14 +1,14 @@
 [
     {
-        "label": "0000-Primary"
+        "label": "Primary"
     },
     {
-        "label": "0001-High-School"
+        "label": "High-School"
     },
     {
-        "label": "0002-Under-Graduate"
+        "label": "Under-Graduate"
     },
     {
-        "label": "0003-Post-Graduate"
+        "label": "Post-Graduate"
     }
 ]

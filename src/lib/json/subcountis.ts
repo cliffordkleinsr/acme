@@ -404,4 +404,4 @@ for (const [county, subCounties] of Object.entries(kenyaData)) {
     countyMap.set(county, subCounties);
 }
 
-export {countyMap}
+export { countyMap }

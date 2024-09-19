@@ -42,6 +42,7 @@
   import{ items, df, closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
 	import type { Snapshot } from "./$types";
 	import Meta from "$lib/components/blocks/seo/meta.svelte";
+	import { countyMap } from "$lib/json/subcountis";
   
   // KitLoad<MiddleWare>
   export let data:SuperValidated<Infer<RegisterRSchema>>
@@ -81,6 +82,12 @@
     ? {
         label: $formData.gender,
         value: $formData.gender
+      }
+    : undefined
+  $: selectedScty= $formData.subctys
+    ? {
+        label: $formData.subctys,
+        value: $formData.subctys
       }
     : undefined
   $: selectedEmployment = $formData.employment
@@ -181,7 +188,7 @@
               </Form.Field>
             </div>
             <div class="grid gap-2">
-              <Form.Field {form} name="gender" class="flex flex-col">
+              <Form.Field {form} name="gender">
                 <Form.Control let:attrs>
                   <Form.Label>Gender</Form.Label>
                   <Select.Root
@@ -205,7 +212,7 @@
               </Form.Field>
             </div>
             <div class="grid gap-2">
-                <Form.Field {form} name="dateofbirth" class="flex flex-col">
+                <Form.Field {form} name="dateofbirth" class="grid gap-2">
                   <Form.Control let:attrs>
                     <Form.Label>Date of birth</Form.Label>
                     <Popover.Root bind:open={lender}>
@@ -213,7 +220,7 @@
                         {...attrs}
                         class={cn(
                           buttonVariants({ variant: "outline" }),
-                          "w-[280px] justify-start pl-4 text-left font-normal",
+                          "w-[250px] justify-start pl-4 text-left font-normal",
                           !value && "text-muted-foreground"
                         )}
                       >
@@ -260,13 +267,37 @@
                   </Form.Control>
                 </Form.Field>
             </div>
+            <div class="grid gap-2">
+              <Form.Field {form} name="education"  class="w-76">
+                <Form.Control let:attrs>
+                  <Form.Label>Education</Form.Label>
+                  <Select.Root
+                    selected ={selectedEducation}
+                    onSelectedChange={(v) => {
+                      v && ($formData.education = v.value)
+                    }}
+                  >
+                    <Select.Trigger {...attrs}>
+                      <Select.Value placeholder="Select an Education bracket" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      {#each educations as education}
+                        <Select.Item value={education.label} label={education.label}></Select.Item>
+                      {/each}
+                    </Select.Content>
+                  </Select.Root>
+                  <input hidden bind:value={$formData.education} name={attrs.name} />
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+            </div>
           </div>
         </div>
     
         <div class="grid gap-2">
           <div class="grid lg:grid-cols-2 gap-4">
             <div class="grid gap-2">
-              <Form.Field {form} name="county" class="flex flex-col">
+              <Form.Field {form} name="county" class="grid gap-2">
                 <Popover.Root bind:open let:ids>
                   <Form.Control let:attrs>
                     <Form.Label>County Residence</Form.Label>
@@ -322,7 +353,38 @@
               </Form.Field>
             </div>
             <div class="grid gap-2">
-              <Form.Field {form} name="employment" class="flex flex-col">
+              <Form.Field {form} name="subctys">
+                <Form.Control let:attrs>
+                  <Form.Label>Sub-County</Form.Label>
+                  <Select.Root
+                    selected ={selectedScty}
+                    onSelectedChange={(v) => {
+                      v && ($formData.subctys = v.value)
+                    }}
+                  >
+                    <Select.Trigger {...attrs}>
+                      <Select.Value placeholder="Select your area sub-county" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      {#if countyMap.has($formData.county)}
+                        {@const ctys = countyMap.get($formData.county)}
+                        {#each ctys as ct}
+                        <Select.Item value={ct} label={ct}></Select.Item>
+                        {/each}
+                      {/if}
+                    </Select.Content>
+                  </Select.Root>
+                  <input hidden bind:value={$formData.subctys} name={attrs.name} />
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+            </div>
+          </div>
+        </div>
+        <div class="grid gap-2">
+          <div class="grid lg:grid-cols-2 gap-4">
+            <div class="grid gap-2">
+              <Form.Field {form} name="employment">
                 <Form.Control let:attrs>
                   <Form.Label>Employment</Form.Label>
                   <Select.Root
@@ -345,12 +407,8 @@
                 <Form.FieldErrors />
               </Form.Field>
             </div>
-          </div>
-        </div>
-        <div class="grid gap-2">
-          <div class="grid lg:grid-cols-2 gap-4">
             <div class="grid gap-2">
-              <Form.Field {form} name="income" class="w-52">
+              <Form.Field {form} name="income">
                 <Form.Control let:attrs>
                   <Form.Label>Income</Form.Label>
                   <Select.Root
@@ -373,30 +431,7 @@
                 <Form.FieldErrors />
               </Form.Field>
             </div>
-            <div class="grid gap-2">
-              <Form.Field {form} name="education"  class="w-76">
-                <Form.Control let:attrs>
-                  <Form.Label>Education</Form.Label>
-                  <Select.Root
-                    selected ={selectedEducation}
-                    onSelectedChange={(v) => {
-                      v && ($formData.education = v.value)
-                    }}
-                  >
-                    <Select.Trigger {...attrs}>
-                      <Select.Value placeholder="Select an Education bracket" />
-                    </Select.Trigger>
-                    <Select.Content>
-                      {#each educations as education}
-                        <Select.Item value={education.label} label={education.label}></Select.Item>
-                      {/each}
-                    </Select.Content>
-                  </Select.Root>
-                  <input hidden bind:value={$formData.education} name={attrs.name} />
-                </Form.Control>
-                <Form.FieldErrors />
-              </Form.Field>
-            </div>
+            
           </div>
         </div>
         {#if $formData.employment === "Student" || $formData.employment === "Un-Employed"}

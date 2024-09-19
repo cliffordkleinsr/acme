@@ -33,11 +33,11 @@ export const registerRSchema = z.object({
                 errorMap: () => ({ message: "Please select a valid County." })
             }
         ),
-    // subctys: z
-    //     .string({
-    //         required_error: "Must be valid Sub County.",
-    //     })
-    //     .min(2, { message: 'Please select a valid sub county' }),
+    subctys: z
+        .string({
+            required_error: "Must be valid Sub County.",
+        })
+        .min(2, { message: 'Please select a valid sub county' }),
     income: z
         .string({
             required_error: "Must be valid Income Bracket.",
@@ -52,7 +52,7 @@ export const registerRSchema = z.object({
         .string({
             required_error: "Must be valid Education Bracket.",
         })
-        .includes('00', { message: "Must be a valid Education Bracket" }),
+        .min(2, { message: 'Must be a Education Bracket.' }),
     sector: z
         .string({
             required_error: "Must be valid Sector",

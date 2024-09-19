@@ -32,8 +32,8 @@
     // Local Variables
     import{ closeAndFocusTrigger} from '$lib/helperFunctions/helpers'
     import { sectors} from '$lib/json/index'
-	  import PaymentMethods from '$lib/components/blocks/pricingComponent/payment_methods.svelte';
-	import Meta from "$lib/components/blocks/seo/meta.svelte";
+	  import Meta from "$lib/components/blocks/seo/meta.svelte";
+	import { countyMap } from "$lib/json/subcountis";
 
 
     // KitLoad<MiddleWare>
@@ -64,7 +64,13 @@
         value: $formData.sector
       }
     : undefined;
-
+    $: selectedScty= $formData.subctys
+    ? {
+        label: $formData.subctys,
+        value: $formData.subctys
+      }
+    : undefined
+    
     const props = {
       title: "Client Sign Up • Intuitive Insights",
       description: 'Gather insightful feedback, analyze data, and make informed decisions.',
@@ -199,6 +205,33 @@
                       </Command.Root>
                     </Popover.Content>
                   </Popover.Root>
+                  <Form.FieldErrors />
+                </Form.Field>
+              </div>
+              <div class="grid gap-2">
+                <Form.Field {form} name="subctys">
+                  <Form.Control let:attrs>
+                    <Form.Label>Sub-County</Form.Label>
+                    <Select.Root
+                      selected ={selectedScty}
+                      onSelectedChange={(v) => {
+                        v && ($formData.subctys = v.value)
+                      }}
+                    >
+                      <Select.Trigger {...attrs}>
+                        <Select.Value placeholder="Select your area sub-county" />
+                      </Select.Trigger>
+                      <Select.Content>
+                        {#if countyMap.has($formData.county)}
+                          {@const ctys = countyMap.get($formData.county)}
+                          {#each ctys as ct}
+                          <Select.Item value={ct} label={ct}></Select.Item>
+                          {/each}
+                        {/if}
+                      </Select.Content>
+                    </Select.Root>
+                    <input hidden bind:value={$formData.subctys} name={attrs.name} />
+                  </Form.Control>
                   <Form.FieldErrors />
                 </Form.Field>
               </div>

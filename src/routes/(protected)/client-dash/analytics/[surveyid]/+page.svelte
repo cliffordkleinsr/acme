@@ -158,6 +158,7 @@
       
 </script>
 {#if answers.length > 0}
+<div></div>
 <div class="grid w-full m-2 gap-2" id="my-div">
   <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 'max-w-4xl">
     <Card.Root>
@@ -168,7 +169,16 @@
         <Chart {options} />
       </Card.Content>
     </Card.Root>
-    <Lmap options={Object.fromEntries(counties)}/>
+    <!-- <Lmap options={Object.fromEntries(counties)}/> -->
+     <Card.Root>
+       <Card.Header>
+         <Card.Title>GIS Statistics</Card.Title>
+         <Card.Description>An interactive visual of gis statistics</Card.Description>
+       </Card.Header>
+       <Card.Content>
+         <p class=" italic">Coming soon</p>
+       </Card.Content>
+     </Card.Root>
     <Card.Root class='col-span-2'>
       <Card.Header>
         <Card.Title class='text-5xl text-end'>Summary Statistics</Card.Title>
