@@ -34,8 +34,8 @@
             {
                 id:'prod_QjUMG44vCFNGXO',
                 subtitles: 'Basic',
-                prices: '60',
-                offers: '54',
+                prices: '50',
+                offers: '45',
                 priceMn: 'price_1Ps1ODRpYHoLk6LSg56V1no0',
                 priceYr: 'price_1Ps1ODRpYHoLk6LSMN8kgMJf',
                 comments: 'All the basics for an entry level business',
