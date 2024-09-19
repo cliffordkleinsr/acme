@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-    import favicon from '/static/favicon.ico'
+    import favicon from '$lib/components/icons/favicon.ico'
 
     export let title
     export let description

@@ -9,13 +9,16 @@ import { Argon2id } from "oslo/password"
 import { lucia } from "$lib/server/auth";
 import { calculateAge, handleLoginRedirect } from "$lib/helperFunctions/helpers"
 import type { Actions, PageServerLoad } from "./$types"
-import { agentSurveysTable, smsVerification, surveyqnsTableV2 } from "$lib/server/schema"
+import { agentData, agentSurveysTable, smsVerification, surveyqnsTableV2, UsersTable } from "$lib/server/schema"
 import { db } from "$lib/server/db"
 import { eq } from "drizzle-orm"
 import { createVerification } from "$lib/server/twilioconfigs/sms-messages"
 
 
 export const load: PageServerLoad = async ({locals:{ user}, url}) => {
+    // await db.delete(smsVerification).where(eq(smsVerification.userId, 'vsz9hei4m2dnr18'))
+    // await db.delete(agentData).where(eq(agentData.agentid, 'zyoinhxc8a32fnj'))
+    // await db.delete(UsersTable).where(eq(UsersTable.id, 'zyoinhxc8a32fnj'))
     if (user) 
     {
         if (user.role === "AGENT") {

@@ -160,3 +160,10 @@ drizzle/migrations/0071_solid_flatman.sql
 drizzle/migrations/0080_glamorous_doomsday.sql
 drizzle/migrations/meta/_journal.json
 drizzle/migrations/meta/0080_snapshot.json
+drizzle/migrations/meta/0081_snapshot.json
+drizzle/migrations/meta/0082_snapshot.json
+src/lib/json/employment.json
+src/lib/json/gender.json
+drizzle/migrations/0081_unknown_lady_mastermind.sql
+drizzle/migrations/0082_strong_captain_marvel.sql
+drizzle/migrations/meta/_journal.json

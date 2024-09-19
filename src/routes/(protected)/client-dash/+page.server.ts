@@ -22,11 +22,11 @@ export const load: PageServerLoad = async ({locals}) => {
 
     const [sharable] = await db
       .select({
-        Extern: SurveyTable.external
+        Extern: sql<boolean>`${SurveyTable.external}::boolean`
       })
       .from(SurveyTable)
       .where(sql`${SurveyTable.clientid} = ${locals.user?.id}`)
-  
+    // console.log(locals.user?.id)
     const total_agents = await db
       .selectDistinctOn([AnswersTable.agentId], {
         agent: AnswersTable.agentId,
@@ -34,15 +34,18 @@ export const load: PageServerLoad = async ({locals}) => {
       .from(AnswersTable)
       .leftJoin(SurveyTable, eq(AnswersTable.surveid, SurveyTable.surveyid))
       .where(sql`${SurveyTable.clientid} = ${locals.session?.userId}`);
-  
-  
+    
+    let sh:boolean =false
+    if (sharable) {
+      sh = sharable.Extern 
+    }
     return {
       count: total_agents.length,
       all_surv: allsurveys,
       draft_surv: draftsurveys,
       live_surv: livesurveys,
       closed_surv: closedsurveys,
-      extern: sharable.Extern
+      extern: sh
     }
  
 

@@ -82,6 +82,10 @@
     {
         "label": "NGO's",
         "value": "0020-NGOs"
+    },
+    {
+        "label": "Others",
+        "value": "0020-Others"
     }
     
 ]

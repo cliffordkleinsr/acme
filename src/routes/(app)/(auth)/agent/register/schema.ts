@@ -33,6 +33,11 @@ export const registerRSchema = z.object({
                 errorMap: () => ({ message: "Please select a valid County." })
             }
         ),
+    // subctys: z
+    //     .string({
+    //         required_error: "Must be valid Sub County.",
+    //     })
+    //     .min(2, { message: 'Please select a valid sub county' }),
     income: z
         .string({
             required_error: "Must be valid Income Bracket.",
@@ -42,7 +47,7 @@ export const registerRSchema = z.object({
         .string({
             required_error: "Must be valid Employment Bracket.",
         })
-        .includes('yed', { message: "Must be a valid Employment Bracket" }),
+        .min(2, { message: 'Please select a Employment Bracket.' }),
     education: z
         .string({
             required_error: "Must be valid Education Bracket.",
@@ -52,7 +57,8 @@ export const registerRSchema = z.object({
         .string({
             required_error: "Must be valid Sector",
         })
-        .includes('00', { message: "Must be a valid Sector" }),
+        .min(2, { message: 'Must be a valid Sector' })
+        .default("Others"),
     password: z
         .string({ required_error: 'Password is required' })
         .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm, {message : 'must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number'})

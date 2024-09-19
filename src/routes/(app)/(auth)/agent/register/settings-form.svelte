@@ -399,6 +399,9 @@
             </div>
           </div>
         </div>
+        {#if $formData.employment === "Student" || $formData.employment === "Un-Employed"}
+        <p></p>
+        {:else}
         <div class="grid gap-2">
           <Form.Field {form} name="sector">
             <Form.Control let:attrs>
@@ -425,6 +428,7 @@
             <Form.FieldErrors />
           </Form.Field>
         </div>
+        {/if}
         <div class="grid gap-2">
           <Form.Field {form} name="password">
             <Form.Control let:attrs>

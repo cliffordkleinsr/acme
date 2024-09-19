@@ -1,4 +1,6 @@
-[
+[   {
+        "label": "Student"
+    },
     {
         "label": "Employed"
     },
@@ -6,6 +8,6 @@
         "label": "Self-Employed"
     },
     {
-        "label": "UnEmployed"
+        "label": "Un-Employed"
     }
 ]
