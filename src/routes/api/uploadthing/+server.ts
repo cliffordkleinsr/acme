@@ -1,14 +1,13 @@
-import { env } from "$env/dynamic/private";
+import { UPLOADTHING_TOKEN } from "$env/static/private";
 import { ourFileRouter } from "$lib/server/uploadthing";
- 
+
 import { createRouteHandler } from "uploadthing/server";
- 
-// The Svelte extension complains if you export the handlers directly
-const { GET, POST } = createRouteHandler({
+
+const handlers = createRouteHandler({
   router: ourFileRouter,
   config: {
-    uploadthingSecret: env.UPLOADTHING_SECRET,
+    token: UPLOADTHING_TOKEN,
   },
 });
- 
-export { GET, POST };
+
+export { handlers as GET, handlers as POST };
