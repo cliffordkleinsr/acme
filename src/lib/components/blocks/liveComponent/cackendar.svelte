@@ -60,7 +60,7 @@
       {label: "Both", value: 'any'},
       {label: "Male", value: 'male'},
       {label: "Female", value: 'female'},
-      {label: "Attack Helicopter", value: 'helicopter'},
+      // {label: "Attack Helicopter", value: 'helicopter'},
     ]
     let target_gender:string='any'
     let selected_gender = {label:'Select Gender', value:'any'}
@@ -189,7 +189,7 @@
         <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
         <AlertDialog.Description>
           This action cannot be undone. This will permanently mark your survey as live
-          and cannot be further edited. {checked? '': 'Kindly confirm you have added the correct daterange, gender and age for your survey before proceeding.'}
+          and cannot be further edited. {checked? '': 'Kindly confirm you have added the correct date range, gender and age for your survey before proceeding.'}
         </AlertDialog.Description>
       </AlertDialog.Header>
       <AlertDialog.Footer>

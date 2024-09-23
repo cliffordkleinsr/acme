@@ -57,7 +57,7 @@
                 features: [
                     'Up to 4 surveys per month.',
                     'Up to 15 questions per survey.',
-                    'Access to a expanded respondent pool (250 respondents per survey)',
+                    'Access to an expanded respondent pool (250 respondents per survey)',
                     'Advanced demographic segmentation (income, education level).',
                     'Analytics and reporting.',
                     'Email support.'

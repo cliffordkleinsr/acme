@@ -3,7 +3,6 @@
     import { createUploader } from "$lib/upload-configs/config";
 	import { error } from "@sveltejs/kit";
     import { UploadButton, UploadDropzone, Uploader } from "@uploadthing/svelte";
-    import "@uploadthing/svelte/styles.css"
 	import { toast } from "svelte-sonner";
     import * as Avatar from "$lib/components/ui/avatar"
     import { Button } from "$lib/components/ui/button"
@@ -19,7 +18,7 @@
     const uploader  = createUploader("imageUploader", {
         onClientUploadComplete: (res) => {
             img = res[0]?.url
-            // console.log(`onClientUploadComplete`, res)
+            console.log(`onClientUploadComplete`, res)
             toast.success("Upload Completed");
         },
         onUploadError: (error: Error) => {

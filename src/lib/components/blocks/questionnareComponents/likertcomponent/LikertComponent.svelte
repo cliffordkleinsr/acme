@@ -17,6 +17,7 @@
         "priority": likert_options.get("Priority"),
         "quality": likert_options.get("Quality"),
         "importance": likert_options.get("Importance"),
+        "likelyhood": likert_options.get("Likelyhood")
     };
 
     // Access the correct likert array based on likert_key

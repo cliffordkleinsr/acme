@@ -144,5 +144,5 @@
     })
 </script>
 
-<div class="hidden h-full sm:block" bind:this={mapEl}></div>
+<div class="hidden h-full sm:block z-10" bind:this={mapEl}></div>
 

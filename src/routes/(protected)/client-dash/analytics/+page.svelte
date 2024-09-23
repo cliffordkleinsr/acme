@@ -5,6 +5,8 @@
   import { Button } from "$lib/components/ui/button"
   import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
 	import { Separator } from "$lib/components/ui/separator/index.js";
+  import { Skeleton } from "$lib/components/ui/skeleton"
+  
   export let data
   const { overview } = data
 
@@ -47,7 +49,21 @@
     </Card.Root>
   {/each}
   {:else}
-    <p class="italic text-sm mx-auto text-center">These statistics will appear once you have created a survey</p>
+  <div class="m-5 w-full">
+    <p class="italic text-sm">These statistics will grow as more people answer your surveys</p>
+    <div class="flex flex-col gap-4 m-4">
+      <Skeleton class="w-[200px] h-[20px] rounded-full" />
+      <Skeleton class="w-[300px] h-[10px] rounded-full" />
+    </div>
+    <div class="md:flex gap-6 w-full space-x-4 ">
+      <Skeleton class="size-40 rounded-full" />
+      <div class="grid gap-1">
+        <Skeleton class="w-[400px] h-[20px] rounded-full" />
+        <Skeleton class="w-[400px] h-[20px] rounded-full" />
+        <Skeleton class="w-[400px] h-[20px] rounded-full" />
+      </div>
+    </div>
+  </div>
   {/if}
 
 </div>

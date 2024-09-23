@@ -14,6 +14,7 @@
 	import { zodClient } from "sveltekit-superforms/adapters";
 	import { superForm } from 'sveltekit-superforms/client';
     import Trash2 from "lucide-svelte/icons/trash-2"
+    
     export let data:PageData
     let { img } = data
     const uploader  = createUploader("imageUploader", {

@@ -1,5 +1,6 @@
 <script>
 	import { ModeWatcher } from "mode-watcher"
+	import "@uploadthing/svelte/styles.css";
     import "../app.pcss"
 	import { toast } from 'svelte-sonner';
 	import { Toaster } from "$lib/components/ui/sonner"

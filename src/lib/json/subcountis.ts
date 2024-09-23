@@ -93,7 +93,7 @@ const kenyaData: KenyaData  = {
       "Tigania East",
       "Tigania West"
     ],
-    "Tharaka-Nithi": [
+    "Tharaka Nithi": [
       "Chuka/Igambang'ombe",
       "Maara",
       "Tharaka"
@@ -195,7 +195,7 @@ const kenyaData: KenyaData  = {
       "Samburu North",
       "Samburu West"
     ],
-    "Trans-Nzoia": [
+    "Trans Nzoia": [
       "Cherangany",
       "Endebess",
       "Kiminini",
@@ -210,7 +210,7 @@ const kenyaData: KenyaData  = {
       "Soy",
       "Turbo"
     ],
-    "Elgeyo-Marakwet": [
+    "Elgeyo Marakwet": [
       "Keiyo North",
       "Keiyo South",
       "Marakwet East",

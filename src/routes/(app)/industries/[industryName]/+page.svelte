@@ -7,14 +7,17 @@
   import { CldImage } from 'svelte-cloudinary'
   export let data: PageData
   // console.log(data)
-  $: data 
+  $: data
+
   const props = {
 		title: `Industries • Intuitive Insights KE • ${data.industry.title}`,
 		description: 'Gather insightful feedback, analyze data, and make informed decisions.',
 		type:"Website"
 	}
 </script>
-<Meta {...props}/>
+<Meta {...props}/> 
+
+
 <div class="max-w-[86rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-24 mx-auto place-content-evenly">
     <div class="lg:flex gap-32">
       <div class="flex flex-col gap-2 lg:max-w-5xl space-y-5">

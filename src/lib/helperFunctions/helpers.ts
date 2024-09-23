@@ -226,7 +226,7 @@ likert_options.set('Importance', [
   {option: "Very unimportant"},
 ])
 
-likert_options.set('Likelihood', [
+likert_options.set('Likelyhood', [
   {option: "Very likely"},
   {option: "Likely"},
   {option: "Slightly likely"},

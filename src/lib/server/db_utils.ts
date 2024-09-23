@@ -437,6 +437,21 @@ export const countAgents= async (complete:boolean, survid:string) => {
     .where(sql`${agentSurveysTable.survey_completed} = ${complete} and ${agentSurveysTable.surveyid} = ${survid}`)
     return query.length
 }
+export const countFltAgents= async (gender:string, complete:boolean, survid:string) => {
+    const query = await db
+    .select({
+        id: agentSurveysTable.agentid
+    })
+    .from(agentSurveysTable)
+    .leftJoin(UsersTable, eq(agentSurveysTable.agentid, UsersTable.id))
+    .where(sql`
+        ${agentSurveysTable.survey_completed} = ${complete}
+         and ${agentSurveysTable.surveyid} = ${survid}
+         and ${UsersTable.gender} = ${gender}
+         `)
+    return query.length
+}
+
 export const countTotAgents= async (survid:string) => {
     const query = await db
     .select({
@@ -447,6 +462,129 @@ export const countTotAgents= async (survid:string) => {
     return query.length
 }
 
+/**
+ * 
+ * @param gender 
+ * @param userId 
+ * @param surveyid 
+ * @returns 
+ */
+export const getAnswers = async (gender:string='', userId:string, surveyid:string) => {
+    return await db
+    .select({
+      question_id: surveyqnsTableV2.questionId,
+      question_type: surveyqnsTableV2.questionT, 
+      question: surveyqnsTableV2.question,
+      answer: AnswersTable.answer,
+      count: sql<number>`COUNT(*)`,
+      percentage: sql<number>`(COUNT(*) * 100.0) / (
+        SELECT COUNT(*) 
+        FROM ${AnswersTable}
+        WHERE ${AnswersTable.questionId} = ${surveyqnsTableV2.questionId}
+      )`,
+    })
+    .from(surveyqnsTableV2)
+    .innerJoin(AnswersTable, eq(surveyqnsTableV2.questionId, AnswersTable.questionId))
+    .leftJoin(SurveyTable, eq(surveyqnsTableV2.surveid, SurveyTable.surveyid))
+    .leftJoin(UsersTable, sql`${AnswersTable.agentId} =  ${UsersTable.id}`) // Join with UsersTable
+    .where(sql`
+        ${SurveyTable.clientid} = ${userId} 
+        and ${SurveyTable.surveyid} = ${surveyid} 
+        and ${UsersTable.gender} = ${gender}`)
+    .groupBy(
+      surveyqnsTableV2.questionId,
+      surveyqnsTableV2.questionT,
+      surveyqnsTableV2.question,
+      AnswersTable.answer,
+      UsersTable.gender
+    )
+}
+
+/**
+ * 
+ * @param gender 
+ * @param surveyid 
+ * @returns 
+ */
+export const getCounties = async (gender:string='', surveyid:string) => {
+    return await db
+    .select({
+        loc_dem: sql<string>`UPPER(${agentData.county})`,
+        agents: sql<number>`COUNT(DISTINCT(${agentData.agentid}))`
+    })
+    .from(agentData)
+    .leftJoin(agentSurveysTable, sql`${agentData.agentid} = ${agentSurveysTable.agentid}`)
+    .rightJoin(UsersTable, eq(agentData.agentid, UsersTable.id))
+    .where(
+        sql`${agentSurveysTable.surveyid} = ${surveyid} 
+        and ${agentSurveysTable.survey_completed} = TRUE
+        and ${UsersTable.gender} = ${gender}
+        `    
+    )
+    .groupBy(agentData.county)
+}
+
+/**
+ * 
+ * @param gender 
+ * @param surveyid 
+ */
+export const getGender = async (gender:string='', surveyid:string) => {
+    return await db
+    .select({
+        gen_dem: sql<string>`UPPER(${UsersTable.gender})`,
+        agents: sql<number>`COUNT(DISTINCT(${UsersTable.id}))`
+    })
+    .from(UsersTable)
+    .leftJoin(agentSurveysTable, sql`${UsersTable.id} = ${agentSurveysTable.agentid}`)
+    .where(
+        sql`${agentSurveysTable.surveyid} = ${surveyid} 
+        and ${agentSurveysTable.survey_completed} = TRUE
+        and ${UsersTable.gender} = ${gender}
+        `    
+    )
+    .groupBy(UsersTable.gender)
+
+}
+
+/**
+ * 
+ * @param gender 
+ * @param surveyid 
+ * @returns 
+ */
+export const getSector = async (gender:string, surveyid:string) => {
+    return await db
+    .select({
+        sec_dem: sql<string>`SPLIT_PART(${agentData.sector}, '-', 2)`,
+        agents: sql<number>`COUNT(DISTINCT(${agentData.agentid}))`
+    })
+    .from(agentData)
+    .leftJoin(UsersTable, sql`${UsersTable.id} = ${agentData.agentid}`)
+    .leftJoin(agentSurveysTable, sql`${agentData.agentid} = ${agentSurveysTable.agentid}`)
+    .where(
+        sql`
+        ${agentSurveysTable.surveyid} = ${surveyid}
+        and ${agentSurveysTable.survey_completed} = TRUE
+        and ${UsersTable.gender} = ${gender}
+        `    
+    )
+    .groupBy(agentData.sector)
+}
+
+export const countTotFltrdAgents= async (gender:string, survid:string) => {
+    const query = await db
+    .select({
+        id: agentSurveysTable.agentid
+    })
+    .from(agentSurveysTable)
+    .leftJoin(UsersTable, eq(agentSurveysTable.agentid, UsersTable.id))
+    .where(sql`
+        ${agentSurveysTable.surveyid} = ${survid}
+        and ${UsersTable.gender} = ${gender}
+        `)
+    return query.length
+}
 // await db.insert(clientPackages).values({
 //     packageid: 'prod_QTgA9EH6qo3dRu',
 //     packageDesc: 'Premium Business',

@@ -11,7 +11,7 @@
 	"code": 3,
 	"capital": "Kilifi"
 }, {
-	"name": "Tana_River",
+	"name": "Tana River",
 	"code": 4,
 	"capital": "Hola"
 
@@ -20,7 +20,7 @@
 	"code": 5,
 	"capital": "Lamu"
 }, {
-	"name": "Taita_Taveta",
+	"name": "Taita-Taveta",
 	"code": 6,
 	"capital": "Voi"
 }, {
@@ -48,7 +48,7 @@
 	"code": 12,
 	"capital": "Meru"
 }, {
-	"name": "Tharaka_Nithi",
+	"name": "Tharaka Nithi",
 	"code": 13,
 	"capital": "Chuka"
 }, {
@@ -92,7 +92,7 @@
 	"code": 23,
 	"capital": "Lodwar"
 }, {
-	"name": "West_Pokot",
+	"name": "West Pokot",
 	"code": 24,
 	"capital": "Kapenguria"
 }, {
@@ -100,7 +100,7 @@
 	"code": 25,
 	"capital": "Maralal"
 }, {
-	"name": "Trans_Nzoia",
+	"name": "Trans Nzoia",
 	"code": 26,
 	"capital": "Kitale"
 }, {
@@ -108,7 +108,7 @@
 	"code": 27,
 	"capital": "Eldoret"
 }, {
-	"name": "Elgeyo_Marakwet",
+	"name": "Elgeyo Marakwet",
 	"code": 28,
 	"capital": "Iten"
 }, {
@@ -167,7 +167,7 @@
 	"code": 42,
 	"capital": "Kisumu"
 }, {
-	"name": "Homa_Bay",
+	"name": "Homa Bay",
 	"code": 43,
 	"capital": "Homa Bay"
 }, {

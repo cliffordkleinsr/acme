@@ -34,7 +34,8 @@
       {label: 'Level of difficulty', value: 'lod'},
       {label: 'Priority', value: 'priority'},
       {label: 'Quality', value: 'quality'},
-      {label: 'Importance', value: 'importance'}
+      {label: 'Importance', value: 'importance'},
+      {label: 'Likelyhood', value: 'likelyhood'}
     ]
 
     let selected_lks = {label:'Select target likert scale' , value:'agreement'}
