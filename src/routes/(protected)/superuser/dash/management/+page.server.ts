@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { clientData, SurveyTable } from '$lib/server/schema';
+import { agentSurveysTable, AnswersTable, clientData, progressTable, QuestionOptions, surveyqnsTableV2, SurveyTable } from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -27,7 +27,23 @@ export const actions: Actions = {
         const { id } = data
         // console.log(data)
         try 
-        {
+        {   
+            await db.delete(progressTable)
+            .where(eq(progressTable.surveyid, id))
+            await db.delete(agentSurveysTable)
+            .where(eq(agentSurveysTable.surveyid, id))
+            await db.delete(AnswersTable)
+            .where(eq(AnswersTable.surveid, id))
+            await db.delete(QuestionOptions)
+                .where(sql`
+                    ${QuestionOptions.questionId} IN (
+                    SELECT ${surveyqnsTableV2.questionId}
+                    FROM ${surveyqnsTableV2}
+                    WHERE ${surveyqnsTableV2.surveid} = ${id}
+                )`
+            )
+            await db.delete(surveyqnsTableV2)
+            .where(eq(surveyqnsTableV2.surveid, id))
             await db.delete(SurveyTable)
             .where(eq(SurveyTable.surveyid, id))
         } catch (err) 

@@ -58,6 +58,13 @@
     // command
     let open:boolean = false;
 
+      // County
+    let previousCounty = '';
+
+    $: if ($formData.county !== previousCounty) {
+        $formData.subctys = 'Select your area sub-county';
+        previousCounty = $formData.county;
+    }
     $: selectedSector = $formData.sector
     ? {
         label: $formData.sector,
@@ -153,7 +160,7 @@
           <div class="grid gap-2">
             <div class="grid lg:grid-cols-2 gap-4">
               <div class="grid gap-2">
-                <Form.Field {form} name="county" class="flex flex-col">
+                <Form.Field {form} name="county">
                   <Popover.Root bind:open let:ids>
                     <Form.Control let:attrs>
                       <Form.Label>Company Location</Form.Label>

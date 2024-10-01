@@ -43,6 +43,8 @@
 	import type { Snapshot } from "./$types";
 	import Meta from "$lib/components/blocks/seo/meta.svelte";
 	import { countyMap } from "$lib/json/subcountis";
+	import { fly, scale } from "svelte/transition";
+	import { quintOut } from "svelte/easing";
   
   // KitLoad<MiddleWare>
   export let data:SuperValidated<Infer<RegisterRSchema>>
@@ -66,17 +68,40 @@
 
   const { form: formData, enhance, message, delayed } = form
   
-
-  export const snapshot:Snapshot = {
-    capture: () => formData,
-    restore: (value) => (formData.set(value))
-  }
+  // formData.update(
+  //   ($formData) => {
+  //     $formData.income = "0 - 10000"
+  //     $formData.sector = "Others"
+  //     return $formData
+  //   },
+  //   { taint : false }
+  // )
+  // export const snapshot:Snapshot = {
+  //   capture: () => formData,
+  //   restore: (value) => (formData.set(value))
+  // }
   // DatePicker
 
   let value: DateValue | undefined
   
 
   // Reactive Props for select inputs
+  // County
+  let previousCounty = '';
+
+  $: if ($formData.county !== previousCounty) {
+      $formData.subctys = 'Select your area sub-county';
+      previousCounty = $formData.county;
+  }
+// // Student
+  $: if ($formData.employment === "Student") {
+      $formData.income = '0 - 10000'
+  }
+  // Unemployed
+  $: if ($formData.employment === "Unemployed" || $formData.employment === "Student") {
+      $formData.sector = 'Others'
+  }
+  // Ozers
   $: value = $formData.dateofbirth ? parseDate($formData.dateofbirth) : undefined
   $: selectedGender= $formData.gender
     ? {
@@ -123,6 +148,7 @@
       description: 'Gather insightful feedback, analyze data, and make informed decisions.',
       type:"Website"
     }
+    // console.log('Select an income bracket'.length)
 </script>
 <Meta {...props}/>
 
@@ -145,7 +171,7 @@
   </Breadcrumb.List>
   </Breadcrumb.Root>
 </div>
-<div class="w-full h-full mt-20 mb-20">
+<div class="w-full h-full mt-5 mb-16">
   <!-- <SuperDebug data={$formData}/> -->
   <form method="post" use:enhance>
   <Card.Root class="mx-auto max-w-md lg:max-w-xl lg:mx-auto">
@@ -298,7 +324,9 @@
           <div class="grid lg:grid-cols-2 gap-4">
             <div class="grid gap-2">
               <Form.Field {form} name="county" class="grid gap-2">
-                <Popover.Root bind:open let:ids>
+                <Popover.Root 
+                  bind:open 
+                  let:ids>
                   <Form.Control let:attrs>
                     <Form.Label>County Residence</Form.Label>
                     <Popover.Trigger
@@ -357,7 +385,7 @@
                 <Form.Control let:attrs>
                   <Form.Label>Sub-County</Form.Label>
                   <Select.Root
-                    selected ={selectedScty}
+                    bind:selected ={selectedScty}
                     onSelectedChange={(v) => {
                       v && ($formData.subctys = v.value)
                     }}
@@ -367,14 +395,13 @@
                     </Select.Trigger>
                     <Select.Content>
                       {#if countyMap.has($formData.county)}
-                        {@const ctys = countyMap.get($formData.county)}
-                        {#each ctys as ct}
-                        <Select.Item value={ct} label={ct}></Select.Item>
+                        {#each countyMap.get($formData.county) as ct}
+                          <Select.Item value={ct} label={ct}></Select.Item>
                         {/each}
                       {/if}
                     </Select.Content>
                   </Select.Root>
-                  <input hidden bind:value={$formData.subctys} name={attrs.name} />
+                  <input hidden value={$formData.subctys} name={attrs.name} />
                 </Form.Control>
                 <Form.FieldErrors />
               </Form.Field>
@@ -383,8 +410,8 @@
         </div>
         <div class="grid gap-2">
           <div class="grid lg:grid-cols-2 gap-4">
-            <div class="grid gap-2">
-              <Form.Field {form} name="employment">
+            <div class="grid gap-2 {$formData.employment === "Student"? 'col-span-2': ''}">
+              <Form.Field {form} name="employment"> 
                 <Form.Control let:attrs>
                   <Form.Label>Employment</Form.Label>
                   <Select.Root
@@ -407,37 +434,38 @@
                 <Form.FieldErrors />
               </Form.Field>
             </div>
-            <div class="grid gap-2">
-              <Form.Field {form} name="income">
-                <Form.Control let:attrs>
-                  <Form.Label>Income</Form.Label>
-                  <Select.Root
-                    selected ={selectedIncome}
-                    onSelectedChange={(v) => {
-                      v && ($formData.income = v.value)
-                    }}
-                  >
-                    <Select.Trigger {...attrs}>
-                      <Select.Value placeholder="Select an income bracket" />
-                    </Select.Trigger>
-                    <Select.Content>
-                      {#each incomes as income}
-                        <Select.Item value={income.label} label={income.label}></Select.Item>
-                      {/each}
-                    </Select.Content>
-                  </Select.Root>
-                  <input hidden bind:value={$formData.income} name={attrs.name} />
-                </Form.Control>
-                <Form.FieldErrors />
-              </Form.Field>
-            </div>
-            
+            {#if $formData.employment !== "Student"}
+              <div class="grid gap-2" transition:fly={{ x: 100, duration: 400, easing: quintOut }}>
+                <Form.Field {form} name="income">
+                  <Form.Control let:attrs>
+                    <Form.Label>Income</Form.Label>
+                    <Select.Root
+                      selected ={selectedIncome}
+                      onSelectedChange={(v) => {
+                         v && ($formData.income = v.value)
+                      }}
+                    >
+                      <Select.Trigger {...attrs}>
+                        <Select.Value placeholder="Select an income bracket" />
+                      </Select.Trigger>
+                      <Select.Content>
+                        {#each incomes as income}
+                          <Select.Item value={income.label} label={income.label}></Select.Item>
+                        {/each}
+                      </Select.Content>
+                    </Select.Root>
+                    <input hidden value={$formData.income} name={attrs.name} />
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+              </div>
+            {/if}
           </div>
         </div>
-        {#if $formData.employment === "Student" || $formData.employment === "Un-Employed"}
+        {#if $formData.employment === "Student" || $formData.employment === "Unemployed"}
         <p></p>
         {:else}
-        <div class="grid gap-2">
+        <div class="grid gap-2"  transition:fly={{ y: 100, duration: 400, easing: quintOut }}>
           <Form.Field {form} name="sector">
             <Form.Control let:attrs>
               <Form.Label>Sectors</Form.Label>
@@ -458,7 +486,7 @@
                 </ScrollArea>
                 </Select.Content>
               </Select.Root>
-              <input hidden bind:value={$formData.sector} name={attrs.name} />
+              <input hidden value={$formData.sector} name={attrs.name} />
             </Form.Control>
             <Form.FieldErrors />
           </Form.Field>

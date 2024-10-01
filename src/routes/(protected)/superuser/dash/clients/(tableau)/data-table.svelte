@@ -10,6 +10,8 @@
     import DataTableActions from "./data-table-actions.svelte"
     import DataTableCheckbox from "./data-table-checkbox.svelte"
     import ChevronDown from "lucide-svelte/icons/chevron-down"
+    import ChevronLast from 'lucide-svelte/icons/chevron-last'
+    import ChevronFirst from 'lucide-svelte/icons/chevron-first'
     import { Button, buttonVariants } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
@@ -226,15 +228,15 @@
         </div>
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           on:click={() => ($pageIndex = $pageIndex - 1)}
-          disabled={!$hasPreviousPage}>{$pageIndex}</Button
+          disabled={!$hasPreviousPage}><ChevronFirst class='size-4'/></Button
         >
         <Button
           variant="outline"
           size="sm"
           disabled={!$hasNextPage}
-          on:click={() => ($pageIndex = $pageIndex + 1)}>{$pageIndex + 1}</Button
+          on:click={() => ($pageIndex = $pageIndex + 1)}><ChevronLast class='size-4'/></Button
         >
     </div>
 </div>

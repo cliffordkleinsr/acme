@@ -1,9 +1,12 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
 import { withUt } from "uploadthing/tw"
 /** @type {import('tailwindcss').Config} */
-const config = {
+const config = withUt({
 	darkMode: ["class"],
-	content: ["./src/**/*.{html,js,svelte,ts}"],
+	content: [
+		"./src/**/*.{html,js,svelte,ts}",
+		'./node_modules/@uploadthing/svelte/dist/**',
+	],
 	safelist: ["dark"],
 	theme: {
 		container: {
@@ -62,6 +65,7 @@ const config = {
 	plugins:[
 		require('@tailwindcss/typography')
 	]
-};
+});
 
-export default withUt(config);
+// console.log(config)
+export default config;

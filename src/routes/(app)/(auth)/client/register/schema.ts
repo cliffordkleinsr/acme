@@ -34,7 +34,8 @@ export const registerCSchema = z.object({
         .string({
             required_error: "Must be valid Sub County.",
         })
-        .min(2, { message: 'Please select a valid sub county' }),
+        .min(2, { message: 'Please select a valid sub county' })
+        .max(25, {message: 'Please select a valid sub county'}),
     sector: z
         .string({
             required_error: "Must be valid Sector",

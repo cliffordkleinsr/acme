@@ -167,3 +167,4 @@ src/lib/json/gender.json
 drizzle/migrations/0081_unknown_lady_mastermind.sql
 drizzle/migrations/0082_strong_captain_marvel.sql
 drizzle/migrations/meta/_journal.json
+bun.lockb

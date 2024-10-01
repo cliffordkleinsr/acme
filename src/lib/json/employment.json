@@ -8,6 +8,9 @@
         "label": "Self-Employed"
     },
     {
-        "label": "Un-Employed"
+        "label": "Unemployed"
+    },
+    {
+        "label": "Retired"
     }
 ]

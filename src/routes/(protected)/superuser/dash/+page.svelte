@@ -124,7 +124,7 @@
         </Card.Title>
         
     </Card.Header>
-    <Card.Content class="grid gap-8">
+    <Card.Content class="grid gap-8 h-24">
           <LiveusersComponent users={recent_users} />  
     </Card.Content>
 </Card.Root>

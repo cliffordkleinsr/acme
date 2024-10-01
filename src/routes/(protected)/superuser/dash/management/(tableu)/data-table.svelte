@@ -9,12 +9,15 @@
     import ArrowUpDown from "lucide-svelte/icons/arrow-up-down"
     import DataTableActions from "./data-table-actions.svelte"
     import DataTableCheckbox from "./data-table-checkbox.svelte"
+    import ChevronFirst from "lucide-svelte/icons/chevron-first"
+    import ChevronLast from 'lucide-svelte/icons/chevron-last'
     import ChevronDown from "lucide-svelte/icons/chevron-down"
-    import { Button } from "$lib/components/ui/button"
+    import { Button, buttonVariants } from "$lib/components/ui/button"
     import { Input } from "$lib/components/ui/input"
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
     import { Badge } from "$lib/components/ui/badge"
 	import * as Card from "$lib/components/ui/card/index.js";
+    import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
 
     interface Survey {
         id: string
@@ -29,7 +32,7 @@
 
     const table = createTable(readable(data), {
         page: addPagination({
-            initialPageSize: 8
+            initialPageSize: 7
         }),
         sort: addSortBy(),
         filter: addTableFilter({
@@ -42,20 +45,7 @@
     const columns = table.createColumns([
         table.column({
             accessor: "id",
-            header: (_, { pluginStates }) => {
-                const { allPageRowsSelected } = pluginStates.select;
-                return createRender(DataTableCheckbox, {
-                checked: allPageRowsSelected,
-                });
-            },
-            cell: ({ row }, { pluginStates }) => {
-                const { getRowState } = pluginStates.select;
-                const { isSelected } = getRowState(row);
-        
-                return createRender(DataTableCheckbox, {
-                checked: isSelected,
-                });
-            },
+            header: "",
             plugins: {
                 sort: {
                     disable: true,
@@ -205,6 +195,13 @@
 
                                     <Render of={cell.render()} />
                             </Badge>
+                        {:else if cell.id === "id"}
+                            <a 
+                                class="{buttonVariants({variant:'secondary'})}"
+                                href="/superuser/dash/management/{cell.render()}">
+                                Edit Survey
+                                <ArrowUpRight class='size-4'/>
+                            </a>
                         {:else}
                         <Render of={cell.render()} />
                         {/if}
@@ -224,15 +221,15 @@
         </div>
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           on:click={() => ($pageIndex = $pageIndex - 1)}
-          disabled={!$hasPreviousPage}>Previous</Button
+          disabled={!$hasPreviousPage}><ChevronFirst class='size-4'/></Button
         >
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           disabled={!$hasNextPage}
-          on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
+          on:click={() => ($pageIndex = $pageIndex + 1)}><ChevronLast class='size-4'/></Button
         >
     </div>
 </div>

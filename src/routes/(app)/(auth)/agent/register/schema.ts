@@ -8,13 +8,13 @@ type Counties = (typeof counties)[number]["name"];
 export const registerRSchema = z.object({
     fullname: z
         .string({ required_error: 'Name is required' })
-        .min(2, { message: 'Name must be more than 2 characters' })
-        .max(50, { message: 'Name must cant have a maximum of 50 characters' })
+        .min(2, { message: 'Fullname must be valid' })
+        .max(50, { message: 'Your name is too long' })
         .trim(),
     email: z
         .string({ required_error: 'Email is required' })
-        .min(2, { message: 'Email must have atleast 2 characters' }
-        ).max(50, { message: 'Email cant have a maximum 50 characters' })
+        .min(2, { message: 'Please provide a valid email address' }
+        ).max(50, { message: 'Your email is too long' })
         .email({ message: 'Must be a valid Email Address' }),
     phoneno: z
         .string()
@@ -37,12 +37,14 @@ export const registerRSchema = z.object({
         .string({
             required_error: "Must be valid Sub County.",
         })
-        .min(2, { message: 'Please select a valid sub county' }),
+        .min(2, { message: 'Please select a valid sub county' })
+        .max(25, {message: 'Please select a valid sub county'}),
     income: z
         .string({
             required_error: "Must be valid Income Bracket.",
         })
-        .includes('000', { message: "Must be a valid Income Bracket" }),
+        .min(2, { message: "Must be a valid Income Bracket" }),
+        // .default("Select an income bracket"),
     employment: z
         .string({
             required_error: "Must be valid Employment Bracket.",
@@ -57,8 +59,8 @@ export const registerRSchema = z.object({
         .string({
             required_error: "Must be valid Sector",
         })
-        .min(2, { message: 'Must be a valid Sector' })
-        .default("Others"),
+        .min(2, { message: 'Must be a valid Sector' }),
+        // .default("Select a Sector"),
     password: z
         .string({ required_error: 'Password is required' })
         .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm, {message : 'must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number'})

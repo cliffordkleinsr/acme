@@ -22,12 +22,12 @@
       </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content>
-      <DropdownMenu.Group>
+      <!-- <DropdownMenu.Group>
         <DropdownMenu.Item href="/superuser/dash/clients/{id}">
           Edit
         </DropdownMenu.Item>
-      </DropdownMenu.Group>
-      <DropdownMenu.Separator />
+      </DropdownMenu.Group> -->
+      <!-- <DropdownMenu.Separator /> -->
       <DropdownMenu.Group>
         <DropdownMenu.Item href="/superuser/dash/clients/{id}">
           Edit

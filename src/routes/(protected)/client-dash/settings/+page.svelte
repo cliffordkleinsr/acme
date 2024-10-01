@@ -18,7 +18,7 @@
     const uploader  = createUploader("imageUploader", {
         onClientUploadComplete: (res) => {
             img = res[0]?.url
-            console.log(`onClientUploadComplete`, res)
+            // console.log(`onClientUploadComplete`, res)
             toast.success("Upload Completed");
         },
         onUploadError: (error: Error) => {

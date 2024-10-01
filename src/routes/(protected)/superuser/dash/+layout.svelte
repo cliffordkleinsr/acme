@@ -211,15 +211,15 @@
         <Breadcrumb.Root class="hidden md:flex">
           <Breadcrumb.List>
             <Breadcrumb.Item>
-              <Breadcrumb.Link href="##">Dashboard</Breadcrumb.Link>
+              <Breadcrumb.Link href="/superuser/dash/issue/tickets">Support Tickets</Breadcrumb.Link>
             </Breadcrumb.Item>
             <Breadcrumb.Separator />
             <Breadcrumb.Item>
-              <Breadcrumb.Link href="##">Products</Breadcrumb.Link>
+              <Breadcrumb.Link href="/superuser/dash/management">Survey Management</Breadcrumb.Link>
             </Breadcrumb.Item>
             <Breadcrumb.Separator />
             <Breadcrumb.Item>
-              <Breadcrumb.Page>Edit Product</Breadcrumb.Page>
+              <Breadcrumb.Page>Dashboard</Breadcrumb.Page>
             </Breadcrumb.Item>
           </Breadcrumb.List>
         </Breadcrumb.Root>

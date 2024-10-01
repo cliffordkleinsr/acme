@@ -15,6 +15,8 @@
     import ArrowUpRight from "lucide-svelte/icons/arrow-up-right"
 	import { page } from '$app/stores';
     import { Badge } from "$lib/components/ui/badge"
+    import ChevronLast from 'lucide-svelte/icons/chevron-last'
+    import ChevronFirst from 'lucide-svelte/icons/chevron-first'
     
     type Tickets = {
         id: string
@@ -22,6 +24,7 @@
         category: string
         priority: string,
         status:string,
+        since: string,
         createdat:string
     }
     export let data:Tickets[]
@@ -94,6 +97,10 @@
                     exclude: false,
                 },
             },
+        }),
+        table.column({
+            accessor: "since",
+            header: "Open Since(Mins)",
         }),
         table.column({
             accessor: "createdat",
@@ -248,13 +255,13 @@
           variant="outline"
           size="sm"
           on:click={() => ($pageIndex = $pageIndex - 1)}
-          disabled={!$hasPreviousPage}>{$pageIndex}</Button
+          disabled={!$hasPreviousPage}><ChevronFirst class='size-4'/></Button
         >
         <Button
           variant="outline"
           size="sm"
           disabled={!$hasNextPage}
-          on:click={() => ($pageIndex = $pageIndex + 1)}>{$pageIndex + 1}</Button
+          on:click={() => ($pageIndex = $pageIndex + 1)}><ChevronLast class='size-4'/></Button
         >
     </div>
 </div>
