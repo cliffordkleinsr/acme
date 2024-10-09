@@ -168,3 +168,7 @@ drizzle/migrations/0081_unknown_lady_mastermind.sql
 drizzle/migrations/0082_strong_captain_marvel.sql
 drizzle/migrations/meta/_journal.json
 bun.lockb
+drizzle/migrations/0083_wide_boomer.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0083_snapshot.json
+.prettierrc

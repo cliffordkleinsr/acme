@@ -1,11 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const settingsSchema = z.object({
-    profile: z
-    .nullable(
-        z.string()
-        .optional()
-    )
-})
+	profile: z.nullable(z.string().optional())
+});
 
-export type SettingsSchema = typeof settingsSchema
+export type SettingsSchema = typeof settingsSchema;

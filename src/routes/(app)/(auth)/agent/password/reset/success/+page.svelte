@@ -1,7 +1,10 @@
 <script lang="ts">
 </script>
 
-<div class="prose space-y-3 m-5 h-screen mx-auto">
-    <h1>Password Reset Email Sent</h1>
-    <p>Check your email account for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.</p>
+<div class="prose m-5 mx-auto h-screen space-y-3">
+	<h1>Password Reset Email Sent</h1>
+	<p>
+		Check your email account for a link to reset your password. If it doesn’t appear within a few
+		minutes, check your spam folder.
+	</p>
 </div>

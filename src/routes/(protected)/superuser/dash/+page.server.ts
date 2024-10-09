@@ -1,6 +1,12 @@
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { SurveyTable, UsersTable, clientData, clientPackages, sessionsTable } from '$lib/server/schema';
+import {
+	SurveyTable,
+	UsersTable,
+	clientData,
+	clientPackages,
+	sessionsTable
+} from '$lib/server/schema';
 import { eq, sql } from 'drizzle-orm';
 import { fail } from 'sveltekit-superforms';
 import { lucia } from '$lib/server/auth';
@@ -9,78 +15,72 @@ import { gender } from '$lib/json';
 import type { Time } from '@internationalized/date';
 
 export const load: PageServerLoad = async () => {
-
-    const client_subs = await db
-        .select({
-            name:sql<string>`${UsersTable.fullname}`,
-            email: sql<string>`${UsersTable.email}`,
-            amount: sql<string>`
+	const client_subs = await db
+		.select({
+			name: sql<string>`${UsersTable.fullname}`,
+			email: sql<string>`${UsersTable.email}`,
+			amount: sql<string>`
             CASE
                 WHEN ${clientData.typeid} = ${clientPackages.priceIdMn} THEN ${clientPackages.package_price_mn}
                 WHEN ${clientData.typeid} = ${clientPackages.priceIdYr} THEN ${clientPackages.package_price_yr}
                 ELSE '0'
             END
             `,
-            package: sql<string>`${clientPackages.packageDesc}`
-        })
-        .from(UsersTable)
-        .leftJoin(clientData, eq(UsersTable.id, clientData.clientId))
-        .rightJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
-        .where(sql`${UsersTable.role} = 'CLIENT'`)
+			package: sql<string>`${clientPackages.packageDesc}`
+		})
+		.from(UsersTable)
+		.leftJoin(clientData, eq(UsersTable.id, clientData.clientId))
+		.rightJoin(clientPackages, eq(clientData.packageid, clientPackages.packageid))
+		.where(sql`${UsersTable.role} = 'CLIENT'`);
 
-    const count_tot = await db
-    .select({
-        toime: sql<boolean>`${SurveyTable.createdAt} >= date_trunc('week', now())`
-    })
-    .from(SurveyTable)
+	const count_tot = await db
+		.select({
+			toime: sql<boolean>`${SurveyTable.createdAt} >= date_trunc('week', now())`
+		})
+		.from(SurveyTable);
 
-    const recent_users = await db
-        .select({
-            name: UsersTable.fullname,
-            email: UsersTable.email,
-            role: UsersTable.role,
-            gender: sql<string>`${UsersTable.gender}`,
-            at : sql<string>`((${sessionsTable.expiresAt}- interval '1 hour')::timestamp at time zone 'UTC+3')::time`
-        })
-        .from(UsersTable)
-        .innerJoin(sessionsTable, eq(UsersTable.id, sessionsTable.userId))
-        .where(sql`${sessionsTable.expiresAt}::timestamp >= date_trunc('week',  now()) and ${UsersTable.role} != 'ADMIN'`)
-    
-    const [live, pending, closed] = await Promise.all([
-        db.select().from(SurveyTable).where(
-            eq(SurveyTable.status, 'Live')
-        ),
-        db.select().from(SurveyTable).where(
-            eq(SurveyTable.status, 'Draft')
-        ),
-        db.select().from(SurveyTable).where(
-            eq(SurveyTable.status, 'Closed')
-        )
-    ])
+	const recent_users = await db
+		.select({
+			name: UsersTable.fullname,
+			email: UsersTable.email,
+			role: UsersTable.role,
+			gender: sql<string>`${UsersTable.gender}`,
+			at: sql<string>`((${sessionsTable.expiresAt}- interval '1 hour')::timestamp at time zone 'UTC+3')::time`
+		})
+		.from(UsersTable)
+		.innerJoin(sessionsTable, eq(UsersTable.id, sessionsTable.userId))
+		.where(
+			sql`${sessionsTable.expiresAt}::timestamp >= date_trunc('week',  now()) and ${UsersTable.role} != 'ADMIN'`
+		);
 
-    return {
-        recent_users,
-        client_subs,
-        count_survs : count_tot.length,
-        week: count_tot,
-        live_cnt: live.length,
-        pen_cnt: pending.length,
-        clo_cnt: closed.length
-    }
-    
+	const [live, pending, closed] = await Promise.all([
+		db.select().from(SurveyTable).where(eq(SurveyTable.status, 'Live')),
+		db.select().from(SurveyTable).where(eq(SurveyTable.status, 'Draft')),
+		db.select().from(SurveyTable).where(eq(SurveyTable.status, 'Closed'))
+	]);
+
+	return {
+		recent_users,
+		client_subs,
+		count_survs: count_tot.length,
+		week: count_tot,
+		live_cnt: live.length,
+		pen_cnt: pending.length,
+		clo_cnt: closed.length
+	};
 };
 
 export const actions: Actions = {
-    default: async ({locals, cookies}) => {
-        if (!locals.session) {
-			return fail(401, {message: 'You do not have a valid sesion'});
+	default: async ({ locals, cookies }) => {
+		if (!locals.session) {
+			return fail(401, { message: 'You do not have a valid sesion' });
 		}
-        await lucia.invalidateSession(locals.session.id);
+		await lucia.invalidateSession(locals.session.id);
 		const sessionCookie = lucia.createBlankSessionCookie();
 		cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: ".",
+			path: '.',
 			...sessionCookie.attributes
 		});
-		redirect(302, "/", {type: "success", message:"Logged Out"}, cookies)
-    }
+		redirect(302, '/', { type: 'success', message: 'Logged Out' }, cookies);
+	}
 };

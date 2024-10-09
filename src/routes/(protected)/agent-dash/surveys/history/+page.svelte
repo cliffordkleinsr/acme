@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { PageData } from './$types';
+	import type { PageData } from './$types';
 	import DataTable from './(tableau)/data-table.svelte';
-    
-    export let data: PageData;
-    const { history } = data
+
+	export let data: PageData;
+	const { history } = data;
 </script>
-<DataTable data={history}/>
+
+<DataTable data={history} />

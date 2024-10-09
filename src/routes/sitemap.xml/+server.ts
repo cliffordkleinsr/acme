@@ -1,23 +1,29 @@
 import type { RequestHandler } from './$types';
 import { dev } from '$app/environment';
 
-
 const site = dev ? 'http://localhost:5173' : 'https://int-insights.com'; // change this to reflect your domain
-const industries:string[] = ['hospitality', 'healthcare', 'retail_fmcg', 'financial_services']
-const services:string[] = ['corp_rep', 'brand_image', 'customer_experience', 'product_assessment', 'market_reaserch']
-const pages: string[] = [
-    'about',
-    'pricing',
+const industries: string[] = ['hospitality', 'healthcare', 'retail_fmcg', 'financial_services'];
+const services: string[] = [
+	'corp_rep',
+	'brand_image',
+	'customer_experience',
+	'product_assessment',
+	'market_reaserch'
 ];
+const pages: string[] = ['about', 'pricing'];
 export const GET: RequestHandler = async () => {
-    const body = sitemap(pages, services, industries)
-    const response = new Response(body)
-    response.headers.set('Cache-Control', 'max-age=0, s-maxage=3600');
+	const body = sitemap(pages, services, industries);
+	const response = new Response(body);
+	response.headers.set('Cache-Control', 'max-age=0, s-maxage=3600');
 	response.headers.set('Content-Type', 'application/xml');
-    return response
+	return response;
 };
 
-const sitemap = (routes: string[], serviceName:string[], industryName:string[]) => `<?xml version="1.0" encoding="UTF-8" ?>
+const sitemap = (
+	routes: string[],
+	serviceName: string[],
+	industryName: string[]
+) => `<?xml version="1.0" encoding="UTF-8" ?>
 
 
 <urlset
@@ -34,30 +40,40 @@ const sitemap = (routes: string[], serviceName:string[], industryName:string[]) 
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
-    ${routes.map((route) => 
-    `
+    ${routes
+			.map(
+				(route) =>
+					`
     <url>
         <loc>${site}/${route}</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
     `
-    ).join('')}
-    ${industryName.map((element) => 
-    `
+			)
+			.join('')}
+    ${industryName
+			.map(
+				(element) =>
+					`
     <url>
         <loc>${site}/industries/${element}</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
-    `).join('')}
-    ${serviceName.map((element) => 
     `
+			)
+			.join('')}
+    ${serviceName
+			.map(
+				(element) =>
+					`
     <url>
         <loc>${site}/services/${element}</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
-    `).join('')}
-</urlset>`
-
+    `
+			)
+			.join('')}
+</urlset>`;

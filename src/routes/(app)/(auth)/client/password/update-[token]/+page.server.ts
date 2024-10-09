@@ -9,70 +9,64 @@ import { Argon2id } from 'oslo/password';
 import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async () => {
-    return {
-        form: await superValidate(zod(updateSchema)),
-    }
+	return {
+		form: await superValidate(zod(updateSchema))
+	};
 };
 
 export const actions: Actions = {
-    default : async ({request, params:{token}}) => {
-        const form = await superValidate(request, zod(updateSchema))
-        // validate
-        if (!form.valid) {
-            return message(form, {
-                alertType:'error',
-                alertText:'Please Check your entries, the form contains invalid data'
-            })
-        }
+	default: async ({ request, params: { token } }) => {
+		const form = await superValidate(request, zod(updateSchema));
+		// validate
+		if (!form.valid) {
+			return message(form, {
+				alertType: 'error',
+				alertText: 'Please Check your entries, the form contains invalid data'
+			});
+		}
 
-        // destructure
-        const { password} = form.data
-        //find this idiot
-        const tk = token as string
+		// destructure
+		const { password } = form.data;
+		//find this idiot
+		const tk = token as string;
 
-        const [user] = await db.select({
-            email: passwordReset.email
-        })
-        .from(passwordReset)
-        .where(eq(passwordReset.token, tk))
-        
+		const [user] = await db
+			.select({
+				email: passwordReset.email
+			})
+			.from(passwordReset)
+			.where(eq(passwordReset.token, tk));
 
-        try {
-            
-            // cant use old password :)
-            const [existingUser] = await db
-                .select()
-                .from(UsersTable)
-                .where(eq(UsersTable.email, user.email))
-            const validPassword = await new Argon2id().verify(
-                existingUser.password,
-                password
-            )
-            if (validPassword) {
-                return setError(form, 'password', 'New password cannot be your old password')
-            }
+		try {
+			// cant use old password :)
+			const [existingUser] = await db
+				.select()
+				.from(UsersTable)
+				.where(eq(UsersTable.email, user.email));
+			const validPassword = await new Argon2id().verify(existingUser.password, password);
+			if (validPassword) {
+				return setError(form, 'password', 'New password cannot be your old password');
+			}
 
-            // update their passwords
-            const hashPassword = await new Argon2id().hash(password)
-            await db.update(UsersTable).set({
-                password: hashPassword
-            })
-            .where(eq(UsersTable.email, user.email))
+			// update their passwords
+			const hashPassword = await new Argon2id().hash(password);
+			await db
+				.update(UsersTable)
+				.set({
+					password: hashPassword
+				})
+				.where(eq(UsersTable.email, user.email));
 
-            // Remove from db
-            await db.delete(passwordReset).where(
-                eq(passwordReset.token, tk)
-            )
+			// Remove from db
+			await db.delete(passwordReset).where(eq(passwordReset.token, tk));
+		} catch (err) {
+			console.error(err);
 
-        } catch (err) {
-            console.error(err)
-
-            return message(form, {
-                alertType: 'error',
-                alertText: 'An Unexpected error occured'
-            })
-        }
-        redirect(302, `/client/password/update-${tk}/success`)
-
-    }
+			return message(form, {
+				alertType: 'error',
+				alertText: 'An Unexpected error occured'
+			});
+		}
+		redirect(302, `/client/password/update-${tk}/success`);
+	}
 };

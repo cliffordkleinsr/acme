@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { Button } from "$lib/components/ui/button"
-    
-    let href: string | undefined
-    export let type: string
-    let classes: string = '';
-    export let url: string;
-    export let quote: string
-    export let hashtags: string = '';
-    export let via: string = '';
-    export let related: string = '';
-    export let icon: string = ''
-    export { classes as class }
+	import { Button } from '$lib/components/ui/button';
 
-    $: {
-        switch (true) {
-            case type ==='FB':
-                href = encodeURI(`https://facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`)
-                icon = `
+	let href: string | undefined;
+	export let type: string;
+	let classes: string = '';
+	export let url: string;
+	export let quote: string;
+	export let hashtags: string = '';
+	export let via: string = '';
+	export let related: string = '';
+	export let icon: string = '';
+	export { classes as class };
+
+	$: {
+		switch (true) {
+			case type === 'FB':
+				href = encodeURI(`https://facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`);
+				icon = `
                     <svg 
                         class="w-6"
                         xmlns="http://www.w3.org/2000/svg"
@@ -27,11 +27,13 @@
                             clip-rule="evenodd" 
                         />
                     </svg>
-                `
-                break;
-            case type === 'X':
-                href = encodeURI(`https://x.com/intent/tweet/?text=${quote}&hashtags=${hashtags}&via=${via}&related=${related}&url=${url}`)
-                icon = `
+                `;
+				break;
+			case type === 'X':
+				href = encodeURI(
+					`https://x.com/intent/tweet/?text=${quote}&hashtags=${hashtags}&via=${via}&related=${related}&url=${url}`
+				);
+				icon = `
                     <svg 
                         class="w-5
                         xmlns="http://www.w3.org/2000/svg" 
@@ -41,11 +43,11 @@
                             d="M9.294 6.928L14.357 1h-1.2L8.762 6.147L5.25 1H1.2l5.31 7.784L1.2 15h1.2l4.642-5.436L10.751 15h4.05zM7.651 8.852l-.538-.775L2.832 1.91h1.843l3.454 4.977l.538.775l4.491 6.47h-1.843z" 
                         />
                     </svg>
-                `
-                break
-            case type === 'IN':
-                href = encodeURI(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`)
-                icon = `
+                `;
+				break;
+			case type === 'IN':
+				href = encodeURI(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`);
+				icon = `
                     <svg 
                         class='w-6'
                         xmlns="http://www.w3.org/2000/svg"
@@ -57,20 +59,14 @@
                             clip-rule="evenodd" 
                         />
                     </svg>
-                `
-                break
-            default:
-                break;
-        }
-    }
+                `;
+				break;
+			default:
+				break;
+		}
+	}
 </script>
 
-<Button 
-    size='icon' 
-    variant='ghost' 
-    class={classes}
-    {href}
-    target="_blank"
->
-    {@html icon}
+<Button size="icon" variant="ghost" class={classes} {href} target="_blank">
+	{@html icon}
 </Button>

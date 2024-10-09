@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const smsVerificationSchema = z.object({
-    verificationCode : z.string().length(6, {message: 'Please Input a valid OTP'})
-})
+	verificationCode: z.string().length(6, { message: 'Please Input a valid OTP' })
+});
 
-export type SMSVerificationSchema = typeof smsVerificationSchema
+export type SMSVerificationSchema = typeof smsVerificationSchema;

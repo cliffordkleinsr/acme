@@ -1,8 +1,9 @@
 <script lang="ts">
-    import SettingsForm from "./settingsLogin.svelte";
+	import SettingsForm from './settingsLogin.svelte';
 
-    // const to = $page.url.searchParams.get('redirectTo')
-    // console.log(to?.slice(1))
-    export let data;
+	// const to = $page.url.searchParams.get('redirectTo')
+	// console.log(to?.slice(1))
+	export let data;
 </script>
+
 <SettingsForm data={data.form} />

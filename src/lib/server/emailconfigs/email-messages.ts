@@ -3,7 +3,7 @@ import sendEmail from '$lib/server/email-send';
 import { BASE_URL, APP_NAME } from '$lib/server/emailconfigs/config';
 
 // Send an email to verify the user's address
-export const sendVerificationEmail = async (email: string, token: string, usrtype:string) => {
+export const sendVerificationEmail = async (email: string, token: string, usrtype: string) => {
 	const verifyEmailURL = `${BASE_URL}/${usrtype}/verify/email-${token}`;
 	const textEmail = `Please visit the link below to verify your email address for your ${APP_NAME} account.\n\n  
     ${verifyEmailURL} \n\nIf you did not create this account, you can disregard this email.`;
@@ -23,7 +23,7 @@ export const sendWelcomeEmail = async (email: string) => {
 };
 
 // Send an email to reset the user's password
-export const sendPasswordResetEmail = async (email: string, token: string, usrtype:string) => {
+export const sendPasswordResetEmail = async (email: string, token: string, usrtype: string) => {
 	const updatePasswordURL = `${BASE_URL}/${usrtype}/password/update-${token}`;
 	const textEmail = `Please visit the link below to change your password for ${APP_NAME}.\n\n  
     ${updatePasswordURL} \n\nIf you did not request to change your password, you can disregard this email.`;
@@ -55,7 +55,7 @@ export const updateEmailAddressSuccessEmail = async (
 };
 
 // Send an email to welcome the new user
-export const sendQuestionEmail = async (name:string, ml:string,	 sub:string) => {
+export const sendQuestionEmail = async (name: string, ml: string, sub: string) => {
 	const textEmail = `Hello my name is ${name} and I have a question regarding ${APP_NAME}.`;
 	const htmlEmail = `<p>Hello my name is ${name} ${ml} and I have a question regarding ${APP_NAME}. Id like to know more regarding this topic:<br> ${sub}</p>`;
 	const subject = `Inquiry from ${name}`;

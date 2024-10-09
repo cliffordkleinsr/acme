@@ -1,28 +1,28 @@
 import type { RequestHandler } from './$types';
 
-import { SECRET_CONSUMER_KEY, SECRET_CONSUMER} from '$env/static/private'
+import { SECRET_CONSUMER_KEY, SECRET_CONSUMER } from '$env/static/private';
 
 const getAccessToken = async () => {
-    const url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
-    
-    const auth = "Basic " + Buffer.from(SECRET_CONSUMER_KEY + ":" + SECRET_CONSUMER).toString("base64")
+	const url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
 
-    const res = await fetch(url, {
-        method:'GET',
-        headers:{
-            'Authorization': auth
-        }
-    })
+	const auth =
+		'Basic ' + Buffer.from(SECRET_CONSUMER_KEY + ':' + SECRET_CONSUMER).toString('base64');
 
-    if(!res.ok) {
-        new Error(`HTTP error! status: ${res.status}`)
-    }
+	const res = await fetch(url, {
+		method: 'GET',
+		headers: {
+			Authorization: auth
+		}
+	});
 
-    return await res.json()
- 
-}
+	if (!res.ok) {
+		new Error(`HTTP error! status: ${res.status}`);
+	}
+
+	return await res.json();
+};
 export const GET: RequestHandler = async () => {
-    const accessToken = await getAccessToken()
+	const accessToken = await getAccessToken();
 
-    return new Response(JSON.stringify({accessToken}), {status: 200});
+	return new Response(JSON.stringify({ accessToken }), { status: 200 });
 };

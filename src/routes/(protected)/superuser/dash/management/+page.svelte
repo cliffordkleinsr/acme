@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card/index.js";
-	import DataTable from "./(tableu)/data-table.svelte";
+	import * as Card from '$lib/components/ui/card/index.js';
+	import DataTable from './(tableu)/data-table.svelte';
 
-    export let data
-    const { survs } = data
+	export let data;
+	const { survs } = data;
 </script>
 
 <div class="m-3 space-y-2">

@@ -20,7 +20,7 @@
 	});
 </script>
 
-<svg viewBox="-50 -50 100 100" class="lg:size-64 size-20">
+<svg viewBox="-50 -50 100 100" class="size-20 lg:size-64">
 	<circle class="fill-white stroke-[#333] stroke-[1]" r="48" />
 
 	<!-- markers -->
@@ -28,7 +28,12 @@
 		<line class=" stroke-[#333] stroke-1" y1="35" y2="45" transform="rotate({30 * minute})" />
 
 		{#each [1, 2, 3, 4] as offset}
-			<line class=" stroke-[#999] stroke-[0.5]" y1="42" y2="45" transform="rotate({6 * (minute + offset)})" />
+			<line
+				class=" stroke-[#999] stroke-[0.5]"
+				y1="42"
+				y2="45"
+				transform="rotate({6 * (minute + offset)})"
+			/>
 		{/each}
 	{/each}
 
@@ -40,7 +45,7 @@
 
 	<!-- second hand -->
 	<g transform="rotate({6 * seconds})">
-		<line class="stroke-1 stroke-primary " y1="10" y2="-38" />
+		<line class="stroke-primary stroke-1" y1="10" y2="-38" />
 		<line class="stroke-primary stroke-[3]" y1="10" y2="2" />
 	</g>
 </svg>
