@@ -271,7 +271,7 @@
 		{/if}
 	</div>
 	<div class="m-1 grid w-full gap-2" id="my-div">
-		<div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+		<div class="grid gap-2 sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4">
 			<Card.Root>
 				<Card.Header>
 					<Card.Title class="text-2xl">Completes By Gender</Card.Title>
