@@ -3,7 +3,6 @@
 	import { createUploader } from '$lib/upload-configs/config';
 	import { error } from '@sveltejs/kit';
 	import { UploadButton, UploadDropzone, Uploader } from '@uploadthing/svelte';
-	import '@uploadthing/svelte/styles.css';
 	import { toast } from 'svelte-sonner';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button';
