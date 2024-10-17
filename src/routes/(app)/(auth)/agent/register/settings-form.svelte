@@ -451,7 +451,7 @@
 													{/each}
 												</Select.Content>
 											</Select.Root>
-											<input hidden value={$formData.income} name={attrs.name} />
+											<input value={$formData.income} name={attrs.name} hidden/>
 										</Form.Control>
 										<Form.FieldErrors />
 									</Form.Field>
@@ -483,7 +483,7 @@
 											</ScrollArea>
 										</Select.Content>
 									</Select.Root>
-									<input hidden value={$formData.sector} name={attrs.name} />
+									<input value={$formData.sector} name={attrs.name} hidden/>
 								</Form.Control>
 								<Form.FieldErrors />
 							</Form.Field>

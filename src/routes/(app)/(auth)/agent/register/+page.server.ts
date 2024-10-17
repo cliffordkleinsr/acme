@@ -46,7 +46,7 @@ export const actions: Actions = {
 			});
 		}
 		// destructure form.data for some operations and insertions
-		const {
+		let {
 			fullname,
 			email,
 			password,
@@ -60,81 +60,89 @@ export const actions: Actions = {
 			gender
 		} = form.data;
 
+		income = income ?? '0 - 10000'
+		sector = sector ?? ' Others'
+
 		// check if the email is already registered
 		const exists = await checkIfEmailExists(email);
 
 		if (exists) {
 			return setError(form, 'email', 'Email already registered');
 		}
-
-		try {
-			const userid = generateId(15);
-			const hashPassword = await new Argon2id().hash(password);
-			let age = calculateAge(dateofbirth);
-			await insertNewUser({
-				id: userid,
-				fullname: fullname,
-				email: email,
-				password: hashPassword,
-				role: 'AGENT',
-				isEmailVerified: true, //set to false if you use email verification
-				age: age,
-				gender: gender
-			});
-
-			await insertRespData({
-				email: email,
-				agentid: userid,
-				phone: phoneno,
-				dateofbirth: dateofbirth,
-				county: county,
-				income: income,
-				employment: employment,
-				education: education,
-				sector: sector
-			});
-
-			const extagent = url.searchParams.get('external');
-
-			if (extagent) {
-				const total_qns = await db
-					.select()
-					.from(surveyqnsTableV2)
-					.where(eq(surveyqnsTableV2.surveid, extagent));
-				await db.insert(agentSurveysTable).values({
-					agentid: userid,
-					surveyid: extagent,
-					points: total_qns.length,
-					extagent: true
-				});
-			}
-			if (validate) {
-				// SMSVerification
-				let foramtted = '+254' + phoneno.slice(1);
-				await db.insert(smsVerification).values({
-					userId: userid,
-					phone: foramtted
-				});
-
-				await createVerification(foramtted);
-			}
-
-			// create a session in the database
-			const session = await lucia.createSession(userid, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-
-			cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
-		} catch (err) {
-			console.error(err);
-
+		if (form.valid) {
 			return message(form, {
-				alertType: 'error',
-				alertText: 'An Unexpected error occured'
+				alertType: 'success',
+				alertText: 'Were sorry but you cant register in pilot mode'
 			});
 		}
+		// try {
+		// 	const userid = generateId(15);
+		// 	const hashPassword = await new Argon2id().hash(password);
+		// 	let age = calculateAge(dateofbirth);
+		// 	await insertNewUser({
+		// 		id: userid,
+		// 		fullname: fullname,
+		// 		email: email,
+		// 		password: hashPassword,
+		// 		role: 'AGENT',
+		// 		isEmailVerified: true, //set to false if you use email verification
+		// 		age: age,
+		// 		gender: gender
+		// 	});
+
+		// 	await insertRespData({
+		// 		email: email,
+		// 		agentid: userid,
+		// 		phone: phoneno,
+		// 		dateofbirth: dateofbirth,
+		// 		county: county,
+		// 		income: income as string,
+		// 		employment: employment,
+		// 		education: education,
+		// 		sector: sector as string
+		// 	});
+
+		// 	const extagent = url.searchParams.get('external');
+
+		// 	if (extagent) {
+		// 		const total_qns = await db
+		// 			.select()
+		// 			.from(surveyqnsTableV2)
+		// 			.where(eq(surveyqnsTableV2.surveid, extagent));
+		// 		await db.insert(agentSurveysTable).values({
+		// 			agentid: userid,
+		// 			surveyid: extagent,
+		// 			points: total_qns.length,
+		// 			extagent: true
+		// 		});
+		// 	}
+		// 	if (validate) {
+		// 		// SMSVerification
+		// 		let foramtted = '+254' + phoneno.slice(1);
+		// 		await db.insert(smsVerification).values({
+		// 			userId: userid,
+		// 			phone: foramtted
+		// 		});
+
+		// 		await createVerification(foramtted);
+		// 	}
+
+		// 	// create a session in the database
+		// 	const session = await lucia.createSession(userid, {});
+		// 	const sessionCookie = lucia.createSessionCookie(session.id);
+
+		// 	cookies.set(sessionCookie.name, sessionCookie.value, {
+		// 		path: '.',
+		// 		...sessionCookie.attributes
+		// 	});
+		// } catch (err) {
+		// 	console.error(err);
+
+		// 	return message(form, {
+		// 		alertType: 'error',
+		// 		alertText: 'An Unexpected error occured'
+		// 	});
+		// }
 		const redirectTo = url.searchParams.get('redirectTo');
 		if (redirectTo) {
 			redirect(

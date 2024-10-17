@@ -547,6 +547,13 @@
       "when": 1728388077177,
       "tag": "0083_wide_boomer",
       "breakpoints": true
+    },
+    {
+      "idx": 84,
+      "version": "6",
+      "when": 1728992652408,
+      "tag": "0084_clever_blur",
+      "breakpoints": true
     }
   ]
 }

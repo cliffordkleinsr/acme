@@ -172,3 +172,6 @@ drizzle/migrations/0083_wide_boomer.sql
 drizzle/migrations/meta/_journal.json
 drizzle/migrations/meta/0083_snapshot.json
 .prettierrc
+drizzle/migrations/0084_clever_blur.sql
+drizzle/migrations/meta/_journal.json
+drizzle/migrations/meta/0084_snapshot.json

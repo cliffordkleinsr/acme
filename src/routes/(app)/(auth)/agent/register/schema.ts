@@ -24,7 +24,17 @@ export const registerRSchema = z
 		gender: z
 			.string({ required_error: 'Gender is required' })
 			.min(4, { message: 'Please select a valid gender' }),
-		dateofbirth: z.string().refine((v) => v, { message: 'A date of birth is required.' }),
+		dateofbirth: z
+			.string()
+			.min(1, { message: 'A date of birth is required.' })
+			.refine((val) => {
+				const age = new Date().getFullYear() - new Date(val).getFullYear();
+				// Convert both to timestamps for comparison
+				const hasHadBirthday = new Date(val).setFullYear(new Date().getFullYear()) <= Date.now();
+				return age > 18 || (age === 18 && hasHadBirthday);
+			}, { 
+				message: 'You must be above the age of 18 to register'
+			}),
 		county: z.enum(counties.map((f) => f.name) as [Counties, ...Counties[]], {
 			errorMap: () => ({ message: 'Please select a valid County.' })
 		}),
@@ -38,7 +48,8 @@ export const registerRSchema = z
 			.string({
 				required_error: 'Must be valid Income Bracket.'
 			})
-			.min(2, { message: 'Must be a valid Income Bracket' }),
+			.min(2, { message: 'Must be a valid Income Bracket' })
+			.optional(),
 		// .default("Select an income bracket"),
 		employment: z
 			.string({
@@ -54,7 +65,8 @@ export const registerRSchema = z
 			.string({
 				required_error: 'Must be valid Sector'
 			})
-			.min(2, { message: 'Must be a valid Sector' }),
+			.min(2, { message: 'Must be a valid Sector' })
+			.optional(),
 		// .default("Select a Sector"),
 		password: z
 			.string({ required_error: 'Password is required' })
