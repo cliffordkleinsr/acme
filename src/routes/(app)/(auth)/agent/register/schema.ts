@@ -27,14 +27,17 @@ export const registerRSchema = z
 		dateofbirth: z
 			.string()
 			.min(1, { message: 'A date of birth is required.' })
-			.refine((val) => {
-				const age = new Date().getFullYear() - new Date(val).getFullYear();
-				// Convert both to timestamps for comparison
-				const hasHadBirthday = new Date(val).setFullYear(new Date().getFullYear()) <= Date.now();
-				return age > 18 || (age === 18 && hasHadBirthday);
-			}, { 
-				message: 'You must be above the age of 18 to register'
-			}),
+			.refine(
+				(val) => {
+					const age = new Date().getFullYear() - new Date(val).getFullYear();
+					// Convert both to timestamps for comparison
+					const hasHadBirthday = new Date(val).setFullYear(new Date().getFullYear()) <= Date.now();
+					return age > 18 || (age === 18 && hasHadBirthday);
+				},
+				{
+					message: 'You must be above the age of 18 to register'
+				}
+			),
 		county: z.enum(counties.map((f) => f.name) as [Counties, ...Counties[]], {
 			errorMap: () => ({ message: 'Please select a valid County.' })
 		}),

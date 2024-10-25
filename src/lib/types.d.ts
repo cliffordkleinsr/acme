@@ -36,4 +36,13 @@ interface Client {
 	};
 }
 
-export type { SurveyData, Agent, Client };
+interface Params {
+	amount: number;
+	phoneNumber: string;
+}
+
+interface C2BURLs {
+	validationURL: string;
+	confirmationURL: string;
+}
+export type { SurveyData, Agent, Client, Params, C2BURLs };

@@ -3,7 +3,7 @@
 	import SettingsPayment from './settings-payment.svelte';
 
 	export let data: PageData;
-	const { total_payable } = data;
+	$: ({ total_payable } = data);
 </script>
 
 <div class="">

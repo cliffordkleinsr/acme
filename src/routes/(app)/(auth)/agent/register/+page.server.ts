@@ -60,8 +60,8 @@ export const actions: Actions = {
 			gender
 		} = form.data;
 
-		income = income ?? '0 - 10000'
-		sector = sector ?? ' Others'
+		income = income ?? '0 - 10000';
+		sector = sector ?? ' Others';
 
 		// check if the email is already registered
 		const exists = await checkIfEmailExists(email);

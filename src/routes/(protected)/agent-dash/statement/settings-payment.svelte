@@ -47,11 +47,14 @@
 			}
 		}
 	});
-	const { form: formData, enhance, message } = form;
+	const { form: formData, enhance, message, delayed } = form;
 </script>
 
 <form method="POST" class="m-4 mx-auto w-full max-w-2xl" use:enhance>
-	<Card.Root data-intro="Ensure your number is correct">
+	<Card.Root
+		data-position="right"
+		data-intro="Ensure your phone number is correct before submitting a payout request. You can change your phone number by navigating to your <a class='underline' href='/agent-dash/settings'>Account section</a>"
+	>
 		<Card.Header>
 			<Card.Title class="text-2xl">Checkout</Card.Title>
 			<Card.Description class="text-md">Enter the amount you want to recieve.</Card.Description>
@@ -76,7 +79,18 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
-			<Form.Button class="w-full bg-black hover:bg-black/80">Proceed to Payment</Form.Button>
+			{#if $delayed}
+				<Button class="flex w-full gap-2 bg-black hover:bg-black/80">
+					<span
+						class="inline-block size-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-white"
+						role="status"
+						aria-label="loading"
+					></span>
+					Loading...
+				</Button>
+			{:else}
+				<Form.Button class="w-full bg-black hover:bg-black/80">Proceed to Payment</Form.Button>
+			{/if}
 		</Card.Content>
 	</Card.Root>
 </form>

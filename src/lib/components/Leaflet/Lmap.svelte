@@ -64,7 +64,8 @@
 		const map = L.map(mapEl).setView([-0.47, 37.39402185424785], 6);
 		// init tile
 		L.tileLayer(
-				'https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+			'https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',
+			{
 				attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
 				maxZoom: 8
 			}

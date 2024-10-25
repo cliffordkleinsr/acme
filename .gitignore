@@ -175,3 +175,8 @@ drizzle/migrations/meta/0083_snapshot.json
 drizzle/migrations/0084_clever_blur.sql
 drizzle/migrations/meta/_journal.json
 drizzle/migrations/meta/0084_snapshot.json
+bun.lockb
+drizzle/migrations/meta/0086_snapshot.json
+drizzle/migrations/meta/0085_snapshot.json
+drizzle/migrations/0086_premium_blockbuster.sql
+drizzle/migrations/0085_narrow_snowbird.sql

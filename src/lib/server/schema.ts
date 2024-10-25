@@ -22,7 +22,7 @@ export const QuestionType = pgEnum('QuestionType', [
 	'Likert'
 ]);
 export const Status = pgEnum('status', ['Draft', 'Live', 'Closed']);
-export const ProcessedStatus = pgEnum('processed_status', ['pending', 'complete']);
+export const ProcessedStatus = pgEnum('processed_status', ['pending', 'complete', 'declined']);
 
 // Model USERS
 export const UsersTable = pgTable('users', {
@@ -273,6 +273,21 @@ export const payoutRequests = pgTable('payout_requests', {
 		withTimezone: true,
 		mode: 'date'
 	})
+});
+
+export const agentTransactions = pgTable('agent_transactions', {
+	agentid: text('agentid')
+		.references(() => UsersTable.id)
+		.notNull(),
+	originatorCID: text('originator_conversation_id').notNull(),
+	mpesaCID: text('mpesa_conversation_id').notNull(),
+	amount: integer('amount').notNull(),
+	processedAt: timestamp('processed_at', {
+		withTimezone: true,
+		mode: 'date'
+	})
+		.defaultNow()
+		.notNull()
 });
 export type userInsertSchema = typeof UsersTable.$inferInsert;
 export type ClientDataInsertSchema = typeof clientData.$inferInsert;

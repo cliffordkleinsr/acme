@@ -114,7 +114,7 @@
 			name: 'Status',
 			formatter: (cell: string) =>
 				html(`
-                    <div class='${cn(badgeVariants({ variant: 'outline' }), 'dark:text-black')}'>${cell}</div>
+                    <div class='${cn(badgeVariants({ variant: 'outline' }), cell === 'complete' ? 'bg-green-400 text-white' : cell === 'declined' ? 'bg-destructive text-white' : 'dark:text-black')}'>${cell}</div>
                 `)
 		},
 		{
@@ -123,7 +123,7 @@
 		},
 		{
 			id: 'processed',
-			name: 'Date Requested'
+			name: 'Date Processed'
 		}
 	];
 </script>
@@ -222,7 +222,7 @@
 			data={payouts}
 			pagination={{
 				enable: true,
-				limit: 7
+				limit: 2
 			}}
 			className={{
 				td: 'text-sm',

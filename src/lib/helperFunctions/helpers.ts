@@ -282,6 +282,27 @@ function adjustDivider(x: number, currentDivider: number = 500): number {
 	return nextDivider;
 }
 
+function deductAmount(amount: number) {
+	let deduction = 0;
+	switch (true) {
+		case amount > 100:
+			deduction = amount - 5;
+			break;
+		case amount > 1500:
+			deduction = amount - 9;
+			break;
+		case amount > 5000:
+			deduction = amount - 11;
+			break;
+		case amount > 20000:
+			deduction = amount - 13;
+			break;
+		default:
+			deduction = amount;
+			break;
+	}
+	return deduction;
+}
 export {
 	items,
 	df,
@@ -296,5 +317,6 @@ export {
 	handleLoginRedirect,
 	handleExternal,
 	capitalizeFirstLetter,
-	calculateAge
+	calculateAge,
+	deductAmount
 };
