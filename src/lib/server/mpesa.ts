@@ -14,7 +14,8 @@ const getAccessToken = async () => {
 	const res = await fetch(url, {
 		method: 'GET',
 		headers: {
-			Authorization: `Basic ${token}`
+			'Authorization': `Basic ${token}`,
+			'Content-Type': 'application/json'
 		}
 	});
 	if (!res.ok) {
@@ -53,7 +54,7 @@ const initiateB2C = async (body: Params) => {
 	const res = await fetch(url, {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer ${token}`,
+			'Authorization': `Bearer ${token}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(payload)
