@@ -45,4 +45,5 @@ interface C2BURLs {
 	validationURL: string;
 	confirmationURL: string;
 }
-export type { SurveyData, Agent, Client, Params, C2BURLs };
+
+export type { SurveyData, Agent, Client, Params, C2BURLs};

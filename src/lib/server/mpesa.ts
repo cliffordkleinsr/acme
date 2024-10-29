@@ -84,7 +84,7 @@ const registerURLs = async (body: C2BURLs) => {
 	const res = await fetch(url, {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer ${token}`,
+			'Authorization': `Bearer ${token}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(payload)
@@ -97,4 +97,5 @@ const registerURLs = async (body: C2BURLs) => {
 	const data = await res.json();
 	return data;
 };
+
 export { getAccessToken, initiateB2C, registerURLs };
