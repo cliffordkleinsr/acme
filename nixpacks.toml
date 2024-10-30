@@ -1,0 +1,6 @@
+[phases.setup]
+nixPkgs = ['bun', 'nodejs']
+buildImage = 'ghcr.io/railwayapp/nixpacks:latest'
+
+[variables]
+ORIGIN = 'https://int-insights.com'
