@@ -1,6 +1,16 @@
 [phases.setup]
 nixPkgs = ['bun', 'nodejs']
+aptPkgs = ['build-essential']
 buildImage = 'ghcr.io/railwayapp/nixpacks:latest'
 
 [variables]
 ORIGIN = 'https://int-insights.com'
+
+[phases.install]
+cmds = ['bun install --ignore-scripts']
+
+[phases.build]
+cmds = ['bun run build']
+
+[start]
+cmd = 'bun run build/index.js
